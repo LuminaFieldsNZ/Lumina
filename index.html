@@ -808,28 +808,9 @@ function checkPasscode() {
 }
 
 
-var stripe = Stripe('YOUR_PUBLISHABLE_KEY'); // Replace with your Stripe publishable key
-
-document.getElementById('checkout-button').addEventListener('click', function() {
-    stripe.redirectToCheckout({
-        lineItems: [{
-            price: 'YOUR_PRICE_ID', // Replace with your Stripe Price ID
-            quantity: 1
-        }],
-        mode: 'payment',
-        successUrl: 'https://your-website.com/success', // Replace with your success page URL
-        cancelUrl: 'https://your-website.com/cancel', // Replace with your cancellation page URL
-    }).then(function(result) {
-        if (result.error) {
-            console.error(result.error.message);
-        }
-    });
-});
-
 </script>
 
 
-<script src="https://js.stripe.com/v3/"></script>
 
 
 

@@ -50,19 +50,51 @@
 			<figcaption>11 AM, Summer</figcaption>
 		</figure>
 		<figure>
-			<img src="https://images.unsplash.com/photo-1563846465145-c733e29ee0f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTMzMDA5MDV8&ixlib=rb-4.0.3&q=100&w=500" alt="rainbow during daytime. " title="Photo by Yulia Gadalina for Unsplash">
-			<figcaption>2 PM, Spring Rainbow</figcaption>
+      <img src="../pics/eth.png" alt="Wallet Address" title="Ethereum Metamask link">
+			<figcaption>Pay with Bitcoin</figcaption>
 		</figure>
 		<figure>
-			<img src="https://images.unsplash.com/photo-1542272201-b1ca555f8505?ixlib=rb-4.0.3&q=100&w=jpg&crop=entropy&cs=srgb&w=500" alt="white sea of clouds. " title="Photo by Szabo Viktor for Unsplash">
-			<figcaption>4 PM, Autumn</figcaption>
+      <div>
+        <div>
+          <h2>Pay with STRIPE</h2>
+          <div class="more-wrapper">
+            <title>Stripe Checkout</title>
+
+      </div>
+      <button id="checkout-button">Checkout</button>
+        </div>
+      </div>
 		</figure>
 	</div>
 </main>
 
-<footer id='info'><a target="_blank" href="https://codepen.io/wakana-k/">@wakana-k</a></footer>
+<footer id='info'><a target="_blank" href="https://github.com/luminaFieldsNZ">New Zealand Address: (Here)</a></footer>
 <!-- partial -->
   <script  src="./script.js"></script>
 
+  <script src="https://js.stripe.com/v3/"></script>
+
+
+<script>
+
+var stripe = Stripe('YOUR_PUBLISHABLE_KEY'); // Replace with your Stripe publishable key
+
+document.getElementById('checkout-button').addEventListener('click', function() {
+    stripe.redirectToCheckout({
+        lineItems: [{
+            price: 'YOUR_PRICE_ID', // Replace with your Stripe Price ID
+            quantity: 1
+        }],
+        mode: 'payment',
+        successUrl: 'https://your-website.com/success', // Replace with your success page URL
+        cancelUrl: 'https://your-website.com/cancel', // Replace with your cancellation page URL
+    }).then(function(result) {
+        if (result.error) {
+            console.error(result.error.message);
+        }
+    });
+});
+
+</script>
 </body>
 </html>
