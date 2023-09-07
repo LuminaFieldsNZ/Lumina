@@ -1,7 +1,6 @@
 
 function energyAuditActive(){
   document.getElementById("energyAudit").style.display = "block";
-  document.getElementById("secretDiv").style.display = "none";
   document.getElementById("splash").style.display = "none";
   document.getElementById("settingsMain").style.display = "none";
   document.getElementById("schedule").style.display = "none";
@@ -27,7 +26,6 @@ function scheduleActive(){
 }
 
 function splashActive(){
-  document.getElementById("secretDiv").style.display = "none";
   document.getElementById("energyAudit").style.display = "none";
   document.getElementById("splash").style.display = "block";
   document.getElementById("settingsMain").style.display = "none";
@@ -41,7 +39,6 @@ function splashActive(){
 }
 
 function settingsActive(){
-  document.getElementById("secretDiv").style.display = "none";
   document.getElementById("energyAudit").style.display = "none";
   document.getElementById("splash").style.display = "none";
   document.getElementById("settingsMain").style.display = "block";
@@ -56,7 +53,6 @@ function settingsActive(){
 
 function shoppingActive(){
   document.getElementById("shopping").style.display = "block";
-  document.getElementById("secretDiv").style.display = "none";
   document.getElementById("energyAudit").style.display = "none";
   document.getElementById("splash").style.display = "none";
   document.getElementById("settingsMain").style.display = "none";
@@ -68,19 +64,6 @@ function shoppingActive(){
   navSchedule.classList.remove("active");
 }
 
-function secretActive(){
-  document.getElementById("shopping").style.display = "none";
-  document.getElementById("secretDiv").style.display = "block";
-  document.getElementById("energyAudit").style.display = "none";
-  document.getElementById("splash").style.display = "none";
-  document.getElementById("settingsMain").style.display = "none";
-  document.getElementById("schedule").style.display = "none";
-  navShopping.classList.remove("active");
-  navSettings.classList.remove("active");
-  navHome.classList.remove("active");
-  navAudit.classList.remove("active");
-  navSchedule.classList.remove("active");
-}
 
 document.getElementById('passcode').addEventListener('change', checkPasscode);
 document.getElementById('passcode').addEventListener('keyup', function(event) {
