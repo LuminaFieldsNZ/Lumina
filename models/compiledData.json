@@ -1,0 +1,36 @@
+{
+  "chatHistory": [
+    {
+      "user": "How are you"
+    },
+    {
+      "bot": "I don't know how to answer that. Please check the JSON Editor below to provide the correct response."
+    },
+    {
+      "user": "how are you doing"
+    },
+    {
+      "bot": "I am doing about as good as a bot can."
+    },
+    {
+      "user": "whats your favorite movie"
+    },
+    {
+      "bot": "AI with Will Smith"
+    }
+  ],
+  "conversationData": [
+    {
+      "user": "test",
+      "bot": "I'm not sure how to respond to that."
+    },
+    {
+      "user": "hello",
+      "bot": "Hi there!"
+    },
+    {
+      "user": "are you getting smarter yet?",
+      "bot": "I'm not sure how to respond to that."
+    }
+  ]
+}
