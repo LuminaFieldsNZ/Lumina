@@ -2,6 +2,26 @@ body {
   background: #111;
   font-family: 'Helvetica Neue', Arial, sans-serif;
 }
+
+
+
+/* For Webkit browsers like Chrome, Safari */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* For Firefox */
+html {
+    scrollbar-width: none;
+    overflow: -moz-scrollbars-none;
+}
+
+/* For IE and Edge */
+body {
+    -ms-overflow-style: none;
+}
+
+
 #controls {
   display: flex;
   align-items: center;

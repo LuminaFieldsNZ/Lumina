@@ -33,6 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+const bookFrame1 = document.getElementById('bookFrame1');
+bookFrame1.src = 'tabs/index.html';
+
 const bookFrame2 = document.getElementById('bookFrame2');
 bookFrame2.src = 'menu/index.html';
 

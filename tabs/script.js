@@ -1,30 +1,45 @@
+/*!
+Swaying photo gallery - scroll event
+@wakana-k
+https://codepen.io/wakana-k/pen/WNLrWMm
+*/
+/*
+Related works :
+Portforio design @wakana-k - https://codepen.io/wakana-k/pen/BaxKKvE
+Swaying photo gallery - hover event @wakana-k - https://codepen.io/wakana-k/pen/oNJxbPw
+*/
+"use strict";
+(function () {
+	window.onload = () => {
+		const obj = document.querySelector("#gallery");
+		const time = 10000;
+		function animStart() {
+			if (obj.classList.contains("active") == false) {
+				obj.classList.add("active");
+				setTimeout(() => {
+					animEnd();
+				}, time);
+			}
+		}
+		function animEnd() {
+			obj.classList.remove("active");
+			obj.offsetWidth;
+		}
+		document.addEventListener("scroll", function () {
+			// scroll or scrollend
+			animStart();
+		});
+		window.addEventListener("resize", animStart);
+		animStart();
+	};
+})();
 
 
-window.addEventListener('message', function(event) {
-  // Optional: Check the origin of the message for security
-  // if (event.origin !== 'http://expected.origin.com') return;
 
-  const data = event.data;
-
-  if (data.section) {
-    // Using eval() to execute the function
-    eval(data.section);
-  }
-});
-
-
-function energyAuditActive(){
-  document.getElementById("energyAudit").style.display = "block";
-  document.getElementById("splash").style.display = "none";
-  document.getElementById("settingsMain").style.display = "none";
-  document.getElementById("schedule").style.display = "none";
-  document.getElementById("shopping").style.display = "none";
-  navAudit.classList.add("active");
-  navHome.classList.remove("active");
-  navSchedule.classList.remove("active");
-  navSettings.classList.remove("active");
-  navShopping.classList.remove("active");
+function energyAuditSend(){
+	window.parent.postMessage({ section: 'energyAuditActive()' }, '*');
 }
+
 
 function scheduleActive(){
   document.getElementById("schedule").style.display = "block";
@@ -77,11 +92,3 @@ function shoppingActive(){
   navAudit.classList.remove("active");
   navSchedule.classList.remove("active");
 }
-
-
-document.getElementById('passcode').addEventListener('change', checkPasscode);
-document.getElementById('passcode').addEventListener('keyup', function(event) {
-    if (event.key === 'Enter') {
-        checkPasscode();
-    }
-});
