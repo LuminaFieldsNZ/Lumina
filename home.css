@@ -738,17 +738,19 @@ button, a {
   .item-status {
     margin-right: 0;
   }
-}
-@media screen and (max-width: 880px) {
+}@media screen and (max-width: 880px) {
   .messages-section {
-    transform: translateX(100%);
+    display: none; /* Initially set to none */
     position: absolute;
     opacity: 1;
     top: 0;
     z-index: 2;
-    right:0;
+    right: 0;
     height: 100%;
     width: 83%;
+  }
+  .messages-section.active { /* Add a class to toggle display */
+    display: block;
   }
   .messages-section .messages-close {
     display: block;
@@ -758,6 +760,7 @@ button, a {
     display: flex;
   }
 }
+
 @media screen and (max-width: 720px) {
 
 

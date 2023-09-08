@@ -1,24 +1,25 @@
 document.addEventListener('DOMContentLoaded', function () {
   var modeSwitch = document.querySelector('.mode-switch');
 
-  modeSwitch.addEventListener('click', function () {                     document.documentElement.classList.toggle('dark');
+  modeSwitch.addEventListener('click', function () {
+    document.documentElement.classList.toggle('dark');
     modeSwitch.classList.toggle('active');
   });
 
-  var listView = document.querySelector('.list-view');
-  var gridView = document.querySelector('.grid-view');
+  const messagesSection = document.querySelector('.messages-section');
+  const messagesBtn = document.querySelector('.messages-btn');
+  const messagesClose = document.querySelector('.messages-close');
+
+  messagesBtn.addEventListener('click', function () {
+    messagesSection.classList.add('active');
+  });
+
+  messagesClose.addEventListener('click', function() {
+    messagesSection.classList.remove('active');
+  });
+
   var projectsList = document.querySelector('.project-boxes');
-
-
-  document.querySelector('.messages-btn').addEventListener('click', function () {
-    document.querySelector('.messages-section').classList.add('show');
-  });
-
-  document.querySelector('.messages-close').addEventListener('click', function() {
-    document.querySelector('.messages-section').classList.remove('show');
-  });
 });
-
 
 const bookFrame1 = document.getElementById('bookFrame1');
 bookFrame1.src = 'tabs/index.html';
