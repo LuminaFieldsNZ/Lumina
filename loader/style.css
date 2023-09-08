@@ -26,19 +26,26 @@ body {
   background-size: contain;
   background-position: center;
 }
+
 .header__title {
   position: absolute;
   text-align: center;
-  color: #fdc96f;
+  z-index: 99999999;
 }
 .header__title h2 {
-  font-size: 48px;
+  font-size: 58px;
   letter-spacing: 1.2px;
   margin-bottom: 0;
+  background: radial-gradient(circle, #fdc96f, black);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 .header__title p {
-  font-size: 14px;
+  font-size: 24px;
   letter-spacing: 0.7px;
   margin: 0;
   text-transform: uppercase;
+  background: radial-gradient(circle, #fdc96f, black);
+  -webkit-background-clip: text;
+  color: transparent;
 }

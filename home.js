@@ -37,6 +37,12 @@ function toggleToolMenu() {
     }
 }
 
+window.addEventListener('message', function(event) {
+    if (event.data.action === 'changeSrc') {
+        bookFrame1.src = event.data.newSrc;
+    }
+}, false);
+
 
 const bookFrame4 = document.getElementById('bookFrame4');
 bookFrame4.src = 'loader/index.html';

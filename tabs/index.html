@@ -9,14 +9,14 @@
 <body>
 <main>
 	<div id="gallery">
-		<a onclick="energyAuditSend();"><figure>
+		<a onclick="parent.postMessage({ action: 'changeSrc', newSrc: 'words/index.html' }, '*');"><figure>
 			<img src="../pics/collective.png" alt="The Collective AI" title="The Collective AI">
 			<figcaption>[unlocked] The Collective</figcaption>
 		</figure></a>
-		<figure>
+		<a onclick="parent.postMessage({ action: 'changeSrc', newSrc: 'tabs/faxium.html' }, '*');"><figure>
       <img src="../pics/faxium.png" alt="The Collective AI" title="The Collective AI">
 			<figcaption>[unlocked] Faxium</figcaption>
-		</figure>
+		</figure></a>
 		<figure>
       <img src="../pics/abzimuth.png" alt="The Collective AI" title="The Collective AI">
 			<figcaption>[unlocked] Abzimuth</figcaption>
