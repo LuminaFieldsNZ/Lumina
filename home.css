@@ -26,6 +26,7 @@ body {
             width: 100%;
             height: 400px;
             overflow-y: scroll;
+            color: var(--main-color);
             font-size: 1.3em;
             margin: 10px 10px 10px 10px;
             white-space: pre-wrap;
@@ -99,6 +100,7 @@ body {
   font-family: "DM Sans", sans-serif;
   overflow: hidden;
   display: flex;
+  color: var(--main-color);
   justify-content: center;
   background-color: var(--app-container);
 }
@@ -884,7 +886,7 @@ button, a {
          display: block;
         border: 2px solid black;
         background: transparent;
-        color: #000;
+color: var(--main-color);
         text-transform: uppercase;
         letter-spacing: 4px;
         font-size: 14px;
