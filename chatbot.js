@@ -420,19 +420,23 @@ let baseData =
   window.getClosestQuestion = getClosestQuestion;
 
   function parseCollectiveCommand(data) {
-      const collectiveRegex = /cmd \[([a-z]+)\] \[(\d+)\] \[([a-z]+)\]/i;
-      const match = data.match(collectiveRegex);
+    const collectiveRegex = /cmd \[([a-z]+)\] \[(\d+)\] \[([a-z]+)\]/i;
+    const match = data.match(collectiveRegex);
 
-      if (match) {
+    if (match) {
         const action = match[1];
         const value = parseInt(match[2], 10);
         const category = match[3];
 
         executeCollectiveAction(action, value, category);
         return true; // Command was recognized
-      }
-      return false; // Command was not recognized
-  }
+    } else if (data.toLowerCase() === 'cmd[all]') {
+        showAllCommands();
+        return true; // Command was recognized
+    }
+    return false; // Command was not recognized
+}
+
   window.sendMessage = function() {
       const inputElem = document.getElementById('userInput');
       const message = inputElem.value;
@@ -461,7 +465,7 @@ let baseData =
           chatWindow.removeChild(thinkingElem);
 
           if (parseCollectiveCommand(message)) {
-              chatWindow.innerHTML += '<p>Collective: Command accepted</p>';
+              chatWindow.innerHTML += '<font style="color:lightgreen;">Command accepted</font>';
               chatWindow.scrollTop = chatWindow.scrollHeight;
           } else {
               const response = getResponse(message);
@@ -469,7 +473,7 @@ let baseData =
                   chatWindow.innerHTML += '<p>Collective: ' + response + '</p>';
                   chatWindow.scrollTop = chatWindow.scrollHeight;
               } else {
-                  chatWindow.innerHTML += '<p>Collective: Command not accepted</p>';
+                  chatWindow.innerHTML += '<font style="color:red;">Command failed</font>';
                   chatWindow.scrollTop = chatWindow.scrollHeight;
               }
           }
@@ -659,69 +663,48 @@ let baseData =
 
 
 
-
-
-
-setInterval(askChatbot2, 35000);
+  // Initial call to start the sequence
+  setTimeout(askChatbot2, 8000);
 
   // List of questions 'faxium' will ask
   const collectiveQuestions = [
-    'What steps have you taken to improve the energy efficiency of your home in the past year?',
-    'How do you think the energy consumption of your home compares to others in your neighborhood?',
-    'What challenges have you faced in trying to make your home more energy-efficient?',
-    'How do you feel about the current energy efficiency of your home, and what would you like to improve?',
-    'Can you describe any noticeable changes in your energy bills after implementing energy-saving measures?',
-    'What are your thoughts on renewable energy sources, such as solar panels or wind turbines, for residential use?',
-    'How do you prioritize which energy efficiency projects to tackle first in your home?',
-    'What experiences have you had with energy-efficient appliances, and would you recommend them to others?',
-    'How do you perceive the long-term benefits of investing in home energy efficiency?',
-    'In what ways do you believe local communities or governments can support homeowners in their energy efficiency efforts?',
-    'How do you educate yourself about the best practices for home energy conservation?',
-    'What are your thoughts on smart home technologies and their role in energy efficiency?',
-    'How do you feel about the environmental impact of the energy consumption of your home?',
-    'Can you share any experiences where you have worked with professionals, like energy auditors or contractors, to improve the energy efficiency of your home?',
-    'How do you envision the future of home energy efficiency, and what innovations or changes would you like to see?'
+      'Hello, I am the Collective AI.',
+      'You can type cmd[all] for a list of options',
   ];
 
   let currentQuestionIndex2 = 0;
 
-
-
-  // Function to get a random question index
-  function getRandomQuestionIndex() {
-    return Math.floor(Math.random() * collectiveQuestions.length);
-  }
-
   // Function for 'faxium' to ask questions
   function askChatbot2() {
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-
-    // Add thinking animation
-    const thinkingElem = document.createElement('p');
-    thinkingElem.classList.add('thinking');
-    thinkingElem.innerHTML = 'Collective';
-    chatWindow.appendChild(thinkingElem);
-
-    setTimeout(() => {
-      // Remove thinking animation
-      chatWindow.removeChild(thinkingElem);
-
-      // Get a random question index
-      const randomIndex = getRandomQuestionIndex();
-
-      // Send the random question to the chatbot as 'faxium'
-      chatWindow.innerHTML += '<p>Collective: ' + collectiveQuestions[randomIndex] + '</p>';
       chatWindow.scrollTop = chatWindow.scrollHeight;
 
-    }, 1000); // One-second delay
+      // Add thinking animation
+      const thinkingElem = document.createElement('p');
+      thinkingElem.classList.add('thinking');
+      thinkingElem.innerHTML = 'Collective';
+      chatWindow.appendChild(thinkingElem);
+
+      setTimeout(() => {
+          // Remove thinking animation
+          chatWindow.removeChild(thinkingElem);
+
+          // Get the next question using currentQuestionIndex2
+          const nextQuestion = collectiveQuestions[currentQuestionIndex2];
+
+          // Send the next question to the chatbot as 'faxium'
+          chatWindow.innerHTML += '<p>Collective: ' + nextQuestion + '</p>';
+          chatWindow.scrollTop = chatWindow.scrollHeight;
+
+          // Increment the index for the next question
+          currentQuestionIndex2++;
+
+          // If we haven't reached the end of the questions, set another timeout to ask the next one
+          if (currentQuestionIndex2 < collectiveQuestions.length) {
+              setTimeout(askChatbot2, 2000);
+          }
+
+      }, 1000); // One-second delay
   }
-
-
-
-
-
-
-
 
 
 
@@ -930,4 +913,20 @@ setInterval(askChatbot2, 35000);
   rotationSpeed2 = 0.0000445;
   document.getElementById('quest2password').style.display = "block";
   status = 3;
+  }
+
+
+  function showAllCommands() {
+      const chatWindow = document.getElementById('chatWindow');
+      const commands = [
+          'cmd[all]',
+          'cmd[add][value][category]',
+          'cmd[subtract][value][category]',
+          // Add other commands here as needed
+      ];
+      chatWindow.innerHTML += '<p>Collective: Here are the available commands:</p>';
+      for (const cmd of commands) {
+          chatWindow.innerHTML += '<p>' + cmd + '</p>';
+      }
+      chatWindow.scrollTop = chatWindow.scrollHeight;
   }

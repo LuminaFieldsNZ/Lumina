@@ -2,7 +2,9 @@
 document.addEventListener('DOMContentLoaded', function () {
   setTimeout(function() {
     splashActive();
-  }, 5000); // 5000 milliseconds = 5 seconds
+    document.getElementById("load1").style.color = "lightgreen";
+    document.getElementById("load1").innerHTML = "Online";
+  }, 4900); // 5000 milliseconds = 5 seconds
 });
 
 window.addEventListener('message', function(event) {
