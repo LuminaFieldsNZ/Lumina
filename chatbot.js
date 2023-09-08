@@ -1,4 +1,7 @@
 
+
+
+
 let baseData =
 [
     ["hello", "Hi there!", ""],
@@ -343,6 +346,15 @@ let baseData =
 ]
 
 ;
+
+
+
+let userId = "Guest";
+let state = "00001";
+let population = "70000000";
+let completedProjects = "0001";
+
+
   let conversationData = [];
 
   // Function to trigger the download of base.json from the provided URL
@@ -437,7 +449,7 @@ let baseData =
       inputElem.value = '';
 
       const chatWindow = document.getElementById('chatWindow');
-      chatWindow.innerHTML += '<p>User: ' + message + '</p>';
+      chatWindow.innerHTML += '<p>' + userId + ': ' + message + '</p>';
       chatWindow.scrollTop = chatWindow.scrollHeight;
 
       // Check if the message is for @faxium
@@ -531,10 +543,16 @@ let baseData =
       const jsonEditor = document.getElementById('jsonEditor');
       const combinedData = {
           conversationData: conversationData,
-          userData: getUserData()
+          userData: {
+              id: userId,
+              state: state, // updated this line
+              population: population, // updated this line
+              completedProjects: completedProjects // updated this line
+          }
       };
       jsonEditor.value = JSON.stringify(combinedData, null, 2);
   }
+
 
   function getUserData() {
       // Assuming you have global variables or functions to get these values
@@ -584,14 +602,17 @@ let baseData =
           try {
               const importedData = JSON.parse(e.target.result);
               if (isValidDataFormat(importedData.conversationData) && isValidUserDataFormat(importedData.userData)) {
-                  conversationData = importedData.conversationData;
-                  updateUserData(importedData.userData);
-                  event.target.disabled = true;
-                  const responseMessage2 = generateResponseMessage(importedData.userData);
-                  chatWindow.innerHTML += '<p>' + responseMessage2 + '</p>';
-                  chatWindow.scrollTop = chatWindow.scrollHeight;
-                  updateJSONDisplay(); // Update the JSON editor directly after importing the base dataset
-              } else {
+    baseData = importedData.conversationData;
+    updateUserData(importedData.userData);
+    userId = importedData.userData.id;  // Update the userId variable
+    event.target.disabled = true; // Disable the base data set input after uploading
+
+    // Generate and display the response message in the chat window
+    const responseMessage2 = generateResponseMessage(importedData.userData);
+    chatWindow.innerHTML += '<p>' + responseMessage2 + '</p>';
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+ else {
                   alert("The imported data does not match the expected format.");
               }
           } catch (error) {
