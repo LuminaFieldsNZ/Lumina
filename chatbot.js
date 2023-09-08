@@ -352,7 +352,8 @@ let baseData =
 let userId = "Guest";
 let state = "00001";
 let population = "70000000";
-let completedProjects = "0001";
+let completedProjects = [];
+let userCompletedProjects = [];
 
 
   let conversationData = [];
@@ -545,13 +546,14 @@ let completedProjects = "0001";
           conversationData: conversationData,
           userData: {
               id: userId,
-              state: state, // updated this line
-              population: population, // updated this line
-              completedProjects: completedProjects // updated this line
+              state: userState, // Use userState instead of state
+              population: userPopulation, // Use userPopulation instead of population
+              completedProjects: userCompletedProjects // Use userCompletedProjects instead of completedProjects
           }
       };
       jsonEditor.value = JSON.stringify(combinedData, null, 2);
   }
+
 
 
   function getUserData() {
@@ -592,38 +594,54 @@ let completedProjects = "0001";
 
   function importBaseDataSet(event) {
       const files = event.target.files;
+      const jsonEditor = document.getElementById('jsonEditor'); // Get the jsonEditor element
+
+      if (!jsonEditor) {
+          console.error("jsonEditor element not found!");
+          alert("Internal error: Editor not found.");
+          return;
+      }
+
       if (files.length === 0) {
           alert("No file selected. Please select a file and try again.");
           return;
       }
+
       const file = files[0];
       const reader = new FileReader();
+
       reader.onload = function(e) {
           try {
               const importedData = JSON.parse(e.target.result);
-              if (isValidDataFormat(importedData.conversationData) && isValidUserDataFormat(importedData.userData)) {
-    baseData = importedData.conversationData;
-    updateUserData(importedData.userData);
-    userId = importedData.userData.id;  // Update the userId variable
-    event.target.disabled = true; // Disable the base data set input after uploading
+              console.log("File content:", importedData);
 
-    // Generate and display the response message in the chat window
-    const responseMessage2 = generateResponseMessage(importedData.userData);
-    chatWindow.innerHTML += '<p>' + responseMessage2 + '</p>';
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-}
- else {
+              if (isValidDataFormat(importedData.conversationData) && isValidUserDataFormat(importedData.userData)) {
+                  baseData = importedData.conversationData;
+                  updateUserData(importedData.userData);
+                  userId = importedData.userData.id;  // Update the userId variable
+                  event.target.disabled = true; // Disable the base data set input after uploading
+
+                  // Generate and display the response message in the chat window
+                  const responseMessage2 = generateResponseMessage(importedData.userData);
+                  chatWindow.innerHTML += '<p>' + responseMessage2 + '</p>';
+                  chatWindow.scrollTop = chatWindow.scrollHeight;
+
+                  // Update the jsonEditor with the imported data in a condensed format
+                  jsonEditor.value = JSON.stringify(importedData, null, 2);
+              } else {
                   alert("The imported data does not match the expected format.");
               }
           } catch (error) {
               alert("Error parsing base data set: " + error.message);
           }
       };
+
       reader.readAsText(file);
   }
 
+
   function generateResponseMessage(userData) {
-      return `<font style="color:lightgreen;">You are now logged in ${userData.id} with state ${userData.state}.</font>`;
+      return `<font style="color:lightgreen;">You are now logged in ${userData.id} with state ${userData.state} and projects: ${userData.completedProjects}.</font>`;
   }
 
 
@@ -639,29 +657,6 @@ let completedProjects = "0001";
       userCompletedProjects = userData.completedProjects;
   }
 
-  function importConversationDataSet(event) {
-      const files = event.target.files;
-      if (files.length === 0) {
-          alert("No file selected. Please select a file and try again.");
-          return;
-      }
-      const file = files[0];
-      const reader = new FileReader();
-      reader.onload = function(e) {
-          try {
-              const importedData = JSON.parse(e.target.result);
-              if (isValidDataFormat(importedData)) {
-                  conversationData = importedData;
-                  updateJSONDisplay();
-              } else {
-                  alert("The imported data does not match the expected format.");
-              }
-          } catch (error) {
-              alert("Error parsing conversation data set: " + error.message);
-          }
-      };
-      reader.readAsText(file);
-  }
 
   function compileAndExportJSON() {
       const jsonEditor = document.getElementById('jsonEditor');
@@ -682,19 +677,24 @@ let completedProjects = "0001";
       a.click();
   }
 
-
   function updateConversationData() {
       const jsonEditor = document.getElementById('jsonEditor');
+      console.log("Attempting to parse jsonEditor value:", jsonEditor.value); // Log the content you're trying to parse
+
       try {
           const newData = JSON.parse(jsonEditor.value);
-          if (Array.isArray(newData)) {
+          console.log("Parsed newData:", newData); // Log the parsed data
+
+          if (newData.conversationData && Array.isArray(newData.conversationData)) {
               let validEntries = 0;
-              for (const entry of newData) {
+              for (const entry of newData.conversationData) {
                   if (Array.isArray(entry) && entry.length === 3) {
                       conversationData.push(entry);
                       validEntries++;
                   }
               }
+              console.log("Number of valid entries:", validEntries); // Log the number of valid entries found
+
               if (validEntries > 0) {
                   updateJSONDisplay();
                   alert("Data updated successfully!");
@@ -705,9 +705,11 @@ let completedProjects = "0001";
               alert("Invalid data format. Please ensure you have the format [question, answer, liveChange].");
           }
       } catch (error) {
+        console.error("Error encountered while parsing:", error); // Log the specific error message
           alert("Error updating data: " + error.message);
       }
   }
+
 
 
 
@@ -785,210 +787,6 @@ let completedProjects = "0001";
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  function closeTab() {
-    document.getElementById("introTab").style.display = "none";
-  }
-
-  function openQuest1(){
-      document.getElementById("secretDiv").style.display = "block";
-      startGame();
-      startGame2();
-      document.getElementById("schedule").style.display = "none";
-      document.getElementById("shopping").style.display = "none";
-      let intervalId; // To store the interval ID
-
-  function checkComplete() {
-      if (document.getElementById('finalNumber').innerHTML === "Complete" &&
-          document.getElementById('finalNumber2').innerHTML === "Complete" &&
-          document.getElementById('finalNumber3').innerHTML === "Complete") {
-          alert("You see password: reset017 written on a folder");
-          clearInterval(intervalId); // Stop the interval
-      }
-  }
-
-  // Start checking every second
-  intervalId = setInterval(checkComplete, 1000);
-
-  // Stop checking after 60 seconds
-  setTimeout(() => {
-      clearInterval(intervalId);
-  }, 60000);
-
-  }
-
-  function closeQuest1() {
-    document.getElementById("quest1").style.display = "none";
-  }
-
-
-
-  let currentStep = 0;
-
-                  function startGame(){
-
-                      const progressBar = document.getElementById('tBoxProgress');
-                      const progressText = document.getElementById('tPercentInput');
-                      alert('Critical notice! Population decrease exponentially increased due to quest logic, Crisis Level: 3 - expecting new .HPXML parameters to continue.');
-                      status = 3;
-                      function updateProgressBar(progress) {
-                          progressBar.style.width = progress + '%';
-                          progressText.textContent = Math.round(progress) + '%';
-                      }
-
-                      function simulateProgress(duration) {
-                          const interval = 20; // Time interval for updating progress in milliseconds
-                          const totalSteps = 100;
-                          const steps = Math.floor(duration / interval);
-                          const stepSize = totalSteps / steps;
-
-
-                          const progressInterval = setInterval(() => {
-                              currentStep += stepSize;
-                              updateProgressBar(currentStep);
-
-                              if (currentStep >= 100) {
-                                  clearInterval(progressInterval);
-                                  document.getElementById('finalNumber').innerHTML = "Failed";
-                              }
-                          }, interval);
-                      }
-
-                      simulateProgress(20000); // 20 seconds in milliseconds
-
-
-                                      }
-
-
-                                      let counter = 1;
-                                      const targetCount = 5;
-
-                                      function increaseCounter() {
-                                          counter++;
-                                          document.getElementById('daysCounter').textContent = counter;
-
-                                          if (counter === targetCount) {
-                                              document.getElementById('finalNumber').innerHTML = "Complete";
-                                                currentStep -= 50;
-                                                updateProgressBar(currentStep);
-                                          }
-                                      }
-
-
-
-                                      let currentStep2 = 0;
-
-                                                    function startGame2(){
-
-                                                        const progressBar2 = document.getElementById('tBoxProgress2');
-                                                        const progressText2 = document.getElementById('tPercentInput2');
-
-                                                        function updateProgressBar2(progress2) {
-                                                            progressBar2.style.width = progress2 + '%';
-                                                            progressText2.textContent = Math.round(progress2) + '%';
-                                                        }
-
-                                                        function simulateProgress2(duration2) {
-                                                            const interval2 = 20; // Time interval for updating progress in milliseconds
-                                                            const totalSteps2 = 100;
-                                                            const steps2 = Math.floor(duration2 / interval2);
-                                                            const stepSize2 = totalSteps2 / steps2;
-
-
-                                                            const progressInterval2 = setInterval(() => {
-                                                                currentStep2 += stepSize2;
-                                                                updateProgressBar2(currentStep2);
-
-                                                                if (currentStep2 >= 100) {
-                                                                    clearInterval(progressInterval2);
-                                                                    document.getElementById('finalNumber2').innerHTML = "Failed";
-                                                                }
-                                                            }, interval2);
-                                                        }
-
-                                                        simulateProgress2(20000); // 20 seconds in milliseconds
-
-
-                                                                        }
-
-
-                                                                        let counter2 = 1;
-                                                                        const targetCount2 = 13;
-
-                                                                        function increaseCounter2() {
-                                                                            counter2++;
-                                                                            document.getElementById('daysCounter2').textContent = counter2;
-
-                                                                            if (counter2 === targetCount2) {
-                                                                                document.getElementById('finalNumber2').innerHTML = "Complete";
-                                                                                  currentStep2 -= 50;
-                                                                                  updateProgressBar2(currentStep2);
-                                                                            }
-                                                                        }
-
-
-
-
-                       const minNumber = 1;
-                       const maxNumber = 20;
-                       let targetNumber = generateRandomNumber(minNumber, maxNumber);
-                       let attempts = 0;
-
-                       function generateRandomNumber(min, max) {
-                           return Math.floor(Math.random() * (max - min + 1)) + min;
-                       }
-
-                       function checkGuess() {
-                           const guessInput = document.getElementById('guessInput');
-                           const message = document.getElementById('message');
-                           const userGuess = parseInt(guessInput.value);
-
-                           if (isNaN(userGuess)) {
-                               message.textContent = "Please enter a valid number.";
-                               return;
-                           }
-
-                           attempts++;
-
-                           if (userGuess === targetNumber) {
-                               message.textContent = `Congratulations! You guessed the number ${targetNumber} in ${attempts} attempts.`;
-                               targetNumber = generateRandomNumber(minNumber, maxNumber);
-                               attempts = 0;
-                               document.getElementById('finalNumber3').innerHTML = "Complete";
-                           } else if (userGuess < targetNumber) {
-                               message.textContent = "Try a higher number.";
-                           } else {
-                               message.textContent = "Try a lower number.";
-                           }
-
-                           guessInput.value = '';
-                           guessInput.focus();
-                       }
-
-
-
-  function quest2() {
-  alert('Critical notice! Population decrease exponentially increased due to quest logic, Crisis Level: 3 - Terminate with password.');
-  globeActive();
-  rotationSpeed2 = 0.0000445;
-  document.getElementById('quest2password').style.display = "block";
-  status = 3;
-  }
 
 
   function showAllCommands() {

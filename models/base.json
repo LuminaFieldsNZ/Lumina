@@ -16,6 +16,6 @@
     "id": "mSalmon001",
     "state": "01aXf9df1d54hgr1",
     "population": "7000000",
-    "completedProjects": "20"
+    "completedProjects": ["0", "1", "2"]
   }
 }
