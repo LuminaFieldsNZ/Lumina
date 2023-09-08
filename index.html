@@ -17,6 +17,7 @@
 
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
             <link rel="stylesheet" href="./home.css">
+            <link rel="stylesheet" href="./loader.css">
 
 
 
@@ -40,19 +41,26 @@
 
 </div>
 
-<div id="settingsMain" class="project-boxes" style="display: none;">
+<div id="loader1" class="project-boxes" style="display: block;">
+
+  <iframe id="bookFrame4" src="" style="width: 100%; height:99vh; border-radius: 22px;"></iframe>
+
+</div>
+
+<div id="settingsMain" class="project-boxes" style="display: none; margin: 40px;">
 
 
 
 <div class="grid-container">
   <div class="grid-item">
-  <font size="4.5em" weight="800";>Rather it's a simple walkthrough to better understand your home, or keeping costs low by working with insurance companies. We will ensure you get the knowledge you need, and a timely solution at a price you can afford. Just fill out the form below to get started.<br>
-  <br>Our licensed home inspectors provide the best, most detailed inspection available, helping to identify safety concerns and provide valuable information. With years of experience and a commitment to excellence, we'll give you peace of mind and a thorough understanding of your home's condition.</font>
+    <br><hr><br>
+  <font size="4.5em" weight="800";>LuminaFields has the highest test scores for any AI teaching platform.
+    Our globally standardized testing and data privacy technology keep your information in your hands.</font>
   <br><br>
   </div>
   <div class="grid-item">
 
-  <form action="mailto:info@LuminaFields" method="post" enctype="text/plain">
+  <form action="mailto:info@LuminaFieldsnz@gmail.com" method="post" enctype="text/plain">
   <label for="name">Full Name:</label>
   <input type="text" id="name" name="name" required><br><br>
 
@@ -65,21 +73,15 @@
   <option value="email">Email</option>
   </select><br><br>
 
-  <label for="timeframe">Next Available Time Frame for Inspection:</label>
+  <label for="timeframe">Next Available Time Frame for Testing:</label>
   <input type="datetime-local" id="timeframe" name="timeframe" required><br><br>
 
   <label for="inspection">What type of visit:</label>
   <select id="inspection" name="inspection" required>
-  <option value="basic">Walkthrough</option>
-  <option value="basic">Basic Inspection</option>
-  <option value="complete">Complete Inspection</option>
+  <option value="basic">Tutoring</option>
+  <option value="basic">Basic Testing</option>
+  <option value="complete">Complete Testing</option>
   </select><br><br>
-
-  <label for="property">Do You Own the Property:</label>
-  <input type="radio" id="yes" name="property" value="yes" required>
-  <label for="yes">Yes</label>
-  <input type="radio" id="no" name="property" value="no">
-  <label for="no">No</label><br><br>
 
   <label for="hear">How Did You Hear About Us:</label>
   <input type="text" id="hear" name="hear" required><br><br>
@@ -88,12 +90,7 @@
   </form>
 
   </div>
-</div><br><br>
-
-  <button class="open-modal" onclick = "testData();">Refresh</button>
-  <button class="open-modal" onclick = "testData();">About</button>
-  <button class="open-modal" onclick = "testData();">API</button>
-  <button class="open-modal" onclick = "testData();">Contact</button>
+</div>
 </div>
 
 
@@ -112,7 +109,7 @@
 
 
 
-<div id="splash" class="project-boxes">
+<div id="splash" class="project-boxes" style="display: none;">
 
 <iframe id="bookFrame1" src="" style="width: 100%; height:99vh; border-radius: 22px;"></iframe>
 
@@ -154,7 +151,7 @@
                     </div>
                     <div class="project-box-footer">
                       <div class="participants">
-                        <img src="pics/claude.png" alt="participant">
+                        <img src="pics/collective.png" alt="participant">
                         <button class="add-participant" style="color: #054950;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
                             <path d="M12 5v14M5 12h14" />
@@ -200,7 +197,7 @@
                     </div>
                     <div class="project-box-footer">
                       <div class="participants">
-                        <img src="pics/claude.png" alt="participant">
+                        <img src="pics/collective.png" alt="participant">
                         <button class="add-participant" style="color: #054950;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
                             <path d="M12 5v14M5 12h14" />
@@ -246,7 +243,7 @@
                     </div>
                     <div class="project-box-footer">
                       <div class="participants">
-                        <img src="pics/claude.png" alt="participant">
+                        <img src="pics/collective.png" alt="participant">
                         <button class="add-participant" style="color: #054950;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
                             <path d="M12 5v14M5 12h14" />
@@ -292,7 +289,7 @@
                     </div>
                     <div class="project-box-footer">
                       <div class="participants">
-                        <img src="pics/claude.png" alt="participant">
+                        <img src="pics/collective.png" alt="participant">
                         <button class="add-participant" style="color: #054950;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
                             <path d="M12 5v14M5 12h14" />
@@ -337,7 +334,7 @@
                     </div>
                     <div class="project-box-footer">
                       <div class="participants">
-                        <img src="pics/claude.png" alt="participant">
+                        <img src="pics/collective.png" alt="participant">
                         <button class="add-participant" style="color: #054950;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
                             <path d="M12 5v14M5 12h14" />
@@ -382,7 +379,7 @@
                     </div>
                     <div class="project-box-footer">
                       <div class="participants">
-                        <img src="pics/claude.png" alt="participant">
+                        <img src="pics/collective.png" alt="participant">
                         <button class="add-participant" style="color: #054950;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
                             <path d="M12 5v14M5 12h14" />
@@ -427,7 +424,7 @@
                     </div>
                     <div class="project-box-footer">
                       <div class="participants">
-                        <img src="pics/claude.png" alt="participant">
+                        <img src="pics/collective.png" alt="participant">
                         <button class="add-participant" style="color: #054950;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
                             <path d="M12 5v14M5 12h14" />
@@ -467,7 +464,7 @@
                     </div>
                     <div class="project-box-footer">
                       <div class="participants">
-                        <img src="pics/claude.png" alt="participant">
+                        <img src="pics/collective.png" alt="participant">
                         <button class="add-participant" style="color: #054950;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
                             <path d="M12 5v14M5 12h14" />
@@ -507,7 +504,7 @@
                     </div>
                     <div class="project-box-footer">
                       <div class="participants">
-                        <img src="pics/claude.png" alt="participant">
+                        <img src="pics/collective.png" alt="participant">
                         <button class="add-participant" style="color: #054950;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
                             <path d="M12 5v14M5 12h14" />
@@ -550,7 +547,7 @@
                     </div>
                     <div class="project-box-footer">
                       <div class="participants">
-                        <img src="pics/claude.png" alt="participant">
+                        <img src="pics/collective.png" alt="participant">
                         <button class="add-participant" style="color: #054950;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
                             <path d="M12 5v14M5 12h14" />
@@ -598,16 +595,24 @@
 <div class="message-box">
     <div class="search-wrapper">
       <input class="search-input" placeholder="Search" type="text" id="passcode" oninput="checkPasscode();">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-search" viewBox="0 0 24 24">
-        <defs></defs>
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="M21 21l-4.35-4.35"></path>
-      </svg>
+
+      <div class="loader">
+        <div class="square" ></div>
+        <div class="square"></div>
+        <div class="square last"></div>
+        <div class="square clear"></div>
+        <div class="square"></div>
+        <div class="square last"></div>
+        <div class="square clear"></div>
+        <div class="square "></div>
+        <div class="square last"></div>
+      </div>
+
     </div>
 </div>
                 <div class="message-box">
                 <div class="chat-window" id="chatWindow">
-Hello! I'm Collective, your guide to the future of AI integration. How can I assist you on: <i class="time" id="currentDateTime"></i>
+Pulse Network connection status: <font style="color:red;">Online</font> <br><i class="time" id="currentDateTime"></i>
                 </div>
                 </div>
               </div>

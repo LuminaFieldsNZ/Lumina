@@ -1,4 +1,9 @@
 
+document.addEventListener('DOMContentLoaded', function () {
+  setTimeout(function() {
+    splashActive();
+  }, 5000); // 5000 milliseconds = 5 seconds
+});
 
 window.addEventListener('message', function(event) {
   // Optional: Check the origin of the message for security
@@ -17,6 +22,7 @@ function energyAuditActive(){
   document.getElementById("energyAudit").style.display = "block";
   document.getElementById("splash").style.display = "none";
   document.getElementById("settingsMain").style.display = "none";
+  document.getElementById("loader1").style.display = "none";
   document.getElementById("schedule").style.display = "none";
   navAudit.classList.add("active");
   navHome.classList.remove("active");
@@ -29,6 +35,7 @@ function scheduleActive(){
   document.getElementById("energyAudit").style.display = "none";
   document.getElementById("splash").style.display = "none";
   document.getElementById("settingsMain").style.display = "none";
+  document.getElementById("loader1").style.display = "none";
   navHome.classList.remove("active");
   navSchedule.classList.add("active");
   navAudit.classList.remove("active");
@@ -40,6 +47,7 @@ function splashActive(){
   document.getElementById("splash").style.display = "block";
   document.getElementById("settingsMain").style.display = "none";
   document.getElementById("schedule").style.display = "none";
+  document.getElementById("loader1").style.display = "none";
   navHome.classList.add("active");
   navAudit.classList.remove("active");
   navSchedule.classList.remove("active");
@@ -51,6 +59,7 @@ function settingsActive(){
   document.getElementById("splash").style.display = "none";
   document.getElementById("settingsMain").style.display = "block";
   document.getElementById("schedule").style.display = "none";
+  document.getElementById("loader1").style.display = "none";
   navSettings.classList.add("active");
   navHome.classList.remove("active");
   navAudit.classList.remove("active");
