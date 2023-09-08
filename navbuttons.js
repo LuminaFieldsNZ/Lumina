@@ -45,6 +45,8 @@ function scheduleActive(){
 }
 
 function splashActive(){
+  const bookFrame1 = document.getElementById('bookFrame1');
+  bookFrame1.src = 'tabs/index.html';
   document.getElementById("energyAudit").style.display = "none";
   document.getElementById("splash").style.display = "block";
   document.getElementById("settingsMain").style.display = "none";

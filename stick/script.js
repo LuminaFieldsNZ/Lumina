@@ -2,7 +2,7 @@
 
 
 
-If you want to know how this game was made, check out this video, that explains how it's made: 
+If you want to know how this game was made, check out this video, that explains how it's made:
 
 https://youtu.be/eue3UdFvwPo
 
@@ -158,6 +158,22 @@ function generatePlatform() {
 }
 
 resetGame();
+
+window.addEventListener("touchstart", function (event) {
+  if (phase == "waiting") {
+    lastTimestamp = undefined;
+    introductionElement.style.opacity = 0;
+    phase = "stretching";
+    window.requestAnimationFrame(animate);
+  }
+});
+
+window.addEventListener("touchend", function (event) {
+  if (phase == "stretching") {
+    phase = "turning";
+  }
+});
+
 
 // If space was pressed restart the game
 window.addEventListener("keydown", function (event) {
