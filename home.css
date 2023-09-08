@@ -31,27 +31,17 @@ body {
             white-space: pre-wrap;
         }
         @keyframes ellipsis {
-      0% { content: "."; }
-      5% { content: ".."; }
-      10% { content: "aE."; }
-      15% { content: "XDF"; }
-      20% { content: ".1."; }
-      25% { content: "f.e."; }
-      30% { content: "Polit"; }
-      35% { content: ".DS."; }
-      40% { content: "xpsp."; }
-      45% { content: "%$3"; }
-      50% { content: "&^32ff"; }
-      55% { content: "FDSEEE"; }
-      60% { content: "Salmon."; }
-      65% { content: "."; }
-      70% { content: "ical"; }
-      75% { content: "..."; }
-      80% { content: "."; }
-      85% { content: "Ballot"; }
-      90% { content: ".head."; }
-      95% { content: ".ing.com"; }
-      100% { content: "."; }
+      0% { content: "(๑ > ᴗ < ๑)"; }
+      10% { content: ".(๑ > ᴗ < ๑)"; }
+      20% { content: "૮₍  ˶•⤙•˶ ₎ა"; }
+      30% { content: ".૮₍  ˶•⤙•˶ ₎ა"; }
+      40% { content: "(づ ᴗ _ᴗ)づ"; }
+      50% { content: ".(づ ᴗ _ᴗ)づ"; }
+      60% { content: "৻(  •̀ ᗜ •́  ৻)"; }
+      70% { content: ".৻(  •̀ ᗜ •́  ৻)"; }
+      80% { content: ".(づ ᴗ _ᴗ)づ"; }
+      90% { content: "(づ ᴗ _ᴗ)づ"; }
+      100% { content: "(๑ > ᴗ < ๑)"; }
   }
   .thinking::after {
       content: "...";
