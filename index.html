@@ -622,18 +622,17 @@ Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connect
 
               </div>
               <div class="message-box">
-                <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" placeholder="Import Base Data Set"><button class="open-modal" onclick="document.getElementById('toolMenu').style.display = 'block';">Tools</button>
+                <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" placeholder="Import Base Data Set">
+                <button class="open-modal" onclick="toggleToolMenu();">Tools</button>
 
-               <div id="toolMenu" style="display: none;">
-               <h3>JSON Editor</h3>
-               <div id="editorInstructions" style="color: red; margin-bottom: 10px;"></div>
-               <textarea class="json-editor" id="jsonEditor" placeholder="Format: [question, answer, liveChange]"></textarea>
-
-
-              
-               <button onclick="compileAndExportJSON()">Export Data</button>
-               <button onclick="updateConversationData()">Update</button>
+               <a id="toolMenu" style="display: none;">
+               <button class="open-modal"  onclick="compileAndExportJSON()">Export Data</button>
+               <button class="open-modal"  onclick="updateConversationData()">Update</button>
+             </a>
               </div>
+              <div class="message-box" id="toolMenu2" style="display: none;">
+                <textarea class="json-editor" id="jsonEditor" placeholder="JSON Editor Format: [question, answer, liveChange]"></textarea>
+
               </div>
               <div class="message-box">
                 <a id="navHome" onclick="splashActive();" class="app-sidebar-link">
