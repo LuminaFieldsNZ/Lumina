@@ -347,19 +347,13 @@ let baseData =
 
   // Function to trigger the download of base.json from the provided URL
   function downloadBaseJSON() {
-      // URL of the base.json file
       const fileURL = 'https://woodandmortar.com/salmonballot/learn/models/base.json';
-
-      // Fetch the content of the file
       fetch(fileURL)
           .then(response => response.blob())
           .then(blob => {
-              // Create a link element for download
               const a = document.createElement('a');
               a.href = URL.createObjectURL(blob);
               a.download = 'base.json';
-
-              // Append the link to the document and trigger the download
               document.body.appendChild(a);
               a.click();
               document.body.removeChild(a);
@@ -535,8 +529,36 @@ let baseData =
 
   function updateJSONDisplay() {
       const jsonEditor = document.getElementById('jsonEditor');
-      jsonEditor.value = JSON.stringify(conversationData, null, 2);
+      const combinedData = {
+          conversationData: conversationData,
+          userData: getUserData()
+      };
+      jsonEditor.value = JSON.stringify(combinedData, null, 2);
   }
+
+  function getUserData() {
+      // Assuming you have global variables or functions to get these values
+      return {
+          id: userId, // Replace with the actual variable or function to get the user's ID
+          state: userState, // Replace with the actual variable or function to get the user's state number
+          population: userPopulation, // Replace with the actual variable or function to get the population number
+          completedProjects: userCompletedProjects // Replace with the actual variable or function to get the completed projects
+      };
+  }
+
+  function isValidUserDataFormat(data) {
+      return data && typeof data.id === 'string' && typeof data.state === 'number' && typeof data.population === 'number' && Array.isArray(data.completedProjects);
+  }
+
+  function updateUserData(userData) {
+      // Assuming you have global variables or functions to set these values
+      userId = userData.id;
+      userState = userData.state;
+      userPopulation = userData.population;
+      userCompletedProjects = userData.completedProjects;
+  }
+
+
 
   function isValidDataFormat(data) {
       if (!Array.isArray(data)) {
@@ -561,9 +583,14 @@ let baseData =
       reader.onload = function(e) {
           try {
               const importedData = JSON.parse(e.target.result);
-              if (isValidDataFormat(importedData)) {
-                  baseData = importedData;
-                  event.target.disabled = true; // Disable the base data set input after uploading
+              if (isValidDataFormat(importedData.conversationData) && isValidUserDataFormat(importedData.userData)) {
+                  conversationData = importedData.conversationData;
+                  updateUserData(importedData.userData);
+                  event.target.disabled = true;
+                  const responseMessage2 = generateResponseMessage(importedData.userData);
+                  chatWindow.innerHTML += '<p>' + responseMessage2 + '</p>';
+                  chatWindow.scrollTop = chatWindow.scrollHeight;
+                  updateJSONDisplay(); // Update the JSON editor directly after importing the base dataset
               } else {
                   alert("The imported data does not match the expected format.");
               }
@@ -572,6 +599,23 @@ let baseData =
           }
       };
       reader.readAsText(file);
+  }
+
+  function generateResponseMessage(userData) {
+      return `<font style="color:lightgreen;">You are now logged in ${userData.id} with state ${userData.state}.</font>`;
+  }
+
+
+  function isValidUserDataFormat(data) {
+      return data && data.id && data.state && data.population && data.completedProjects;
+  }
+
+  function updateUserData(userData) {
+      // Assuming you have global variables for these
+      userId = userData.id;
+      userState = userData.state;
+      userPopulation = userData.population;
+      userCompletedProjects = userData.completedProjects;
   }
 
   function importConversationDataSet(event) {
@@ -600,13 +644,23 @@ let baseData =
 
   function compileAndExportJSON() {
       const jsonEditor = document.getElementById('jsonEditor');
-      const blob = new Blob([jsonEditor.value], { type: 'application/json' });
+      const combinedData = {
+          conversationData: conversationData,
+          userData: {
+              id: userId,
+              state: userState,
+              population: userPopulation,
+              completedProjects: userCompletedProjects
+          }
+      };
+      const blob = new Blob([JSON.stringify(combinedData, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = 'compiledData.json';
       a.click();
   }
+
 
   function updateConversationData() {
       const jsonEditor = document.getElementById('jsonEditor');
