@@ -225,5 +225,6 @@
 
     // alert("The largest number is: " + largestNumber + "\nSpan ID: " + largestElementId);
     document.getElementById("titleChange").innerHTML = largestElementId;
+    document.getElementById("titleChange").style.display = 'none';
     document.getElementById("titleChange2").innerHTML = pHeading;
   }

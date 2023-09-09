@@ -15,7 +15,28 @@
   "userData": {
     "id": "mSalmon001",
     "state": "01aXf9df1d54hgr1",
-    "population": "7000000",
+    "mainHeading" =
+      [explorer: 26,
+      voyager: 4,
+      captain: 4,
+      merchant: 4,
+      shipwright: 4,
+      fisherman: 220,
+      smuggler: 5,
+      arbiter: 4,
+      sailor: 4]
+    ,
+    "populations" = [
+      progressive: 1000,
+      socialist: 2000,
+      idealist: 1000,
+      globalist: 1000,
+      conservative: 1000,
+      economist: 1000,
+      realist: 1000,
+      nationalist: 1000,
+      populist: 1000]
+    ,
     "completedProjects": ["0", "1", "2"]
   }
 }
