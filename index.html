@@ -610,9 +610,13 @@
 
     </div>
 </div>
+<div class="message-box">
+  <input type="text" id="roomId" placeholder="Enter Room ID">
+      <button onclick="joinRoom()">Join Room</button>
+</div>
                 <div class="message-box">
                 <div class="chat-window" id="chatWindow">
-Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connecting</font> <br><i class="time" id="currentDateTime"></i>
+Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connecting</font><br><i class="time" id="currentDateTime"></i><br><font id="load2" style="color:lightblue;"></font>
                 </div>
                 </div>
               </div>
@@ -680,8 +684,47 @@ Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connect
               <script  src="./navbuttons.js"></script>
               <script src="chatbot.js"></script>
               <script src="chatbot2.js"></script>
+              <script src="peerjs.min.js"></script>
+              <script src="peerjs.min.js.map"></script>
 
+                  <script>
+                      let peer = new Peer(); // Create a new peer instance
+                      let conn = null;
 
+                      peer.on('open', function(id) {
+                        document.getElementById("load2").innerHTML = " Room ID is: " + id;
+                      });
+
+                      function joinRoom() {
+                          const roomId = document.getElementById('roomId').value;
+                          conn = peer.connect(roomId);
+                          conn.on('open', function() {
+                              conn.on('data', function(data) {
+                                  const chatBox = document.getElementById('chatWindow');
+                                  chatBox.innerHTML += `<p>Someone: ${data}</p>`;
+                              });
+                          });
+                      }
+
+                      function sendMessage2() {
+                          const message = document.getElementById('userInput').value;
+                          if (conn && conn.open) {
+                              conn.send(message);
+                              const chatBox = document.getElementById('chatWindow');
+                              chatBox.innerHTML += `<p>You: ${message}</p>`;
+                          } else {
+                              console.log('Connection is closed');
+                          }
+                      }
+
+                      peer.on('connection', function(connection) {
+                          conn = connection;
+                          conn.on('data', function(data) {
+                              const chatBox = document.getElementById('chatWindow');
+                              chatBox.innerHTML += `<p>Someone: ${data}</p>`;
+                          });
+                      });
+                  </script>
 <script>
 
 function countActive(){
