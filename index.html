@@ -696,15 +696,24 @@ Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connect
                       });
 
                       function joinRoom() {
-                          const roomId = document.getElementById('roomId').value;
-                          conn = peer.connect(roomId);
-                          conn.on('open', function() {
-                              conn.on('data', function(data) {
-                                  const chatBox = document.getElementById('chatWindow');
-                                  chatBox.innerHTML += `<p>Someone: ${data}</p>`;
-                              });
-                          });
-                      }
+    const roomId = document.getElementById('roomId').value;
+    conn = peer.connect(roomId);
+    conn.on('open', function() {
+        // Send a notification to all participants that a new user has joined
+        const notificationMessage = "A new user has joined the room!";
+        conn.send(notificationMessage);
+
+        conn.on('data', function(data) {
+            const chatBox = document.getElementById('chatBox');
+            if (data === notificationMessage) {
+                chatBox.innerHTML += `<p><i>${data}</i></p>`;
+            } else {
+                chatBox.innerHTML += `<p>Someone: ${data}</p>`;
+            }
+        });
+    });
+}
+
 
                       function sendMessage2() {
                           const message = document.getElementById('userInput').value;
@@ -718,12 +727,17 @@ Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connect
                       }
 
                       peer.on('connection', function(connection) {
-                          conn = connection;
-                          conn.on('data', function(data) {
-                              const chatBox = document.getElementById('chatWindow');
-                              chatBox.innerHTML += `<p>Someone: ${data}</p>`;
-                          });
-                      });
+    conn = connection;
+    conn.on('data', function(data) {
+        const chatBox = document.getElementById('chatBox');
+        if (data === "A new user has joined the room!") {
+            chatBox.innerHTML += `<p><i>${data}</i></p>`;
+        } else {
+            chatBox.innerHTML += `<p>Someone: ${data}</p>`;
+        }
+    });
+});
+
                   </script>
 <script>
 
