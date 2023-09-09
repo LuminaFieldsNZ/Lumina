@@ -357,33 +357,6 @@ let conversationData = [];
 
 
 
-// Function to trigger the download of base.json from the provided URL
-function downloadBaseJSON() {
-    // URL of the base.json file
-    const fileURL = 'https://luminafields.com/models/base.json';
-
-    // Fetch the content of the file
-    fetch(fileURL)
-        .then(response => response.blob())
-        .then(blob => {
-            // Create a link element for download
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'base.json';
-
-            // Append the link to the document and trigger the download
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        })
-        .catch(error => {
-            console.error("Error downloading the file:", error);
-        });
-}
-
-
-
-
 function exportData() {
     updateJSONDisplay(); // Update the JSON editor with the latest data
 
