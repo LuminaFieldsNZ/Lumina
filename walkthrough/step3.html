@@ -28,11 +28,19 @@
               <div class="square last"></div>
             </div>
     <div class="screen-user">
-      <span class="namez" data-value="Introduction">Introduction</span>
-      <a class="link" onclick="parent.postMessage({ action: 'changeSrc', newSrc: 'walkthrough/step2.html' }, '*');">
+      <span class="namez" data-value="userData">userData</span>
+      <a class="link" onclick="parent.postMessage({ action: 'changeSrc', newSrc: 'walkthrough/step4.html' }, '*');">
         <b><hr>
-        The JSON file contains structured data that the Collective uses to interact with users. It consists of two main sections: <font style="color:orange;">conversationData</font> and <font style="color:orange;">userData</font>.
-<hr>
+          <font style="color:orange;">state:</font> A string representing the user's current state or session ID.<br>
+
+          <font style="color:orange;">Example:</font> "01aXf9df1d54hgr1"
+
+
+
+
+
+
+          <hr>
 <font style="color:lightblue;">Next Page</font>
       </b></a>
     </div>
@@ -41,7 +49,18 @@
 
 <div id="blob"></div>
 <div id="blur"></div>
+<script>
 
+window.onload = function() {
+    // Select the .screen > .screen-image element
+    const screenImage = document.querySelector('.screen > .screen-image');
+
+    // Change the background image to wallpaper.png
+    screenImage.style.backgroundImage = "url('../pics/occidentica.png')";
+}
+
+
+</script>
 
   <script  src="./script.js"></script>
 

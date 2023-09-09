@@ -203,21 +203,21 @@ body {
   translate: 26px calc(-1rem - 0.5px);
 }
 
-.screen > .screen-content > .screen-user > :is(.name, .link) {
+.screen > .screen-content > .screen-user > :is(.namez, .link) {
   font-family: "Source Code Pro", monospace;
   color: white;
   text-align: center;
   text-transform: uppercase;
 }
 
-.screen > .screen-content > .screen-user > .name {
+.screen > .screen-content > .screen-user > .namez {
   position: relative;
   font-size: 4.25rem;
   font-weight: 400;
 }
 
-.screen > .screen-content > .screen-user > .name:before,
-.screen > .screen-content > .screen-user > .name:after {
+.screen > .screen-content > .screen-user > .namez:before,
+.screen > .screen-content > .screen-user > .namez:after {
   content: "";
   height: 4px;
   width: 4px;
@@ -226,13 +226,13 @@ body {
   border-radius: 2px;
 }
 
-.screen > .screen-content > .screen-user > .name:before {
-  top: 55%;
+.screen > .screen-content > .screen-user > .namez:before {
+  top: 35%;
   right: -1.5rem;
 }
 
-.screen > .screen-content > .screen-user > .name:after {
-  top: 45%;
+.screen > .screen-content > .screen-user > .namez:after {
+  top: 25%;
   left: -1.5rem;
 }
 

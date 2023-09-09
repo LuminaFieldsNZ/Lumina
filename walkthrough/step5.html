@@ -28,11 +28,18 @@
               <div class="square last"></div>
             </div>
     <div class="screen-user">
-      <span class="namez" data-value="Introduction">Introduction</span>
-      <a class="link" onclick="parent.postMessage({ action: 'changeSrc', newSrc: 'walkthrough/step2.html' }, '*');">
+      <span class="namez" data-value="userData">userData</span>
+      <a class="link" onclick="parent.postMessage({ action: 'changeSrc', newSrc: 'walkthrough/step6.html' }, '*');">
         <b><hr>
-        The JSON file contains structured data that the Collective uses to interact with users. It consists of two main sections: <font style="color:orange;">conversationData</font> and <font style="color:orange;">userData</font>.
-<hr>
+          <font style="color:orange;">populations:</font> This section contains various groups or categories and their associated population counts.<br>
+
+          <font style="color:orange;">Example:</font> The population count for "progressive" is 3400.
+
+
+
+
+
+          <hr>
 <font style="color:lightblue;">Next Page</font>
       </b></a>
     </div>
@@ -41,7 +48,18 @@
 
 <div id="blob"></div>
 <div id="blur"></div>
+<script>
 
+window.onload = function() {
+    // Select the .screen > .screen-image element
+    const screenImage = document.querySelector('.screen > .screen-image');
+
+    // Change the background image to wallpaper.png
+    screenImage.style.backgroundImage = "url('../pics/faxium.png')";
+}
+
+
+</script>
 
   <script  src="./script.js"></script>
 

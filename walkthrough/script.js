@@ -1,26 +1,4 @@
 
-function downloadBaseJSON() {
-    const fileURL = '../models/base.json';
-
-    fetch(fileURL)
-        .then(response => response.blob())
-        .then(blob => {
-            const objectURL = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = objectURL;
-            link.download = 'base.json';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(objectURL);  // Free up memory
-        })
-        .catch(error => {
-            console.error("Error downloading the file:", error);
-        });
-}
-
-
-
 
 const blob = document.getElementById("blob");
 
@@ -40,7 +18,7 @@ const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 let interval = null;
 
 const screen = document.querySelector(".screen"),
-      name = document.querySelector(".name");
+      namez = document.querySelector(".namez");
 
 screen.onmouseenter = event => {
   let iteration = 0;
@@ -48,18 +26,18 @@ screen.onmouseenter = event => {
   clearInterval(interval);
 
   interval = setInterval(() => {
-    name.innerText = name.innerText
+    namez.innerText = namez.innerText
       .split("")
       .map((letter, index) => {
         if(index < iteration) {
-          return name.dataset.value[index];
+          return namez.dataset.value[index];
         }
 
         return letters[Math.floor(Math.random() * 26)]
       })
       .join("");
 
-    if(iteration >= name.dataset.value.length){
+    if(iteration >= namez.dataset.value.length){
       clearInterval(interval);
     }
 
