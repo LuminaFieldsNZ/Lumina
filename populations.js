@@ -15,7 +15,7 @@ function clearStorage() {
 
 populations = {
   progressive: 1000,
-  socialist: 100,
+  socialist: 1000,
   idealist: 1000,
   globalist: 1000,
   conservative: 1000,
@@ -26,12 +26,12 @@ populations = {
 };
 
 mainHeading = {
-  explorer: 10,
+  explorer: 1,
   voyager: 1,
   captain: 1,
   merchant: 1,
   shipwright: 1,
-  fisherman: 100,
+  fisherman: 1,
   smuggler: 1,
   arbiter: 1,
   sailor: 1

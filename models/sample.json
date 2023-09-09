@@ -5,30 +5,30 @@
     ["how are you?", "Im doing well, thank you!", ""]
   ],
   "userData": {
-    "id": "Guest001",
+    "id": "Guest002",
     "state": "01aXf9df1d54hgr1",
     "mainHeading": {
-      "explorer": 3,
-      "voyager": 4,
-      "captain": 4,
-      "merchant": 4,
+      "explorer": 33,
+      "voyager": 14,
+      "captain": 42,
+      "merchant": 14,
       "shipwright": 4,
-      "fisherman": 3,
-      "smuggler": 5,
-      "arbiter": 4,
-      "sailor": 4
+      "fisherman": 31,
+      "smuggler": 52,
+      "arbiter": 24,
+      "sailor": 34
     },
     "populations": {
-      "progressive": 1000,
-      "socialist": 999,
-      "idealist": 1000,
-      "globalist": 1000,
-      "conservative": 1000,
-      "economist": 1000,
-      "realist": 1000,
-      "nationalist": 1000,
-      "populist": 1000
+      "progressive": 3400,
+      "socialist": 2999,
+      "idealist": 2000,
+      "globalist": 3000,
+      "conservative": 2000,
+      "economist": 2100,
+      "realist": 2100,
+      "nationalist": 3400,
+      "populist": 2200
     },
-    "completedProjects": ["0", "1", "2"]
+    "completedProjects": ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
   }
 }
