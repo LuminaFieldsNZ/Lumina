@@ -69,9 +69,3 @@ bookFrame4.src = 'loader/index.html';
 
 const bookFrame1 = document.getElementById('bookFrame1');
 bookFrame1.src = 'tabs/index.html';
-
-const bookFrame2 = document.getElementById('bookFrame2');
-bookFrame2.src = 'menu/index.html';
-
-const bookFrame3 = document.getElementById('bookFrame3');
-bookFrame3.src = 'words/index.html';

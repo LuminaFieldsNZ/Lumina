@@ -10,53 +10,38 @@ window.onload = function() {
 };
 localStorage.clear();
 sessionStorage.clear();
-let populations = {
-  progressive: 10000010,
-  socialist: 10000000,
-  idealist: 70000020,
-  globalist: 100000030,
-  conservative: 100000040,
-  economist: 100000050,
-  realist: 100000080,
-  nationalist: 100000060,
-  populist: 100000070
-};
 
-let status = 0; // Set the initial status level
-let increaseAmount = .03; // Population increase amount for status 0
-let decreaseAmounts = [2000, 40000, 60000, 80000, 100000, 500000]; // Population decrease amounts for different statuses
+let populations = {
+  progressive: 1000,
+  socialist: 100,
+  idealist: 1000,
+  globalist: 1000,
+  conservative: 1000,
+  economist: 1000,
+  realist: 1000,
+  nationalist: 1000,
+  populist: 1000
+};
 
 function updatePopulations() {
   let totalPopulation = 0;
 
+  // Increase socialist population by 1
+  populations.socialist += .001;
+
+  // Update each nation's population display and calculate total population
   for (let nation in populations) {
     const nationSpan = document.getElementById(nation);
-
-    if (status === 0) {
-      populations[nation] += increaseAmount;
-    } else {
-      populations[nation] -= decreaseAmounts[status];
-    }
-
-    if (populations[nation] < 1000) {
-      window.location.reload();
-      alert("Population dropped below 1000! Resetting window...");
-      break;
-    }
-
     nationSpan.textContent = Math.round(populations[nation]);
-
     totalPopulation += populations[nation];
-    const popSpan = document.getElementById('population');
-    popSpan.textContent = Math.round(totalPopulation);
   }
+
+  const popSpan = document.getElementById('population');
+  popSpan.textContent = Math.round(totalPopulation);
 
   const avgPopulation = totalPopulation / Object.keys(populations).length;
   const avgSpan = document.getElementById('average');
   avgSpan.textContent = Math.round(avgPopulation);
-
-  const statusSpan = document.getElementById('status');
-  statusSpan.textContent = status;
 
   // Update the percentages after updating the populations
   updatePercentages(avgPopulation);
@@ -72,21 +57,20 @@ function updatePercentages(avgPopulation) {
     const progressBar = document.querySelector('.' + nation + '-progress'); // Assuming the class for progress bars are in the format 'nation-progress'
     progressBar.style.width = Math.round(percentage) + '%';
 
-     if (percentage < 50) {
-       progressBar.style.backgroundColor = 'red';
-     } else if (percentage < 75) {
-       progressBar.style.backgroundColor = 'yellow';
-     } else {
-       progressBar.style.backgroundColor = 'green';
-     }
+    if (percentage < 50) {
+      progressBar.style.backgroundColor = 'red';
+    } else if (percentage < 75) {
+      progressBar.style.backgroundColor = 'yellow';
+    } else {
+      progressBar.style.backgroundColor = 'green';
+    }
   }
 }
-
 
 let interval;
 
 function startUpdating() {
-  interval = setInterval(updatePopulations, 1000); // Update every second
+  interval = setInterval(updatePopulations, 1000); // Update every 5 seconds
 }
 
 startUpdating();
