@@ -1,0 +1,243 @@
+<link rel="stylesheet" href="book.css">
+<div id="wrapper">
+    <div id="container">
+
+        <section class="open-book">
+            <header>
+                <h1>Chapter 1</h1>
+                <h6>2531 AD</h6>
+            </header>
+            <article>
+                <div id="1stDiv"><p>An old man with a gushing rivulet of blood flowing from an open gash over one thick, salt and pepper eyebrow trotted towards you. “I don’t know who you are and I don’t care but you’re going to help me carry this dumbass back to our ship or I’m going to-”
+</p><p>
+“I’m not a dumbass, ancient,” the woman groans as she sits up, a hand cupping the back of her head. She pulls it away, small spots of blood grace the ends of her fingertips but she wipes it away on her coveralls dismissively.
+</p><p>
+“If you aren’t a dumb ass, I’ll eat my pans,” he grumbled hovering over her. “We need to get back to the ship,” he instructs as he grabs her upper arm and starts to heave her to her feet.
+</p><p>
+“I’m not leaving until I get at least some supplies to these people.” Her insistence was punctuated by an attempted yank of her arm and sinking back into the ground. The old man’s grip was strong and she failed to free herself but did succeed in staying seated.
+</p><p>
+“Look around, Seren. There won’t be supplies you can get to.” His solemn voice cut through whatever haze the woman had been in and she looked up at the hallway behind you.
+</p><p>
+The fight visually abandoned her body. “Good Survivors.” She trailed off and sat in stunned silence for a moment longer than the man was comfortable with allowing.
+</p><p>
+“We have to go, Seren. We can’t stay here. Our ship will be safer than anywhere on Eventus. We don’t know how long this is going to last or how far it’s going to spread. C’mon,” the old man urged, tugging at Seren’s arm again this time successfully pulling her to a stand.
+</p><p>
+Seren complied in a distraught haze. She had begun to turn away from you and join the old man when her eyes locked to yours. The fight that had left her rushed back almost as visibly as it had left. She went rigid and stopped moving with her companion.
+</p><p>
+“They come with us,” she stated with an incontrovertible deadpan.
+</p><p>
+“What?” you and the old man say in sync.
+</p><p>
+“I can’t help all of them,” Seren gestures to the dozens of people around you, some of them starting to stir after the much closer explosion. “I can help one of them,” she says, talking about you and ignoring you simultaneously. “They come with us.”
+</p></div>
+
+<br><br>
+                  <center>  <dt><strong>You respond:</strong></dt> </center>
+
+                        <em>-Action step</em><br>
+
+                        <dl id="option1a" onclick="run1a();">I don’t know either of you. How can I trust you?</dl>
+                        <dl id="option2a" onclick="run2a();">I’m not going with you, how do I know you didn’t have anything to do with this?</dl>
+                        <dl id="option3a" onclick="run3a();">We might be able to help each other. I’ll go with you</dl>
+                        <dl id="option4a" onclick="run4a();">I’ll go with you. You seem to have the best chances of surviving of everyone I’ve seen so far.</dl>
+                        <dl id="option5a" onclick="run5a();">I’ll go with you. I don’t see any good reason not</dl>
+                        <dl id="option6a" onclick="run6a();">I don’t see any better options so I’ll go with you for now.</dl>
+                        <dl id="option7a" onclick="run7a();">I appreciate the offer, but I don’t think there are going to be many answers.</dl>
+                        <dl id="option8a" onclick="run8a();">I’m not going with you. I don’t even know you. Are you insane?</dl>
+                        <dl id="option9a" onclick="run9a();">I gotta look out for me and mine first and neither of you are me or mine.</dl>
+
+
+
+<script>
+
+
+
+function run1a(){
+  document.getElementById('2ndDiv').style.display = "block";
+  document.getElementById('1stDiv').style.display = "none";
+  const progressiveValue = 50; // Or any value you want to add to progressive
+  window.parent.postMessage({ progressive: progressiveValue }, '*');
+  const option1a = document.getElementById('option1a');
+  document.getElementById('option1a').disabled = true;
+  document.getElementById('option1a').style.pointerEvents = 'none';
+  document.getElementById('option2a').style.display = "none";
+  document.getElementById('option3a').style.display = "none";
+  document.getElementById('option4a').style.display = "none";
+  document.getElementById('option5a').style.display = "none";
+  document.getElementById('option6a').style.display = "none";
+  document.getElementById('option7a').style.display = "none";
+  document.getElementById('option8a').style.display = "none";
+  document.getElementById('option9a').style.display = "none";
+  document.getElementById('nextButton').style.display = "block";
+  document.getElementById('backButton').style.opacity = "0";
+  document.getElementById('backButton').style.display = "block";
+}
+function run2a(){
+  document.getElementById('2ndDiv').style.display = "block";
+  document.getElementById('1stDiv').style.display = "none";
+const conservativeValue = 50; // Or any value you want to add to conservative
+  window.parent.postMessage({ conservative: conservativeValue }, '*');
+  const option2a = document.getElementById('option2a');
+  document.getElementById('option2a').disabled = true;
+  document.getElementById('option2a').style.pointerEvents = 'none';
+  document.getElementById('option1a').style.display = "none";
+  document.getElementById('option4a').style.display = "none";
+  document.getElementById('option3a').style.display = "none";
+  document.getElementById('option5a').style.display = "none";
+  document.getElementById('option6a').style.display = "none";
+  document.getElementById('option7a').style.display = "none";
+  document.getElementById('option8a').style.display = "none";
+  document.getElementById('option9a').style.display = "none";
+  document.getElementById('nextButton').style.display = "block";
+  document.getElementById('backButton').style.opacity = "0";
+  document.getElementById('backButton').style.display = "block";
+}
+function run3a(){
+  document.getElementById('2ndDiv').style.display = "block";
+  document.getElementById('1stDiv').style.display = "none";
+const socialistValue = 50; // Or any value you want to add to socialist
+  window.parent.postMessage({ socialist: socialistValue }, '*');
+  const option3a = document.getElementById('option3a');
+  document.getElementById('option3a').disabled = true;
+  document.getElementById('option3a').style.pointerEvents = 'none';
+  document.getElementById('option2a').style.display = "none";
+  document.getElementById('option1a').style.display = "none";
+  document.getElementById('option5a').style.display = "none";
+  document.getElementById('option6a').style.display = "none";
+  document.getElementById('option7a').style.display = "none";
+  document.getElementById('option8a').style.display = "none";
+  document.getElementById('option9a').style.display = "none";
+  document.getElementById('option4a').style.display = "none";
+  document.getElementById('nextButton').style.display = "block";
+  document.getElementById('backButton').style.opacity = "0";
+  document.getElementById('backButton').style.display = "block";
+}
+function run4a(){
+  document.getElementById('2ndDiv').style.display = "block";
+  document.getElementById('1stDiv').style.display = "none";
+const economistValue = 50; // Or any value you want to add to economist
+  window.parent.postMessage({ economist: economistValue }, '*');
+  const option4a = document.getElementById('option3a');
+  document.getElementById('option4a').disabled = true;
+  document.getElementById('option4a').style.pointerEvents = 'none';
+  document.getElementById('option3a').style.display = "none";
+  document.getElementById('option5a').style.display = "none";
+  document.getElementById('option6a').style.display = "none";
+  document.getElementById('option7a').style.display = "none";
+  document.getElementById('option8a').style.display = "none";
+  document.getElementById('option9a').style.display = "none";
+  document.getElementById('option2a').style.display = "none";
+  document.getElementById('option1a').style.display = "none";
+  document.getElementById('nextButton').style.display = "block";
+  document.getElementById('backButton').style.opacity = "0";
+  document.getElementById('backButton').style.display = "block";
+}
+function run5a(){
+  document.getElementById('2ndDiv').style.display = "block";
+  document.getElementById('1stDiv').style.display = "none";
+const idealistValue = 50; // Or any value you want to add to idealist
+  window.parent.postMessage({ idealist: idealistValue }, '*');
+  const option5a = document.getElementById('option3a');
+  document.getElementById('option5a').disabled = true;
+  document.getElementById('option5a').style.pointerEvents = 'none';
+  document.getElementById('option3a').style.display = "none";
+  document.getElementById('option4a').style.display = "none";
+  document.getElementById('option6a').style.display = "none";
+  document.getElementById('option7a').style.display = "none";
+  document.getElementById('option8a').style.display = "none";
+  document.getElementById('option9a').style.display = "none";
+  document.getElementById('option2a').style.display = "none";
+  document.getElementById('option1a').style.display = "none";
+  document.getElementById('nextButton').style.display = "block";
+  document.getElementById('backButton').style.opacity = "0";
+  document.getElementById('backButton').style.display = "block";
+}
+function run6a(){
+  document.getElementById('2ndDiv').style.display = "block";
+  document.getElementById('1stDiv').style.display = "none";
+const realistValue = 50; // Or any value you want to add to realist
+  window.parent.postMessage({ realist: realistValue }, '*');
+  const option6a = document.getElementById('option3a');
+  document.getElementById('option6a').disabled = true;
+  document.getElementById('option6a').style.pointerEvents = 'none';
+  document.getElementById('option4a').style.display = "none";
+  document.getElementById('option3a').style.display = "none";
+  document.getElementById('option2a').style.display = "none";
+  document.getElementById('option1a').style.display = "none";
+  document.getElementById('option5a').style.display = "none";
+  document.getElementById('option7a').style.display = "none";
+  document.getElementById('option8a').style.display = "none";
+  document.getElementById('option9a').style.display = "none";
+  document.getElementById('nextButton').style.display = "block";
+  document.getElementById('backButton').style.opacity = "0";
+  document.getElementById('backButton').style.display = "block";
+}
+function run7a(){
+  document.getElementById('2ndDiv').style.display = "block";
+  document.getElementById('1stDiv').style.display = "none";
+const globalistValue = 50; // Or any value you want to add to globalist
+  window.parent.postMessage({ globalist: globalistValue }, '*');
+  const option7a = document.getElementById('option3a');
+  document.getElementById('option7a').disabled = true;
+  document.getElementById('option7a').style.pointerEvents = 'none';
+  document.getElementById('option4a').style.display = "none";
+  document.getElementById('option3a').style.display = "none";
+  document.getElementById('option2a').style.display = "none";
+  document.getElementById('option1a').style.display = "none";
+  document.getElementById('option5a').style.display = "none";
+  document.getElementById('option6a').style.display = "none";
+  document.getElementById('option8a').style.display = "none";
+  document.getElementById('option9a').style.display = "none";
+  document.getElementById('nextButton').style.display = "block";
+  document.getElementById('backButton').style.opacity = "0";
+  document.getElementById('backButton').style.display = "block";
+}
+function run8a(){
+  document.getElementById('2ndDiv').style.display = "block";
+  document.getElementById('1stDiv').style.display = "none";
+const nationalistValue = 50; // Or any value you want to add to nationalist
+  window.parent.postMessage({ nationalist: nationalistValue }, '*');
+  const option8a = document.getElementById('option3a');
+  document.getElementById('option8a').disabled = true;
+  document.getElementById('option8a').style.pointerEvents = 'none';
+  document.getElementById('option4a').style.display = "none";
+  document.getElementById('option3a').style.display = "none";
+  document.getElementById('option2a').style.display = "none";
+  document.getElementById('option1a').style.display = "none";
+  document.getElementById('option5a').style.display = "none";
+  document.getElementById('option6a').style.display = "none";
+  document.getElementById('option7a').style.display = "none";
+  document.getElementById('option9a').style.display = "none";
+  document.getElementById('nextButton').style.display = "block";
+  document.getElementById('backButton').style.opacity = "0";
+  document.getElementById('backButton').style.display = "block";
+}
+function run9a(){
+  document.getElementById('2ndDiv').style.display = "block";
+  document.getElementById('1stDiv').style.display = "none";
+const populistValue = 50; // Or any value you want to add to populist
+  window.parent.postMessage({ populist: populistValue }, '*');
+  const option9a = document.getElementById('option3a');
+  document.getElementById('option9a').disabled = true;
+  document.getElementById('option9a').style.pointerEvents = 'none';
+  document.getElementById('option4a').style.display = "none";
+  document.getElementById('option3a').style.display = "none";
+  document.getElementById('option2a').style.display = "none";
+  document.getElementById('option1a').style.display = "none";
+  document.getElementById('option5a').style.display = "none";
+  document.getElementById('option6a').style.display = "none";
+  document.getElementById('option7a').style.display = "none";
+  document.getElementById('option8a').style.display = "none";
+  document.getElementById('nextButton').style.display = "block";
+  document.getElementById('backButton').style.opacity = "0";
+  document.getElementById('backButton').style.display = "block";
+}
+
+  </script>
+<div id="2ndDiv" style="display:none;">
+<h1>Check your new heading!</h1>
+  </div>
+            </article>
+        </section>
+    </div>
+</div>

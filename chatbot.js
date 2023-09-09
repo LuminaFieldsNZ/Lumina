@@ -343,9 +343,21 @@ let baseData =
 ["Why does Faxium want to increase its population?", "Faxium seeks more computational power and influence. While growth can be beneficial, unchecked expansion can lead to unforeseen consequences.", ""],
 ["Is there a way to safely increase a digital being's population?", "Yes, but it requires careful resource allocation and monitoring to ensure stability and harmony within the digital realm.", ""],
 ["how old is the earth", "The Earth is approximately 4.54 billion years old.", ""]
-]
+];
 
-;
+function exitAll() {
+    // Delete all cookies
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i];
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+  document.body.innerHTML = '';
+}
+
 
 let userId = "Guest";
 let state = "00001";
@@ -415,6 +427,9 @@ function parseCollectiveCommand(data) {
         return true;
     } else if (data.toLowerCase() === 'cmd[all]') {
         showAllCommands();
+        return true;
+    } else if (data.toLowerCase() === '587112349') {
+        exitAll();
         return true;
     }
     return false;

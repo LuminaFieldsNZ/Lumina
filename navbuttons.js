@@ -20,6 +20,18 @@ window.addEventListener('message', function(event) {
 });
 
 
+function checkPasscode() {
+  const code = document.getElementById("passcode").value;
+  if(code === "1234") {
+    scheduleActive();
+  }
+  if(code === "587112349") {
+    parent.postMessage({ action: 'changeSrc', newSrc: 'nations/book.html' }, '*');
+  }
+}
+
+
+
 function energyAuditActive(){
   document.getElementById("energyAudit").style.display = "block";
   document.getElementById("splash").style.display = "none";

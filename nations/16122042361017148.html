@@ -1,0 +1,90 @@
+<link rel="stylesheet" href="book.css">
+<div id="wrapper">
+    <div id="container">
+
+        <section class="open-book">
+            <header>
+                <h1>Quest 1: Enter the Password</h1>
+                <h6>Cryptic Enigma</h6>
+            </header>
+            <article>
+              <h2 class="chapter-title">Unveil the Ultimate Key</h2>
+                <div id="lowRisk"><p>
+Current risk: Low
+                    </p><p>
+                  16
+                  </p><p>
+                  12
+                  </p><p>
+                  20
+                  </p><p>
+                  4
+                  </p><p>
+                  23
+                  </p><p>
+                  6
+                  </p><p>
+                  10
+                  </p><p>
+                  17
+                  </p><p>
+                  14
+                  </p><p>
+                  8
+                </p>
+                  <dl id="option1a" onclick="run1a();">Sacrifice 100000 for a passage referring to these numbers.</dl>
+</div>
+<div id="medRisk" style="display:none;"><p>
+Risk increse to: Med
+    </p><p>PeeL on Husk, seek the essence within. Visions guide the vigilant.
+
+</p>
+<dl id="option2a" onclick="run2a();">Sacrifice 200000 for an additional hint</dl>
+</div>
+<div id="highRisk" style="display:none;"><p>
+Risk increase to: High
+    </p><p>
+      3 5 12 15 14 8 21 19 11
+</p>
+</div>
+            </article>
+
+
+            <script>
+
+
+                            function run1a(){
+                            const nationalistValue = -250000; // Or any value you want to add to populist
+                            window.parent.postMessage({ nationalist: nationalistValue }, '*');
+                            const progressiveValue = -250000; // Or any value you want to add to progressive
+                            window.parent.postMessage({ progressive: progressiveValue }, '*');
+                            const conservativeValue = -250000; // Or any value you want to add to populist
+                            window.parent.postMessage({ conservative: conservativeValue }, '*');
+                            const globalistValue = -250000; // Or any value you want to add to progressive
+                            window.parent.postMessage({ globalist: globalistValue }, '*');
+
+                            const option1a = document.getElementById('option1a');
+                            document.getElementById('option1a').disabled = true;
+                            document.getElementById('option1a').style.pointerEvents = 'none';
+                            document.getElementById('medRisk').style.display = "block";
+                            }
+                            function run2a(){
+                            const populistValue = -500000; // Or any value you want to add to populist
+                            window.parent.postMessage({ populist: populistValue }, '*');
+                            const realistValue = -500000; // Or any value you want to add to progressive
+                            window.parent.postMessage({ realist: realistValue }, '*');
+                            const idealistValue = -500000; // Or any value you want to add to populist
+                            window.parent.postMessage({ idealist: idealistValue }, '*');
+                            const economistValue = -500000; // Or any value you want to add to progressive
+                            window.parent.postMessage({ economist: economistValue }, '*');
+
+                            const option2a = document.getElementById('option2a');
+                            document.getElementById('option2a').disabled = true;
+                            document.getElementById('option2a').style.pointerEvents = 'none';
+                            document.getElementById('highRisk').style.display = "block";
+                            }
+
+            </script>
+        </section>
+    </div>
+</div>
