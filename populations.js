@@ -13,7 +13,7 @@ function clearStorage() {
     sessionStorage.clear();
 }
 
-const populations = {
+populations = {
   progressive: 1000,
   socialist: 100,
   idealist: 1000,
@@ -25,7 +25,7 @@ const populations = {
   populist: 1000
 };
 
-const mainHeading = {
+mainHeading = {
   explorer: 10,
   voyager: 1,
   captain: 1,

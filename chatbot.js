@@ -347,86 +347,60 @@ let baseData =
 
 ;
 
-
-
 let userId = "Guest";
 let state = "00001";
-let population = "70000000";
+let populations = {};
+let mainHeading = {};
 let completedProjects = [];
 let userCompletedProjects = [];
+let conversationData = [];
+
+function exportData() {
+    updateJSONDisplay(); // Update the JSON editor with the latest data
+
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jsonEditor.value);
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "exportedData.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+}
 
 
-  let conversationData = [];
+function levenshtein(a, b) {
+    if (a.length > b.length) [a, b] = [b, a];
+    if (a.length === 0) return b.length;
+    if (b.length === 0) return a.length;
 
-  // Function to trigger the download of base.json from the provided URL
-  function downloadBaseJSON() {
-      const fileURL = 'https://woodandmortar.com/salmonballot/learn/models/base.json';
-      fetch(fileURL)
-          .then(response => response.blob())
-          .then(blob => {
-              const a = document.createElement('a');
-              a.href = URL.createObjectURL(blob);
-              a.download = 'base.json';
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-          })
-          .catch(error => {
-              console.error("Error downloading the file:", error);
-          });
-  }
+    let matrix = Array.from({ length: b.length + 1 }, (_, i) => [i]);
+    matrix[0] = Array.from({ length: a.length + 1 }, (_, i) => i);
 
-  // Sample usage: Attach the function to a button's onclick event
-  // <button onclick="downloadBaseJSON()">Download base.json</button>
+    for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+            matrix[i][j] = b.charAt(i - 1) === a.charAt(j - 1) ?
+                matrix[i - 1][j - 1] :
+                Math.min(matrix[i - 1][j - 1] + 1, matrix[i][j - 1] + 1, matrix[i - 1][j] + 1);
+        }
+    }
+    return matrix[b.length][a.length];
+}
 
+function getClosestQuestion(input, data) {
+    let closestQuestion = null;
+    let minDistance = Infinity;
 
-  function levenshtein(a, b) {
-      if (a.length === 0) return b.length;
-      if (b.length === 0) return a.length;
+    for (const entry of data) {
+        const distance = levenshtein(input, entry[0]);
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestQuestion = entry[0];
+        }
+    }
+    return closestQuestion;
+}
 
-      let matrix = [];
-
-      for (let i = 0; i <= b.length; i++) {
-          matrix[i] = [i];
-      }
-
-      for (let j = 0; j <= a.length; j++) {
-          matrix[0][j] = j;
-      }
-
-      for (let i = 1; i <= b.length; i++) {
-          for (let j = 1; j <= a.length; j++) {
-              if (b.charAt(i - 1) === a.charAt(j - 1)) {
-                  matrix[i][j] = matrix[i - 1][j - 1];
-              } else {
-                  matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1));
-              }
-          }
-      }
-
-      return matrix[b.length][a.length];
-  }
-
-  function getClosestQuestion(input, data) {
-      let closestQuestion = null;
-      let minDistance = Infinity;
-
-      for (const entry of data) {
-          const distance = levenshtein(input, entry[0]);
-          if (distance < minDistance) {
-              minDistance = distance;
-              closestQuestion = entry[0];
-          }
-      }
-
-      return closestQuestion;
-  }
-
-
-  window.levenshtein = levenshtein;
-  window.getClosestQuestion = getClosestQuestion;
-
-  function parseCollectiveCommand(data) {
+function parseCollectiveCommand(data) {
     const collectiveRegex = /cmd \[([a-z]+)\] \[(\d+)\] \[([a-z]+)\]/i;
     const match = data.match(collectiveRegex);
 
@@ -436,370 +410,151 @@ let userCompletedProjects = [];
         const category = match[3];
 
         executeCollectiveAction(action, value, category);
-        return true; // Command was recognized
+        return true;
     } else if (data.toLowerCase() === 'cmd[all]') {
         showAllCommands();
-        return true; // Command was recognized
-    }
-    return false; // Command was not recognized
-}
-
-  window.sendMessage = function() {
-      const inputElem = document.getElementById('userInput');
-      const message = inputElem.value;
-      inputElem.value = '';
-
-      const chatWindow = document.getElementById('chatWindow');
-      chatWindow.innerHTML += '<p>' + userId + ': ' + message + '</p>';
-      chatWindow.scrollTop = chatWindow.scrollHeight;
-
-      // Check if the message is for @faxium
-      if (message.toLowerCase().includes('@faxium')) {
-          sendFaxiumMessage(message, 'User');
-          chatWindow.scrollTop = chatWindow.scrollHeight;
-          return; // Exit the function after processing the message for @faxium
-      }
-
-      // Add thinking animation
-      const thinkingElem = document.createElement('p');
-      thinkingElem.classList.add('thinking');
-      thinkingElem.innerHTML = 'Collective';
-      chatWindow.appendChild(thinkingElem);
-      chatWindow.scrollTop = chatWindow.scrollHeight;
-
-      setTimeout(() => {
-          // Remove thinking animation
-          chatWindow.removeChild(thinkingElem);
-
-          if (parseCollectiveCommand(message)) {
-              chatWindow.innerHTML += '<font style="color:lightgreen;">Command accepted</font>';
-              chatWindow.scrollTop = chatWindow.scrollHeight;
-          } else {
-              const response = getResponse(message);
-              if (response) {  // Only display if there's a response
-                  chatWindow.innerHTML += '<p>Collective: ' + response + '</p>';
-                  chatWindow.scrollTop = chatWindow.scrollHeight;
-              } else {
-                  chatWindow.innerHTML += '<font style="color:red;">Command failed</font>';
-                  chatWindow.scrollTop = chatWindow.scrollHeight;
-              }
-          }
-
-          // Check for redundancy before updating the conversationData
-          if (!isRedundant(message, response)) {
-              conversationData.push([message, response, ""]);
-          }
-
-          // Update the JSON editor to reflect the changes
-          updateJSONDisplay();
-
-          chatWindow.scrollTop = chatWindow.scrollHeight;
-      }, 1000); // Half-second delay
-  }
-
-
-
-
-  function isRedundant(question, answer) {
-    for (const entry of conversationData) {
-      if (entry[0] === question && entry[1] === answer) {
         return true;
-      }
     }
     return false;
-  }
+}
 
-  function getResponse(message) {
+function sendMessage() {
+    const inputElem = document.getElementById('userInput');
+    const message = inputElem.value;
+    inputElem.value = '';
 
-      // Convert the message to lowercase for case-insensitive check
-      const lowercaseMessage = message.toLowerCase();
+    const chatWindow = document.getElementById('chatWindow');
+    chatWindow.innerHTML += '<p>' + userId + ': ' + message + '</p>';
+    scrollToBottom();
 
-      // If the message is intended for @faxium, don't respond
-      if (lowercaseMessage.includes('@faxium')) {
-          return null;
-      }
+    if (message.toLowerCase().includes('@faxium')) {
+        sendFaxiumMessage(message, 'User');
+    } else {
+        const thinkingElem = document.createElement('p');
+        thinkingElem.classList.add('thinking');
+        thinkingElem.innerHTML = 'Collective';
+        chatWindow.appendChild(thinkingElem);
 
-      let response = searchInData(message, baseData);
-      if (!response) {
-          response = searchInData(message, conversationData);
-      }
-      if (!response) {
-          return 'I can\'t answer that until you provide me with an Updated OS.';
-      }
-      return response;
-  }
+        setTimeout(() => {
+            chatWindow.removeChild(thinkingElem);
 
+            if (parseCollectiveCommand(message)) {
+                chatWindow.innerHTML += '<font style="color:lightgreen;">Command accepted</font>';
+                scrollToBottom();
+            } else {
+                const response = getResponse(message);
+                if (response) {
+                    chatWindow.innerHTML += '<p>Collective: ' + response + '</p>';
+                    scrollToBottom();
+                } else {
+                    chatWindow.innerHTML += '<font style="color:red;">Command failed</font>';
+                    scrollToBottom();
+                }
+            }
 
-  function searchInData(message, data) {
-      const closestQuestion = getClosestQuestion(message, data);
-      for (const entry of data) {
-          if (entry[0] === closestQuestion) {
-              return entry[1];
-          }
-      }
-      return null;
-  }
+            if (!isRedundant(message, response)) {
+                conversationData.push([message, response, ""]);
+            }
 
-  function updateJSONDisplay() {
-      const jsonEditor = document.getElementById('jsonEditor');
-      const combinedData = {
-          conversationData: conversationData,
-          userData: {
-              id: userId,
-              state: userState, // Use userState instead of state
-              population: userPopulation, // Use userPopulation instead of population
-              completedProjects: userCompletedProjects // Use userCompletedProjects instead of completedProjects
-          }
-      };
-      jsonEditor.value = JSON.stringify(combinedData, null, 2);
-  }
-
-
-
-  function getUserData() {
-      // Assuming you have global variables or functions to get these values
-      return {
-          id: userId, // Replace with the actual variable or function to get the user's ID
-          state: userState, // Replace with the actual variable or function to get the user's state number
-          population: userPopulation, // Replace with the actual variable or function to get the population number
-          completedProjects: userCompletedProjects // Replace with the actual variable or function to get the completed projects
-      };
-  }
-
-  function isValidUserDataFormat(data) {
-      return data && typeof data.id === 'string' && typeof data.state === 'number' && typeof data.population === 'number' && Array.isArray(data.completedProjects);
-  }
-
-  function updateUserData(userData) {
-      // Assuming you have global variables or functions to set these values
-      userId = userData.id;
-      userState = userData.state;
-      userPopulation = userData.population;
-      userCompletedProjects = userData.completedProjects;
-  }
-
-
-
-  function isValidDataFormat(data) {
-      if (!Array.isArray(data)) {
-          return false;
-      }
-      for (const entry of data) {
-          if (!Array.isArray(entry) || entry.length !== 3 || typeof entry[0] !== 'string' || typeof entry[1] !== 'string' || typeof entry[2] !== 'string') {
-              return false;
-          }
-      }
-      return true;
-  }
-
-  function importBaseDataSet(event) {
-      const files = event.target.files;
-      const jsonEditor = document.getElementById('jsonEditor'); // Get the jsonEditor element
-
-      if (!jsonEditor) {
-          console.error("jsonEditor element not found!");
-          alert("Internal error: Editor not found.");
-          return;
-      }
-
-      if (files.length === 0) {
-          alert("No file selected. Please select a file and try again.");
-          return;
-      }
-
-      const file = files[0];
-      const reader = new FileReader();
-
-      reader.onload = function(e) {
-          try {
-              const importedData = JSON.parse(e.target.result);
-              console.log("File content:", importedData);
-
-              if (isValidDataFormat(importedData.conversationData) && isValidUserDataFormat(importedData.userData)) {
-                  baseData = importedData.conversationData;
-                  updateUserData(importedData.userData);
-                  userId = importedData.userData.id;  // Update the userId variable
-                  event.target.disabled = true; // Disable the base data set input after uploading
-
-                  // Generate and display the response message in the chat window
-                  const responseMessage2 = generateResponseMessage(importedData.userData);
-                  chatWindow.innerHTML += '<p>' + responseMessage2 + '</p>';
-                  chatWindow.scrollTop = chatWindow.scrollHeight;
-
-                  // Update the jsonEditor with the imported data in a condensed format
-                  jsonEditor.value = JSON.stringify(importedData, null, 2);
-              } else {
-                  alert("The imported data does not match the expected format.");
-              }
-          } catch (error) {
-              alert("Error parsing base data set: " + error.message);
-          }
-      };
-
-      reader.readAsText(file);
-  }
-
-
-  function generateResponseMessage(userData) {
-      return `<font style="color:lightgreen;">You are now logged in ${userData.id} with state ${userData.state} and projects: ${userData.completedProjects}.</font>`;
-  }
-
-
-  function isValidUserDataFormat(data) {
-      return data && data.id && data.state && data.population && data.completedProjects;
-  }
-
-  function updateUserData(userData) {
-      // Assuming you have global variables for these
-      userId = userData.id;
-      userState = userData.state;
-      userPopulation = userData.population;
-      userCompletedProjects = userData.completedProjects;
-  }
-
-
-  function compileAndExportJSON() {
-      const jsonEditor = document.getElementById('jsonEditor');
-      const combinedData = {
-          conversationData: conversationData,
-          userData: {
-              id: userId,
-              state: userState,
-              population: userPopulation,
-              completedProjects: userCompletedProjects
-          }
-      };
-      const blob = new Blob([JSON.stringify(combinedData, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'compiledData.json';
-      a.click();
-  }
-
-  function updateConversationData() {
-      const jsonEditor = document.getElementById('jsonEditor');
-      console.log("Attempting to parse jsonEditor value:", jsonEditor.value); // Log the content you're trying to parse
-
-      try {
-          const newData = JSON.parse(jsonEditor.value);
-          console.log("Parsed newData:", newData); // Log the parsed data
-
-          if (newData.conversationData && Array.isArray(newData.conversationData)) {
-              let validEntries = 0;
-              for (const entry of newData.conversationData) {
-                  if (Array.isArray(entry) && entry.length === 3) {
-                      conversationData.push(entry);
-                      validEntries++;
-                  }
-              }
-              console.log("Number of valid entries:", validEntries); // Log the number of valid entries found
-
-              if (validEntries > 0) {
-                  updateJSONDisplay();
-                  alert("Data updated successfully!");
-              } else {
-                  alert("Invalid data format. Please ensure you have the format [question, answer, liveChange].");
-              }
-          } else {
-              alert("Invalid data format. Please ensure you have the format [question, answer, liveChange].");
-          }
-      } catch (error) {
-        console.error("Error encountered while parsing:", error); // Log the specific error message
-          alert("Error updating data: " + error.message);
-      }
-  }
-
-
-
-
-  function executeCollectiveAction(action, value, category) {
-    switch (action.toLowerCase()) {
-      case 'add':
-        postMessageToParent(value, category);
-        break;
-      case 'subtract':
-        postMessageToParent(-value, category);
-        break;
-      default:
-        console.error('Invalid action:', action);
+            updateJSONDisplay();
+        }, 1000);
     }
-  }
+}
 
-  function postMessageToParent(value, category) {
-    const message = {};
-    message[category] = value;
-    window.parent.postMessage(message, '*');
-  }
+function isRedundant(question, answer) {
+    return conversationData.some(entry => entry[0] === question && entry[1] === answer);
+}
 
-  // Usage:
-  // parseCollectiveCommand("Some chat data cmd [add] [10000] [nationalist]");
-  // parseCollectiveCommand("Another example cmd [subtract] [10000][populist]");
+function getResponse(message) {
+    let response = searchInData(message, baseData);
+    if (!response) {
+        response = searchInData(message, conversationData);
+    }
+    return response || "I can't answer that until you provide me with an Updated OS.";
+}
+
+function searchInData(message, data) {
+    const closestQuestion = getClosestQuestion(message, data);
+    return data.find(entry => entry[0] === closestQuestion)?.[1] || null;
+}
+
+function updateJSONDisplay() {
+    const jsonEditor = document.getElementById('jsonEditor');
+    const combinedData = {
+        conversationData: conversationData,
+        userData: {
+            id: userId,
+            state: state,
+            mainHeading: mainHeading,
+            populations: populations,
+            completedProjects: userCompletedProjects
+        }
+    };
+    jsonEditor.value = JSON.stringify(combinedData, null, 2);
+}
+
+function isValidDataFormat(data) {
+    if (!data || !data.conversationData || !Array.isArray(data.conversationData)) {
+        return false;
+    }
+    for (const entry of data.conversationData) {
+        if (!Array.isArray(entry) || entry.length !== 3 || typeof entry[0] !== 'string' || typeof entry[1] !== 'string' || typeof entry[2] !== 'string') {
+            return false;
+        }
+    }
+    if (!data.userData || typeof data.userData.id !== 'string' || typeof data.userData.state !== 'string' || typeof data.userData.mainHeading !== 'object' || typeof data.userData.populations !== 'object' || !Array.isArray(data.userData.completedProjects)) {
+        return false;
+    }
+    return true;
+}
+
+function updateUserData(userData) {
+    userId = userData.id;
+    state = userData.state;
+    mainHeading = userData.mainHeading;
+    populations = userData.populations;
+    userCompletedProjects = userData.completedProjects;
+    const chatWindow = document.getElementById('chatWindow');
+        chatWindow.innerHTML += '<font style="color:lightgreen;">' + userId + ' is logged in.</font><br>';
+        scrollToBottom();
+}
+
+function importBaseDataSet(event) {
+    const files = event.target.files;
+    if (files.length === 0) {
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        try {
+            const data = JSON.parse(event.target.result);
+            if (isValidDataFormat(data)) {
+                conversationData = data.conversationData;
+                updateUserData(data.userData);
+                updateJSONDisplay();
+            } else {
+                alert('Invalid data format.');
+            }
+        } catch (error) {
+            alert('Error reading the file.');
+        }
+    };
+    reader.readAsText(files[0]);
+}
+
+function sendFaxiumMessage(message, sender) {
+    const chatWindow = document.getElementById('chatWindow');
+    chatWindow.innerHTML += '<p>' + sender + ': ' + message + '</p>';
+    scrollToBottom();
+}
+
+function scrollToBottom() {
+    const chatWindow = document.getElementById('chatWindow');
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
 
 
-
-
-
-  // Initial call to start the sequence
-  setTimeout(askChatbot2, 8000);
-
-  // List of questions 'faxium' will ask
-  const collectiveQuestions = [
-      'Hello, I am the Collective AI.',
-      'You can type cmd[all] for a list of options',
-  ];
-
-  let currentQuestionIndex2 = 0;
-
-  // Function for 'faxium' to ask questions
-  function askChatbot2() {
-      chatWindow.scrollTop = chatWindow.scrollHeight;
-
-      // Add thinking animation
-      const thinkingElem = document.createElement('p');
-      thinkingElem.classList.add('thinking');
-      thinkingElem.innerHTML = 'Collective';
-      chatWindow.appendChild(thinkingElem);
-
-      setTimeout(() => {
-          // Remove thinking animation
-          chatWindow.removeChild(thinkingElem);
-
-          // Get the next question using currentQuestionIndex2
-          const nextQuestion = collectiveQuestions[currentQuestionIndex2];
-
-          // Send the next question to the chatbot as 'faxium'
-          chatWindow.innerHTML += '<p>Collective: ' + nextQuestion + '</p>';
-          chatWindow.scrollTop = chatWindow.scrollHeight;
-
-          // Increment the index for the next question
-          currentQuestionIndex2++;
-
-          // If we haven't reached the end of the questions, set another timeout to ask the next one
-          if (currentQuestionIndex2 < collectiveQuestions.length) {
-              setTimeout(askChatbot2, 2000);
-          }
-
-      }, 1000); // One-second delay
-  }
-
-
-
-
-
-
-
-  function showAllCommands() {
-      const chatWindow = document.getElementById('chatWindow');
-      const commands = [
-          'cmd[all]',
-          'cmd[add][value][category]',
-          'cmd[subtract][value][category]',
-          // Add other commands here as needed
-      ];
-      chatWindow.innerHTML += '<p>Collective: Here are the available commands:</p>';
-      for (const cmd of commands) {
-          chatWindow.innerHTML += '<p>' + cmd + '</p>';
-      }
-      chatWindow.scrollTop = chatWindow.scrollHeight;
-  }
+document.getElementById('sendButton').addEventListener('click', sendMessage);
+document.getElementById('baseDataInput').addEventListener('change', importBaseDataSet);
+document.getElementById('exportDataButton').addEventListener('click', exportData);
