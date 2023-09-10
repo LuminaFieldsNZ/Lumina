@@ -71,11 +71,6 @@
                             document.getElementById("descriptAll2").innerHTML = descriptAll2[nextPho];
                           }
 
-                          window.onload = function() {
-                            document.getElementById("descriptAll").innerHTML = descriptAll[0];
-                            document.getElementById("descriptAll2").innerHTML = descriptAll2[0];
-                                    };
-
 
                           function changeRed() {
                               xaxis += 4;
