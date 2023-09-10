@@ -20,6 +20,41 @@ html {
 body {
     -ms-overflow-style: none;
 }
+#personSVG {
+    width: 95%;
+    position: relative;
+    height: 300px; /* Assuming a height, can be adjusted */
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+#personSVG img {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%; /* Centering vertically */
+    transform: translateY(-50%); /* Centering vertically */
+    z-index: 10;
+}
+
+#personSVG .top {
+    z-index: 20;
+    left: 50%; /* Centering the top SVG */
+    transform: translateX(-50%) translateY(-50%); /* Centering the top SVG */
+}
+
+#personSVG .second {
+    z-index: 15;
+    left: calc(50% + 20px); /* Positioning the second SVG to the right, slightly overlapped by 20% */
+    transform: translateY(-50%); /* Centering vertically */
+}
+
+#personSVG .worst {
+    z-index: 10;
+    opacity: 0.5;
+    left: calc(50% - 220px); /* Positioning the worst SVG to the left, slightly overlapped by 20% */
+    transform: translateY(-50%); /* Centering vertically */
+}
 
 
         .chat-window, .json-editor {

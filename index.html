@@ -831,7 +831,7 @@
 
 
   <button class="open-modal" onclick = "nextPhoto();">Learn More</button>
-  <button class="open-modal" onclick = "document.getElementById('insurance').scrollIntoView({behavior: 'smooth'});testData();">Test Heading</button>
+  <button class="open-modal" onclick = "document.getElementById('insurance').scrollIntoView({behavior: 'smooth'});testData();updateSVGs()">Test Heading</button>
   <a id="descriptAll"></a>
   <br>
   <a id="descriptAll2"></a>
@@ -899,9 +899,15 @@
 
 </div>
       <br><br><center>
-        <button onclick="document.getElementById('insurance').scrollIntoView({behavior: 'smooth'});testData();" class="open-modal">Audit Selections</button>
+        <button onclick="document.getElementById('insurance').scrollIntoView({behavior: 'smooth'});testData();updateSVGs()" class="open-modal">Audit Selections</button>
     </center><br><br>
 
+
+    <div id="personSVG">
+      <img id="topTrait" alt="Top Trait" class="top">
+  <img id="secondTrait" alt="Second Trait" class="second">
+  <img id="worstTrait" alt="Worst Trait" class="worst">
+        </div>
 
     <div class="item-status">
                   <font id="mainHeadingTotal">0</font><font id="mainHeadingAverage">0</font>

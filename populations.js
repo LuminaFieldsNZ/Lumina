@@ -28,14 +28,22 @@ populations = {
 mainHeading = {
   explorer: 1,
   voyager: 1,
-  captain: 1,
-  merchant: 1,
-  shipwright: 1,
+  captain: 2,
+  merchant: 2,
+  shipwright: 3,
   fisherman: 1,
   smuggler: 1,
-  arbiter: 1,
+  arbiter: -1,
   sailor: 1
 };
+
+function getSVGFilename(trait, score) {
+  if (score > 0) {
+    return `svg/${trait}P.svg`;
+  } else {
+    return `svg/${trait}N.svg`;
+  }
+}
 
 function selectSVGs(mainHeading) {
   // Convert the object to an array of [key, value] pairs
@@ -44,35 +52,28 @@ function selectSVGs(mainHeading) {
   // Sort the array based on the values (scores)
   traitsArray.sort((a, b) => b[1] - a[1]);
 
-  // Get the top two highest traits
+  // Get the top two highest traits and the lowest trait
   let top1 = traitsArray[0];
   let top2 = traitsArray[1];
-
-  // Get the lowest trait
   let lowest = traitsArray[traitsArray.length - 1];
 
-  // Determine the SVG filenames based on the scores
-  let top1SVG = top1[1] > 0 ? \`positive\${top1[0].charAt(0).toUpperCase() + top1[0].slice(1)}.svg\` : \`negative\${top1[0].charAt(0).toUpperCase() + top1[0].slice(1)}.svg\`;
-  let top2SVG = top2[1] > 0 ? \`positive\${top2[0].charAt(0).toUpperCase() + top2[0].slice(1)}.svg\` : \`negative\${top2[0].charAt(0).toUpperCase() + top2[0].slice(1)}.svg\`;
-  let lowestSVG = lowest[1] > 0 ? \`positive\${lowest[0].charAt(0).toUpperCase() + lowest[0].slice(1)}.svg\` : \`negative\${lowest[0].charAt(0).toUpperCase() + lowest[0].slice(1)}.svg\`;
+  // Determine the SVG filenames using the modular function
+  let top1SVG = getSVGFilename(top1[0], top1[1]);
+  let top2SVG = getSVGFilename(top2[0], top2[1]);
+  let lowestSVG = getSVGFilename(lowest[0], lowest[1]);
 
   return [top1SVG, top2SVG, lowestSVG];
 }
 
-// Test the function with the provided example
-let mainHeading = {
-  explorer: 1,
-  voyager: 2,
-  captain: 1,
-  merchant: 3,
-  shipwright: 3,
-  fisherman: 3,
-  smuggler: 1,
-  arbiter: -1,
-  sailor: 1
-};
+function updateSVGs() {
+  let [topSVG, secondSVG, worstSVG] = selectSVGs(mainHeading);
+  document.getElementById('topTrait').src = topSVG;
+  document.getElementById('secondTrait').src = secondSVG;
+  document.getElementById('worstTrait').src = worstSVG;
+}
 
-console.log(selectSVGs(mainHeading)); // Expected output: ['positiveMerchant.svg', 'positiveShipwright.svg', 'negativeArbiter.svg']
+// Call this function whenever you want to update the SVGs
+updateSVGs();
 
 
 function updatePopulations() {
