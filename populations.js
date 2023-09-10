@@ -37,6 +37,44 @@ mainHeading = {
   sailor: 1
 };
 
+function selectSVGs(mainHeading) {
+  // Convert the object to an array of [key, value] pairs
+  let traitsArray = Object.entries(mainHeading);
+
+  // Sort the array based on the values (scores)
+  traitsArray.sort((a, b) => b[1] - a[1]);
+
+  // Get the top two highest traits
+  let top1 = traitsArray[0];
+  let top2 = traitsArray[1];
+
+  // Get the lowest trait
+  let lowest = traitsArray[traitsArray.length - 1];
+
+  // Determine the SVG filenames based on the scores
+  let top1SVG = top1[1] > 0 ? \`positive\${top1[0].charAt(0).toUpperCase() + top1[0].slice(1)}.svg\` : \`negative\${top1[0].charAt(0).toUpperCase() + top1[0].slice(1)}.svg\`;
+  let top2SVG = top2[1] > 0 ? \`positive\${top2[0].charAt(0).toUpperCase() + top2[0].slice(1)}.svg\` : \`negative\${top2[0].charAt(0).toUpperCase() + top2[0].slice(1)}.svg\`;
+  let lowestSVG = lowest[1] > 0 ? \`positive\${lowest[0].charAt(0).toUpperCase() + lowest[0].slice(1)}.svg\` : \`negative\${lowest[0].charAt(0).toUpperCase() + lowest[0].slice(1)}.svg\`;
+
+  return [top1SVG, top2SVG, lowestSVG];
+}
+
+// Test the function with the provided example
+let mainHeading = {
+  explorer: 1,
+  voyager: 2,
+  captain: 1,
+  merchant: 3,
+  shipwright: 3,
+  fisherman: 3,
+  smuggler: 1,
+  arbiter: -1,
+  sailor: 1
+};
+
+console.log(selectSVGs(mainHeading)); // Expected output: ['positiveMerchant.svg', 'positiveShipwright.svg', 'negativeArbiter.svg']
+
+
 function updatePopulations() {
     updateData(populations, 'population', 'average');
 }

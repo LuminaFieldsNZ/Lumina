@@ -77,20 +77,14 @@
                               redCircle.setAttribute('cx', xaxis);
                                newRotation += 10;
                                needleMove.setAttribute('transform', `rotate(${newRotation})`);
-                               populations.conservative += 25;
-                               populations.realist -= 10;
-                               populations.populist -= 10;
-                               populations.socialist -= 10;
+                               mainHeading.explorer += 1;
                           }
                           function changeBlue() {
                               xaxis -= 4;
                               blueCircle.setAttribute('cx', xaxis);
                               newRotation -= 10;
                               needleMove.setAttribute('transform', `rotate(${newRotation})`);
-                              populations.progressive += 20;
-                              populations.globalist += 10;
-                              populations.conservative -= 15;
-                              populations.nationalist -= 10;
+                              mainHeading.voyager += 1;
                           }
                           function changeGreen() {
                               yaxis -= 3;
@@ -99,26 +93,14 @@
                               greenCircle.setAttribute('cx', xaxis);
                               newRotation += 10;
                               needleMove.setAttribute('transform', `rotate(${newRotation})`);
-                              populations.idealist += 20;
-                              populations.populist += 10;
-                              populations.socialist -= 15;
-                              populations.nationalist -= 10;
-                              populations.conservative -= 5;
+                              mainHeading.captain += 1;
                           }
                           function changeGold() {
                               yaxis += 4;
                               goldCircle.setAttribute('cy', yaxis);
                               newRotation += 10;
                               needleMove.setAttribute('transform', `rotate(${newRotation})`);
-                              populations.economist += 6;
-                              populations.populist -= 6;
-                              populations.socialist += 2;
-                              populations.idealist += 2;
-                              populations.nationalist += 2;
-                              populations.conservative += 2;
-                              populations.globalist += 2;
-                              populations.progressive += 2;
-                              populations.realist += 2;
+                              mainHeading.merchant += 1;
                           }
                           function changeBrown() {
                               yaxis -= 3;
@@ -127,10 +109,7 @@
                               brownCircle.setAttribute('cy', yaxis);
                               newRotation += 10;
                               needleMove.setAttribute('transform', `rotate(${newRotation})`);
-                              populations.globalist += 20;
-                              populations.nationalist -= 15;
-                              populations.realist += 10;
-                              populations.conservative -= 15;
+                              mainHeading.shipwright += 1;
                           }
 
                           function changeGrey() {
@@ -138,10 +117,7 @@
                               greyCircle.setAttribute('cy', yaxis);
                               newRotation += 10;
                               needleMove.setAttribute('transform', `rotate(${newRotation})`);
-                              populations.realist += 20;
-                              populations.nationalist -= 50;
-                              populations.economist += 20;
-                              populations.idealist -= 15;
+                              mainHeading.fisherman += 1;
                           }
 
                           function changeTeal() {
@@ -151,10 +127,7 @@
                               tealCircle.setAttribute('cx', xaxis);
                               newRotation += 10;
                               needleMove.setAttribute('transform', `rotate(${newRotation})`);
-                              populations.globalist -= 10;
-                              populations.nationalist += 20;
-                              populations.economist += 20;
-                              populations.populist -= 15;
+                              mainHeading.smuggler += 1;
                           }
 
                           function changeTaupe() {
@@ -167,11 +140,11 @@
                               populations.populist += 20;
                               populations.realist += 10;
                               populations.economist -= 20;
-                              populations.progressive -= 15;
+                              mainHeading.arbiter += 1;
                           }
 
                           function changeBeige() {
-                              populations.socialist += 20;
+                              mainHeading.sailor += 1;
                           }
 
 
