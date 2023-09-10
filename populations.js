@@ -28,13 +28,13 @@ populations = {
 mainHeading = {
   explorer: 1,
   voyager: 1,
-  captain: 2,
-  merchant: 2,
-  shipwright: 3,
-  fisherman: 1,
-  smuggler: 1,
-  arbiter: -1,
-  sailor: 1
+  captain: 0,
+  merchant: 0,
+  shipwright: 0,
+  fisherman: 0,
+  smuggler: 0,
+  arbiter: 0,
+  sailor: 0
 };
 
 function getSVGFilename(trait, score) {
@@ -74,6 +74,9 @@ function updateSVGs() {
 
 // Call this function whenever you want to update the SVGs
 updateSVGs();
+
+
+
 
 
 function updatePopulations() {
