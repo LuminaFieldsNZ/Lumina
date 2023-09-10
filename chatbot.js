@@ -415,7 +415,7 @@ function getClosestQuestion(input, data) {
 }
 
 function parseCollectiveCommand(data) {
-    const collectiveRegex = /\[(add|subtract|set)\]\s*\[(\d+)\]\s*points\s*to\s*\[(\w+)\]/i;
+    const collectiveRegex = /\[(add|subtract|set)\]\s*\[(\d+)\]\s*\[(\w+)\]/i;
     const match = data.match(collectiveRegex);
 
     if (match) {
@@ -426,7 +426,7 @@ function parseCollectiveCommand(data) {
         // Post the message to the parent
         postMessageToParent(value, category);
 
-        return "Command accepted: " + action + " " + value + " points to " + category;
+        return "Command accepted: " + action + " " + value + " points in " + category;
     }
     return null; // Return null if no command is matched
 }
