@@ -415,7 +415,7 @@ function getClosestQuestion(input, data) {
 }
 
 function parseCollectiveCommand(data) {
-    const collectiveRegex = /cmd \[([a-z]+)\] \[(\d+)\] \[([a-z]+)\]/i;
+    const collectiveRegex = /\[(add|subtract|set)\]\s*\[(\d+)\]\s*points\s*to\s*\[(\w+)\]/i;
     const match = data.match(collectiveRegex);
 
     if (match) {
@@ -423,17 +423,15 @@ function parseCollectiveCommand(data) {
         const value = parseInt(match[2], 10);
         const category = match[3];
 
-        executeCollectiveAction(action, value, category);
-        return true;
-    } else if (data.toLowerCase() === 'cmd[all]') {
-        showAllCommands();
-        return true;
-    } else if (data.toLowerCase() === '587112349') {
-        exitAll();
-        return true;
+        // Post the message to the parent
+        postMessageToParent(value, category);
+
+        return "Command accepted: " + action + " " + value + " points to " + category;
     }
-    return false;
+    return null; // Return null if no command is matched
 }
+
+
 
 function sendMessage() {
     const inputElem = document.getElementById('userInput');
@@ -444,39 +442,38 @@ function sendMessage() {
     chatWindow.innerHTML += '<p>' + userId + ': ' + message + '</p>';
     scrollToBottom();
 
-    if (message.toLowerCase().includes('@faxium')) {
-        sendFaxiumMessage(message, 'User');
-    } else {
-        const thinkingElem = document.createElement('p');
-        thinkingElem.classList.add('thinking');
-        thinkingElem.innerHTML = 'Collective';
-        chatWindow.appendChild(thinkingElem);
+    const thinkingElem = document.createElement('p');
+    thinkingElem.classList.add('thinking');
+    thinkingElem.innerHTML = 'Collective';
+    chatWindow.appendChild(thinkingElem);
 
-        setTimeout(() => {
-            chatWindow.removeChild(thinkingElem);
+    setTimeout(() => {
+        chatWindow.removeChild(thinkingElem);
 
-            if (parseCollectiveCommand(message)) {
-                chatWindow.innerHTML += '<font style="color:lightgreen;">Command accepted</font>';
-                scrollToBottom();
-            } else {
-                const response = getResponse(message);
-                if (response) {
-                    chatWindow.innerHTML += '<p>Collective: ' + response + '</p>';
-                    scrollToBottom();
-                } else {
-                    chatWindow.innerHTML += '<font style="color:red;">Command failed</font>';
-                    scrollToBottom();
-                }
-            }
+        const commandResponse = parseCollectiveCommand(message);
+        let response;
+        if (commandResponse) {
+            response = commandResponse;
+            chatWindow.innerHTML += '<p>Collective: ' + commandResponse + '</p>';
+            scrollToBottom();
+        } else {
+            response = getResponse(message);
+            chatWindow.innerHTML += '<p>Collective: ' + response + '</p>';
+            scrollToBottom();
+        }
 
-            if (!isRedundant(message, response)) {
-                conversationData.push([message, response, ""]);
-            }
+        const timestamp = new Date().toISOString();
+        if (!isRedundant(message, response)) {
+            conversationData.push([message, response, timestamp]);
+        }
 
-            updateJSONDisplay();
-        }, 1000);
-    }
+        updateJSONDisplay();
+    }, 1000);
 }
+
+
+
+
 
 function isRedundant(question, answer) {
     return conversationData.some(entry => entry[0] === question && entry[1] === answer);
@@ -496,6 +493,7 @@ function searchInData(message, data) {
 }
 
 function updateJSONDisplay() {
+    console.log("updateJSONDisplay called"); // Add this line
     const jsonEditor = document.getElementById('jsonEditor');
     const combinedData = {
         conversationData: conversationData,
@@ -507,8 +505,10 @@ function updateJSONDisplay() {
             completedProjects: userCompletedProjects
         }
     };
+    console.log(combinedData); // Add this line
     jsonEditor.value = JSON.stringify(combinedData, null, 2);
 }
+
 
 function isValidDataFormat(data) {
     if (!data || !data.conversationData || !Array.isArray(data.conversationData)) {

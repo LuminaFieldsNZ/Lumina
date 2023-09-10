@@ -904,15 +904,11 @@
 
 
     <div class="item-status">
-                  <span id="mainHeadingTotal" class="status-number">0</span>
+                  <font id="mainHeadingTotal">0</font><font id="mainHeadingAverage">0</font>
                   <span class="status-type">Emotional Intelligence</span>
                 </div>
-                <div class="item-status">
-                              <span id="mainHeadingAverage" class="status-number">0</span>
-                              <span class="status-type">Avg.</span>
-                            </div>
 
-    <div class="project-boxes jsListView">
+    <div class="project-boxes jsGridView">
            <div class="project-box-wrapper">
              <div class="project-box" style="background-color: #fee4cb;">
 
@@ -1129,7 +1125,7 @@ Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connect
 
                <a id="toolMenu" style="display: none;">
                <button class="open-modal"  onclick="exportData()">Export Data</button>
-               <button class="open-modal"  onclick="updateConversationData()">Update</button>
+               <button class="open-modal"  onclick="updateJSONDisplay()">Update</button>
              </a>
               </div>
               <div class="message-box" id="toolMenu2" style="display: none;">
@@ -1177,9 +1173,8 @@ Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connect
             </div>
             </div>
             <!-- partial -->
-              <script  src="./home.js"></script>
-              <script  src="./crycella.js"></script>
-              <script  src="./navbuttons.js"></script>
+              <script  src="home.js"></script>
+              <script  src="navbuttons.js"></script>
               <script src="chatbot.js"></script>
               <script src="hpxml.js"></script>
               <script src="populations.js"></script>
