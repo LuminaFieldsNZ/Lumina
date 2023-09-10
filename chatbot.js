@@ -413,23 +413,94 @@ function getClosestQuestion(input, data) {
     }
     return closestQuestion;
 }
+const validCategories = ["captain", "voyager", "smuggler", "sailor", "arbiter", "explorer", "merchant", "shipwright", "fisherman", "populist", "nationalist", "realist", "economist", "conservative", "globalist", "idealist", "socialist", "progressive"];
+
+function getClosestCategory(input) {
+    let closestCategory = null;
+    let minDistance = Infinity;
+
+    for (const category of validCategories) {
+        const distance = levenshtein(input, category);
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestCategory = category;
+        }
+    }
+    return minDistance <= 2 ? closestCategory : null; // Only accept if the distance is 2 or less
+}
+
+function handleAction(action, value, category) {
+    if (populations.hasOwnProperty(category)) {
+        switch (action.toLowerCase()) {
+            case "add":
+                populations[category] += value;
+                break;
+            case "subtract":
+                populations[category] -= value;
+                break;
+            case "set":
+                populations[category] = value;
+                break;
+            default:
+                console.error("Invalid action:", action);
+        }
+        postMessageToParent(populations[category], category);
+    } else if (mainHeading.hasOwnProperty(category)) {
+        switch (action.toLowerCase()) {
+            case "add":
+                mainHeading[category] += value;
+                break;
+            case "subtract":
+                mainHeading[category] -= value;
+                break;
+            case "set":
+                mainHeading[category] = value;
+                break;
+            default:
+                console.error("Invalid action:", action);
+        }
+        postMessageToParent(mainHeading[category], category);
+    } else {
+        console.error("Invalid category:", category);
+    }
+}
+
 
 function parseCollectiveCommand(data) {
-    const collectiveRegex = /\[(add|subtract|set)\]\s*\[(\d+)\]\s*\[(\w+)\]/i;
-    const match = data.match(collectiveRegex);
+    const matches = data.match(/\[(\w+|\d+)\]/g);
 
-    if (match) {
-        const action = match[1];
-        const value = parseInt(match[2], 10);
-        const category = match[3];
-
-        // Post the message to the parent
-        postMessageToParent(value, category);
-
-        return "Command accepted: " + action + " " + value + " points in " + category;
+    if (!matches || matches.length !== 3) {
+        return null;
     }
-    return null; // Return null if no command is matched
+
+    let action, value, categoryInput;
+
+    for (const match of matches) {
+        const content = match.slice(1, -1);
+        if (["add", "subtract", "set"].includes(content.toLowerCase())) {
+            action = content;
+        } else if (!isNaN(content)) {
+            value = parseInt(content, 10);
+        } else {
+            categoryInput = content;
+        }
+    }
+
+    if (!action || !value || !categoryInput) {
+        return null;
+    }
+
+    const category = getClosestCategory(categoryInput.toLowerCase());
+
+    if (!category) {
+        return "Invalid category: " + categoryInput;
+    }
+
+    handleAction(action, value, category);
+
+    return "Command accepted: " + action + " " + value + " points in " + category;
 }
+
 
 
 
@@ -463,6 +534,7 @@ function sendMessage() {
         }
 
         const timestamp = new Date().toISOString();
+
         if (!isRedundant(message, response)) {
             conversationData.push([message, response, timestamp]);
         }
