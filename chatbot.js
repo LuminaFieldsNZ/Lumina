@@ -647,6 +647,7 @@ function updateUserData(userData) {
 }
 
 function importBaseDataSet(event) {
+  startLoop();
     const files = event.target.files;
     if (files.length === 0) {
         return;
@@ -670,6 +671,7 @@ function importBaseDataSet(event) {
     reader.readAsText(files[0]);
 }
 
+
 function sendFaxiumMessage(message, sender) {
     const chatWindow = document.getElementById('chatWindow');
     chatWindow.innerHTML += '<p>' + sender + ': ' + message + '</p>';
@@ -687,3 +689,31 @@ function scrollToBottom() {
     message[category] = value;
     window.parent.postMessage(message, '*');
   }
+
+
+  let intervalId;
+
+  function startLoop() {
+      intervalId = setInterval(function() {
+          const iframes = document.querySelectorAll('iframe');
+          for (let iframe of iframes) {
+              iframe.contentWindow.postMessage({ userId: userId, state: state }, '*');
+          }
+      }, 1000); // 1 second
+  }
+
+  // Start the loop initially
+  startLoop();
+
+  window.addEventListener('message', function(event) {
+      if (event.data.action === 'stopLoop') {
+          clearInterval(intervalId);
+          console.log("Loop stopped");
+      }
+      if (event.data.action === 'exportData') {
+          exportData();
+      }
+      if (event.data.action === 'updateJSONDisplay') {
+          updateJSONDisplay();
+      }
+  }, false);
