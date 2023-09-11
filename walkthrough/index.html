@@ -2,307 +2,35 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Profile</title>
+  <title>collective</title>
   <link rel="stylesheet" href="./style.css">
 
 </head>
 <body>
+
+  <div class="new-window">
+    <button class="open-modal" onclick="downloadStufs()"><span>Download Base</span></button>
+        <button class="open-modal" onclick="updateNow()"><span>Update</span></button>
+        <button class="open-modal" onclick="exportSave()"><span>Save & Export</span></button>
+
+        <br>
+
+    <h1 id="userID2">
+      No login
+    </h1><span id="state2">Pending Login</span><br>
+
+    <br><hr><br>
+     To download your base.json file, click download in the left.
+     On your Pulse Network dashboard, under the Chat window you can Upload  this file.
+     All of your stats will now be upgraded to base level 1.
+     As you continue your learning adventure, be sure to Save & Export so we can remember your progress each session
+    <div id="conversationData2"> </div>
+  </div>
+
 <!-- partial:index.partial.html -->
-<!DOCTYPE html>
-<html lang='en'>
-	<head>
-		<title> cube </title>
-		<meta charset='utf-8'>
-		<meta name='description' content='description...'>
-		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-		<meta http-equiv='X-UA-Compatible' content='ie=edge'>
-		<!-- <link rel='icon' type='image/png' href='images/favicon.png'>   -->
-		<link href="https://fonts.googleapis.com/css?family=Chakra+Petch|Saira" rel="stylesheet">
-	</head>
-	<body oncontextmenu="return false;">
-
-		<div class="tuto-screen">
-			<p class="visible">Welcome to Pulse Storage.</p>
-			<button><span>skip</span></button>
-			<p>Your  stats  will be displayed here, You can select your avatar by first clicking on them.</p>
-			<p>Then to move them, just right-click anywhere on the map.</p>
-			<p>To download your base.json file, click download in the left.</p>
-			<p>On your Pulse Network dashboard, under the Chat window you can Upload  this file.</p>
-			<p>All of your stats will now be upgraded to base level 1. </p>
-			<p>As you continue your learning adventure, be sure to Save & Export so we can remember your progress each session</p>
-		</div>
-
-		<div class="shut-up">
-			<a>Stop music</a>
-		</div>
-
-		<div class="hud-container">
-			<div class="hud pannel-container-1">
-				<div class="hud pannel-inner-1">
-					<div class="btn-group">
-						<button class="active" title="Move"><span>
-								<div class="move">
-									<div class="arrow-bar"></div>
-									<div class="arrow-corner"></div>
-								</div>
-							</span></button>
-							<button title="Stop"><span>
-								<div class="stop">
-									<div class="bar-1"></div>
-									<div class="bar-2"></div>
-								</div>
-							</span></button>
-						<button title="Hold Position"><span>
-							<div class="hold-position">
-								<div class="bar-1"></div>
-								<div class="bar-2"></div>
-								<div class="circle"></div>
-							</div>
-
-						</span></button>
-						<button title="Attack"><span>
-							<div class="attack">
-								<div class="bar-1"></div>
-								<div class="bar-2"></div>
-								<div class="box"></div>
-							</div>
-
-						</span></button>
-						<button title="Patrol"><span>
-							<div class="patrol">
-								<div class="bar"></div>
-								<div class="corner-1"></div>
-								<div class="corner-2"></div>
-							</div>
-
-						</span></button>
-					</div>
-
-					<div class="waves"></div>
-					<div class="stripes"></div>
-					<div class="blue-grad"></div>
-				</div>
-			</div>
-			<div class="hud pannel-container-2">
-				<div class="hud pannel-inner-2">
-					<button onclick="updateNow()"><span>Update</span></button>
-					<button onclick="exportSave()"><span>Save & Export</span></button>
-          <button><span id="state2">Pending Login</span></button>
-					<div class="waves"></div>
-					<div class="stripes"></div>
-					<div class="blue-grad"></div>
-				</div>
-			</div>
-			<div class="hud pannel-container-3">
-				<div class="hud pannel-inner-3">
-					<button id="userID2">
-						No login
-					</button>
-				</div>
-				<div class="waves"></div>
-				<div class="stripes"></div>
-				<div class="blue-grad"></div>
-			</div>
-		</div>
-
-		<!-- <div class="shadow"></div> -->
-		<div class="grid">
-			<div class="vertical-stripes"></div>
-			<div class="horizontal-stripes"></div>
-		</div>
-
-		<div class="move-indicator">
-			<div class="triangle"></div>
-			<div class="triangle"></div>
-			<div class="triangle"></div>
-			<div class="triangle"></div>
-		</div>
-
-		<!-- here is the frame in wich you see the trooper when clicked -->
-
-		<div class="frame">
-			<div class="interferences"></div>
-			<div class="character framed" style="">
-				<div class="head">
-					<div class="face face-1"></div>
-					<div class="face face-2"></div>
-					<div class="face face-3"></div>
-					<div class="face face-4"></div>
-					<div class="face face-5"></div>
-					<div class="face face-6"></div>
-				</div>
-				<div class="body">
-					<div class="face face-1"></div>
-					<div class="face face-2"></div>
-					<div class="face face-3"></div>
-					<div class="face face-4"></div>
-					<div class="face face-5"></div>
-					<div class="face face-6"></div>
-				</div>
-				<div class="left-arm">
-					<div class="face face-1"></div>
-					<div class="face face-2"></div>
-					<div class="face face-3"></div>
-					<div class="face face-4"></div>
-					<div class="face face-5"></div>
-					<div class="face face-6"></div>
-				</div>
-				<div class="right-arm">
-					<div class="face face-1"></div>
-					<div class="face face-2"></div>
-					<div class="face face-3"></div>
-					<div class="face face-4"></div>
-					<div class="face face-5"></div>
-					<div class="face face-6"></div>
-				</div>
-			</div>
-		</div>
-
-		<!-- little divs that enables the wave effect to simulate voice recording... yay, it hurts -->
-
-		<div class="voice-indicator animated">
-			<div class="voice-inner-1" style="animation-delay: 0.05s"></div>
-			<div class="voice-inner-2" style="animation-delay: 0.1s"></div>
-			<div class="voice-inner-3" style="animation-delay: 0.15s"></div>
-			<div class="voice-inner-4" style="animation-delay: 0.2s"></div>
-			<div class="voice-inner-5" style="animation-delay: 0.25s"></div>
-			<div class="voice-inner-6" style="animation-delay: 0.3s"></div>
-			<div class="voice-inner-7" style="animation-delay: 0.35s"></div>
-			<div class="voice-inner-8" style="animation-delay: 0.4s"></div>
-			<div class="voice-inner-9" style="animation-delay: 0.45s"></div>
-			<div class="voice-inner-10" style="animation-delay: 0.5s"></div>
-			<div class="voice-inner-11" style="animation-delay: 0.55s"></div>
-			<div class="voice-inner-12" style="animation-delay: 0.6s"></div>
-			<div class="voice-inner-13" style="animation-delay: 0.65s"></div>
-			<div class="voice-inner-14" style="animation-delay: 0.7s"></div>
-			<div class="voice-inner-15" style="animation-delay: 0.75s"></div>
-			<div class="voice-inner-16" style="animation-delay: 0.8s"></div>
-			<div class="voice-inner-17" style="animation-delay: 0.85s"></div>
-			<div class="voice-inner-18" style="animation-delay: 0.9s"></div>
-			<div class="voice-inner" style="animation-delay: 0.95s"></div>
-			<div class="voice-inner-19" style="animation-delay: 1s"></div>
-			<div class="voice-inner-20" style="animation-delay: 1.05s"></div>
-			<div class="voice-inner-21" style="animation-delay: 1.1s"></div>
-			<div class="voice-inner-22" style="animation-delay: 1.15s"></div>
-			<div class="voice-inner-23" style="animation-delay: 1.2s"></div>
-			<div class="voice-inner-24" style="animation-delay: 1.25s"></div>
-			<div class="voice-inner-25" style="animation-delay: 1.3s"></div>
-			<div class="voice-inner-26" style="animation-delay: 1.35s"></div>
-			<div class="voice-inner-27" style="animation-delay: 1.4s"></div>
-			<div class="voice-inner-28" style="animation-delay: 1.45s"></div>
-			<div class="voice-inner-29" style="animation-delay: 1.5s"></div>
-			<div class="voice-inner-30" style="animation-delay: 1.55s"></div>
-			<div class="voice-inner-31" style="animation-delay: 1.6s"></div>
-			<div class="voice-inner-32" style="animation-delay: 1.65s"></div>
-			<div class="voice-inner-33" style="animation-delay: 1.7s"></div>
-			<div class="voice-inner-34" style="animation-delay: 1.75s"></div>
-			<div class="voice-inner-35" style="animation-delay: 1.8s"></div>
-			<div class="voice-inner-36" style="animation-delay: 1.85s"></div>
-			<div class="voice-inner-37" style="animation-delay: 1.9s"></div>
-			<div class="voice-inner-38" style="animation-delay: 1.95s"></div>
-			<div class="voice-inner-39" style="animation-delay: 2s"></div>
-			<div class="voice-inner-40" style="animation-delay: 2.05s"></div>
-			<div class="voice-inner-41" style="animation-delay: 2.1s"></div>
-			<div class="voice-inner-42" style="animation-delay: 2.15s"></div>
-			<div class="voice-inner-43" style="animation-delay: 2.2s"></div>
-			<div class="voice-inner-44" style="animation-delay: 2.25s"></div>
-			<div class="voice-inner-45" style="animation-delay: 2.3s"></div>
-			<div class="voice-inner-46" style="animation-delay: 2.35s"></div>
-			<div class="voice-inner-47" style="animation-delay: 2.4s"></div>
-			<div class="voice-inner-48" style="animation-delay: 2.45s"></div>
-			<div class="voice-inner-49" style="animation-delay: 2.5s"></div>
-			<div class="voice-inner-50" style="animation-delay: 2.55s"></div>
-			<div class="voice-inner-51" style="animation-delay: 2.6s"></div>
-			<div class="voice-inner-52" style="animation-delay: 2.65s"></div>
-			<div class="voice-inner-53" style="animation-delay: 2.7s"></div>
-			<div class="voice-inner-54" style="animation-delay: 2.75s"></div>
-			<div class="voice-inner-55" style="animation-delay: 2.8s"></div>
-			<div class="voice-inner-56" style="animation-delay: 2.85s"></div>
-			<div class="voice-inner-57" style="animation-delay: 2.9s"></div>
-			<div class="voice-inner-58" style="animation-delay: 2.95s"></div>
-			<div class="voice-inner-59" style="animation-delay: 3s"></div>
-			<div class="voice-inner-60" style="animation-delay: 3.05s"></div>
-		</div>
-
-		<!-- and here is the sexy boy -->
-
-		<div class="character" style="transform: scale(0.5) translate(100vw, 100vh);">
-			<div class="z-rotation">
-				<div class="y-rotation">
-					<div class="x-rotation">
-						<div class="head">
-							<div class="face face-1"></div>
-							<div class="face face-2"></div>
-							<div class="face face-3"></div>
-							<div class="face face-4"></div>
-							<div class="face face-5"></div>
-							<div class="face face-6"></div>
-						</div>
-						<div class="body">
-							<div class="face face-1"></div>
-							<div class="face face-2"></div>
-							<div class="face face-3"></div>
-							<div class="face face-4"></div>
-							<div class="face face-5"></div>
-							<div class="face face-6"></div>
-						</div>
-						<div class="left-arm">
-							<div class="face face-1"></div>
-							<div class="face face-2"></div>
-							<div class="face face-3"></div>
-							<div class="face face-4"></div>
-							<div class="face face-5"></div>
-							<div class="face face-6"></div>
-						</div>
-						<div class="right-arm">
-							<div class="face face-1"></div>
-							<div class="face face-2"></div>
-							<div class="face face-3"></div>
-							<div class="face face-4"></div>
-							<div class="face face-5"></div>
-							<div class="face face-6"></div>
-						</div>
-						<div class="left-leg">
-							<div class="face face-1"></div>
-							<div class="face face-2"></div>
-							<div class="face face-3"></div>
-							<div class="face face-4"></div>
-							<div class="face face-5"></div>
-							<div class="face face-6"></div>
-						</div>
-						<div class="right-leg">
-							<div class="face face-1"></div>
-							<div class="face face-2"></div>
-							<div class="face face-3"></div>
-							<div class="face face-4"></div>
-							<div class="face face-5"></div>
-							<div class="face face-6"></div>
-						</div>
-						<div class="left-foot">
-							<div class="face face-1"></div>
-							<div class="face face-2"></div>
-							<div class="face face-3"></div>
-							<div class="face face-4"></div>
-							<div class="face face-5"></div>
-							<div class="face face-6"></div>
-						</div>
-						<div class="right-foot">
-							<div class="face face-1"></div>
-							<div class="face face-2"></div>
-							<div class="face face-3"></div>
-							<div class="face face-4"></div>
-							<div class="face face-5"></div>
-							<div class="face face-6"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	</body>
-</html>
+<canvas id="canvas"></canvas>
 <!-- partial -->
-  <script  src="./script.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js'></script><script  src="./script.js"></script>
 
 </body>
 </html>

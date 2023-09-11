@@ -693,11 +693,12 @@ function scrollToBottom() {
 
   let intervalId;
 
+
   function startLoop() {
       intervalId = setInterval(function() {
           const iframes = document.querySelectorAll('iframe');
           for (let iframe of iframes) {
-              iframe.contentWindow.postMessage({ userId: userId, state: state }, '*');
+              iframe.contentWindow.postMessage({ userId: userId, state: state, conversationData: conversationData }, '*');
           }
       }, 1000); // 1 second
   }
