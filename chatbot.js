@@ -687,7 +687,3 @@ function scrollToBottom() {
     message[category] = value;
     window.parent.postMessage(message, '*');
   }
-
-document.getElementById('sendButton').addEventListener('click', sendMessage);
-document.getElementById('baseDataInput').addEventListener('change', importBaseDataSet);
-document.getElementById('exportDataButton').addEventListener('click', exportData);
