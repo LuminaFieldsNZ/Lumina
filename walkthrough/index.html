@@ -1,49 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Walkthrough</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./style.css">
-<link rel="stylesheet" href="./loader.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebRTC Chat</title>
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<div class="screen">
-  <div class="screen-image"></div>
-  <div class="screen-overlay"></div>
-  <div class="screen-content">
-      <div class="loader">
-              <div class="square"></div>
-              <div class="square"></div>
-              <div class="square last"></div>
-              <div class="square clear"></div>
-              <div class="square"></div>
-              <div class="square last"></div>
-              <div class="square clear"></div>
-              <div class="square "></div>
-              <div class="square last"></div>
-            </div>
-    <div class="screen-user">
-      <span class="namez" data-value="Introduction">Introduction</span>
-      <a class="link" onclick="parent.postMessage({ action: 'changeSrc', newSrc: 'walkthrough/step2.html' }, '*');">
-        <b><hr>
-        The JSON file contains structured data that the Collective uses to interact with users. It consists of two main sections: <font style="color:orange;">conversationData</font> and <font style="color:orange;">userData</font>.
-<hr>
-<font style="color:lightblue;">Next Page</font>
-      </b></a>
-    </div>
-  </div>
-</div>
+    <textarea id="chatBox" rows="10" cols="30" readonly></textarea><br>
+    <input type="text" id="messageInput">
+    <button onclick="sendMessage()">Send</button>
 
-<div id="blob"></div>
-<div id="blur"></div>
+    <script>
+        let localConnection = new RTCPeerConnection();
+        let sendChannel = localConnection.createDataChannel('sendDataChannel');
+        let chatBox = document.getElementById('chatBox');
 
+        // Placeholder for the signaling mechanism
+        // In a real-world scenario, you'd use WebSockets or another method to exchange these messages
+        function sendSignalingMessage(message) {
+            // Placeholder: Send this message to the other peer
+        }
 
-  <script  src="./script.js"></script>
+        localConnection.onicecandidate = event => {
+            if (event.candidate) {
+                sendSignalingMessage(event.candidate);
+            }
+        };
 
+        sendChannel.onopen = event => {
+            console.log('Data channel is open and ready to be used.');
+        };
+
+        sendChannel.onmessage = event => {
+            chatBox.value += 'Peer: ' + event.data + '\n';
+        };
+
+        function sendMessage() {
+            let messageInput = document.getElementById('messageInput');
+            let message = messageInput.value;
+            sendChannel.send(message);
+            chatBox.value += 'You: ' + message + '\n';
+            messageInput.value = '';
+        }
+    </script>
 </body>
 </html>
