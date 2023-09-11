@@ -5,7 +5,24 @@ const config = {
   cols: 7 };
 
 
-// UTILS
+  function stepOne() {
+    alert("winner");
+  }
+
+
+  function invertColors(ctx, x, y, width, height) {
+    const imageData = ctx.getImageData(x, y, width, height);
+    const data = imageData.data;
+    for (let i = 0; i < data.length; i += 4) {
+      data[i] = 155 - data[i];       // red
+      data[i + 1] = 155 - data[i + 1]; // green
+      data[i + 2] = 155 - data[i + 2]; // blue
+    }
+    ctx.putImageData(imageData, x, y);
+  }
+
+
+
 
 const randomRange = (min, max) => min + Math.random() * (max - min);
 
@@ -92,7 +109,7 @@ class Peep {
   {
     this.image = image;
     this.setRect(rect);
-
+this.isSpecial = false; // Add this line
     this.x = 0;
     this.y = 0;
     this.anchorY = 0;
@@ -112,13 +129,22 @@ class Peep {
 
   }
 
+
   render(ctx) {
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.scale(this.scaleX, 1);
-    ctx.drawImage(...this.drawArgs);
-    ctx.restore();
-  }}
+  ctx.save();
+  ctx.translate(this.x, this.y);
+  ctx.scale(this.scaleX, 1);
+  if (this.isSpecial) {
+    ctx.globalCompositeOperation = "difference";
+    ctx.fillStyle = "white";
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+  }
+  ctx.drawImage(...this.drawArgs);
+  ctx.globalCompositeOperation = "source-over"; // Reset to default
+  ctx.restore();
+}
+}
+
 
 
 // MAIN
@@ -194,10 +220,25 @@ function resize() {
 
 function initCrowd() {
   while (availablePeeps.length) {
-    // setting random tween progress spreads the peeps out
     addPeepToCrowd().walk.progress(Math.random());
   }
+
+  // Set one random peep as the special peep
+  const specialPeep = getRandomFromArray(crowd);
+  specialPeep.isSpecial = true;
 }
+
+canvas.addEventListener('click', function(event) {
+  const rect = canvas.getBoundingClientRect();
+  const x = (event.clientX - rect.left) * devicePixelRatio;
+  const y = (event.clientY - rect.top) * devicePixelRatio;
+  for (let peep of crowd) {
+    if (peep.isSpecial && x >= peep.x && x <= peep.x + peep.width && y >= peep.y && y <= peep.y + peep.height) {
+      stepOne();
+      break;
+    }
+  }
+});
 
 function addPeepToCrowd() {
   const peep = removeRandomFromArray(availablePeeps);

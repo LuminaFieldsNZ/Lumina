@@ -378,7 +378,7 @@ setTimeout(function() {
     // Remove the "thinking" element
     chatWindow.removeChild(thinkingElem);
 
-    chatWindow.innerHTML += '<p>Collective: Hello, I\'m your AI assistant...<br>use the field below to chat or type commands such as: <font style="color: lightblue;">cmd [all]</font> to view a complete list.</p>';
+    chatWindow.innerHTML += '<p>Collective: Hello, I\'m your AI assistant... use the field below to chat or type commands such as: <font style="color: lightblue;">cmd [all]</font> to view a complete list.</p>';
     scrollToBottom();
 }, 4300);
 
