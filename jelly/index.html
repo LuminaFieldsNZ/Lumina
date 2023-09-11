@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Psychedelic Jellyfish Shader from Single Icosahedron</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<canvas id="canvas" />
+
+<script type="x-shader" id="shader_vertex">
+#define PI 3.1415926535897932384626433832795
+
+const float TAU = PI * 2.0;
+
+uniform float u_time;
+
+varying vec3 v_mod_pos;
+varying vec3 v_orig_pos;
+varying float v_tail_bumps;
+varying float v_head_swirl;
+varying float v_head_bumps;
+
+float get_area(float begin, float end, float value) {
+  return step(begin, value) - step(end, value);
+}
+
+float get_normalized_range(float begin, float end, float value) {
+  float range = end - begin;
+  return value / range;
+}
+
+void main() {
+
+  vec4 model_position = modelMatrix * vec4(position, 1.0);
+
+  // the original position of the vertices
+  vec3 orig_pos = model_position.xyz;
+  // the modified position of the vertices
+  vec3 mod_pos = model_position.xyz;
+
+  // scale down bottom part
+  mod_pos.xz *= 1.0 - smoothstep(0.05, -0.4, orig_pos.y) * 0.2;
+  // pinch tail
+  mod_pos.xz *= 1.0 - smoothstep(0.05, -1.0, orig_pos.y);
+  // stretch tail
+  mod_pos.y *= 1.0 + smoothstep(0.0, -1.0, orig_pos.y) * 2.0;
+
+  // curl tail in beneath head
+  float area_curled_under_head = smoothstep(0.1, 0.0, orig_pos.y) - smoothstep(-0.1, 0.0, orig_pos.y);
+  float area_curled_under_head_position = clamp(get_normalized_range(0.1, -0.1, orig_pos.y), 0.0, 1.0);
+  mod_pos.y += sin(area_curled_under_head_position * PI * 0.5) * area_curled_under_head * 0.5;
+
+  float swim_speed = u_time * 2.0 + sin(u_time * 2.0 + PI) * 0.5 + snoise2(vec2(u_time * 0.02, 0.0));
+
+  // entire swimming motion
+  mod_pos.y += sin(swim_speed + mod_pos.y + PI * 0.4) * 0.15;
+
+  // wiggly head swimming motion
+  mod_pos.x += sin(swim_speed * 0.5 + mod_pos.y * 3.5) * 0.15 * clamp(orig_pos.y - 0.3, 0.0, 1.0) * smoothstep(-0.6,-0.4, orig_pos.y);
+  mod_pos.z += cos(swim_speed * 0.5 + mod_pos.y * 3.7) * 0.15 * clamp(orig_pos.y - 0.3, 0.0, 1.0) * smoothstep(-0.6,-0.4, orig_pos.y);
+
+  // head swimming motion
+  float swimming_head_area = 1.0 - smoothstep(-0.2, -0.4, orig_pos.y);
+  mod_pos.x *= 1.0 + sin(swim_speed + orig_pos.y) * (swimming_head_area * 0.15 + (0.1 * orig_pos.y));
+  mod_pos.z *= 1.0 + sin(swim_speed + orig_pos.y) * (swimming_head_area * 0.15 + (0.1 * orig_pos.y));
+  mod_pos.y *= 1.0 + sin(swim_speed + orig_pos.y + PI * 0.75) * swimming_head_area * 0.1;
+
+  // head swirl
+  float head_swirl_angle = atan(orig_pos.x, orig_pos.z);
+  float head_swirl = head_swirl_angle;
+  head_swirl += PI;
+  head_swirl /= TAU;
+  head_swirl = 0.5 + sin(head_swirl * TAU * 8.0) * 0.5;
+  head_swirl *= smoothstep(1.0, 0.75, orig_pos.y) - smoothstep(0.4, 0.0, orig_pos.y);
+  mod_pos *= 1.0 + 0.05 * head_swirl;
+  v_head_swirl = head_swirl;
+
+  // head bumps
+  vec4 head_bumps_vector = vec4(orig_pos.xz * 8.0 * (2.0 - orig_pos.y), orig_pos.y * 4.0 + mod_pos.y * 0.25, swim_speed * 0.1);
+  float head_bumps_noise = snoise4(head_bumps_vector);
+  float head_bumps = abs(head_bumps_noise) * smoothstep(0.1, 0.125, orig_pos.y);
+  v_head_bumps = head_bumps;
+  mod_pos *= 1.0 + head_bumps * 0.025;
+
+  // tail swimming motion
+  float swimming_tail_area = smoothstep(-0.3, -1.0, orig_pos.y);
+  mod_pos.y *= 1.0 + sin(swim_speed + orig_pos.y + PI) * swimming_tail_area * 0.1;
+
+  float spin_amount = 0.5 + sin(swim_speed + orig_pos.y - PI) * 0.5;
+
+  // spin tail
+  mod_pos.x += sin(exp(orig_pos.y * 0.25) * PI * 24.0 + u_time * 4.0) * smoothstep(0.0, -1.0, orig_pos.y) * 0.3 * spin_amount;
+  mod_pos.z += cos(exp(orig_pos.y * 0.25) * PI * 16.0 + u_time * 4.0) * smoothstep(0.0, -1.0, orig_pos.y) * 0.3 * spin_amount;
+
+  float tail_noise_amount = smoothstep(0.0, -0.5, orig_pos.y);
+
+  // make the spin more unpredictable and WaVy
+  vec4 spin_noise_vector = vec4(mod_pos.xz + spin_amount, mod_pos.y + spin_amount + u_time * 0.5, u_time * 0.05);
+  float spin_noise = snoise4(spin_noise_vector) * tail_noise_amount * mod_pos.y;
+  mod_pos.xz *= 1.0 + spin_noise;
+
+  // add some bumps to the tail
+  vec4 tail_bump_vector = vec4(orig_pos.xz * 8.0, orig_pos.y * 2.0, u_time * 0.2);
+  float tail_bump_noise = snoise4(tail_bump_vector);
+  float tail_bumps = abs(tail_bump_noise * tail_noise_amount);
+  mod_pos.x += sin(tail_bumps * PI) * 0.02;
+  mod_pos.z += cos(tail_bumps * PI) * 0.02;
+
+  // entire swimming motion
+  mod_pos.y += sin(swim_speed + mod_pos.y + PI * 0.4) * 0.25;
+
+  vec4 view_position = viewMatrix * vec4(mod_pos, 1.0);
+  vec4 projected_position = projectionMatrix * view_position;
+
+  gl_Position = projected_position;
+
+  v_mod_pos = mod_pos;
+  v_orig_pos = orig_pos;
+  v_tail_bumps = tail_bumps;
+
+}
+</script>
+
+<script type="x-shader" id="shader_fragment">
+uniform float u_time;
+
+varying vec3 v_mod_pos;
+varying vec3 v_orig_pos;
+varying float v_tail_bumps;
+varying float v_head_swirl;
+varying float v_head_bumps;
+
+#define PI 3.1415926535897932384626433832795
+
+const float TAU = PI * 2.0;
+
+const vec3 center = vec3(0.0, 0.0, 0.0);
+
+float get_area(float begin, float end, float value) {
+  return step(begin, value) - step(end, value);
+}
+ 
+float get_normalized_range(float begin, float end, float value) {
+  float range = end - begin;
+  return value / range;
+}
+
+void main() {
+
+  vec3 color = vec3(0.0, 0.0, 0.0);
+  float alpha = 1.0;
+
+  // head gradient
+  float head_area = smoothstep(0.2, 0.25, v_orig_pos.y);
+  float head_area_position = get_normalized_range(0.2, 1.0, v_orig_pos.y);
+  float clamped_head_area_position = clamp(head_area_position, 0.0, 1.0);
+  color += clamped_head_area_position;
+
+  // threads
+  // float threads_area = (
+  //   smoothstep(0.1, 0.05, v_orig_pos.y) - 
+  //   smoothstep(-0.05, -0.1, v_orig_pos.y)
+  // );
+  // float threads_area_position = get_normalized_range(-0.1, 0.1, v_orig_pos.y);
+  // float clamped_threads_area_position = clamp(threads_area_position, 0.0, 1.0);
+  // color += threads_area;
+  
+  color *= v_head_swirl * 0.75;
+  color += v_head_bumps * 0.25;
+
+  // threads
+  float threads_area = smoothstep(0.15, 0.1, v_orig_pos.y) - smoothstep(0.0, -0.1, v_orig_pos.y);
+  vec3 threads_vector = vec3(
+    v_orig_pos.x * 16.0,
+    v_orig_pos.z * 16.0,
+    v_orig_pos.y
+  );
+  float threads_noise = (1.0 - abs(snoise3(threads_vector))) * threads_area * smoothstep(-0.1, 0.15, v_orig_pos.y);
+  color += threads_noise * 0.5;
+
+  color.b += threads_noise;
+  color.g += threads_noise * sin(v_mod_pos.y) * threads_area;
+  color.b += (smoothstep(0.75, 0.1, v_orig_pos.y) - smoothstep(0.1, 0.0, v_orig_pos.y)) * 0.25;
+
+  // tail bump gradients
+  float tail_bumps_area = smoothstep(0.0, -0.2, v_orig_pos.y);
+  color += v_tail_bumps * 1.25 * smoothstep(-1.5, -0.5, v_mod_pos.y) * tail_bumps_area;
+
+
+  // color.r += 0.2 + sin(v_orig_pos.y + u_time * 0.2) * 0.2;
+
+  float lighten_on_top = smoothstep(-0.5, 1.5, max(0.0, v_mod_pos.y) * max(0.0, v_orig_pos.y));
+  color.r += lighten_on_top * 0.8;
+  color.g += lighten_on_top * 0.2;
+  color.b += lighten_on_top * 0.4;
+
+  color.r *= 1.0 + sin(smoothstep(0.5, 1.0, v_mod_pos.y) * PI) * 0.75;
+  color.g *= 1.0 + sin(smoothstep(0.5, 1.0, v_mod_pos.y) * PI) * 0.25;
+
+  color.b *= 1.0 + v_head_bumps * 2.0;
+  color.g *= 1.0 + v_head_bumps * (1.65 + max(0.0, v_orig_pos.y));
+
+  color.b += smoothstep(0.7, 0.0, distance(v_mod_pos.xz, v_orig_pos.xz)) * (v_tail_bumps + 2.0) * tail_bumps_area;
+  color.g += smoothstep(0.5, 0.0, distance(v_mod_pos.xz, v_orig_pos.xz)) * (v_tail_bumps + 1.0) * tail_bumps_area;
+  color.r += smoothstep(0.5, 0.0, distance(v_mod_pos.xz, v_orig_pos.xz)) * (v_tail_bumps * 4.0) * tail_bumps_area;
+
+  color.rgb += v_mod_pos.y * 0.1 * tail_bumps_area;
+
+  color.r += v_tail_bumps * 0.25;
+  color.b += v_tail_bumps * 0.55;
+  color.g += v_tail_bumps * 0.35;
+  // color.b *= 1.0 + tail_bumps_area * abs(min(v_mod_pos.y, 0.0));
+  // color.r -= tail_bumps_area * v_mod_pos.y * 0.5;
+  // color.g *= 1.0 + tail_bumps_area * distance(v_mod_pos.xz, vec2(0.0,0.0));
+
+  alpha = clamp(exp(color.b - 0.2), 0.0, 1.0);
+  // alpha *= 1.0 - smoothstep(-0.3, -0.8, v_orig_pos.y) + tail_bumps_area * v_tail_bumps * 2.0;
+
+  gl_FragColor = vec4(color, alpha);
+}
+</script>
+
+<script type="x-shader" id="simplexNoise">
+	
+vec3 permute2(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+
+float snoise2(vec2 v){
+  const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+           -0.577350269189626, 0.024390243902439);
+  vec2 i  = floor(v + dot(v, C.yy) );
+  vec2 x0 = v -   i + dot(i, C.xx);
+  vec2 i1;
+  i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+  vec4 x12 = x0.xyxy + C.xxzz;
+  x12.xy -= i1;
+  i = mod(i, 289.0);
+  vec3 p = permute2( permute2( i.y + vec3(0.0, i1.y, 1.0 ))
+  + i.x + vec3(0.0, i1.x, 1.0 ));
+  vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy),
+    dot(x12.zw,x12.zw)), 0.0);
+  m = m*m ;
+  m = m*m ;
+  vec3 x = 2.0 * fract(p * C.www) - 1.0;
+  vec3 h = abs(x) - 0.5;
+  vec3 ox = floor(x + 0.5);
+  vec3 a0 = x - ox;
+  m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+  vec3 g;
+  g.x  = a0.x  * x0.x  + h.x  * x0.y;
+  g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+  return 130.0 * dot(m, g);
+}
+	
+	//	Simplex 3D Noise 
+//	by Ian McEwan, Ashima Arts
+//
+vec4 permute3(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
+vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
+
+float snoise3(vec3 v){ 
+  const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
+  const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
+
+// First corner
+  vec3 i  = floor(v + dot(v, C.yyy) );
+  vec3 x0 =   v - i + dot(i, C.xxx) ;
+
+// Other corners
+  vec3 g = step(x0.yzx, x0.xyz);
+  vec3 l = 1.0 - g;
+  vec3 i1 = min( g.xyz, l.zxy );
+  vec3 i2 = max( g.xyz, l.zxy );
+
+  //  x0 = x0 - 0. + 0.0 * C 
+  vec3 x1 = x0 - i1 + 1.0 * C.xxx;
+  vec3 x2 = x0 - i2 + 2.0 * C.xxx;
+  vec3 x3 = x0 - 1. + 3.0 * C.xxx;
+
+// Permutations
+  i = mod(i, 289.0 ); 
+  vec4 p = permute3( permute3( permute3( 
+             i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
+           + i.y + vec4(0.0, i1.y, i2.y, 1.0 )) 
+           + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
+
+// Gradients
+// ( N*N points uniformly over a square, mapped onto an octahedron.)
+  float n_ = 1.0/7.0; // N=7
+  vec3  ns = n_ * D.wyz - D.xzx;
+
+  vec4 j = p - 49.0 * floor(p * ns.z *ns.z);  //  mod(p,N*N)
+
+  vec4 x_ = floor(j * ns.z);
+  vec4 y_ = floor(j - 7.0 * x_ );    // mod(j,N)
+
+  vec4 x = x_ *ns.x + ns.yyyy;
+  vec4 y = y_ *ns.x + ns.yyyy;
+  vec4 h = 1.0 - abs(x) - abs(y);
+
+  vec4 b0 = vec4( x.xy, y.xy );
+  vec4 b1 = vec4( x.zw, y.zw );
+
+  vec4 s0 = floor(b0)*2.0 + 1.0;
+  vec4 s1 = floor(b1)*2.0 + 1.0;
+  vec4 sh = -step(h, vec4(0.0));
+
+  vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
+  vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
+
+  vec3 p0 = vec3(a0.xy,h.x);
+  vec3 p1 = vec3(a0.zw,h.y);
+  vec3 p2 = vec3(a1.xy,h.z);
+  vec3 p3 = vec3(a1.zw,h.w);
+
+//Normalise gradients
+  vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+  p0 *= norm.x;
+  p1 *= norm.y;
+  p2 *= norm.z;
+  p3 *= norm.w;
+
+// Mix final noise value
+  vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+  m = m * m;
+  return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), 
+                                dot(p2,x2), dot(p3,x3) ) );
+}
+	
+	//	Simplex 4D Noise 
+//	by Ian McEwan, Ashima Arts
+//
+vec4 permute4(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
+float permute4(float x){return floor(mod(((x*34.0)+1.0)*x, 289.0));}
+vec4 taylorInvSqrt4(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
+float taylorInvSqrt4(float r){return 1.79284291400159 - 0.85373472095314 * r;}
+
+vec4 grad4(float j, vec4 ip){
+  const vec4 ones = vec4(1.0, 1.0, 1.0, -1.0);
+  vec4 p,s;
+
+  p.xyz = floor( fract (vec3(j) * ip.xyz) * 7.0) * ip.z - 1.0;
+  p.w = 1.5 - dot(abs(p.xyz), ones.xyz);
+  s = vec4(lessThan(p, vec4(0.0)));
+  p.xyz = p.xyz + (s.xyz*2.0 - 1.0) * s.www; 
+
+  return p;
+}
+
+float snoise4(vec4 v){
+  const vec2  C = vec2( 0.138196601125010504,  // (5 - sqrt(5))/20  G4
+                        0.309016994374947451); // (sqrt(5) - 1)/4   F4
+// First corner
+  vec4 i  = floor(v + dot(v, C.yyyy) );
+  vec4 x0 = v -   i + dot(i, C.xxxx);
+
+// Other corners
+
+// Rank sorting originally contributed by Bill Licea-Kane, AMD (formerly ATI)
+  vec4 i0;
+
+  vec3 isX = step( x0.yzw, x0.xxx );
+  vec3 isYZ = step( x0.zww, x0.yyz );
+//  i0.x = dot( isX, vec3( 1.0 ) );
+  i0.x = isX.x + isX.y + isX.z;
+  i0.yzw = 1.0 - isX;
+
+//  i0.y += dot( isYZ.xy, vec2( 1.0 ) );
+  i0.y += isYZ.x + isYZ.y;
+  i0.zw += 1.0 - isYZ.xy;
+
+  i0.z += isYZ.z;
+  i0.w += 1.0 - isYZ.z;
+
+  // i0 now contains the unique values 0,1,2,3 in each channel
+  vec4 i3 = clamp( i0, 0.0, 1.0 );
+  vec4 i2 = clamp( i0-1.0, 0.0, 1.0 );
+  vec4 i1 = clamp( i0-2.0, 0.0, 1.0 );
+
+  //  x0 = x0 - 0.0 + 0.0 * C 
+  vec4 x1 = x0 - i1 + 1.0 * C.xxxx;
+  vec4 x2 = x0 - i2 + 2.0 * C.xxxx;
+  vec4 x3 = x0 - i3 + 3.0 * C.xxxx;
+  vec4 x4 = x0 - 1.0 + 4.0 * C.xxxx;
+
+// Permutations
+  i = mod(i, 289.0); 
+  float j0 = permute4( permute4( permute4( permute4(i.w) + i.z) + i.y) + i.x);
+  vec4 j1 = permute4( permute4( permute4( permute4 (
+             i.w + vec4(i1.w, i2.w, i3.w, 1.0 ))
+           + i.z + vec4(i1.z, i2.z, i3.z, 1.0 ))
+           + i.y + vec4(i1.y, i2.y, i3.y, 1.0 ))
+           + i.x + vec4(i1.x, i2.x, i3.x, 1.0 ));
+// Gradients
+// ( 7*7*6 points uniformly over a cube, mapped onto a 4-octahedron.)
+// 7*7*6 = 294, which is close to the ring size 17*17 = 289.
+
+  vec4 ip = vec4(1.0/294.0, 1.0/49.0, 1.0/7.0, 0.0) ;
+
+  vec4 p0 = grad4(j0,   ip);
+  vec4 p1 = grad4(j1.x, ip);
+  vec4 p2 = grad4(j1.y, ip);
+  vec4 p3 = grad4(j1.z, ip);
+  vec4 p4 = grad4(j1.w, ip);
+
+// Normalise gradients
+  vec4 norm = taylorInvSqrt4(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+  p0 *= norm.x;
+  p1 *= norm.y;
+  p2 *= norm.z;
+  p3 *= norm.w;
+  p4 *= taylorInvSqrt4(dot(p4,p4));
+
+// Mix contributions from the five corners
+  vec3 m0 = max(0.6 - vec3(dot(x0,x0), dot(x1,x1), dot(x2,x2)), 0.0);
+  vec2 m1 = max(0.6 - vec2(dot(x3,x3), dot(x4,x4)            ), 0.0);
+  m0 = m0 * m0;
+  m1 = m1 * m1;
+  return 49.0 * ( dot(m0*m0, vec3( dot( p0, x0 ), dot( p1, x1 ), dot( p2, x2 )))
+               + dot(m1*m1, vec2( dot( p3, x3 ), dot( p4, x4 ) ) ) ) ;
+
+}
+
+</script>
+<!-- partial -->
+  <script type="module" src="./script.js"></script>
+
+</body>
+</html>
