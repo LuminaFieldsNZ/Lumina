@@ -6,6 +6,10 @@
     <title>WebRTC Chat</title>
 </head>
 <body>
+
+  <button onclick="startConnection()">Start Connection</button>
+
+
     <textarea id="chatBox" rows="10" cols="30" readonly></textarea><br>
     <input type="text" id="messageInput">
     <button onclick="sendMessage()">Send</button>
@@ -42,6 +46,43 @@
             chatBox.value += 'You: ' + message + '\n';
             messageInput.value = '';
         }
+
+
+    async function startConnection() {
+        try {
+            const offer = await localConnection.createOffer();
+            await localConnection.setLocalDescription(offer);
+
+            // Display the offer to the user
+            const offerString = JSON.stringify(offer);
+            const answerString = prompt("Copy this offer and provide it to the other peer. Then paste their answer here:", offerString);
+
+            if (answerString) {
+                const answer = JSON.parse(answerString);
+                await localConnection.setRemoteDescription(answer);
+            }
+        } catch (error) {
+            console.error("Error starting connection:", error);
+        }
+    }
+
+    localConnection.onnegotiationneeded = async () => {
+        try {
+            const offer = await localConnection.createOffer();
+            await localConnection.setLocalDescription(offer);
+
+            // Display the offer to the user and get the answer
+            const offerString = JSON.stringify(offer);
+            const answerString = prompt("Provide this offer to the other peer and paste their answer here:", offerString);
+
+            if (answerString) {
+                const answer = JSON.parse(answerString);
+                await localConnection.setRemoteDescription(answer);
+            }
+        } catch (error) {
+            console.error("Error during negotiation:", error);
+        }
+    };
     </script>
 </body>
 </html>
