@@ -48,23 +48,34 @@
         }
 
 
-    async function startConnection() {
-        try {
-            const offer = await localConnection.createOffer();
-            await localConnection.setLocalDescription(offer);
+        async function startConnection() {
+            try {
+                const input = prompt("If you have an offer from another peer, paste it here. Otherwise, just click OK to generate a new offer:");
 
-            // Display the offer to the user
-            const offerString = JSON.stringify(offer);
-            const answerString = prompt("Copy this offer and provide it to the other peer. Then paste their answer here:", offerString);
+                if (input) {
+                    const receivedOffer = JSON.parse(input);
+                    if (receivedOffer.type === "offer") {
+                        await localConnection.setRemoteDescription(receivedOffer);
+                        const answer = await localConnection.createAnswer();
+                        await localConnection.setLocalDescription(answer);
 
-            if (answerString) {
-                const answer = JSON.parse(answerString);
-                await localConnection.setRemoteDescription(answer);
+                        // Display the answer to the user
+                        alert("Copy this answer and provide it to the other peer:", JSON.stringify(answer));
+                        return;
+                    }
+                }
+
+                const offer = await localConnection.createOffer();
+                await localConnection.setLocalDescription(offer);
+
+                // Display the offer to the user
+                alert("Copy this offer and provide it to the other peer:", JSON.stringify(offer));
+
+            } catch (error) {
+                console.error("Error starting connection:", error);
             }
-        } catch (error) {
-            console.error("Error starting connection:", error);
         }
-    }
+
 
     localConnection.onnegotiationneeded = async () => {
         try {
