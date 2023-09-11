@@ -14,20 +14,20 @@ function clearStorage() {
 }
 
 populations = {
-  progressive: 1000,
-  socialist: 1000,
-  idealist: 1000,
-  globalist: 1000,
-  conservative: 1000,
-  economist: 1000,
+  progressive: 100,
+  socialist: 100,
+  idealist: 100,
+  globalist: 100,
+  conservative: 100,
+  economist: 100,
   realist: 1000,
-  nationalist: 1000,
-  populist: 1000
+  nationalist: 100,
+  populist: 100
 };
 
 mainHeading = {
   explorer: 1,
-  voyager: 1,
+  voyager: 0,
   captain: 0,
   merchant: 0,
   shipwright: 0,
@@ -126,6 +126,8 @@ function getProgressBarColor(percentage) {
 function startUpdating() {
     setInterval(() => {
         updatePopulations();
+        updateSVGs();
+        testData();
         updateMainHeadings();  // Ensure this is called to update magicType progress bars
     }, 1000);
 }

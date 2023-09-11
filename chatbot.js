@@ -367,6 +367,34 @@ let completedProjects = [];
 let userCompletedProjects = [];
 let conversationData = [];
 
+const thinkingElem = document.createElement('p');
+
+chatWindow.appendChild(thinkingElem);
+setTimeout(function() {
+  thinkingElem.classList.add('thinking');
+  thinkingElem.innerHTML = 'Loading...';
+}, 2100);
+setTimeout(function() {
+    // Remove the "thinking" element
+    chatWindow.removeChild(thinkingElem);
+
+    chatWindow.innerHTML += '<p>Collective: Hello, I\'m your AI assistant...<br>use the field below to chat or type commands such as: <font style="color: lightblue;">cmd [all]</font> to view a complete list.</p>';
+    scrollToBottom();
+}, 4300);
+
+function showCommands() {
+  const thinkingElem = document.createElement('p');
+  chatWindow.appendChild(thinkingElem);
+  setTimeout(function() {
+    thinkingElem.classList.add('thinking');
+    thinkingElem.innerHTML = 'Loading...';
+  }, 100);
+    setTimeout(function() {
+      thinkingElem.remove();
+        chatWindow.innerHTML += '<p>Commands:<br><font style="color: lightblue;">[add]</font> Will increase a quantity<br><font style="color: lightblue;">[subtract]</font> Will decrease a quantity<br><font style="color: lightblue;">[set]</font> Will reset value to specified amount</p>';
+        scrollToBottom();
+    }, 2300);
+}
 
 
 function exportData() {
@@ -467,6 +495,14 @@ function handleAction(action, value, category) {
 
 
 function parseCollectiveCommand(data) {
+
+
+  if (data.trim().toLowerCase() === 'cmd [all]') {
+          showCommands();
+          return "Showing all commands..."; // You can customize this response message
+      }
+
+
     const matches = data.match(/\[(\w+|\d+)\]/g);
 
     if (!matches || matches.length !== 3) {
@@ -542,6 +578,8 @@ function sendMessage() {
         updateJSONDisplay();
     }, 1000);
 }
+
+
 
 
 
