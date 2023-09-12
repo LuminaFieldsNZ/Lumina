@@ -31,8 +31,11 @@ setInterval(() => {
 }, 8000);
 
 
-console.clear();
-console.log('lsakdfalskjdflnksd');
+
+
+
+
+
 
 const config = {
   src: 'peeps.png',
