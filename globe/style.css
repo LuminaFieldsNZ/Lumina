@@ -16,7 +16,7 @@ body {
   display: grid;
   place-items: center;
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), /* This is the black overlay */
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), /* This is the black overlay */
     url('../pics/ironcoast.png');
   background-size: cover; /* This will cover the entire viewport */
   background-repeat: no-repeat; /* This will prevent the image from repeating */
@@ -205,7 +205,9 @@ color: white;
 }
 
 .screen > .screen-image {
-  background-image: url('../pics/trantum.png');
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), /* This is the black overlay */
+    url('../pics/trantum.png');
   height: 100%;
   width: 100%;
   position: absolute;
@@ -214,8 +216,8 @@ color: white;
   top: 0px;
   background-size: 300%;
   background-position: 0% 0%;
-  filter: sepia(100%) hue-rotate(160deg);
-  opacity: 0.6;
+  filter: sepia(70%) hue-rotate(160deg);
+  opacity: 0.4;
   animation: pan-image 15s linear infinite;
 }
 

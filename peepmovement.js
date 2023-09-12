@@ -26,10 +26,22 @@ document.addEventListener("DOMContentLoaded", function() {
             direction: 1, // random starting direction
             bouncing: 0,
             bounceSpeed: 1, // random bounce speed between 10% to 100% of original speed
-            isFrozen: false // flag to indicate if the peep is frozen
+            isFrozen: false, // flag to indicate if the peep is frozen
+            wallHits: 0, // Counter for wall hits
+            hideTime: 8000, // Initial hiding time (8 seconds)
         };
 
         peeps.push(peep);
+    }
+
+    function hideMe(peep) {
+        peep.img.style.transition = 'bottom 1s linear'; // Add a transition for smooth movement
+        peep.img.style.bottom = '-160px'; // Move the peep off the bottom of the screen
+        setTimeout(() => {
+            peep.img.style.visibility = 'visible'; // Unhide the peep after a timer
+            peep.isFrozen = false; // Reset the frozen state
+            peep.img.style.bottom = '20px'; // Reset the peep's position
+        }, peep.hideTime);
     }
 
     function animate() {
@@ -53,16 +65,23 @@ document.addEventListener("DOMContentLoaded", function() {
                     peep.direction = -peep.direction;
                     peep.img.style.transform = peep.direction === 1 ? 'scaleX(1)' : 'scaleX(-1)'; // flip the image
 
-                    peep.isFrozen = true; // set the flag to true when the peep bounces
-                    setTimeout(() => {
-                        peep.isFrozen = false;
-                    }, 8000); // wait for 8 seconds before unfreezing
+                    peep.wallHits++; // Increment wall hit counter
+
+                    // Check if it's the 5th wall hit
+                    if (peep.wallHits % 2 === 0) {
+                        peep.isFrozen = true; // set the flag to true when the peep bounces
+                        hideMe(peep); // Move and unhide the peep
+
+                        // Double the hiding time for each subsequent hit
+                        peep.hideTime *= 2;
+                    }
                 }
             }
         }
 
         requestAnimationFrame(animate);
     }
+
 
     // Start animation when the first peep image is loaded
     peeps[0].img.onload = function() {
