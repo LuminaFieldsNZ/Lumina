@@ -63,6 +63,8 @@ window.addEventListener('message', function(event) {
     }
 }, false);
 
+const bookFrame5 = document.getElementById('bookFrame5');
+bookFrame5.src = 'globe/index.html';
 
 const bookFrame4 = document.getElementById('bookFrame4');
 bookFrame4.src = 'loader/index.html';

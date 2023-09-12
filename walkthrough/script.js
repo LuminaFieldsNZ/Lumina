@@ -14,9 +14,9 @@ const config = {
     const imageData = ctx.getImageData(x, y, width, height);
     const data = imageData.data;
     for (let i = 0; i < data.length; i += 4) {
-      data[i] = 155 - data[i];       // red
-      data[i + 1] = 155 - data[i + 1]; // green
-      data[i + 2] = 155 - data[i + 2]; // blue
+      data[i] = 55 - data[i];       // red
+      data[i + 1] = 55 - data[i + 1]; // green
+      data[i + 2] = 55 - data[i + 2]; // blue
     }
     ctx.putImageData(imageData, x, y);
   }
@@ -143,6 +143,16 @@ this.isSpecial = false; // Add this line
   ctx.globalCompositeOperation = "source-over"; // Reset to default
   ctx.restore();
 }
+
+renderOutside(ctx) {
+  ctx.save();
+  ctx.translate(this.x, this.y);
+  ctx.scale(this.scaleX, 1);
+  ctx.drawImage(...this.drawArgs);
+  ctx.restore();
+}
+
+
 }
 
 

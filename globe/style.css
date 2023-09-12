@@ -1,0 +1,234 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("https://woodandmortar.com/salmonballot/pics/background2.png");
+    background-size: cover;
+    backdrop-filter:  brightness(70%);
+}
+
+canvas {
+    display: block;
+}
+
+#canvas_container {
+    width: 100%;
+    height: 100vh;
+}
+
+
+
+h1
+{
+  width: 80%;
+  left: 0px;
+  top: 0px;
+  text-align: center;
+  justify-content: center;
+  color: rgba(125,240,250, 0.8);
+  position: absolute;
+  /* color: white; */
+  font-size:2em;
+  font-family: "Crimson Text";
+  opacity: .7;
+}
+
+
+p
+{
+  font-family: "Crimson Text";
+  color: rgba(125,240,250, 0.8);
+  text-align: center;
+  font-size: 1.4em;
+  position: block;
+  word-wrap: break-word;
+}
+
+
+.mainPerspective
+{
+  perspective: 100vw;
+  transform-style: preserve-3d;
+}
+
+.animated
+{
+	transition: all 0.5s linear 0s;
+}
+.jitterAnimated
+{
+	transition: all 5s ease 0s;
+}
+
+.bordered
+{
+  border-radius: 2vw;
+  border: 0.3vw solid rgba(125, 240, 250, 0.8);
+}
+
+#firstImage
+{
+  position: absolute;
+  top:0
+}
+
+#backgroundImage
+{
+  width: 100vw;
+  margin: 0;
+  position: absolute;
+  top:0;
+  opacity: 0.5;
+}
+
+#thatDiv {
+  position: absolute;
+  top: 30%;
+  right: 30%;
+  align-items: center; /* Vertically center content */
+  justify-content: center; /* Horizontally center content */
+  position: absolute;
+}
+
+
+#thoseDiv {
+  position: absolute;
+  background-color: rgba(125, 240, 250, 0.1);
+  width: 50px;
+  height: 50px;
+  top: -100px;
+  Left: 0px;
+}
+#thoseDiv:hover {
+  background-color: rgba(125, 240, 250, 0.5);
+  cursor: pointer;
+}
+#thoseDiv1 {
+  position: absolute;
+  background-color: rgba(125, 240, 250, 0.1);
+  width: 50px;
+  height: 50px;
+  bottom: -120px;
+  Left: 0px;
+}
+#thoseDiv1:hover {
+  background-color: rgba(125, 240, 250, 0.3);
+  cursor: pointer;
+}
+#thoseDiv2 {
+  position: absolute;
+  background-color: rgba(125, 240, 250, 0.1);
+  width: 50px;
+  height: 50px;
+  top: 0px;
+  Left: -100px;
+}
+#thoseDiv2:hover {
+  background-color: rgba(125, 240, 250, 0.3);
+  cursor: pointer;
+}
+#thoseDiv3 {
+  position: absolute;
+  background-color: rgba(125, 240, 250, 0.1);
+  width: 50px;
+  height: 50px;
+  top: 0px;
+  right: -130px;
+}
+#thoseDiv3:hover {
+  background-color: rgba(125, 240, 250, 0.3);
+  cursor: pointer;
+}
+#updateCameraButton {
+  flex: 0 0 auto; /* Don't grow or shrink, maintain original size */
+  width: 50px;
+  margin: 5px; /* Add some space between items */
+}
+#updateCameraButton:hover {
+  background-color: rgba(125, 240, 250, 0.3);
+  cursor: pointer;
+}
+
+
+
+@keyframes spin
+{
+  0% { transform: rotate(0deg) translateZ(1vw);}
+  100% { transform: rotate(360deg) translateZ(1vw);}
+}
+
+/* CSS for the typing animation */
+.typing-animation {
+  overflow: auto;
+  border-right: .15em solid rgba(125, 240, 250, 0.8); /* Change the color as needed */
+  margin: auto;
+  padding: auto;
+  width: 95%;
+  text-wrap: auto;
+  animation: typing 2s steps(40, end), blink-caret 1.75s step-end infinite;
+}
+
+/* Keyframes for the typing animation */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Keyframes for the blinking cursor */
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: rgba(125, 240, 250, 0.8); /* Change the color as needed */
+  }
+}
+
+
+#popupContainer {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+#popupContainer button {
+    margin-top: 10px;
+}
+
+#popupContainer.active {
+    display: block;
+}
+
+
+
+.modal-bg {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 90%;
+    height: 90%;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 99999999;
+}
+
+.modal-content {
+    display: block;
+    width: 90%;
+    height: 90%;
+    border: none;
+    background-color: white;
+}
