@@ -1,28 +1,46 @@
 
+let countImage = 0;
+
+function nextPages() {
+  let allImages = [
+    "../pics/trantum.png",
+    "../pics/ventura.png",
+    "../pics/occidentica.png",
+    "../pics/eventus.png",
+    "../pics/collective.png",
+    "../pics/abzimuth.png",
+    "../pics/ironcoast.png",
+    "../pics/faxium.png",
+    "../pics/mercado.png"
+  ];
+
+  // Select the .screen > .screen-image element
+  const screenImage = document.querySelector('.screen > .screen-image');
+
+  if (countImage != 9) {
+    document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),url('" + allImages[countImage] + "')";
+    screenImage.style.backgroundImage = "url('" + allImages[countImage] + "')";
+    countImage += 1;
+  } else {
+    countImage = 0;
+  }
+}
+
+setInterval(() => {
+  nextPages();
+}, 8000);
+
+
+console.clear();
+console.log('lsakdfalskjdflnksd');
+
 const config = {
-  src: './peeps.png',
+  src: 'peeps.png',
   rows: 15,
   cols: 7 };
 
 
-  function stepOne() {
-    alert("winner");
-  }
-
-
-  function invertColors(ctx, x, y, width, height) {
-    const imageData = ctx.getImageData(x, y, width, height);
-    const data = imageData.data;
-    for (let i = 0; i < data.length; i += 4) {
-      data[i] = 55 - data[i];       // red
-      data[i + 1] = 55 - data[i + 1]; // green
-      data[i + 2] = 55 - data[i + 2]; // blue
-    }
-    ctx.putImageData(imageData, x, y);
-  }
-
-
-
+// UTILS
 
 const randomRange = (min, max) => min + Math.random() * (max - min);
 
@@ -109,7 +127,7 @@ class Peep {
   {
     this.image = image;
     this.setRect(rect);
-this.isSpecial = false; // Add this line
+
     this.x = 0;
     this.y = 0;
     this.anchorY = 0;
@@ -129,32 +147,13 @@ this.isSpecial = false; // Add this line
 
   }
 
-
   render(ctx) {
-  ctx.save();
-  ctx.translate(this.x, this.y);
-  ctx.scale(this.scaleX, 1);
-  if (this.isSpecial) {
-    ctx.globalCompositeOperation = "difference";
-    ctx.fillStyle = "white";
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-  }
-  ctx.drawImage(...this.drawArgs);
-  ctx.globalCompositeOperation = "source-over"; // Reset to default
-  ctx.restore();
-}
-
-renderOutside(ctx) {
-  ctx.save();
-  ctx.translate(this.x, this.y);
-  ctx.scale(this.scaleX, 1);
-  ctx.drawImage(...this.drawArgs);
-  ctx.restore();
-}
-
-
-}
-
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.scale(this.scaleX, 1);
+    ctx.drawImage(...this.drawArgs);
+    ctx.restore();
+  }}
 
 
 // MAIN
@@ -230,25 +229,10 @@ function resize() {
 
 function initCrowd() {
   while (availablePeeps.length) {
+    // setting random tween progress spreads the peeps out
     addPeepToCrowd().walk.progress(Math.random());
   }
-
-  // Set one random peep as the special peep
-  const specialPeep = getRandomFromArray(crowd);
-  specialPeep.isSpecial = true;
 }
-
-canvas.addEventListener('click', function(event) {
-  const rect = canvas.getBoundingClientRect();
-  const x = (event.clientX - rect.left) * devicePixelRatio;
-  const y = (event.clientY - rect.top) * devicePixelRatio;
-  for (let peep of crowd) {
-    if (peep.isSpecial && x >= peep.x && x <= peep.x + peep.width && y >= peep.y && y <= peep.y + peep.height) {
-      stepOne();
-      break;
-    }
-  }
-});
 
 function addPeepToCrowd() {
   const peep = removeRandomFromArray(availablePeeps);

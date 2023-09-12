@@ -2,112 +2,48 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Globe</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="./style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.js"></script>
-  <script src="https://threejs.org/examples/js/libs/tween.min.js"></script>
+  <title>globe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="./style.css">
 
 </head>
-
 <body>
-
-
-   <script src="https://threejs.org/build/three.js"></script>
-  <div style="position:absolute; z-index:9999999999; display:none;" >
-     <button onclick="ungroupSpheres()">Return to Original Position</button>
-    <button onclick="moveSpheresToInput()">Group Spheres</button>
-
-
-    <!-- Dropdown to select a specific sphere -->
-    <select id="sphereSelect">
-        <!-- We'll dynamically populate this with options using JavaScript -->
-    </select>
-
-    <!-- Button to trigger the movement of selected sphere -->
-    <button onclick="moveSelectedSphere()">Move Sphere</button>
-
-
-    <div>
-        X: <input type="number" id="xPosition" value="0">
-        Y: <input type="number" id="yPosition" value="0">
-        Z: <input type="number" id="zPosition" value="0"> <!-- Fixed the repeated ID here -->
-        <button onclick="moveSpheresToInput()">Move to Input Position</button>
-    </div>
-    <div id="positionsContainer"></div>
-</div>
-
-
- <div class="modal-bg" id="modalBg">
-     <iframe class="modal-content" id="bookFrame" src=""></iframe>
-
- </div>
-
-  <div id='thatDiv'>
-
-
-    <div id='thoseDiv' >
-      <p id="Up" >
-        <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
-    <!-- Arrow pointing up -->
-    <path d="M 25,45 L 25,10 L 15,20 M 25,10 L 35,20" fill="none" stroke="lightblue" stroke-width="2"/>
-</svg>
-
-
-      </p>
-    </div>
-    <div id='thoseDiv1' >
-      <p id="Down" >
-        <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
-            <!-- Arrow pointing down -->
-            <path d="M 25,5 L 25,40 L 15,30 M 25,40 L 35,30" fill="none" stroke="lightblue" stroke-width="2"/>
-        </svg>
-
-      </p>
-    </div>
-    <div id='thoseDiv2' >
-      <p id="Left" >
-        <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
-            <!-- Arrow pointing left -->
-            <path d="M 45,25 L 10,25 L 20,15 M 10,25 L 20,35" fill="none" stroke="lightblue" stroke-width="2"/>
-        </svg>
-
-      </p>
-    </div>
-    <div id='thoseDiv3' >
-      <p id="Right" >
-        <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
-            <!-- Arrow pointing right -->
-            <path d="M 5,25 L 40,25 L 30,15 M 40,25 L 30,35" fill="none" stroke="lightblue" stroke-width="2"/>
-        </svg>
-
-      </p>
-    </div>
-<div id='updateCameraButton'  style="display:none;">
-<p >L</p>
-</div>
-<div   style="display:none;">
-<p id="centerCameraButton" >Z</p>
-</div>
-<div id='thoseDiv'  style="display:none;">
-<p id="centerCameraButton2" >R</p>
-</div>
-</div>
-
-  <h1 id="cameraPosition"  style="display:none;">Political Heading</h1>
-
+  <div class="button-wrapper">
+<button class="open-modal" onclick="downloadStufs()"><span>Download Base</span></button>
+    <button class="open-modal" onclick="updateNow()"><span>Update</span></button>
+    <button class="open-modal" onclick="exportSave()"><span>Save & Export</span></button>
+  </div>
 <!-- partial:index.partial.html -->
-<!-- Inside the <body> tag of your HTML -->
+<div class="screen">
+  <div class="screen-image"></div>
+  <div class="screen-overlay"></div>
+  <div class="screen-content">
+    <div class="screen-user">
+      <span class="name" id="userID2" data-value="No Login">No Login</span>
 
-<div id="canvas_container"></div>
-<!-- <button id="fullscr">Go Fullscreen</button> -->
+      <a id="state2">Pending Login</a>
+
+          <br>
+
+    <br>
+
+      <br><hr><br>
+       To download your base.json file, click download in the left.
+       On your Pulse Network dashboard, under the Chat window you can Upload  this file.
+       All of your stats will now be upgraded to base level 1.
+       As you continue your learning adventure, be sure to Save & Export so we can remember your progress each session
+      <div id="conversationData2"> </div>
+    </div>
+  </div>
+
+</div>
+
+
+<canvas id="canvas"></canvas>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js'></script>
 <!-- partial -->
-  <script src='https://cdn.jsdelivr.net/npm/three@0.121.1/build/three.min.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/three@0.121.1/examples/js/controls/OrbitControls.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js'></script>
-<script  src="./hurricane1.js"></script>
-
+  <script src='https://codepen.io/Hyperplexed/pen/xxYJYjM/54407644e24173ad6019b766443bf2a6.js'></script><script  src="./script.js"></script>
 
 </body>
 </html>
