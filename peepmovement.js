@@ -13,6 +13,10 @@ document.addEventListener("DOMContentLoaded", function() {
         const peepImg = new Image();
         peepImg.src = peepImages[i % peepImages.length];
         document.body.appendChild(peepImg);
+        peepImg.onclick = function() {
+    sitDown(peep);
+};
+
 
         // Style the image
         peepImg.style.position = 'absolute';
@@ -33,6 +37,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
         peeps.push(peep);
     }
+
+    function sitDown(peep) {
+      peep.speed = 180;
+      peep.hideTime = 200000;
+    }
+
 
     function hideMe(peep) {
         peep.img.style.transition = 'bottom 1s linear'; // Add a transition for smooth movement
