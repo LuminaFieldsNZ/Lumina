@@ -276,6 +276,15 @@ function render() {
 }
 
 
+function updateCharacterFromState() {
+    document.getElementById('hairLayer').src = state.hair;
+    document.getElementById('glassesLayer').src = state.glasses;
+    document.getElementById('bodyLayer').src = state.body;
+    document.getElementById('outerLayer').src = state.outer;
+    updateStateInput();
+}
+
+
 let userID2;
 let state2;
 let conversationData2;
@@ -286,21 +295,39 @@ window.addEventListener('message', function(event) {
         state2 = event.data.state;
         conversationData2 = event.data.conversationData;
 
-
-           let formattedData = '';
-
-           for (const entry of conversationData2) {
-             formattedData += entry.join('\u000A\u0020\u0020\u0020\u00B7\u0020\u0020\u0020\u000A') + '\u000A';
+        // Decode the state string into the state object
+        const decodedState = decodeState(state2);
+           if (decodedState) {
+               state2 = decodedState;
+               updateCharacterFromState();
            }
+        let formattedData = '';
+        for (const entry of conversationData2) {
+            formattedData += entry.join('\u000A\u0020\u0020\u0020\u00B7\u0020\u0020\u0020\u000A') + '\u000A';
+        }
 
         // Update the iframe content
-        document.getElementById('state2').innerText = state2;
         document.getElementById('userID2').innerText = userID2;
         document.getElementById('conversationData2').innerText = formattedData;
+
         // Send a message back to the parent to stop the loop
         window.parent.postMessage({ action: 'stopLoop' }, '*');
     }
 }, false);
+
+
+
+function decodeState(stateString) {
+    try {
+        return JSON.parse(atob(stateString));
+    } catch (error) {
+        console.error("Error decoding Base64 string:", stateString, error);
+        return null;
+    }
+}
+
+
+
 
 function exportSave() {
     window.parent.postMessage({ action: 'exportData' }, '*');
@@ -308,6 +335,7 @@ function exportSave() {
 
 function updateDis(){
   window.parent.postMessage({ action: 'updateJSONDisplay' }, '*');
+  alert(stateString);
 }
 
 function downloadStufs() {
@@ -334,3 +362,105 @@ function downloadStufs() {
         });
 
 }
+
+
+let stateString = '';
+
+
+  let state = {
+       hair: './hair/hair1.png',
+       glasses: './glasses/glasses1.png',
+       body: './body/body1.png',
+       outer: './outer/outer1.png'
+   };
+
+   function updateStateInput() {
+       stateString = btoa(JSON.stringify(state));
+       document.getElementById('stateInput').value = stateString;
+   }
+
+
+  //Array building scriptsrc
+
+//for glasses
+  const glassesImages = [];
+  for(let i = -1; i < 11; i++) {
+    glassesImages.push(`./glasses/glasses${i}.png`);
+  }
+  let glassesOptions = '';
+  for(let img of glassesImages) {
+    glassesOptions += `<option value="${img}">Glasses Style ${glassesImages.indexOf(img) + 1}</option>`;
+  }
+  const select = document.getElementById('glassesDropdown');
+  select.innerHTML = glassesOptions;
+
+//for hair
+  const hairImages = [];
+  for(let i = 0; i < 4; i++) {
+    hairImages.push(`./hair/hair${i}.png`);
+  }
+  let hairOptions = '';
+  for(let img of hairImages) {
+    hairOptions += `<option value="${img}">Hair Style ${hairImages.indexOf(img) + 1}</option>`;
+  }
+  const select1 = document.getElementById('hairDropdown');
+  select1.innerHTML = hairOptions;
+
+//for body
+  const bodyImages = [];
+  for(let i = 0; i < 12; i++) {
+    bodyImages.push(`./body/body${i}.png`);
+  }
+  let bodyOptions = '';
+  for(let img of bodyImages) {
+    bodyOptions += `<option value="${img}">Body Style ${bodyImages.indexOf(img) + 1}</option>`;
+  }
+  const select2 = document.getElementById('bodyDropdown');
+  select2.innerHTML = bodyOptions;
+
+  //for outer
+    const outerImages = [];
+    for(let i = 0; i < 4; i++) {
+      outerImages.push(`./outer/outer${i}.png`);
+    }
+    let outerOptions = '';
+    for(let img of outerImages) {
+      outerOptions += `<option value="${img}">Outer Style ${outerImages.indexOf(img) + 1}</option>`;
+    }
+    const select3 = document.getElementById('outerDropdown');
+    select3.innerHTML = outerOptions;
+
+
+
+// Add for new categories
+  function changeHair() {
+    const hairDropdown = document.getElementById('hairDropdown');
+    const hairLayer = document.getElementById('hairLayer');
+    hairLayer.src = hairDropdown.value;
+    state.hair = hairDropdown.value;
+    updateStateInput();
+  }
+
+  function changeGlasses() {
+    const glassesDropdown = document.getElementById('glassesDropdown');
+    const glassesLayer = document.getElementById('glassesLayer');
+    glassesLayer.src = glassesDropdown.value;
+    state.glasses = glassesDropdown.value;
+    updateStateInput();
+  }
+
+  function changeBody() {
+    const bodyDropdown = document.getElementById('bodyDropdown');
+    const bodyLayer = document.getElementById('bodyLayer');
+    bodyLayer.src = bodyDropdown.value;
+    state.body = bodyDropdown.value;
+    updateStateInput();
+  }
+
+  function changeOuter() {
+    const outerDropdown = document.getElementById('outerDropdown');
+    const outerLayer = document.getElementById('outerLayer');
+    outerLayer.src = outerDropdown.value;
+    state.outer = outerDropdown.value;
+    updateStateInput();
+  }

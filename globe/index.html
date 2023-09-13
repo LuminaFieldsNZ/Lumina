@@ -11,7 +11,7 @@
 <body>
   <div class="button-wrapper">
 <button class="open-modal" onclick="downloadStufs()"><span>Download Base</span></button>
-    <button class="open-modal" onclick="updateNow()"><span>Update</span></button>
+    <button class="open-modal" onclick="updateDis()"><span>Update</span></button>
     <button class="open-modal" onclick="exportSave()"><span>Save & Export</span></button>
   </div>
 <!-- partial:index.partial.html -->
@@ -21,11 +21,18 @@
   <div class="screen-content">
     <div class="screen-user">
       <span class="name" id="userID2" data-value="No Login">No Login</span>
-
-      <a id="state2">Pending Login</a>
+      <label for="stateInput">State:</label>
+      <input type="text" id="stateInput">
 
           <br>
 
+                <div class="image-container">
+                  <img src="./body/body0.png" id="bodyLayer" class="layer" style="z-index: 1;">
+                  <img src="./head.png" alt="Head" class="layer" style="z-index: 2;">
+                  <img id="glassesLayer" class="layer" style="z-index: 3;">
+                  <img id="hairLayer" class="layer" style="z-index: 4;">
+                  <img src="./outer/outer0.png"  id="outerLayer" class="layer" style="z-index: 5;">
+                </div>
     <br>
 
       <br><hr><br>
@@ -38,7 +45,23 @@
   </div>
 
 </div>
+<div style="display:flex-row; z-index:9999999;">
+<select class="open-modal" id="hairDropdown" onchange="changeHair()">
+<option value="">None</option>
+</select>
 
+<select class="open-modal" id="glassesDropdown" onchange="changeGlasses()">
+<option value="">None</option>
+</select>
+
+<select class="open-modal" id="bodyDropdown" onchange="changeBody()">
+<option value="">None</option>
+</select>
+
+<select class="open-modal" id="outerDropdown" onchange="changeOuter()">
+<option value="">None</option>
+</select>
+</div>
 
 <canvas id="canvas"></canvas>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js'></script>
