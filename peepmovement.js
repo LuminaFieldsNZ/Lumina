@@ -39,14 +39,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function sitDown(peep) {
-      peep.speed = 180;
+      peep.speed = 480;
       peep.hideTime = 200000;
     }
 
 
     function hideMe(peep) {
         peep.img.style.transition = 'bottom 1s linear'; // Add a transition for smooth movement
-        peep.img.style.bottom = '-160px'; // Move the peep off the bottom of the screen
+        peep.img.style.bottom = '-260px'; // Move the peep off the bottom of the screen
         setTimeout(() => {
             peep.img.style.visibility = 'visible'; // Unhide the peep after a timer
             peep.isFrozen = false; // Reset the frozen state

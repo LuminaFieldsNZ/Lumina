@@ -490,7 +490,16 @@
 
 
 
+
 <div class="grid-container">
+  <div class="grid-item">
+    <button class="open-modal"  onclick="exportData()">Export Data</button>
+    <button class="open-modal"  onclick="updateJSONDisplay()">Update</button>
+   <hr>
+   <div id="toolMenu2" style="width: 93%;">
+     <textarea class="json-editor" id="jsonEditor" placeholder="JSON Editor Format: [question, answer, liveChange]"></textarea>
+   </div>
+</div>
   <div class="grid-item">
     <br><hr><br>
   <font size="4.5em" weight="800";>LuminaFields has the highest test scores for any AI teaching platform.
@@ -1067,17 +1076,8 @@ Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connect
               </div>
               <div class="message-box">
                 <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" placeholder="Import Base Data Set">
-                <button class="open-modal" onclick="toggleToolMenu();">Tools</button>
-
-               <a id="toolMenu" style="display: none;">
-               <button class="open-modal"  onclick="exportData()">Export Data</button>
-               <button class="open-modal"  onclick="updateJSONDisplay()">Update</button>
-             </a>
               </div>
-              <div class="message-box" id="toolMenu2" style="display: none;">
-                <textarea class="json-editor" id="jsonEditor" placeholder="JSON Editor Format: [question, answer, liveChange]"></textarea>
 
-              </div>
               <div class="message-box">
                 <a id="navHome" onclick="splashActive();" class="app-sidebar-link">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
