@@ -5,6 +5,20 @@
 }
 
 
+
+  .image-container {
+    position: relative;
+    bottom: 0px;
+    right: 0px;
+  }
+
+  .layer {
+    position: absolute;
+    left: -50px;
+    bottom: -30px;
+  }
+
+
 /* For Webkit browsers like Chrome, Safari */
 ::-webkit-scrollbar {
     display: none;

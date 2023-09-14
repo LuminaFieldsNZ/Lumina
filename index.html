@@ -24,8 +24,15 @@
 
             </head>
             <body>
-            <!-- partial:index.partial.html -->
-            <div class="app-container" style="z-index:999;">
+              <div class="image-container">
+                <img src="./body/body0.png" id="bodyLayer" class="layer" style="z-index: 99999999991;">
+                <img src="./head.png" alt="Head" class="layer" style="z-index: 99999999992;">
+                <img id="glassesLayer" class="layer" style="z-index: 99999999993;">
+                <img id="hairLayer" class="layer" style="z-index: 99999999994;">
+                <img src="./outer/outer0.png"  id="outerLayer" class="layer" style="z-index: 99999999995;">
+              </div>
+
+              <div class="app-container" style="z-index:999;">
 
               <div class="app-content">
                 <button class="messages-btn">
@@ -488,8 +495,31 @@
 
 <div id="settingsMain" class="project-boxes" style="display: none; margin: 40px;">
 
+<div>
+
+    <div class="button-wrapper">
+  <button class="open-modal" onclick="downloadStufs()"><span>Download.json</span></button>
+  <select class="open-modal" id="hairDropdown" onchange="changeHair()">
+  <option value="">None</option>
+  </select>
+  <select class="open-modal" id="glassesDropdown" onchange="changeGlasses()">
+  <option value="">None</option>
+  </select>
+
+  <select class="open-modal" id="bodyDropdown" onchange="changeBody()">
+  <option value="">None</option>
+  </select>
+
+  <select class="open-modal" id="outerDropdown" onchange="changeOuter()">
+  <option value="">None</option>
+  </select>
+    </div>
+            <br>
 
 
+
+
+</div>
 
 <div class="grid-container">
   <div class="grid-item">
@@ -1115,21 +1145,10 @@ Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connect
                   </svg>
                 </a>
               </div>
-              <div class="message-box">
-
-                                <div class="image-container">
-                                  <img src="body/body0.png" id="bodyLayer" class="layer" style="z-index: 11;">
-                                  <img src="head.png" alt="Head" class="layer" style="z-index: 12;">
-                                  <img id="glassesLayer" class="layer" style="z-index: 13;">
-                                  <img id="hairLayer" class="layer" style="z-index: 14;">
-                                  <img src="outer/outer0.png"  id="outerLayer" class="layer" style="z-index: 15;">
-                                </div>
-              </div>
             </div>
             </div>
             </div>
             <!-- partial -->
-            <script type="module"  src="peepMain.js"></script>
             <script  src="peepmovement.js"></script>
               <script  src="home.js"></script>
               <script  src="navbuttons.js"></script>
