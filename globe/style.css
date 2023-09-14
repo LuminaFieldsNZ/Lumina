@@ -47,12 +47,11 @@ body {
     left: 50%; /* Centering technique part 1 */
     transform: translateX(-50%); /* Centering technique part 2 */
     width: 95%; /* Set the width to 95% of the .container */
-    display: flex; /* This will keep the buttons in a row */
     justify-content: space-between; /* This will distribute the buttons evenly */
     z-index: 6;
 }
 
-.button-wrapper button {
+.button-wrapper .select button {
     flex: 1; /* This will make each button take equal space */
     margin: 0 5px; /* Optional: for spacing between buttons */
 }

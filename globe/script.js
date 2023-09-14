@@ -368,7 +368,7 @@ let stateString = '';
   }
   let glassesOptions = '';
   for(let img of glassesImages) {
-    glassesOptions += `<option value="${img}">Glasses Style ${glassesImages.indexOf(img) + 1}</option>`;
+    glassesOptions += `<option value="${img}">Glasses ${glassesImages.indexOf(img) + 1}</option>`;
   }
   const select = document.getElementById('glassesDropdown');
   select.innerHTML = glassesOptions;
@@ -380,7 +380,7 @@ let stateString = '';
   }
   let hairOptions = '';
   for(let img of hairImages) {
-    hairOptions += `<option value="${img}">Hair Style ${hairImages.indexOf(img) + 1}</option>`;
+    hairOptions += `<option value="${img}">Hair ${hairImages.indexOf(img) + 1}</option>`;
   }
   const select1 = document.getElementById('hairDropdown');
   select1.innerHTML = hairOptions;
@@ -392,7 +392,7 @@ let stateString = '';
   }
   let bodyOptions = '';
   for(let img of bodyImages) {
-    bodyOptions += `<option value="${img}">Body Style ${bodyImages.indexOf(img) + 1}</option>`;
+    bodyOptions += `<option value="${img}">Body ${bodyImages.indexOf(img) + 1}</option>`;
   }
   const select2 = document.getElementById('bodyDropdown');
   select2.innerHTML = bodyOptions;
@@ -404,7 +404,7 @@ let stateString = '';
     }
     let outerOptions = '';
     for(let img of outerImages) {
-      outerOptions += `<option value="${img}">Outer Style ${outerImages.indexOf(img) + 1}</option>`;
+      outerOptions += `<option value="${img}">Outer ${outerImages.indexOf(img) + 1}</option>`;
     }
     const select3 = document.getElementById('outerDropdown');
     select3.innerHTML = outerOptions;
