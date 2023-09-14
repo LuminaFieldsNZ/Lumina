@@ -102,8 +102,8 @@ color: white;
 
 
 .screen {
-  width: 80vw;
-  height: 600px;
+  width: 350px;
+  height: 500px;
   display: flex;
   color: white;
   border: 3px solid rgb(var(--primary-rgb) / 80%);
@@ -112,6 +112,7 @@ color: white;
   font-size: 1.3em;
   background-color: rgb(var(--primary-rgb) / 15%);
   overflow: scroll;
+  margin-top: 70px;
   position: relative;
   z-index: 10;
 }

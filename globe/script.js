@@ -285,15 +285,11 @@ function updateCharacterFromState() {
 }
 
 
-let userID2;
 let state2;
-let conversationData2;
 
 window.addEventListener('message', function(event) {
     if (event.data.userId && event.data.state) {
-        userID2 = event.data.userId;
         state2 = event.data.state;
-        conversationData2 = event.data.conversationData;
 
         // Decode the state string into the state object
         const decodedState = decodeState(state2);
@@ -301,15 +297,6 @@ window.addEventListener('message', function(event) {
                state2 = decodedState;
                updateCharacterFromState();
            }
-        let formattedData = '';
-        for (const entry of conversationData2) {
-            formattedData += entry.join('\u000A\u0020\u0020\u0020\u00B7\u0020\u0020\u0020\u000A') + '\u000A';
-        }
-
-        // Update the iframe content
-        document.getElementById('userID2').innerText = userID2;
-        document.getElementById('conversationData2').innerText = formattedData;
-
         // Send a message back to the parent to stop the loop
         window.parent.postMessage({ action: 'stopLoop' }, '*');
     }
@@ -329,14 +316,6 @@ function decodeState(stateString) {
 
 
 
-function exportSave() {
-    window.parent.postMessage({ action: 'exportData' }, '*');
-}
-
-function updateDis(){
-  window.parent.postMessage({ action: 'updateJSONDisplay' }, '*');
-  alert(stateString);
-}
 
 function downloadStufs() {
 

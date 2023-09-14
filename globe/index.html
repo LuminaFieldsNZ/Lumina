@@ -11,41 +11,6 @@
 <body>
   <div class="button-wrapper">
 <button class="open-modal" onclick="downloadStufs()"><span>Download Base</span></button>
-    <button class="open-modal" onclick="updateDis()"><span>Update</span></button>
-    <button class="open-modal" onclick="exportSave()"><span>Save & Export</span></button>
-  </div>
-<!-- partial:index.partial.html -->
-<div class="screen">
-  <div class="screen-image"></div>
-  <div class="screen-overlay"></div>
-  <div class="screen-content">
-    <div class="screen-user">
-      <span class="name" id="userID2" data-value="No Login">No Login</span>
-      <label for="stateInput">State:</label>
-      <input type="text" id="stateInput">
-
-          <br>
-
-                <div class="image-container">
-                  <img src="./body/body0.png" id="bodyLayer" class="layer" style="z-index: 1;">
-                  <img src="./head.png" alt="Head" class="layer" style="z-index: 2;">
-                  <img id="glassesLayer" class="layer" style="z-index: 3;">
-                  <img id="hairLayer" class="layer" style="z-index: 4;">
-                  <img src="./outer/outer0.png"  id="outerLayer" class="layer" style="z-index: 5;">
-                </div>
-    <br>
-
-      <br><hr><br>
-       To download your base.json file, click download in the left.
-       On your Pulse Network dashboard, under the Chat window you can Upload  this file.
-       All of your stats will now be upgraded to base level 1.
-       As you continue your learning adventure, be sure to Save & Export so we can remember your progress each session
-      <div id="conversationData2"> </div>
-    </div>
-  </div>
-
-</div>
-<div style="display:flex-row; z-index:9999999;">
 <select class="open-modal" id="hairDropdown" onchange="changeHair()">
 <option value="">None</option>
 </select>
@@ -61,12 +26,34 @@
 <select class="open-modal" id="outerDropdown" onchange="changeOuter()">
 <option value="">None</option>
 </select>
+  </div>
+<!-- partial:index.partial.html -->
+<div class="screen">
+  <div class="screen-image"></div>
+  <div class="screen-overlay"></div>
+  <div class="screen-content">
+    <div class="screen-user">
+      <label for="stateInput">State:</label>
+      <input type="text" id="stateInput">
+
+          <br>
+
+                <div class="image-container">
+                  <img src="./body/body0.png" id="bodyLayer" class="layer" style="z-index: 1;">
+                  <img src="./head.png" alt="Head" class="layer" style="z-index: 2;">
+                  <img id="glassesLayer" class="layer" style="z-index: 3;">
+                  <img id="hairLayer" class="layer" style="z-index: 4;">
+                  <img src="./outer/outer0.png"  id="outerLayer" class="layer" style="z-index: 5;">
+                </div>
+    </div>
+  </div>
+
 </div>
 
 <canvas id="canvas"></canvas>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js'></script>
 <!-- partial -->
-  <script src='https://codepen.io/Hyperplexed/pen/xxYJYjM/54407644e24173ad6019b766443bf2a6.js'></script><script  src="./script.js"></script>
+<script  src="./script.js"></script>
 
 </body>
 </html>
