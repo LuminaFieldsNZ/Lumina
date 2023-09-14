@@ -360,7 +360,12 @@ function exitAll() {
 
 
 let userId = "Guest";
-let state = "00001";
+let state = {
+     hair: 'hair/hair1.png',
+     glasses: 'glasses/glasses1.png',
+     body: 'body/body1.png',
+     outer: 'outer/outer1.png'
+ };
 let populations = {};
 let mainHeading = {};
 let completedProjects = [];
@@ -706,6 +711,7 @@ function scrollToBottom() {
   // Start the loop initially
   startLoop();
 
+
   window.addEventListener('message', function(event) {
       if (event.data.action === 'stopLoop') {
           clearInterval(intervalId);
@@ -717,4 +723,16 @@ function scrollToBottom() {
       if (event.data.action === 'updateJSONDisplay') {
           updateJSONDisplay();
       }
+      if (event.data.action === 'state.hair') {
+        document.getElementById('hairLayer').src = event.data.value;
+    }
+    if (event.data.action === 'state.glasses') {
+        document.getElementById('glassesLayer').src = event.data.value;
+    }
+    if (event.data.action === 'state.body') {
+        document.getElementById('bodyLayer').src = event.data.value;
+    }
+    if (event.data.action === 'state.outer') {
+        document.getElementById('outerLayer').src = event.data.value;
+    }
   }, false);

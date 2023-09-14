@@ -57,6 +57,16 @@ body {
 }
 
 
+
+  .image-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .layer {
+    position: absolute;
+  }
+
         .chat-window, .json-editor {
             width: 100%;
             height: 400px;

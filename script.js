@@ -3,15 +3,15 @@ let countImage = 0;
 
 function nextPages() {
   let allImages = [
-    "../pics/trantum.png",
-    "../pics/ventura.png",
-    "../pics/occidentica.png",
-    "../pics/eventus.png",
-    "../pics/collective.png",
-    "../pics/abzimuth.png",
-    "../pics/ironcoast.png",
-    "../pics/faxium.png",
-    "../pics/mercado.png"
+    "./pics/trantum.png",
+    "./pics/ventura.png",
+    "./pics/occidentica.png",
+    "./pics/eventus.png",
+    "./pics/collective.png",
+    "./pics/abzimuth.png",
+    "./pics/ironcoast.png",
+    "./pics/faxium.png",
+    "./pics/mercado.png"
   ];
 
   // Select the .screen > .screen-image element
@@ -282,6 +282,10 @@ function updateCharacterFromState() {
     document.getElementById('bodyLayer').src = state.body;
     document.getElementById('outerLayer').src = state.outer;
     updateStateInput();
+    window.parent.postMessage({ action: 'state.hair', value: state.hair }, '*');
+    window.parent.postMessage({ action: 'state.glasses', value: state.glasses }, '*');
+    window.parent.postMessage({ action: 'state.body', value: state.body }, '*');
+    window.parent.postMessage({ action: 'state.outer', value: state.outer }, '*');
 }
 
 
@@ -295,6 +299,7 @@ window.addEventListener('message', function(event) {
         const decodedState = decodeState(state2);
            if (decodedState) {
                state2 = decodedState;
+                 window.parent.postMessage({ action: 'statePush' }, '*');
                updateCharacterFromState();
            }
         // Send a message back to the parent to stop the loop
@@ -341,6 +346,9 @@ function downloadStufs() {
         });
 
 }
+
+
+
 
 
 let stateString = '';
@@ -418,6 +426,7 @@ let stateString = '';
     hairLayer.src = hairDropdown.value;
     state.hair = hairDropdown.value;
     updateStateInput();
+    window.parent.postMessage({ action: 'state.hair', value: state.hair }, '*');
   }
 
   function changeGlasses() {
@@ -426,6 +435,7 @@ let stateString = '';
     glassesLayer.src = glassesDropdown.value;
     state.glasses = glassesDropdown.value;
     updateStateInput();
+    window.parent.postMessage({ action: 'state.glasses', value: state.glasses }, '*');
   }
 
   function changeBody() {
@@ -434,6 +444,7 @@ let stateString = '';
     bodyLayer.src = bodyDropdown.value;
     state.body = bodyDropdown.value;
     updateStateInput();
+    window.parent.postMessage({ action: 'state.body', value: state.body }, '*');
   }
 
   function changeOuter() {
@@ -442,4 +453,5 @@ let stateString = '';
     outerLayer.src = outerDropdown.value;
     state.outer = outerDropdown.value;
     updateStateInput();
+    window.parent.postMessage({ action: 'state.outer', value: state.outer }, '*');
   }
