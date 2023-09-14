@@ -383,7 +383,7 @@ let stateString = '';
 
 //for hair
   const hairImages = [];
-  for(let i = 0; i < 4; i++) {
+  for(let i = 0; i < 26; i++) {
     hairImages.push(`./hair/hair${i}.png`);
   }
   let hairOptions = '';
