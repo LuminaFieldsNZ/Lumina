@@ -12,20 +12,7 @@
 <body>
   <div class="button-wrapper">
 <button class="open-modal" onclick="downloadStufs()"><span>Download.json</span></button>
-<select class="open-modal" id="hairDropdown" onchange="changeHair()">
-<option value="">None</option>
-</select>
-<select class="open-modal" id="glassesDropdown" onchange="changeGlasses()">
-<option value="">None</option>
-</select>
 
-<select class="open-modal" id="bodyDropdown" onchange="changeBody()">
-<option value="">None</option>
-</select>
-
-<select class="open-modal" id="outerDropdown" onchange="changeOuter()">
-<option value="">None</option>
-</select>
   </div>
 <!-- partial:index.partial.html -->
 <div class="screen">
@@ -33,8 +20,7 @@
   <div class="screen-overlay"></div>
   <div class="screen-content">
     <div class="screen-user">
-      <label for="stateInput">State ID:</label>
-      <input type="text" id="stateInput" placeholder="Upload/Download.json">
+      <h1>Please Login</h1>
 
           <br>
 
@@ -53,7 +39,7 @@
 <canvas id="canvas"></canvas>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js'></script>
 <!-- partial -->
-<script  src="./chatbot.js"></script>
+<script  src="./script.js"></script>
 
 </body>
 </html>

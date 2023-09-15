@@ -675,7 +675,9 @@ function importBaseDataSet(event) {
                 updateCharacterFromState(); // Update character appearance based on the state
                 updateJSONDisplay(); // Update the JSON editor with the latest data
                 chatWindow.innerHTML += '<font style="color:lightgreen;">' + userId + ' is logged in.</font><br>';
-
+                document.getElementById('profilePic').style.display = "block";
+                const bookFrame5 = document.getElementById('bookFrame5');
+                bookFrame5.src = '100/index.html';
 
             } else {
                 alert('Invalid data format.');
@@ -715,33 +717,6 @@ function scrollToBottom() {
       document.getElementById('bodyLayer').src = state.body;
       document.getElementById('outerLayer').src = state.outer;
   }
-
-  function downloadStufs() {
-
-      // URL of the base.json file
-      const fileURL = 'https://www.luminafields.com/models/base.json';
-
-      // Fetch the content of the file
-      fetch(fileURL)
-          .then(response => response.blob())
-          .then(blob => {
-              // Create a link element for download
-              const a = document.createElement('a');
-              a.href = URL.createObjectURL(blob);
-              a.download = 'base.json';
-
-              // Append the link to the document and trigger the download
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-          })
-          .catch(error => {
-              console.error("Error downloading the file:", error);
-          });
-
-  }
-
-
 
     //Array building scriptsrc
 

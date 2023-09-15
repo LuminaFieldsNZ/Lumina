@@ -1,6 +1,5 @@
-document.addEventListener("DOMContentLoaded", function() {
     // Create multiple peeps
-    const numberOfPeeps = 3; // You can change this to the desired number of peeps
+    let numberOfPeeps = 3; // You can change this to the desired number of peeps
     let peeps = [];
 
     const peepImages = [
@@ -8,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
         'crycella.png',
         'anya.png'
     ];
+
 
     for (let i = 0; i < numberOfPeeps; i++) {
         const peepImg = new Image();
@@ -39,9 +39,11 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function sitDown(peep) {
-      peep.speed = 480;
+      peep.speed = 580;
       peep.hideTime = 200000;
     }
+
+
 
 
     function hideMe(peep) {
@@ -97,4 +99,3 @@ document.addEventListener("DOMContentLoaded", function() {
     peeps[0].img.onload = function() {
         requestAnimationFrame(animate);
     }
-});
