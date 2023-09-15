@@ -39,8 +39,8 @@
     }
 
     function sitDown(peep) {
-      peep.speed = 580;
-      peep.hideTime = 200000;
+      peep.speed = 900;
+      peep.hideTime = 20000;
     }
 
     function hideThem() {

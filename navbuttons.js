@@ -8,21 +8,17 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 window.addEventListener('message', function(event) {
-  // Optional: Check the origin of the message for security
-  // if (event.origin !== 'http://expected.origin.com') return;
-
   const data = event.data;
-
-  if (data.section) {
-    // Using eval() to execute the function
-    eval(data.section);
+  if (data.section) {eval(data.section);}
+  if (event.data.action === 'openSettings') {
+      settingsActive();
   }
 });
 
 
 function checkPasscode() {
   const code = document.getElementById("passcode").value;
-  if(code === "1234") {
+  if(code === "100") {
     parent.postMessage({ action: 'changeSrc', newSrc: '100/index.html' }, '*');
   }
   if(code === "587112349") {

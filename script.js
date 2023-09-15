@@ -276,27 +276,6 @@ function render() {
 }
 
 
-  function downloadStufs() {
-
-      // URL of the base.json file
-      const fileURL = 'https://www.luminafields.com/models/base.json';
-
-      // Fetch the content of the file
-      fetch(fileURL)
-          .then(response => response.blob())
-          .then(blob => {
-              // Create a link element for download
-              const a = document.createElement('a');
-              a.href = URL.createObjectURL(blob);
-              a.download = 'base.json';
-
-              // Append the link to the document and trigger the download
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-          })
-          .catch(error => {
-              console.error("Error downloading the file:", error);
-          });
-
-  }
+function openSettings() {
+parent.postMessage({ action: 'openSettings', value: 'openSettings' }, '*');
+}

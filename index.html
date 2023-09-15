@@ -494,10 +494,21 @@
 
 <div id="settingsMain" class="project-boxes" style="display: none; margin: 40px;">
 
-<div>
-
-    <div class="button-wrapper">
-  <button class="open-modal" onclick="downloadStufs()"><span>Download.json</span></button>
+<div class="grid-container">
+  <div class="grid-item">
+    <button class="open-modal"  onclick="exportData()">Download</button>
+   <hr>
+   <p>You always need to <font style="color:darkblue;"><b>[Upload]</b></font> a current profile.json file. If you dont have one, you can <font style="color:darkgreen;"><b>[Download]</b></font> a base file now. Once "Logged in", all changes throughout your experience will be rendered below.
+   You log in by <font style="color:darkblue;"><b>[uploading]</b></font> your profile.json file in the PULSE network <i>(the only place to choose a file under the chat window).</i></p><br>
+<p>
+At the end of every *session* make sure you <font style="color:darkgreen;"><b>[Download]</b></font> your updated profile.json so the Collective can remember every step of your journey, in the most secure way possible.
+</p>
+   <hr>
+   <div id="toolMenu2" style="width: 93%;">
+     <textarea class="json-editor" id="jsonEditor" placeholder="JSON Format: [question, answer, liveChange]"></textarea>
+   </div>
+</div>
+<div class="grid-item" style="display:flex;">
   <select class="open-modal" id="hairDropdown" onchange="changeHair()">
   <option value="">None</option>
   </select>
@@ -512,28 +523,9 @@
   <select class="open-modal" id="outerDropdown" onchange="changeOuter()">
   <option value="">None</option>
   </select>
-    </div>
-            <br>
-
-
-
-
-</div>
-
-<div class="grid-container">
-  <div class="grid-item">
-    <button class="open-modal"  onclick="exportData()">Export Data</button>
-    <button class="open-modal"  onclick="updateJSONDisplay()">Update</button>
-   <hr>
-   <div id="toolMenu2" style="width: 93%;">
-     <textarea class="json-editor" id="jsonEditor" placeholder="JSON Editor Format: [question, answer, liveChange]"></textarea>
-   </div>
 </div>
   <div class="grid-item">
     <br><hr><br>
-  <font size="4.5em" weight="800";>LuminaFields has the highest test scores for any AI teaching platform.
-    Our globally standardized testing and data privacy technology keep your information in your hands.</font>
-  <br><br>
   </div>
   <div class="grid-item">
 
