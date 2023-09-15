@@ -43,7 +43,12 @@
       peep.hideTime = 200000;
     }
 
-
+    function hideThem() {
+      for (let peep of peeps) {
+      peep.speed = 900;
+      peep.hideTime = 20000000;
+    }
+    }
 
 
     function hideMe(peep) {
@@ -99,3 +104,12 @@
     peeps[0].img.onload = function() {
         requestAnimationFrame(animate);
     }
+
+    window.addEventListener('message', function(event) {
+        if (event.data.action === 'changePeep') {
+            numberOfPeeps = 0;
+        }
+        if (event.data.action === 'hideThem') {
+ hideThem();
+        }
+    }, false);

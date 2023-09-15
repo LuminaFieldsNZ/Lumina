@@ -798,3 +798,9 @@ function scrollToBottom() {
       outerLayer.src = outerDropdown.value;
       state.outer = outerDropdown.value;
     }
+
+    window.addEventListener('message', function(event) {
+        if (event.data.action === 'changeSrc') {
+            bookFrame5.src = event.data.newSrc;
+        }
+    }, false);

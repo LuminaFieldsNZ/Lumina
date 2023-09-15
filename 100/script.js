@@ -102,10 +102,15 @@ const faIcons = [
   "hand-sparkles"
 ];
 
-
 function handleIconClick(event) {
   const iconName = event.currentTarget.getAttribute("data-name");
   console.log(`Icon ${iconName} was clicked!`);
+  if (iconName === "cat") {  // Check if it's the cat icon
+    parent.postMessage({ action: 'changeSrc', newSrc: 'nations/awakening.html' }, '*');
+  }
+  if (iconName === "angry") {  // Check if it's the cat icon
+    parent.postMessage({ action: 'hideThem', value: 'hideThem' }, '*');
+  }
   // You can add more logic here if needed
 }
 
@@ -115,9 +120,7 @@ for (let i = 0; i < faIcons.length; i++) {
   listItem.classList.add("fa-" + faIcons[i]);
   listItem.setAttribute("data-name", faIcons[i]);
 
-  if (i === 0) {  // Check if it's the first icon
-    listItem.setAttribute("onclick", "parent.postMessage({ action: 'changeSrc', newSrc: 'nations/awakening.html' }, '*');");
-  }
+  listItem.addEventListener("click", handleIconClick);  // Add the event listener here
 
   document.querySelector("ol").appendChild(listItem);
 }
