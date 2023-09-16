@@ -496,12 +496,16 @@
 
 <div class="grid-container">
   <div class="grid-item">
-    <button class="open-modal"  onclick="exportData()">Download</button>
-   <hr>
-   <p>You always need to <font style="color:darkblue;"><b>[Upload]</b></font> a current profile.json file. If you dont have one, you can <font style="color:darkgreen;"><b>[Download]</b></font> a base file now. Once "Logged in", all changes throughout your experience will be rendered below.
-   You log in by <font style="color:darkblue;"><b>[uploading]</b></font> your profile.json file in the PULSE network <i>(the only place to choose a file under the chat window).</i></p><br>
+    <h1>Login</h1>
+    <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" placeholder="Import Base Data Set"><hr><br>
+  </div>
+  <div class="grid-item">
+   <p>You always need to <font style="color:darkblue;"><b>[Upload]</b></font> your profile.json file above to <font style="color:darkred;"><b>[Login]</b></font>. If you dont have one, you can <font style="color:darkgreen;"><b>[Download]</b></font> a base file now.
+   </p><br>
+   <button class="open-modal"  onclick="exportData()">Download</button>
+<br>
 <p>
-At the end of every *session* make sure you <font style="color:darkgreen;"><b>[Download]</b></font> your updated profile.json so the Collective can remember every step of your journey, in the most secure way possible.
+At the end of every *session* make sure you <font style="color:darkgreen;"><b>[Download]</b></font> your updated profile.json, all changes throughout your experience will be rendered below and the Collective will remember every step of your journey, in the most secure way possible.
 </p>
    <hr>
    <div id="toolMenu2" style="width: 93%;">
@@ -527,7 +531,10 @@ At the end of every *session* make sure you <font style="color:darkgreen;"><b>[D
   <div class="grid-item">
     <br><hr><br>
   </div>
+
   <div class="grid-item">
+    <button class="open-modal" onclick="document.getElementById('helpBox').style.display='block';">Help</button>
+  <div id="helpBox" style="display:none;">
 
   <form action="mailto:info@LuminaFieldsnz@gmail.com" method="post" enctype="text/plain">
   <label for="name">Full Name:</label>
@@ -561,30 +568,14 @@ At the end of every *session* make sure you <font style="color:darkgreen;"><b>[D
   </div>
 </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
 
 
 
 
 <div id="splash" class="project-boxes" style="display: none;">
-
 <iframe id="bookFrame5" src="" style="width: 100%; height:99vh; border-radius: 22px;"></iframe>
-
 </div>
-
-
                   <div id="secretDiv" class="project-boxes" style="display: none;">
 
 <!--Box-->
@@ -1094,9 +1085,6 @@ Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connect
                 <input class="open-modal" type="text" id="userInput" placeholder="Type message...">
                 <button class="open-modal" onclick="sendMessage()">Send</button>
 
-              </div>
-              <div class="message-box">
-                <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" placeholder="Import Base Data Set">
               </div>
 
               <div class="message-box">

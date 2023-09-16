@@ -722,7 +722,7 @@ function scrollToBottom() {
 
   //for glasses
     const glassesImages = [];
-    for(let i = -1; i < 10; i++) {
+    for(let i = 0; i < 11; i++) {
       glassesImages.push(`./glasses/glasses${i}.png`);
     }
     let glassesOptions = '';
@@ -734,7 +734,7 @@ function scrollToBottom() {
 
   //for hair
     const hairImages = [];
-    for(let i = 0; i < 26; i++) {
+    for(let i = 0; i < 42; i++) {
       hairImages.push(`./hair/hair${i}.png`);
     }
     let hairOptions = '';
@@ -746,7 +746,7 @@ function scrollToBottom() {
 
   //for body
     const bodyImages = [];
-    for(let i = 0; i < 9; i++) {
+    for(let i = 0; i < 28; i++) {
       bodyImages.push(`./body/body${i}.png`);
     }
     let bodyOptions = '';
@@ -758,7 +758,7 @@ function scrollToBottom() {
 
     //for outer
       const outerImages = [];
-      for(let i = 0; i < 4; i++) {
+      for(let i = 0; i < 12; i++) {
         outerImages.push(`./outer/outer${i}.png`);
       }
       let outerOptions = '';
