@@ -23,14 +23,6 @@
             </head>
             <body>
 
-              <div class="image-container" id="profilePic" style="display:none; z-index: 9999999999;">
-                <img src="./body/body0.png" id="bodyLayer" class="layer" style="z-index: 1;">
-                <img src="./head.png" alt="Head" class="layer" style="z-index: 2;">
-                <img id="glassesLayer" class="layer" style="z-index: 3;">
-                <img id="hairLayer" class="layer" style="z-index: 4;">
-                <img src="./outer/outer0.png"  id="outerLayer" class="layer" style="z-index: 5;">
-              </div>
-
               <div class="app-container" style="z-index:999;">
 
               <div class="app-content">
@@ -511,22 +503,6 @@ At the end of every *session* make sure you <font style="color:darkgreen;"><b>[D
    <div id="toolMenu2" style="width: 93%;">
      <textarea class="json-editor" id="jsonEditor" placeholder="JSON Format: [question, answer, liveChange]"></textarea>
    </div>
-</div>
-<div class="grid-item" style="display:flex;">
-  <select class="open-modal" id="hairDropdown" onchange="changeHair()">
-  <option value="">None</option>
-  </select>
-  <select class="open-modal" id="glassesDropdown" onchange="changeGlasses()">
-  <option value="">None</option>
-  </select>
-
-  <select class="open-modal" id="bodyDropdown" onchange="changeBody()">
-  <option value="">None</option>
-  </select>
-
-  <select class="open-modal" id="outerDropdown" onchange="changeOuter()">
-  <option value="">None</option>
-  </select>
 </div>
   <div class="grid-item">
     <br><hr><br>
@@ -1060,7 +1036,6 @@ At the end of every *session* make sure you <font style="color:darkgreen;"><b>[D
 <div class="message-box">
     <div class="search-wrapper">
       <input class="search-input" placeholder="Search" type="text" id="passcode" oninput="checkPasscode();">
-
       <div class="loader">
         <div class="square" ></div>
         <div class="square"></div>
@@ -1084,7 +1059,6 @@ Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connect
               <div class="message-box">
                 <input class="open-modal" type="text" id="userInput" placeholder="Type message...">
                 <button class="open-modal" onclick="sendMessage()">Send</button>
-
               </div>
 
               <div class="message-box">
@@ -1123,6 +1097,14 @@ Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connect
                     <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
                   </svg>
                 </a>
+
+                <div class="image-container" id="profilePic" style="z-index: 9999999999;">
+                  <img src="./body/body0.png" id="bodyLayer" class="layer" style="z-index: 1;">
+                  <img src="./head.png" alt="Head" class="layer" style="z-index: 2;">
+                  <img id="glassesLayer" class="layer" style="z-index: 3;">
+                  <img id="hairLayer" class="layer" style="z-index: 4;">
+                  <img src="./outer/outer0.png"  id="outerLayer" class="layer" style="z-index: 5;">
+                </div>
               </div>
             </div>
             </div>

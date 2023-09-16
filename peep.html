@@ -14,32 +14,52 @@
 
   </div>
 <!-- partial:index.partial.html -->
-<div class="screen">
+<div class="screen"  onclick="openSettings();">
   <div class="screen-image"></div>
   <div class="screen-overlay"></div>
   <div class="screen-content">
     <div class="screen-user">
-      <h1>Please Login</h1>
-      <button class="open-modal" onclick="openSettings();">Create Account</button>
-
-          <br>
-
-                <div class="image-container">
-                  <img src="./body/body0.png" id="bodyLayer" class="layer" style="z-index: 1;">
-                  <img src="./head.png" alt="Head" class="layer" style="z-index: 2;">
-                  <img id="glassesLayer" class="layer" style="z-index: 3;">
-                  <img id="hairLayer" class="layer" style="z-index: 4;">
-                  <img src="./outer/outer0.png"  id="outerLayer" class="layer" style="z-index: 5;">
-                </div>
+      <div class="image-container" id="profilePic" style="z-index: 9999999999;">
+        <img src="./body/body0.png" id="bodyLayer" class="layer" style="z-index: 1;">
+        <img src="./head.png" alt="Head" class="layer" style="z-index: 2;">
+        <img id="glassesLayer" class="layer" style="z-index: 3;">
+        <img id="hairLayer" class="layer" style="z-index: 4;">
+        <img src="./outer/outer0.png"  id="outerLayer" class="layer" style="z-index: 5;">
+      </div>
     </div>
   </div>
 
 </div>
+<div class="screen2">
+  <div class="screen-image"></div>
+  <div class="screen-overlay"></div>
+  <div class="screen-content">
+    <div class="screen-user">
 
+
+
+      <div style="display:flex;">
+        <!-- The button that triggers the iframe content load -->
+        <button class="open-modal" onclick="document.getElementById('contentFrame').src='hair.html';">Hair</button>
+        <button class="open-modal" onclick="document.getElementById('contentFrame').src='body.html';">Body</button>
+        <button class="open-modal" onclick="document.getElementById('contentFrame').src='glasses.html';">Glasses</button>
+        <button class="open-modal" onclick="document.getElementById('contentFrame').src='outer.html';">Outer Wear</button>
+      </div>
+
+          <br>
+
+          <iframe id="contentFrame" width="100%" height="300" style="border: none; z-index:999999999999999999999999999999999;"></iframe>
+
+    </div>
+  </div>
+
+</div>
+<div>
+  <!-- The iframe where the content will be loaded -->
+</div>
 <canvas id="canvas"></canvas>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js'></script>
 <!-- partial -->
 <script  src="./script.js"></script>
-<script  src="./chatbot.js"></script>
 </body>
 </html>

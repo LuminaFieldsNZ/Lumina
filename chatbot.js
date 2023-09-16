@@ -361,10 +361,10 @@ function exitAll() {
 
 let userId = "Guest";
 let state = {
-     hair: './hair/hair1.png',
-     glasses: './glasses/glasses1.png',
-     body: './body/body1.png',
-     outer: './outer/outer1.png'
+     hair: './hair/hair0.png',
+     glasses: './glasses/glasses0.png',
+     body: './body/body0.png',
+     outer: './outer/outer0.png'
  };
 let populations = {};
 let mainHeading = {};
@@ -651,6 +651,13 @@ function updateUserData(userData) {
     scrollToBottom();
 }
 
+function postMessageToAllFrames(win, message) {
+    // Iterate through all iframes in the current window/frame and post the message recursively
+    for (let i = 0; i < win.frames.length; i++) {
+        win.frames[i].postMessage(message, '*');
+        postMessageToAllFrames(win.frames[i], message); // Recursive call for nested iframes
+    }
+}
 
 function importBaseDataSet(event) {
     const files = event.target.files;
@@ -671,14 +678,22 @@ function importBaseDataSet(event) {
                 populations = data.userData.populations;
                 completedProjects = data.userData.completedProjects;
 
+                    const messageUpdate = {
+                        conversationData: data.conversationData,
+                        userId: data.userData.id,
+                        state: data.userData.state,
+                        mainHeading: data.userData.mainHeading,
+                        populations: data.userData.populations,
+                        completedProjects: data.userData.completedProjects
+                    };
+
+                    postMessageToAllFrames(window.top, messageUpdate); // Start from the top-level window
+
+
                 // Update UI elements
                 updateCharacterFromState(); // Update character appearance based on the state
                 updateJSONDisplay(); // Update the JSON editor with the latest data
                 chatWindow.innerHTML += '<font style="color:lightgreen;">' + userId + ' is logged in.</font><br>';
-                document.getElementById('profilePic').style.display = "block";
-                const bookFrame5 = document.getElementById('bookFrame5');
-                bookFrame5.src = '100/index.html';
-
             } else {
                 alert('Invalid data format.');
             }
@@ -718,89 +733,29 @@ function scrollToBottom() {
       document.getElementById('outerLayer').src = state.outer;
   }
 
-    //Array building scriptsrc
-
-  //for glasses
-    const glassesImages = [];
-    for(let i = 0; i < 11; i++) {
-      glassesImages.push(`./glasses/glasses${i}.png`);
-    }
-    let glassesOptions = '';
-    for(let img of glassesImages) {
-      glassesOptions += `<option value="${img}">Glasses ${glassesImages.indexOf(img) + 1}</option>`;
-    }
-    const select = document.getElementById('glassesDropdown');
-    select.innerHTML = glassesOptions;
-
-  //for hair
-    const hairImages = [];
-    for(let i = 0; i < 42; i++) {
-      hairImages.push(`./hair/hair${i}.png`);
-    }
-    let hairOptions = '';
-    for(let img of hairImages) {
-      hairOptions += `<option value="${img}">Hair ${hairImages.indexOf(img) + 1}</option>`;
-    }
-    const select1 = document.getElementById('hairDropdown');
-    select1.innerHTML = hairOptions;
-
-  //for body
-    const bodyImages = [];
-    for(let i = 0; i < 28; i++) {
-      bodyImages.push(`./body/body${i}.png`);
-    }
-    let bodyOptions = '';
-    for(let img of bodyImages) {
-      bodyOptions += `<option value="${img}">Body ${bodyImages.indexOf(img) + 1}</option>`;
-    }
-    const select2 = document.getElementById('bodyDropdown');
-    select2.innerHTML = bodyOptions;
-
-    //for outer
-      const outerImages = [];
-      for(let i = 0; i < 12; i++) {
-        outerImages.push(`./outer/outer${i}.png`);
-      }
-      let outerOptions = '';
-      for(let img of outerImages) {
-        outerOptions += `<option value="${img}">Outer ${outerImages.indexOf(img) + 1}</option>`;
-      }
-      const select3 = document.getElementById('outerDropdown');
-      select3.innerHTML = outerOptions;
-
-
-
-  // Add for new categories
-    function changeHair() {
-      const hairDropdown = document.getElementById('hairDropdown');
-      const hairLayer = document.getElementById('hairLayer');
-      hairLayer.src = hairDropdown.value;
-      state.hair = hairDropdown.value;
-    }
-
-    function changeGlasses() {
-      const glassesDropdown = document.getElementById('glassesDropdown');
-      const glassesLayer = document.getElementById('glassesLayer');
-      glassesLayer.src = glassesDropdown.value;
-      state.glasses = glassesDropdown.value;
-    }
-
-    function changeBody() {
-      const bodyDropdown = document.getElementById('bodyDropdown');
-      const bodyLayer = document.getElementById('bodyLayer');
-      bodyLayer.src = bodyDropdown.value;
-      state.body = bodyDropdown.value;
-    }
-
-    function changeOuter() {
-      const outerDropdown = document.getElementById('outerDropdown');
-      const outerLayer = document.getElementById('outerLayer');
-      outerLayer.src = outerDropdown.value;
-      state.outer = outerDropdown.value;
-    }
 
     window.addEventListener('message', function(event) {
         if (event.data.action === 'changeSrc') {
             bookFrame5.src = event.data.newSrc;
+        }
+        if (event.data.action === 'hair') {
+            state.hair = event.data.value;
+            updateCharacterFromState();
+            updateJSONDisplay();
+        }
+        if (event.data.action === 'glasses') {
+            state.glasses = event.data.value;
+            updateCharacterFromState();
+            updateJSONDisplay();
+        }
+        if (event.data.action === 'body') {
+            state.body = event.data.value;
+            updateCharacterFromState();
+            updateJSONDisplay();
+        }
+        if (event.data.action === 'outer') {
+            state.outer = event.data.value;
+            updateCharacterFromState();
+            updateJSONDisplay();
         }
     }, false);

@@ -33,7 +33,12 @@ setInterval(() => {
 
 
 
-
+let state = {
+     hair: './hair/hair0.png',
+     glasses: './glasses/glasses0.png',
+     body: './body/body0.png',
+     outer: './outer/outer0.png'
+ };
 
 
 
@@ -279,3 +284,27 @@ function render() {
 function openSettings() {
 parent.postMessage({ action: 'openSettings', value: 'openSettings' }, '*');
 }
+
+
+
+    window.addEventListener('message', function(event) {
+        if (event.data.action === 'hair') {
+            document.getElementById('hairLayer').src = event.data.value;
+        }
+        if (event.data.action === 'glasses') {
+            document.getElementById('glassesLayer').src = event.data.value;
+        }
+        if (event.data.action === 'body') {
+            document.getElementById('bodyLayer').src = event.data.value;
+        }
+        if (event.data.action === 'outer') {
+            document.getElementById('outerLayer').src = event.data.value;
+        }
+    if (event.data.state) {
+        state = event.data.state;
+        document.getElementById('hairLayer').src = state.hair;
+        document.getElementById('glassesLayer').src = state.glasses;
+        document.getElementById('bodyLayer').src = state.body;
+        document.getElementById('outerLayer').src = state.outer;
+    }
+    }, false);

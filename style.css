@@ -35,9 +35,21 @@ body {
   z-index: 3;
 }
 
+
 /* For Webkit browsers like Chrome, Safari */
 ::-webkit-scrollbar {
     display: none;
+}
+
+/* For Firefox */
+html {
+    scrollbar-width: none;
+    overflow: -moz-scrollbars-none;
+}
+
+/* For IE and Edge */
+body {
+    -ms-overflow-style: none;
 }
 
 
@@ -64,7 +76,7 @@ body {
 color: white;
         text-transform: uppercase;
         letter-spacing: 2px;
-        font-size: 12px;
+        font-size: 18px;
         padding: .4em .6em;
         font-weight: bold;
         -webkit-transition: background 0.3s;
@@ -101,8 +113,8 @@ color: white;
 
 
 .screen {
-  width: 350px;
-  height: 500px;
+  width: 250px;
+  height: 300px;
   display: flex;
   color: white;
   border: 3px solid rgb(var(--primary-rgb) / 80%);
@@ -111,7 +123,7 @@ color: white;
   font-size: 1.3em;
   background-color: rgb(var(--primary-rgb) / 15%);
   overflow: scroll;
-  margin-top: 70px;
+  margin-top: 20px;
   position: relative;
   z-index: 10;
 }
@@ -135,6 +147,44 @@ color: white;
 }
 
 .screen:after {
+  width: 25%;
+  bottom: 0rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.screen2 {
+  width: 400px;
+  height: 300px;
+  display: flex;
+  color: white;
+  font-size: 1.3em;
+  background-color: rgb(var(--primary-rgb) / 85%);
+  overflow: scroll;
+  margin-top: 10px;
+  position: relative;
+  z-index: 10;
+}
+
+.screen2:after,
+.screen2:before {
+  content: "";
+  height: 5px;
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  translate: -50% 0%;
+  background-color: white;
+}
+
+.screen2:before {
+  width: 15%;
+  top: 0rem;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.screen2:after {
   width: 25%;
   bottom: 0rem;
   border-top-left-radius: 1rem;
@@ -315,14 +365,20 @@ color: white;
 }
 
 
+.image-container {
+    position: absolute;
+    width: 250px;
+    border: 0px;
+    height: 250px;
+    z-index: 100000000000000000000000000000000000000000000000000000000; /* Optional: To ensure it's above other elements */
+}
 
-
-  .image-container {
-    position: relative;
-    display: inline-block;
-  }
 
   .layer {
     position: absolute;
-    left: -100px;
+    border: 0px;
+    width: 100%;
+       height: 100%;
+       z-index: 0; /* Ensure the image is below the donut border */
+       object-fit: cover;
   }
