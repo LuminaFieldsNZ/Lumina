@@ -490,5 +490,7 @@ function askChatbot() {
           // Move to the next question
           currentQuestionIndex++;
       }
-  }, 1000); // Half-second delay
+  }, 10000); // Half-second delay
 }
+
+askChatbot();
