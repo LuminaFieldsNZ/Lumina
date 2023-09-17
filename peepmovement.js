@@ -1,11 +1,12 @@
     // Create multiple peeps
-    let numberOfPeeps = 3; // You can change this to the desired number of peeps
+    let numberOfPeeps = 4; // You can change this to the desired number of peeps
     let peeps = [];
 
     const peepImages = [
         'micheal.png',
         'crycella.png',
-        'anya.png'
+        'anya.png',
+        'felix.png'
     ];
 
 

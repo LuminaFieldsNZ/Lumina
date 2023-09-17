@@ -1,7 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', function () {
   setTimeout(function() {
-    splashActive();
+    settingsActive();
     document.getElementById("load1").style.color = "lightgreen";
     document.getElementById("load1").innerHTML = "Online";
   }, 1900); // 5000 milliseconds = 5 seconds
@@ -12,6 +12,9 @@ window.addEventListener('message', function(event) {
   if (data.section) {eval(data.section);}
   if (event.data.action === 'openSettings') {
       settingsActive();
+  }
+  if (event.data.action === 'openHome') {
+      splashActive();
   }
 });
 

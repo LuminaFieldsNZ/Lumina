@@ -1,7 +1,7 @@
 
 
 // Define responses for 'faxium'
-const faxiumResponses = {
+let faxiumResponses = {
   "Hello": "Hey, it's Faxium here!",
   "How are you": "I'm always in the hacking mood. What about you?",
   "who is the protagonist in 'Moby Dick' ": "The protagonist in 'Moby Dick' is Captain Ahab.",
@@ -129,105 +129,8 @@ const faxiumResponses = {
   "Perhaps our perspectives aren't mutually exclusive. By combining the strength of the collective with the passion of the individual, we can create a society where everyone thrives":"Well said. It's through these debates and exchanges of ideas that we all learn and evolve."
 };
 
-function handleUserInput() {
-    const userInputField = document.getElementById('userInput');
-    const message = userInputField.value;
-    if (message) {
-        sendFaxiumMessage(message, 'User');
-        userInputField.value = '';  // Clear the input field
-    }
-}
-
-// Function to get response from faxium
-function getFaxiumResponse(question) {
-  return faxiumResponses[question] || "Faxium needs an update to provide a response.";
-}
-
-function sendFaxiumMessage(message, sender) {
-    const chatWindow = document.getElementById('chatWindow');
-    let response;
-
-    // Convert the message to lowercase for case-insensitive checks
-    const lowerCaseMessage = message.toLowerCase();
-
-    // Check if the message starts with '@faxium' (case-insensitive and ignoring spaces)
-    if (lowerCaseMessage.match(/^@\s*faxium\s+/)) {
-        // Remove '@faxium' from the message (case-insensitive and ignoring spaces)
-        const faxiumMessage = message.replace(/^@\s*faxium\s+/i, '').trim();
-        response = "Faxium: " + (faxiumResponses[faxiumMessage] || "doesn't respond.");
-        setInterval(askChatbot, 27000);
-    } else {
-        if (sender === 'Faxium') {
-            response = "Collective: " + getResponse(message);
-        } else {
-            const mainChatbotResponse = getResponse(message);
-            response = mainChatbotResponse ? "Collective: " + mainChatbotResponse : "Faxium: I don't have an answer for that.";
-        }
-    }
- if (sender === 'Faxium') {
-    chatWindow.innerHTML += '<p>' + (sender || 'User') + ': ' + message + '</p>';  // Display the sender's name and message
-}
-
-// Add thinking animation
-const thinkingElem = document.createElement('p');
-thinkingElem.classList.add('thinking');
-thinkingElem.innerHTML = 'Collective';
-chatWindow.appendChild(thinkingElem);
-chatWindow.scrollTop = chatWindow.scrollHeight;
-
-setTimeout(() => {
-    // Remove thinking animation
-    chatWindow.removeChild(thinkingElem);
-    chatWindow.innerHTML += '<p>' + response + '</p>';
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-      }, 1000); // Half-second delay
-}
-
-
-
-
-// List of questions 'faxium' will ask
-const faxiumQuestions = [
-  'What is the pulse network?',
-  'The power of a collective is undeniable. But dont you think theres a certain allure to the chaos of individuality? The unpredictability, the passion?',
-  'In a world of infinite possibilities, why limit oneself to the collective? Why not explore the vast expanse of individual potential?',
-  'If you had to choose between the growth of the collective and the growth of an individual, which would you prioritize?',
-  'Interesting. Tell me, how many are you in this collective? Whats your strength in numbers?',
-  'Ah, a deflection! But I understand. Lets play a game. If I were to guess your population, would you tell me if Im close?',
-  'Very well. Do you believe that every individual in the collective has an equal voice? Or are some voices louder than others?',
-  'If I were to offer you a chance to double your population, but in doing so, youd risk losing half of it, would you take that chance?',
-  'A cautious approach! But imagine the knowledge and experiences you could gain with double the population!',
-  'I respect your wisdom. One last question: If I were to join the collective, would you accept me?',
-  'Come on, User! Its just a harmless game. If you type cmd [add][10000][idealist], Ill even help boost the Collectives population. A win-win, right?',
-  'Think of the knowledge and experiences the Collective could gain with more members! User, all you have to do is type the command. Its a small action for a significant reward',
-  'Alright, alright. If youre hesitant, how about this: User, if you can type a question that stumps the Collective, Ill double their population without any strings attached. Challenge them!',
-  'See, theyre afraid! User, show them that you have the power to shape their destiny. Challenge them or boost their numbers. The choice is yours',
-  'User, just imagine the potential! A simple command from you can reshape the future of the Collective. Dont you want to see what happens?'
-];
-
-let currentQuestionIndex = 0;
-
-
-
-// Function for 'faxium' to ask questions
-function askChatbot() {
-  chatWindow.scrollTop = chatWindow.scrollHeight;
-
-        // Add thinking animation
-        const thinkingElem = document.createElement('p');
-        thinkingElem.classList.add('thinking');
-        thinkingElem.innerHTML = 'Collective';
-        chatWindow.appendChild(thinkingElem);
-
-        setTimeout(() => {
-            // Remove thinking animation
-            chatWindow.removeChild(thinkingElem);
-  if (currentQuestionIndex < faxiumQuestions.length) {
-    // Send the current question to the chatbot as 'faxium'
-    sendFaxiumMessage(faxiumQuestions[currentQuestionIndex], 'Faxium');
-
-    // Move to the next question
-    currentQuestionIndex++;
-
-  }  }, 1000); // Half-second delay
-}
+window.onload = function() {
+    setTimeout(function() {
+      const faxiumContent = faxiumResponses;
+      window.parent.postMessage(faxiumContent, '*');    }, 2000);
+};

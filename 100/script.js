@@ -47,7 +47,6 @@ const faIcons = [
   "camera-retro",
   "campground",
   "candy-cane",
-  "cannabis",
   "carrot",
   "cat",
   "chair",
