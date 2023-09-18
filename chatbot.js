@@ -310,7 +310,7 @@ function updateUserData(userData) {
 function postMessageToAllFrames(win, message) {
     // Iterate through all iframes in the current window/frame and post the message recursively
     for (let i = 0; i < win.frames.length; i++) {
-        win.frames[i].postMessage(message, 'luminafields.com');
+        win.frames[i].postMessage(message, 'https://luminafields.com');
         postMessageToAllFrames(win.frames[i], message); // Recursive call for nested iframes
     }
 }
@@ -349,7 +349,7 @@ function importBaseDataSet(event) {
                 // Update UI elements
                 updateCharacterFromState(); // Update character appearance based on the state
                 updateJSONDisplay(); // Update the JSON editor with the latest data
-                parent.postMessage({ action: 'openHome', value: 'openHome' }, 'luminafields.com');
+                parent.postMessage({ action: 'openHome', value: 'openHome' }, 'https://luminafields.com');
                 document.getElementById('loginPlace').style.display = 'none';
                 chatWindow.innerHTML += '<font style="color:lightgreen;">' + userId + ' is logged in.</font><br>';
             } else {
@@ -373,7 +373,7 @@ function scrollToBottom() {
   function postMessageToParent(value, category) {
     const message = {};
     message[category] = value;
-    window.parent.postMessage(message, 'luminafields.com');
+    window.parent.postMessage(message, 'https://luminafields.com');
   }
 
 

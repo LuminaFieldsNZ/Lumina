@@ -105,10 +105,10 @@ function handleIconClick(event) {
   const iconName = event.currentTarget.getAttribute("data-name");
   console.log(`Icon ${iconName} was clicked!`);
   if (iconName === "cat") {  // Check if it's the cat icon
-    parent.postMessage({ action: 'changeSrc', newSrc: 'nations/awakening.html' }, 'luminafields.com');
+    parent.postMessage({ action: 'changeSrc', newSrc: 'nations/awakening.html' }, 'https://luminafields.com');
   }
   if (iconName === "angry") {  // Check if it's the cat icon
-    parent.postMessage({ action: 'hideThem', value: 'hideThem' }, 'luminafields.com');
+    parent.postMessage({ action: 'hideThem', value: 'hideThem' }, 'https://luminafields.com');
   }
   // You can add more logic here if needed
 }

@@ -28,7 +28,7 @@
 
 
 function energyAuditSend(){
-	window.parent.postMessage({ section: 'energyAuditActive()' }, 'luminafields.com');
+	window.parent.postMessage({ section: 'energyAuditActive()' }, 'https://luminafields.com');
 }
 
 
