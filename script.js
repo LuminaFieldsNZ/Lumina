@@ -282,7 +282,7 @@ function render() {
 
 
 function openSettings() {
-parent.postMessage({ action: 'openSettings', value: 'openSettings' }, '*');
+parent.postMessage({ action: 'openSettings', value: 'openSettings' }, 'luminafields.com');
 }
 
 
