@@ -158,7 +158,7 @@ let baseData =
     ["what are the effects of sleep deprivation", "Sleep deprivation can lead to fatigue, decreased concentration, weakened immune system, mood disturbances, and increased risk of chronic conditions.", ""],
     ["how do I use this chatbot?", "Simply type your question or command into the input box and press the send button. I'll do my best to provide a relevant response!", ""],
     ["can I train the chatbot?", "Yes, you can train me by providing new questions and answers in the JSON format. This helps improve my responses over time.", ""],
-    ["what is the pulse network?", "The Pulse Network is a communication network that connects all ISPs to the blockchain, allowing for free layer 3 instant transmissions. These transmissions are verified by time-space.", ""],
+    ["what is the pulse network?", "The Pulse Network is a communication network that connects us to other nations machine learning systems. These transmissions are verified by time-space layer 4 blockchain technology.", ""],
     ["how does the pulse network work?", "The Pulse Network utilizes blockchain technology to connect ISPs. It offers instant layer 3 transmissions that are verified using a unique time-space mechanism, ensuring secure and rapid communication.", ""],
     ["what are the benefits of the pulse network?", "The Pulse Network provides instant layer 3 transmissions for free, connects all ISPs to the blockchain, and ensures secure communication with its time-space verification.", ""],
     ["how is the pulse network different from traditional networks?", "Unlike traditional networks, the Pulse Network is integrated with blockchain technology, offers free layer 3 transmissions, and uses time-space verification for enhanced security.", ""],
@@ -345,5 +345,5 @@ let baseData =
 window.onload = function() {
     setTimeout(function() {
       const collectiveContent = baseData;
-      window.parent.postMessage(collectiveContent, 'luminafields.com');    }, 1000);
+      window.parent.postMessage(collectiveContent, 'https://luminafields.com/');    }, 1000);
 };

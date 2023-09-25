@@ -35,5 +35,7 @@
       "populist": 1050
     },
     "completedProjects": ["0", "1", "2"]
-  }
+    },
+    "homePage": "test"
+
 }

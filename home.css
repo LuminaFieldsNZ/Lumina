@@ -76,7 +76,7 @@ body {
 }
 
 
-        .chat-window, .json-editor {
+        .chat-window {
             width: 100%;
             height: 400px;
             overflow-y: scroll;

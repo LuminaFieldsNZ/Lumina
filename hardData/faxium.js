@@ -132,5 +132,5 @@ let faxiumResponses = {
 window.onload = function() {
     setTimeout(function() {
       const faxiumContent = faxiumResponses;
-      window.parent.postMessage(faxiumContent, 'luminafields.com');    }, 2000);
+      window.parent.postMessage(faxiumContent, 'https://luminafields.com/');    }, 2000);
 };

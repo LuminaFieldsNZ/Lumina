@@ -490,24 +490,27 @@
   <div class="grid-item" id="loginPlace">
     <h1>Login</h1>
     <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" placeholder="Import Base Data Set"><hr><br>
-  </div>
-  <div class="grid-item">
+
    <p>You always need to <font style="color:darkblue;"><b>[Upload]</b></font> your profile.json file above to <font style="color:darkred;"><b>[Login]</b></font>. If you dont have one, you can <font style="color:darkgreen;"><b>[Download]</b></font> a base file now.
    </p><br>
+ </div>
+ <div class="grid-item">
    <button class="open-modal"  onclick="exportData()">Download</button>
 <br>
 <p>
-At the end of every *session* make sure you <font style="color:darkgreen;"><b>[Download]</b></font> your updated profile.json, all changes throughout your experience will be rendered below and the Collective will remember every step of your journey, in the most secure way possible.
+At the end of every *session* make sure you <font style="color:darkgreen;"><b>[Download]</b></font> your updated profile.json, all changes throughout your experience will be rendered below and every step of your journey will be remembered, in the most secure way possible.
 </p>
-   <hr>
-   <div id="toolMenu2" style="width: 93%;">
-     <textarea class="json-editor" id="jsonEditor" placeholder="JSON Format: [question, answer, liveChange]"></textarea>
-   </div>
 </div>
   <div class="grid-item">
     <br><hr><br>
+    <textarea id="popupIframe" style="width: 100%; height:40vh; border-radius: 22px; scrollbar-width: 0px;"></textarea>
   </div>
-
+<div class="grid-item">
+<hr>
+<div id="toolMenu2" style="width: 99%;">
+  <textarea readonly class="json-editor" style="height:100px; width:100%;" id="jsonEditor" placeholder="JSON Format: [question, answer, liveChange]"></textarea>
+</div>
+</div>
 
 </div>
 </div>
@@ -1057,7 +1060,7 @@ Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connect
                   </svg>
                 </a>
 
-                <a class="mode-switch app-sidebar-link" title="Switch Theme">
+                <a class="mode-switch app-sidebar-link" onclick="document.getElementById('popupIframe').src = '';" title="Switch Theme">
                   <svg class="link-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
                     <defs></defs>
                     <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>

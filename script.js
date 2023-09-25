@@ -282,8 +282,20 @@ function render() {
 
 
 function openSettings() {
-parent.postMessage({ action: 'openSettings', value: 'openSettings' }, 'https://luminafields.com');
+parent.postMessage({ action: 'openSettings', value: 'openSettings' }, 'https://luminafields.com/');
 }
+
+const peepContent = document.documentElement.outerHTML;
+
+
+   document.addEventListener('DOMContentLoaded', function() {
+     const peepContent = document.documentElement.outerHTML;
+         const message = {
+           action: 'peepContent',
+           peepContent: peepContent
+         };
+         window.parent.postMessage(message, '*');
+   });
 
 
 

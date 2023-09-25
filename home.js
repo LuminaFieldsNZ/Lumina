@@ -42,15 +42,11 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
 window.addEventListener('message', function(event) {
     if (event.data.action === 'changeSrc') {
         bookFrame1.src = event.data.newSrc;
     }
 }, false);
-
-const bookFrame5 = document.getElementById('bookFrame5');
-bookFrame5.src = 'peep.html';
 
 const bookFrame4 = document.getElementById('bookFrame4');
 bookFrame4.src = 'loader/index.html';

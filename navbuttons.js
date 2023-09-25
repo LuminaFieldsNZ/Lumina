@@ -22,10 +22,10 @@ window.addEventListener('message', function(event) {
 function checkPasscode() {
   const code = document.getElementById("passcode").value;
   if(code === "100") {
-    parent.postMessage({ action: 'changeSrc', newSrc: '100/index.html' }, 'https://luminafields.com');
+    parent.postMessage({ action: 'changeSrc', newSrc: '100/index.html' }, 'https://luminafields.com/');
   }
   if(code === "587112349") {
-    parent.postMessage({ action: 'changeSrc', newSrc: 'nations/book.html' }, 'https://luminafields.com');
+    parent.postMessage({ action: 'changeSrc', newSrc: 'nations/book.html' }, 'https://luminafields.com/');
   }
 }
 
@@ -498,7 +498,7 @@ function generateRandomStory() {
                         const message = {};
                         message[randomVariable.toLowerCase()] = 1; // Convert the variable name to lowercase to match your example
 
-                        window.parent.postMessage(message, 'https://luminafields.com');
+                        window.parent.postMessage(message, 'https://luminafields.com/');
                     }
 
 

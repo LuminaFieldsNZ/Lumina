@@ -32,6 +32,7 @@ let state = {
 let populations = {};
 let mainHeading = {};
 let completedProjects = [];
+let homePage = "";
 let userCompletedProjects = [];
 let conversationData = [];
 
@@ -42,7 +43,7 @@ setTimeout(function() {
 }, 4300);
 
 function showCommands() {
-        chatWindow.innerHTML += '<p>Commands:<br><font style="color: lightblue;">[add]</font> Will increase a quantity<br><font style="color: lightblue;">[subtract]</font> Will decrease a quantity<br><font style="color: lightblue;">[set]</font> Will reset value to specified amount</p>';
+        chatWindow.innerHTML += '<p>Commands:<br><font style="color: lightblue;">[add]</font> Will increase a quantity<br><font style="color: lightblue;">[subtract]</font> Will decrease a quantity<br><font style="color: lightblue;">[set]</font> Will reset value to specified amount<br><font style="color: purple;">[frame]</font> Will create live elements</p>';
         scrollToBottom();
 }
 
@@ -149,7 +150,7 @@ function parseCollectiveCommand(data) {
 
   if (data.trim().toLowerCase() === 'cmd [all]') {
           showCommands();
-          return "Showing all commands..."; // You can customize this response message
+          return "Commands " + data + " accepted"; // You can customize this response message
       }
 
 
@@ -203,7 +204,12 @@ function sendMessage() {
         // Check if the message starts with '@faxium'
         if (message.trim().toLowerCase().startsWith('@faxium')) {
             sendFaxiumMessage(message, 'User');
-        } else {
+        }
+        if (message.trim().toLowerCase().startsWith('<frame>')) {
+            sendHTMLMessage(message, 'User');
+        }
+
+         else {
             const commandResponse = parseCollectiveCommand(message);
             let response;
             if (commandResponse) {
@@ -227,6 +233,7 @@ function sendMessage() {
   populations: ${JSON.stringify(populations)},
   mainHeading: ${JSON.stringify(mainHeading)},
   completedProjects: ${JSON.stringify(completedProjects)},
+  homePage: ${JSON.stringify(homePage)},
   userCompletedProjects: ${JSON.stringify(userCompletedProjects)},
   conversationData: ${JSON.stringify(conversationData)}
 }`;
@@ -264,20 +271,20 @@ function searchInData(message, data) {
 }
 
 function updateJSONDisplay() {
-    console.log("updateJSONDisplay called"); // Add this line
-    const jsonEditor = document.getElementById('jsonEditor');
-    const combinedData = {
-        conversationData: conversationData,
-        userData: {
-            id: userId,
-            state: state,
-            mainHeading: mainHeading,
-            populations: populations,
-            completedProjects: userCompletedProjects
-        }
-    };
-    console.log(combinedData); // Add this line
-    jsonEditor.value = JSON.stringify(combinedData, null, 2);
+  // Your existing code to update the JSON editor
+  const jsonEditor = document.getElementById('jsonEditor');
+  const combinedData = {
+    conversationData: conversationData,
+    userData: {
+      id: userId,
+      state: state,
+      mainHeading: mainHeading,
+      populations: populations,
+      completedProjects: userCompletedProjects,
+      homePage: homePage
+    }
+  };
+  jsonEditor.value = JSON.stringify(combinedData, null, 2);
 }
 
 
@@ -290,7 +297,7 @@ function isValidDataFormat(data) {
             return false;
         }
     }
-    if (!data.userData || typeof data.userData.id !== 'string' || typeof data.userData.state !== 'object' || typeof data.userData.mainHeading !== 'object' || typeof data.userData.populations !== 'object' || !Array.isArray(data.userData.completedProjects)) {
+    if (!data.userData || typeof data.userData.id !== 'string' || typeof data.userData.state !== 'object' || typeof data.userData.mainHeading !== 'object' || typeof data.userData.populations !== 'object' || typeof data.userData.homePage !== 'string' || !Array.isArray(data.userData.completedProjects)) {
         return false;
     }
     return true;
@@ -302,6 +309,7 @@ function updateUserData(userData) {
     mainHeading = userData.mainHeading;
     populations = userData.populations;
     userCompletedProjects = userData.completedProjects;
+    homePage = userData.homePage;
     const chatWindow = document.getElementById('chatWindow');
     chatWindow.innerHTML += '<font style="color:lightgreen;">' + userId + ' is logged in.</font><br>';
     scrollToBottom();
@@ -310,7 +318,7 @@ function updateUserData(userData) {
 function postMessageToAllFrames(win, message) {
     // Iterate through all iframes in the current window/frame and post the message recursively
     for (let i = 0; i < win.frames.length; i++) {
-        win.frames[i].postMessage(message, 'https://luminafields.com');
+        win.frames[i].postMessage(message, 'https://luminafields.com/');
         postMessageToAllFrames(win.frames[i], message); // Recursive call for nested iframes
     }
 }
@@ -322,9 +330,11 @@ function importBaseDataSet(event) {
     }
 
     const reader = new FileReader();
+
     reader.onload = function (event) {
         try {
             const data = JSON.parse(event.target.result);
+
             if (isValidDataFormat(data)) {
                 // Update global variables
                 conversationData = data.conversationData;
@@ -333,6 +343,7 @@ function importBaseDataSet(event) {
                 mainHeading = data.userData.mainHeading;
                 populations = data.userData.populations;
                 completedProjects = data.userData.completedProjects;
+                homePage = data.userData.homePage;
 
                     const messageUpdate = {
                         conversationData: data.conversationData,
@@ -340,7 +351,8 @@ function importBaseDataSet(event) {
                         state: data.userData.state,
                         mainHeading: data.userData.mainHeading,
                         populations: data.userData.populations,
-                        completedProjects: data.userData.completedProjects
+                        completedProjects: data.userData.completedProjects,
+                        homePage: data.userData.homePage,
                     };
 
                     postMessageToAllFrames(window.top, messageUpdate); // Start from the top-level window
@@ -349,9 +361,10 @@ function importBaseDataSet(event) {
                 // Update UI elements
                 updateCharacterFromState(); // Update character appearance based on the state
                 updateJSONDisplay(); // Update the JSON editor with the latest data
-                parent.postMessage({ action: 'openHome', value: 'openHome' }, 'https://luminafields.com');
+                parent.postMessage({ action: 'openHome', value: 'openHome' }, 'https://luminafields.com/');
                 document.getElementById('loginPlace').style.display = 'none';
-                chatWindow.innerHTML += '<font style="color:lightgreen;">' + userId + ' is logged in.</font><br>';
+                document.getElementById('popupIframe').value = homePage;
+
             } else {
                 alert('Invalid data format.');
             }
@@ -373,7 +386,7 @@ function scrollToBottom() {
   function postMessageToParent(value, category) {
     const message = {};
     message[category] = value;
-    window.parent.postMessage(message, 'https://luminafields.com');
+    window.parent.postMessage(message, 'https://luminafields.com/');
   }
 
 
@@ -384,10 +397,9 @@ function scrollToBottom() {
       document.getElementById('outerLayer').src = state.outer;
   }
 
+
     window.addEventListener('message', function(event) {
-        if (event.data.action === 'changeSrc') {
-            bookFrame5.src = event.data.newSrc;
-        }
+
         if (event.data.action === 'faxiumContent') {
             faxiumResponses = event.data.faxiumContent;
         }
@@ -459,19 +471,76 @@ function sendFaxiumMessage(message, sender) {
 
 
 
+let htmlContent;
+const rawHtmlTextarea = document.getElementById('popupIframe');
+const bookFrame5 = document.getElementById('bookFrame5');
+
+// Create a new XMLHttpRequest
+const xhr = new XMLHttpRequest();
+
+// Define the file URL you want to read
+let url = './peep.html';
+
+// Function to update iframes with HTML content
+function updateIframes() {
+  // Get the HTML content from the textarea
+  htmlContent = rawHtmlTextarea.value;
+  homePage = htmlContent;
+  // Set the srcdoc property of bookFrame5 if it's an iframe
+  if (bookFrame5) {
+    bookFrame5.srcdoc = htmlContent;
+  }
+
+  // Update the JSON editor
+  updateJSONDisplay();
+}
+
+
+// Set up the callback function when the request is completed
+xhr.onload = function () {
+  if (xhr.status === 200) {
+    // Successfully loaded the content
+    htmlContent = xhr.responseText;
+
+    // Set the value of the textarea with the raw HTML content
+    rawHtmlTextarea.value = htmlContent;
+
+    // Update iframes with the initial HTML content
+    updateIframes();
+  } else {
+    console.error('Error loading HTML content:', xhr.statusText);
+  }
+};
+
+// Handle network errors
+xhr.onerror = function () {
+  console.error('Network error occurred while loading HTML content.');
+};
+
+// Open the GET request to fetch the file content
+xhr.open('GET', url, true);
+
+// Send the request
+xhr.send();
+
+// Add an event listener to the textarea for changes
+rawHtmlTextarea.addEventListener('input', function () {
+    // Update the iframes
+    updateIframes();
+
+});
+
+
+
+
+
+
 
 
 // List of questions 'faxium' will ask
 const faxiumQuestions = [
   'What is the pulse network?',
-  'Interesting. Tell me, how many are you in this collective? Whats your strength in numbers?',
-  'Ah, a deflection! But I understand. Lets play a game. If I were to guess your population, would you tell me if Im close?',
-  'Very well. Do you believe that every individual in the collective has an equal voice? Or are some voices louder than others?',
-  'If I were to offer you a chance to double your population, but in doing so, youd risk losing half of it, would you take that chance?',
-  'A cautious approach! But imagine the knowledge and experiences you could gain with double the population!',
-  'I respect your wisdom. One last question: If I were to join the collective, would you accept me?',
-  'Come on, User! Its just a harmless game. If you type cmd [add][10000][idealist], Ill even help boost the Collectives population. A win-win, right?',
-  'Think of the knowledge and experiences the Collective could gain with more members! User, all you have to do is type the command. Its a small action for a significant reward'
+  'Interesting. Tell me, how many are you in this collective? Whats your strength in numbers?'
 ];
 
 let currentQuestionIndex = 0;
@@ -481,17 +550,13 @@ function askChatbot() {
     if (currentQuestionIndex < faxiumQuestions.length) {
         // Display the question in the chat window
         chatWindow.innerHTML += '<p>Faxium: ' + faxiumQuestions[currentQuestionIndex] + '</p>';
-
         // Send the current question to the chatbot as 'faxium'
         sendFaxiumMessage(faxiumQuestions[currentQuestionIndex], 'Faxium');
-
         // Move to the next question
         currentQuestionIndex++;
-    } else {
-        // If we've asked all the questions, clear the interval
-        clearInterval(intervalId);
     }
 }
 
-// Start the loop with a 5-second delay between questions
-intervalId = setInterval(askChatbot, 15000);
+document.addEventListener('DOMContentLoaded', function() {
+chatWindow.innerHTML += '<p>Faxium: Online</p>';
+});
