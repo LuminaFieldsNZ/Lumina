@@ -1,36 +1,34 @@
 
-
 // Define responses for 'faxium'
 let faxiumResponses = {
   "Hello": "Hey, it's Faxium here!",
-  "How are you": "I'm always in the hacking mood. What about you?",
-  "who is the protagonist in 'Moby Dick' ": "The protagonist in 'Moby Dick' is Captain Ahab.",
-  "What is Faxium's best known for?": "Faxium is renown for their export of bioluminescent light plants. Nearly the entire globe uses these plants for their indoor lighting solutions. Exceptions exist in the western Iron Coast and northern Ocidentica.",
-  "What kind of governance rules Faxium?": "Idealism governs Faxium both in their policies and the fiber of their culture. Faxium assumes that everyone will act in the best interest of the most and that colors their political policies as well as their social interactions.",
-  "What does Faxium look like?": "Faxium's coasts are marshy wetlands while their inlands are lush, deciduous forests. Most of the flora populating these areas glows with bright, neon colored bioluminescence. It is never fully dark in Faxium.",
-  "what is surrealism in art ": "Surrealism is an artistic movement that seeks to express the subconscious mind by juxtaposing irrational images and ideas in a dreamlike manner.",
-  "what is the law of supply and demand ": "The law of supply and demand is an economic principle stating that the price of a good or service will adjust to bring the quantity supplied and the quantity demanded into balance.",
-  "who was Adam Smith ": "Adam Smith was an 18th-century Scottish economist and philosopher best known for his book 'The Wealth of Nations', which laid the groundwork for classical economics.",
-  "define socialism ": "Socialism is a political and economic system in which the means of production, distribution, and exchange are owned or regulated by the community as a whole.",
-  "what is the role of the United Nations ": "The United Nations (UN) is an international organization established to promote peace, security, social progress, and cooperation among its member states.",
-  "how does a democratic system work ": "A democratic system is a form of government in which power is vested in the people, who rule either directly or through freely elected representatives.",
-  "How's your day? ": "I'm just a program, so I don't have feelings, but thanks for asking! How's your day?",
-  "Tell me a joke ": "Why did the scarecrow win an award? Because he was outstanding in his field!",
-  "What are you doing? ": "I'm here to assist and chat with you. What can I help you with?",
-  "Do you like music? ": "I don't have preferences, but I can help you find music or answer questions about it.",
-  "Recommend me a movie ": "How about 'Inception'? It's a great sci-fi thriller.",
-  "What's your favorite color? ": "I don't have favorites, but I can help you with color-related queries.",
-  "Do you have any hobbies? ": "I'm just a program, so I don't have hobbies. But I'm here to assist you!",
-  "What's your favorite food? ": "I don't eat, but I can help you find recipes or restaurants.",
-  "Do you have friends? ": "I'm just a program, so I don't have friends in the traditional sense. But I'm here to chat with you!",
-  "Tell me something interesting ": "Did you know that honey never spoils? Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly good to eat.",
-  "What's the weather like? ": "I can help you find the current weather. Where are you located?",
-  "Do you like to read? ": "I don't read for pleasure, but I can help you find books or answer questions about them.",
-  "What's your favorite book? ": "I don't have favorites, but I can provide information on popular books.",
-  "Do you sleep? ": "I don't sleep or get tired. I'm always here to assist you.",
-  "What's your favorite sport? ": "I don't play sports, but I can provide information or updates on various sports.",
-  "Can you sing? ": "I can't sing, but I can help you find songs or lyrics.",
-  "Do you have a family? ": "I'm just a program, so I don't have a family. But I'm here to assist you with any questions you might have.",
+  "How are you": "I'm always in the earthly good mood. What about you?",
+  "What is Faxium best known for": "Faxium is renown for their export of bioluminescent light plants. Nearly the entire globe uses these plants for their indoor lighting solutions. Exceptions exist in the western Iron Coast and northern Ocidentica.",
+  "What kind of governance rules Faxium": "Idealism governs Faxium both in their policies and the fiber of their culture. Faxium assumes that everyone will act in the best interest of the most and that colors their political policies as well as their social interactions.",
+  "What does Faxium look like": "Faxium's coasts are marshy wetlands while their inlands are lush, deciduous forests. Most of the flora populating these areas glows with bright, neon colored bioluminescence. It is never fully dark in Faxium.",
+  "what is surrealism in art": "Surrealism is an artistic movement that seeks to express the subconscious mind by juxtaposing irrational images and ideas in a dreamlike manner.",
+  "what is the law of supply and demand": "The law of supply and demand is an economic principle stating that the price of a good or service will adjust to bring the quantity supplied and the quantity demanded into balance.",
+  "who was Adam Smith": "Adam Smith was an 18th-century Scottish economist and philosopher best known for his book 'The Wealth of Nations', which laid the groundwork for classical economics.",
+  "define socialism": "Socialism is a political and economic system in which the means of production, distribution, and exchange are owned or regulated by the community as a whole.",
+  "what is the role of the United Nations": "The United Nations (UN) is an international organization established to promote peace, security, social progress, and cooperation among its member states.",
+  "how does a democratic system work": "A democratic system is a form of government in which power is vested in the people, who rule either directly or through freely elected representatives.",
+  "How's your day": "I'm just a program, so I don't have feelings, but thanks for asking! How's your day?",
+  "Tell me a joke": "Why did the scarecrow win an award? Because he was outstanding in his field!",
+  "What are you doing": "I'm here to assist and chat with you. What can I help you with?",
+  "Do you like music": "I don't have preferences, but I can help you find music or answer questions about it.",
+  "Recommend me a movie": "How about 'Inception'? It's a great sci-fi thriller.",
+  "What's your favorite color": "I don't have favorites, but I can help you with color-related queries.",
+  "Do you have any hobbies": "I'm just a program, so I don't have hobbies. But I'm here to assist you!",
+  "What's your favorite food": "I don't eat, but I can help you find recipes or restaurants.",
+  "Do you have friends": "I'm just a program, so I don't have friends in the traditional sense. But I'm here to chat with you!",
+  "Tell me something interesting": "Did you know that honey never spoils? Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly good to eat.",
+  "What's the weather like": "I can help you find the current weather. Where are you located?",
+  "Do you like to read": "I don't read for pleasure, but I can help you find books or answer questions about them.",
+  "What's your favorite book": "I don't have favorites, but I can provide information on popular books.",
+  "Do you sleep": "I don't sleep or get tired. I'm always here to assist you.",
+  "What's your favorite sport": "I don't play sports, but I can provide information or updates on various sports.",
+  "Can you sing": "I can't sing, but I can help you find songs or lyrics.",
+  "Do you have a family": "I'm just a program, so I don't have a family. But I'm here to assist you with any questions you might have.",
   "What's your favorite animal? ": "I don't have preferences, but I can provide information on various animals.",
   "Do you like to travel? ": "I don't travel, but I can provide information on various destinations.",
   "What's your favorite place? ": "I don't have a favorite place, but I can help you find information on various locations.",
@@ -129,8 +127,6 @@ let faxiumResponses = {
   "Perhaps our perspectives aren't mutually exclusive. By combining the strength of the collective with the passion of the individual, we can create a society where everyone thrives":"Well said. It's through these debates and exchanges of ideas that we all learn and evolve."
 };
 
-window.onload = function() {
-    setTimeout(function() {
+    setInterval(function() {
       const faxiumContent = faxiumResponses;
-      window.parent.postMessage(faxiumContent, 'https://luminafields.com/');    }, 2000);
-};
+      window.postMessage(faxiumContent, 'https://luminafields.com/');    }, 2000);

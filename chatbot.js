@@ -1,6 +1,7 @@
 
-
-
+faxiumResponses = {
+  "Hello": "Hey, it's Faxium here!"
+}
 
  baseData =
 [
@@ -190,7 +191,6 @@ function parseCollectiveCommand(data) {
 
 
 
-
 function sendMessage() {
     const inputElem = document.getElementById('userInput');
     const message = inputElem.value;
@@ -200,16 +200,16 @@ function sendMessage() {
     chatWindow.innerHTML += '<p>' + userId + ': ' + message + '</p>';
     scrollToBottom();
 
+    // Check if the message starts with '@faxium'
+    if (message.trim().toLowerCase().startsWith('@faxium')) {
+        sendFaxiumMessage(message, 'User');
+        return; // Return early to prevent further processing
+    }
+
     setTimeout(() => {
-        // Check if the message starts with '@faxium'
-        if (message.trim().toLowerCase().startsWith('@faxium')) {
-            sendFaxiumMessage(message, 'User');
-        }
         if (message.trim().toLowerCase().startsWith('<frame>')) {
             sendHTMLMessage(message, 'User');
-        }
-
-         else {
+        } else {
             const commandResponse = parseCollectiveCommand(message);
             let response;
             if (commandResponse) {
@@ -222,11 +222,12 @@ function sendMessage() {
                 scrollToBottom();
             }
         }
+
         const timestamp = new Date().toISOString();
- let response = getResponse(message);
+        let response = getResponse(message);
         if (!isRedundant(message)) {
-          // Append the variables to the response string
-          response += `
+            // Append the variables to the response string
+            response += `
 {
   userId: "${userId}",
   state: ${JSON.stringify(state)},
@@ -243,7 +244,6 @@ function sendMessage() {
         updateJSONDisplay();
     }, 1000);
 }
-
 
 
 
@@ -303,17 +303,6 @@ function isValidDataFormat(data) {
     return true;
 }
 
-function updateUserData(userData) {
-    userId = userData.id;
-    state = userData.state;
-    mainHeading = userData.mainHeading;
-    populations = userData.populations;
-    userCompletedProjects = userData.completedProjects;
-    homePage = userData.homePage;
-    const chatWindow = document.getElementById('chatWindow');
-    chatWindow.innerHTML += '<font style="color:lightgreen;">' + userId + ' is logged in.</font><br>';
-    scrollToBottom();
-}
 
 function postMessageToAllFrames(win, message) {
     // Iterate through all iframes in the current window/frame and post the message recursively
@@ -364,6 +353,7 @@ function importBaseDataSet(event) {
                 parent.postMessage({ action: 'openHome', value: 'openHome' }, 'https://luminafields.com/');
                 document.getElementById('loginPlace').style.display = 'none';
                 document.getElementById('popupIframe').value = homePage;
+                chatWindow.innerHTML += '<font style="color:lightgreen;">' + userId + ' is logged in.</font><br>';
 
             } else {
                 alert('Invalid data format.');
@@ -401,10 +391,12 @@ function scrollToBottom() {
     window.addEventListener('message', function(event) {
 
         if (event.data.action === 'faxiumContent') {
+          alert("Test1 PAssed");
             faxiumResponses = event.data.faxiumContent;
         }
         if (event.data.action === 'collectiveContent') {
             baseData = event.data.collectiveContent;
+            alert('works');
         }
         if (event.data.action === 'hair') {
             state.hair = event.data.value;
@@ -432,8 +424,6 @@ function scrollToBottom() {
 
 
 
-
-
     function handleUserInput() {
     const userInputField = document.getElementById('userInput');
     const message = userInputField.value;
@@ -441,10 +431,6 @@ function scrollToBottom() {
         sendFaxiumMessage(message, 'User');
         userInputField.value = '';  // Clear the input field
     }
-}
-
-function getFaxiumResponse(question) {
-  return faxiumResponses[question] || "Faxium needs an update to provide a response.";
 }
 
 function sendFaxiumMessage(message, sender) {
@@ -458,7 +444,25 @@ function sendFaxiumMessage(message, sender) {
     if (lowerCaseMessage.startsWith('@faxium')) {
         // Remove '@faxium' from the message (case-insensitive and ignoring spaces)
         const faxiumMessage = message.replace(/^@\s*faxium\s+/i, '').trim();
-        response = "Faxium: " + (faxiumResponses[faxiumMessage] || "doesn't respond.");
+
+        // Initialize the maximum allowed Levenshtein distance
+        const maxDistance = 7;
+
+        // Check if the faxiumMessage is similar to any of the predefined questions
+        let closestQuestion = null;
+
+        for (const question of Object.keys(faxiumResponses)) {
+            const distance = levenshtein(faxiumMessage, question.toLowerCase());
+            if (distance <= maxDistance && (closestQuestion === null || distance < levenshtein(faxiumMessage, closestQuestion.toLowerCase()))) {
+                closestQuestion = question;
+            }
+        }
+
+        if (closestQuestion) {
+            response = "Faxium: " + faxiumResponses[closestQuestion];
+        } else {
+            response = "Faxium: I'm sorry, I couldn't understand your question.";
+        }
     } else {
         response = "Collective: " + getResponse(message);
     }
@@ -468,6 +472,9 @@ function sendFaxiumMessage(message, sender) {
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }, 1000); // 1-second delay
 }
+
+
+
 
 
 
