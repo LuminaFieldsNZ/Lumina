@@ -294,7 +294,7 @@ const peepContent = document.documentElement.outerHTML;
            action: 'peepContent',
            peepContent: peepContent
          };
-         window.parent.postMessage(message, '*');
+         window.parent.postMessage(message, 'https://luminafields.com/');
    });
 
 

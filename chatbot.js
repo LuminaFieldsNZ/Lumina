@@ -391,12 +391,10 @@ function scrollToBottom() {
     window.addEventListener('message', function(event) {
 
         if (event.data.action === 'faxiumContent') {
-          alert("Test1 PAssed");
             faxiumResponses = event.data.faxiumContent;
         }
         if (event.data.action === 'collectiveContent') {
             baseData = event.data.collectiveContent;
-            alert('works');
         }
         if (event.data.action === 'hair') {
             state.hair = event.data.value;
