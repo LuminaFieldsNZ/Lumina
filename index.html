@@ -487,28 +487,14 @@
 <div id="settingsMain" class="project-boxes" style="display: none; margin: 40px;">
 
 <div class="grid-container">
-  <div class="grid-item" id="loginPlace">
-    <h1>Login</h1>
-    <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" placeholder="Import Base Data Set"><hr><br>
-
-   <p>You always need to <font style="color:darkblue;"><b>[Upload]</b></font> your profile.json file above to <font style="color:darkred;"><b>[Login]</b></font>. If you dont have one, you can <font style="color:darkgreen;"><b>[Download]</b></font> a base file now.
-   </p><br>
- </div>
- <div class="grid-item">
-   <button class="open-modal"  onclick="exportData()">Download</button>
-<br>
-<p>
-At the end of every *session* make sure you <font style="color:darkgreen;"><b>[Download]</b></font> your updated profile.json, all changes throughout your experience will be rendered below and every step of your journey will be remembered, in the most secure way possible.
-</p>
-</div>
   <div class="grid-item">
-    <br><hr><br>
+    <br>
     <textarea id="popupIframe" style="width: 100%; height:40vh; border-radius: 22px; scrollbar-width: 0px;"></textarea>
   </div>
 <div class="grid-item">
 <hr>
-<div id="toolMenu2" style="width: 99%;">
-  <textarea readonly class="json-editor" style="height:100px; width:100%;" id="jsonEditor" placeholder="JSON Format: [question, answer, liveChange]"></textarea>
+<div id="toolMenu2" style="width: 100%;">
+  <textarea readonly class="json-editor" style="height:300px; width:100%;" id="jsonEditor" placeholder="JSON Format: [question, answer, liveChange]"></textarea>
 </div>
 </div>
 
@@ -1021,15 +1007,21 @@ At the end of every *session* make sure you <font style="color:darkgreen;"><b>[D
 </div>
                 <div class="message-box">
                 <div class="chat-window" id="chatWindow">
-Pulse Network connection status: <font id="load1" style="color:#fdc96f;">Connecting</font><br><i class="time" id="currentDateTime"></i><br><font id="load2" style="color:lightblue;"></font>
+Pulse: <font id="load1" style="color:#fdc96f;">Connecting</font>
                 </div>
                 </div>
               </div>
               <div class="message-box">
-                <input class="open-modal" type="text" id="userInput" placeholder="Type message...">
-                <button class="open-modal" onclick="sendMessage()">Send</button>
+                <input type="textarea" id="userInput" style="width: 100%;
+  height: 80px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  resize: none;" placeholder="Type message...">
               </div>
-
+              <div class="message-box"><button class="open-modal" onclick="sendMessage()">Send</button></div>
               <div class="message-box">
                 <a id="navHome" onclick="splashActive();" class="app-sidebar-link">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">

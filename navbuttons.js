@@ -1,10 +1,12 @@
 
 document.addEventListener('DOMContentLoaded', function () {
   setTimeout(function() {
-    settingsActive();
-    document.getElementById("load1").style.color = "lightgreen";
-    document.getElementById("load1").innerHTML = "Online";
-  }, 1900); // 5000 milliseconds = 5 seconds
+    document.getElementById("load1").style.color = "red";
+    document.getElementById("load1").innerHTML = "Pending Login";
+  }, 1900);
+  setTimeout(function() {
+    scheduleActive();
+  }, 2500);
 });
 
 window.addEventListener('message', function(event) {

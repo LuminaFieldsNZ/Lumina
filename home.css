@@ -155,7 +155,7 @@ button, a {
   transition: 0.2s;
   max-width: 1800px;
 }
-.app-container button, .app-container input, .app-container optgroup, .app-container select, .app-container textarea {
+.app-container button, .app-container input, .app-container optgroup, .app-container select {
   font-family: "DM Sans", sans-serif;
 }
 .app-content {

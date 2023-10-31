@@ -38,16 +38,23 @@ let userCompletedProjects = [];
 let conversationData = [];
 
 setTimeout(function() {
-
-    chatWindow.innerHTML += '<p>Collective: Hello, I\'m your AI assistant... use the field below to chat or type commands such as: <font style="color: lightblue;">cmd [all]</font> to view a complete list.</p>';
+    chatWindow.innerHTML += '<p>Collective: <a id="loginPlace2">Your <b>profile.json</b> file is not recognized please.</a> <button class="open-modal"  onclick="exportData()">Download</button></p>';
     scrollToBottom();
-}, 4300);
+}, 2200);
+setTimeout(function() {
+    chatWindow.innerHTML += '<p id="loginPlace">Login to continue:<br><input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" placeholder="Import Base Data Set"></p>';
+    scrollToBottom();
+}, 2600);
 
 function showCommands() {
         chatWindow.innerHTML += '<p>Commands:<br><font style="color: lightblue;">[add]</font> Will increase a quantity<br><font style="color: lightblue;">[subtract]</font> Will decrease a quantity<br><font style="color: lightblue;">[set]</font> Will reset value to specified amount<br><font style="color: purple;">[frame]</font> Will create live elements</p>';
         scrollToBottom();
 }
-
+function changeName(){
+setTimeout(function() {
+    chatWindow.innerHTML += '<p>Collective: What should I call you? <input type="textarea" id="userNameChange" placeholder="Enter name..."><button class="open-modal" onclick="sendMessage2()">Change</button></p>';
+    scrollToBottom();
+}, 1200);}
 
 function exportData() {
     updateJSONDisplay(); // Update the JSON editor with the latest data
@@ -189,7 +196,12 @@ function parseCollectiveCommand(data) {
     return "Command accepted: " + action + " " + value + " points in " + category;
 }
 
-
+function sendMessage2() {
+  const inputElem2 = document.getElementById('userNameChange');
+  userId = inputElem2.value;
+  chatWindow.innerHTML += '<p>Collective: Hello again ' + userId + '</p>';
+  scrollToBottom();
+}
 
 function sendMessage() {
     const inputElem = document.getElementById('userInput');
@@ -351,10 +363,12 @@ function importBaseDataSet(event) {
                 updateCharacterFromState(); // Update character appearance based on the state
                 updateJSONDisplay(); // Update the JSON editor with the latest data
                 parent.postMessage({ action: 'openHome', value: 'openHome' }, 'https://luminafields.com/');
-                document.getElementById('loginPlace').style.display = 'none';
+                document.getElementById('loginPlace').innerHTML = 'Collective: Hello ' + userId;
+                document.getElementById('loginPlace2').innerHTML = 'At the end of each session download your updated profile.json file.';
+                document.getElementById("load1").style.color = "lightgreen";
+                document.getElementById("load1").innerHTML = userId;
                 document.getElementById('popupIframe').value = homePage;
-                chatWindow.innerHTML += '<font style="color:lightgreen;">' + userId + ' is logged in.</font><br>';
-
+                if (userId == "Guest"){changeName();}
             } else {
                 alert('Invalid data format.');
             }
@@ -561,7 +575,3 @@ function askChatbot() {
         currentQuestionIndex++;
     }
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-chatWindow.innerHTML += '<p>Faxium: Online</p>';
-});
