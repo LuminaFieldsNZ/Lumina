@@ -4,9 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("load1").style.color = "red";
     document.getElementById("load1").innerHTML = "Pending Login";
   }, 1900);
-  setTimeout(function() {
-    scheduleActive();
-  }, 2500);
 });
 
 window.addEventListener('message', function(event) {
@@ -25,6 +22,9 @@ function checkPasscode() {
   const code = document.getElementById("passcode").value;
   if(code === "100") {
     parent.postMessage({ action: 'changeSrc', newSrc: '100/index.html' }, 'https://luminafields.com/');
+  }
+  if(code === "micheal") {
+    parent.postMessage({ action: 'changeSrc', newSrc: 'face/index.html' }, 'https://luminafields.com/');
   }
   if(code === "587112349") {
     parent.postMessage({ action: 'changeSrc', newSrc: 'nations/book.html' }, 'https://luminafields.com/');

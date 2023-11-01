@@ -54,7 +54,6 @@ let faxiumResponses = {
   "What is Faxium's motto? ": "Faxium's motto is 'If you can dream it, it can happen'.",
   "What colors represent Faxium? ": "Faxium is represented by the colors green and neons.",
   "Who is Nova Solari? ": "Nova Solari is Faxium's founder and first Prime.",
-  "What is the Collective in Faxium? ": "The Collective is an advisor that helps craft impartial laws.",
   "What terrain is found in Faxium? ": "Faxium has marshy wetland coasts and lush, dense inland jungles and forests.",
   "What was the Second Flood? ": "The Second Flood was a catastrophic climate event that devastated the planet before Faxium's founding.",
   "How does Faxium produce electricity? ": "Faxium harnesses electricity through bioengineered powercap mushrooms.",

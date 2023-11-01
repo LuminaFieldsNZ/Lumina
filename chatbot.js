@@ -37,14 +37,35 @@ let homePage = "";
 let userCompletedProjects = [];
 let conversationData = [];
 
+
+
+
+
+
+
 setTimeout(function() {
-    chatWindow.innerHTML += '<p>Collective: <a id="loginPlace2">Your <b>profile.json</b> file is not recognized please.</a> <button class="open-modal"  onclick="exportData()">Download</button></p>';
+    chatWindow.innerHTML += '<p>Micheal: <font id="greeting"></font>, <a id="loginPlace2">before we continue a <b>profile.json</b> file is needed.</a> <button class="open-modal"  onclick="exportData()">Download</button></p>';
+    const greetingElement = document.getElementById('greeting');
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+
+    let greeting;
+
+    if (currentHour >= 5 && currentHour < 12) {
+      greeting = 'Good morning';
+    } else if (currentHour >= 12 && currentHour < 18) {
+      greeting = 'Good afternoon';
+    } else {
+      greeting = 'Good evening';
+    }
+
+    greetingElement.textContent = greeting;
     scrollToBottom();
 }, 2200);
 setTimeout(function() {
-    chatWindow.innerHTML += '<p id="loginPlace">Login to continue:<br><input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" placeholder="Import Base Data Set"></p>';
+    chatWindow.innerHTML += '<p id="loginPlace">Upload your profile:<br><input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" placeholder="Import Base Data Set"></p>';
     scrollToBottom();
-}, 2600);
+}, 600);
 
 function showCommands() {
         chatWindow.innerHTML += '<p>Commands:<br><font style="color: lightblue;">[add]</font> Will increase a quantity<br><font style="color: lightblue;">[subtract]</font> Will decrease a quantity<br><font style="color: lightblue;">[set]</font> Will reset value to specified amount<br><font style="color: purple;">[frame]</font> Will create live elements</p>';
@@ -52,7 +73,7 @@ function showCommands() {
 }
 function changeName(){
 setTimeout(function() {
-    chatWindow.innerHTML += '<p>Collective: What should I call you? <input type="textarea" id="userNameChange" placeholder="Enter name..."><button class="open-modal" onclick="sendMessage2()">Change</button></p>';
+    chatWindow.innerHTML += '<p>Micheal: What should I call you? <input type="textarea" id="userNameChange" placeholder="Enter name..."><button class="open-modal" onclick="sendMessage2()">Change</button></p>';
     scrollToBottom();
 }, 1200);}
 
@@ -199,7 +220,7 @@ function parseCollectiveCommand(data) {
 function sendMessage2() {
   const inputElem2 = document.getElementById('userNameChange');
   userId = inputElem2.value;
-  chatWindow.innerHTML += '<p>Collective: Hello again ' + userId + '</p>';
+  chatWindow.innerHTML += '<p>Micheal: Hello again ' + userId + '</p>';
   scrollToBottom();
 }
 
@@ -226,11 +247,11 @@ function sendMessage() {
             let response;
             if (commandResponse) {
                 response = commandResponse;
-                chatWindow.innerHTML += '<p>Collective: ' + commandResponse + '</p>';
+                chatWindow.innerHTML += '<p>Micheal: ' + commandResponse + '</p>';
                 scrollToBottom();
             } else {
                 response = getResponse(message);
-                chatWindow.innerHTML += '<p>Collective: ' + response + '</p>';
+                chatWindow.innerHTML += '<p>Micheal: ' + response + '</p>';
                 scrollToBottom();
             }
         }
@@ -363,10 +384,12 @@ function importBaseDataSet(event) {
                 updateCharacterFromState(); // Update character appearance based on the state
                 updateJSONDisplay(); // Update the JSON editor with the latest data
                 parent.postMessage({ action: 'openHome', value: 'openHome' }, 'https://luminafields.com/');
-                document.getElementById('loginPlace').innerHTML = 'Collective: Hello ' + userId;
                 document.getElementById('loginPlace2').innerHTML = 'At the end of each session download your updated profile.json file.';
-                document.getElementById("load1").style.color = "lightgreen";
+                document.getElementById("load1").style.color = "grey";
                 document.getElementById("load1").innerHTML = userId;
+                document.getElementById('loginPlace').style.display = 'none';
+                document.getElementById("load3").style.color = "lightgreen";
+                document.getElementById("load3").innerHTML = 'User:';
                 document.getElementById('popupIframe').value = homePage;
                 if (userId == "Guest"){changeName();}
             } else {
@@ -476,7 +499,7 @@ function sendFaxiumMessage(message, sender) {
             response = "Faxium: I'm sorry, I couldn't understand your question.";
         }
     } else {
-        response = "Collective: " + getResponse(message);
+        response = "Micheal: " + getResponse(message);
     }
 
     setTimeout(() => {
@@ -559,7 +582,7 @@ rawHtmlTextarea.addEventListener('input', function () {
 // List of questions 'faxium' will ask
 const faxiumQuestions = [
   'What is the pulse network?',
-  'Interesting. Tell me, how many are you in this collective? Whats your strength in numbers?'
+  'Interesting. Tell me, how many collective are in this? Whats your strength in numbers?'
 ];
 
 let currentQuestionIndex = 0;
