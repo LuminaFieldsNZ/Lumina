@@ -44,7 +44,7 @@ let conversationData = [];
 
 
 setTimeout(function() {
-    chatWindow.innerHTML += '<p>Micheal: <font id="greeting"></font>, <a id="loginPlace2">before we continue a <b>profile.json</b> file is needed.</a> <button class="open-modal"  onclick="exportData()">Download</button></p>';
+    chatWindow.innerHTML += '<p>Collective: <font id="greeting"></font>, <a id="loginPlace2">before we continue a <b>profile.json</b> file is needed.</a> <button class="open-modal"  onclick="exportData()">Download</button></p>';
     const greetingElement = document.getElementById('greeting');
     const currentTime = new Date();
     const currentHour = currentTime.getHours();
@@ -73,7 +73,7 @@ function showCommands() {
 }
 function changeName(){
 setTimeout(function() {
-    chatWindow.innerHTML += '<p>Micheal: What should I call you? <input type="textarea" id="userNameChange" placeholder="Enter name..."><button class="open-modal" onclick="sendMessage2()">Change</button></p>';
+    chatWindow.innerHTML += '<p>Collective: What should I call you? <input type="textarea" id="userNameChange" placeholder="Enter name..."><button class="open-modal" onclick="sendMessage2()">Change</button></p>';
     scrollToBottom();
 }, 1200);}
 
@@ -220,7 +220,7 @@ function parseCollectiveCommand(data) {
 function sendMessage2() {
   const inputElem2 = document.getElementById('userNameChange');
   userId = inputElem2.value;
-  chatWindow.innerHTML += '<p>Micheal: Hello again ' + userId + '</p>';
+  chatWindow.innerHTML += '<p>Collective: Hello again ' + userId + '</p>';
   scrollToBottom();
 }
 
@@ -247,11 +247,11 @@ function sendMessage() {
             let response;
             if (commandResponse) {
                 response = commandResponse;
-                chatWindow.innerHTML += '<p>Micheal: ' + commandResponse + '</p>';
+                chatWindow.innerHTML += '<p>Collective: ' + commandResponse + '</p>';
                 scrollToBottom();
             } else {
                 response = getResponse(message);
-                chatWindow.innerHTML += '<p>Micheal: ' + response + '</p>';
+                chatWindow.innerHTML += '<p>Collective: ' + response + '</p>';
                 scrollToBottom();
             }
         }
@@ -499,7 +499,7 @@ function sendFaxiumMessage(message, sender) {
             response = "Faxium: I'm sorry, I couldn't understand your question.";
         }
     } else {
-        response = "Micheal: " + getResponse(message);
+        response = "Collective: " + getResponse(message);
     }
 
     setTimeout(() => {
