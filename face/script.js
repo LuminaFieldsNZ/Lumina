@@ -406,4 +406,82 @@ function init() {
 
 }
 
+
 window.addEventListener('DOMContentLoaded', init)
+
+function scrollToBottom() {
+    const textContainer = document.getElementById('textContainer');
+    const targetScroll = textContainer.scrollHeight - textContainer.clientHeight;
+    const scrollStep = (targetScroll - textContainer.scrollTop) / 60; // 60 frames in 1.5 seconds
+    const startTime = performance.now();
+
+    function animateScroll(currentTime) {
+        const elapsedTime = currentTime - startTime;
+        if (elapsedTime < 1500) { // 1.5 seconds
+            textContainer.scrollTop += scrollStep;
+            window.requestAnimationFrame(animateScroll);
+        } else {
+            // Ensure we've reached the bottom after 1.5 seconds
+            textContainer.scrollTop = targetScroll;
+        }
+    }
+
+    window.requestAnimationFrame(animateScroll);
+}
+
+
+
+// Call this function whenever new text is added to the container
+
+function loadFile(event) {
+    const input = event.target;
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const container = document.getElementById('textContainer');
+            container.innerHTML = '';  // Clear existing containers
+
+            const fileContent = e.target.result;
+            const textSegments = fileContent.split('🐕');
+
+            // Process each segment without removing the 🐕 symbol
+            textSegments.forEach((segment, index) => {
+                if (index > 0) { // Add the symbol back except for the first segment
+                    segment = '🐕' + segment;
+                }
+                const segmentContainer = document.createElement('div');
+                segmentContainer.contentEditable = true;
+                segmentContainer.classList.add('segment');
+                segmentContainer.textContent = segment.trim();
+                // ... (rest of the styling and appending)
+                container.appendChild(segmentContainer);
+            });
+
+            scrollToBottom();
+        };
+        reader.readAsText(input.files[0]);
+    }
+}
+
+document.getElementById('copyDogSymbol').addEventListener('click', function() {
+    navigator.clipboard.writeText('🐕').then(function() {
+        console.log('🐕 symbol copied to clipboard');
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+    });
+});
+
+
+// Function to export edits to a file
+function exportToFile() {
+    const textContainer = document.getElementById('textContainer');
+    const textToWrite = textContainer.textContent || textContainer.innerText;
+    const blob = new Blob([textToWrite], { type: 'text/plain' });
+    const anchorElement = document.createElement('a');
+
+    anchorElement.href = URL.createObjectURL(blob);
+    anchorElement.download = 'luminafields.txt';
+    document.body.appendChild(anchorElement); // Required for Firefox
+    anchorElement.click();
+    document.body.removeChild(anchorElement);
+}

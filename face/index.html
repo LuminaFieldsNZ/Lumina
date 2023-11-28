@@ -46,6 +46,26 @@
         <div class="tail img-bg"></div>
       </div>
     </div>
+
+<div style="position: absolute; z-index: 99999; top: 10px; margin-top: 2px; border: none; padding: 4px;">
+            <!-- Upload Button -->
+             <input type="file" id="fileInput" accept=".txt" style="display: none;" onchange="loadFile(event)">
+             <button onclick="document.getElementById('fileInput').click()">Upload File</button>
+             <!-- Export Button -->
+             <button id="exportButton" onclick="exportToFile()">Export Edits</button>
+             <button id="copyDogSymbol">Copy 🐕</button>
+
+
+           </div>
+
+           <!-- Editable Text Container -->
+<div id="textContainer" contenteditable="true" style="margin-top: 10px; border: none; padding: 20px; min-height: 100px; max-height: 80vh; overflow-y: auto;">
+  <!-- Uploaded text will appear here -->
+</div>
+
+
+
+
   </div>
 </body>
 <!-- partial -->
