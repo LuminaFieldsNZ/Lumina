@@ -30,7 +30,9 @@ class Lock {
       this.dom.lock.classList.add('verified');
       this.dom.status.textContent = 'UNLOCKED';
       this.sounds.success.play();
-      parent.postMessage({ action: 'changeSrc', newSrc: 'nations/book.html' }, 'https://luminafields.com/');
+      setTimeout(function() {
+        window.location.href = '../nations/book.html';
+        }, 2000);
     } else {
       this.dom.lock.classList.remove('verified');
       this.dom.status.textContent = 'LOCKED';
@@ -64,8 +66,8 @@ class Lock {
 
     this.sounds.select = new Howl({
       src: [
-      'https://jackrugile.com/sounds/misc/lock-button-1.mp3',
-      'https://jackrugile.com/sounds/misc/lock-button-1.ogg'],
+      'lock-button-1.mp3',
+      'lock-button-1.ogg'],
 
       volume: 0.5,
       rate: 1.4 });
@@ -73,8 +75,8 @@ class Lock {
 
     this.sounds.prev = new Howl({
       src: [
-      'https://jackrugile.com/sounds/misc/lock-button-4.mp3',
-      'https://jackrugile.com/sounds/misc/lock-button-4.ogg'],
+      'lock-button-4.mp3',
+      'lock-button-4.ogg'],
 
       volume: 0.5,
       rate: 1 });
@@ -82,8 +84,8 @@ class Lock {
 
     this.sounds.next = new Howl({
       src: [
-      'https://jackrugile.com/sounds/misc/lock-button-4.mp3',
-      'https://jackrugile.com/sounds/misc/lock-button-4.ogg'],
+      'lock-button-4.mp3',
+      'lock-button-4.ogg'],
 
       volume: 0.5,
       rate: 1.2 });
@@ -91,8 +93,8 @@ class Lock {
 
     this.sounds.hover = new Howl({
       src: [
-      'https://jackrugile.com/sounds/misc/lock-button-1.mp3',
-      'https://jackrugile.com/sounds/misc/lock-button-1.ogg'],
+      'lock-button-1.mp3',
+      'lock-button-1.ogg'],
 
       volume: 0.2,
       rate: 3 });
@@ -100,8 +102,8 @@ class Lock {
 
     this.sounds.success = new Howl({
       src: [
-      'https://jackrugile.com/sounds/misc/lock-online-1.mp3',
-      'https://jackrugile.com/sounds/misc/lock-online-1.ogg'],
+      'lock-online-1.mp3',
+      'lock-online-1.ogg'],
 
       volume: 0.5,
       rate: 1 });
@@ -109,8 +111,8 @@ class Lock {
 
     this.sounds.fail = new Howl({
       src: [
-      'https://jackrugile.com/sounds/misc/lock-fail-1.mp3',
-      'https://jackrugile.com/sounds/misc/lock-fail-1.ogg'],
+      'lock-fail-1.mp3',
+      'lock-fail-1.ogg'],
 
       volume: 0.6,
       rate: 1 });
