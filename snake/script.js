@@ -9,8 +9,8 @@ let dom_canvas = document.createElement("canvas");
 document.querySelector("#canvas").appendChild(dom_canvas);
 let CTX = dom_canvas.getContext("2d");
 
-const W = (dom_canvas.width = 500);
-const H = (dom_canvas.height = 500);
+const W = (dom_canvas.width = 400);
+const H = (dom_canvas.height = 400);
 
 let snake,
   food,
@@ -361,7 +361,7 @@ function initialize() {
 function loop() {
   clear();
   if (!isGameOver) {
-    requestID = setTimeout(loop, 10);
+    requestID = setTimeout(loop, 1000 / 60);
     helpers.drawGrid();
     snake.update();
     food.draw();

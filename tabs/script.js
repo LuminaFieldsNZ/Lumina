@@ -1,4 +1,13 @@
-
+/*!
+Swaying photo gallery - scroll event
+@wakana-k
+https://codepen.io/wakana-k/pen/WNLrWMm
+*/
+/*
+Related works :
+Portforio design @wakana-k - https://codepen.io/wakana-k/pen/BaxKKvE
+Swaying photo gallery - hover event @wakana-k - https://codepen.io/wakana-k/pen/oNJxbPw
+*/
 "use strict";
 (function () {
 	window.onload = () => {
@@ -28,7 +37,7 @@
 
 
 function energyAuditSend(){
-	window.parent.postMessage({ section: 'energyAuditActive()' }, 'https://luminafields.com');
+	window.parent.postMessage({ section: 'energyAuditActive()' }, '*');
 }
 
 

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic Assessment</title>
+    <style>
+        #chatbox {
+            border: 1px solid #ccc;
+            height: 200px;
+            padding: 10px;
+            overflow-y: scroll;
+        }
+        #logicAssessment {
+            margin-top: 10px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/compromise@11.7.0/compromise.min.js"></script>
+</head>
+<body>
+    <div id="chatbox"></div>
+    <input id="userInput" type="text" placeholder="Type your response">
+    <button id="assessButton">Assess Logic</button>
+    <div id="logicAssessment"></div>
+
+    <script>
+        const questions = [
+            "Is the sky blue?",
+            "Do fish swim in the air?",
+            "Is water wet?",
+            "Can humans breathe underwater without equipment?"
+        ];
+
+        let currentQuestionIndex = 0;
+
+        function presentQuestion() {
+            const chatbox = document.getElementById('chatbox');
+            if (currentQuestionIndex < questions.length) {
+                const question = questions[currentQuestionIndex];
+                chatbox.innerHTML += `<p>Bot: ${question}</p>`;
+            } else {
+                chatbox.innerHTML += `<p>Bot: Thank you for participating.</p>`;
+            }
+        }
+
+        function assessLogic() {
+            const userInput = document.getElementById('userInput').value;
+            const doc = nlp(userInput);
+            let sentiment = "Neutral response.";
+
+            if (doc.has('#Positive')) {
+                sentiment = "Positive response.";
+            } else if (doc.has('#Negative')) {
+                sentiment = "Negative response.";
+            }
+
+            const chatbox = document.getElementById('chatbox');
+            chatbox.innerHTML += `<p>User: ${userInput}</p>`;
+            const logicAssessmentDiv = document.getElementById('logicAssessment');
+            logicAssessmentDiv.innerHTML = `<p>Logic Assessment: ${sentiment}</p>`;
+
+            currentQuestionIndex++;
+            presentQuestion();
+            document.getElementById('userInput').value = '';
+        }
+
+        document.getElementById('assessButton').addEventListener('click', assessLogic);
+        presentQuestion();
+    </script>
+</body>
+</html>

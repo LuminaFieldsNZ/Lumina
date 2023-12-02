@@ -34,13 +34,13 @@
 
 function run1a(){
   const progressiveValue = 15; // Or any value you want to add to Progressive
-  window.parent.postMessage({ progressive: progressiveValue }, 'luminafields.com');
+  window.parent.postMessage({ progressive: progressiveValue }, '*');
   const socialistValue = 15; // Or any value you want to add to Progressive
-  window.parent.postMessage({ socialist: socialistValue }, 'luminafields.com');
+  window.parent.postMessage({ socialist: socialistValue }, '*');
   const idealistValue = 15; // Or any value you want to add to Progressive
-  window.parent.postMessage({ idealist: idealistValue }, 'luminafields.com');
+  window.parent.postMessage({ idealist: idealistValue }, '*');
   const globalistValue = 15; // Or any value you want to add to Progressive
-  window.parent.postMessage({ globalist: globalistValue }, 'luminafields.com');
+  window.parent.postMessage({ globalist: globalistValue }, '*');
   document.getElementById('option1b').style.display = "block";
   const option1a = document.getElementById('option1a');
   document.getElementById('option1a').disabled = true;
@@ -53,9 +53,9 @@ function run1a(){
 }
 function run2a(){
   const economistValue = 15; // Or any value you want to add to economist
-  window.parent.postMessage({ economist: economistValue }, 'luminafields.com');
+  window.parent.postMessage({ economist: economistValue }, '*');
   const realistValue = 15; // Or any value you want to add to Progressive
-  window.parent.postMessage({ realist: realistValue }, 'luminafields.com');
+  window.parent.postMessage({ realist: realistValue }, '*');
   document.getElementById('option2b').style.display = "block";
   const option2a = document.getElementById('option2a');
   document.getElementById('option2a').disabled = true;
@@ -71,11 +71,11 @@ function run3a(){
   killConservative();
   killNationalist();
   const populistValue = 15; // Or any value you want to add to populist
-  window.parent.postMessage({ populist: populistValue }, 'luminafields.com');
+  window.parent.postMessage({ populist: populistValue }, '*');
   const conservativeValue = 15; // Or any value you want to add to Progressive
-  window.parent.postMessage({ conservative: conservativeValue }, 'luminafields.com');
+  window.parent.postMessage({ conservative: conservativeValue }, '*');
   const nationalistValue = 15; // Or any value you want to add to nationalist
-  window.parent.postMessage({ nationalist: nationalistValue }, 'luminafields.com');
+  window.parent.postMessage({ nationalist: nationalistValue }, '*');
 
   document.getElementById('option3b').style.display = "block";
   const option3a = document.getElementById('option3a');
