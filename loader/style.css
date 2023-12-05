@@ -17,8 +17,8 @@ body {
 }
 .header__initials {
   display: inline-block;
-  font-size: 85vh;
-  line-height: 1em;
+  font-size: 100vw;
+  line-height: 4em;
   color: #fdc96f;
   background: url("https://s11.gifyu.com/images/S42FD.gif");
   -webkit-text-fill-color: transparent;

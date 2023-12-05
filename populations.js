@@ -14,28 +14,70 @@ function clearStorage() {
 }
 
 populations = {
-  progressive: 1000,
-  socialist: 1000,
-  idealist: 1000,
-  globalist: 1000,
-  conservative: 1000,
-  economist: 1000,
+  progressive: 100,
+  socialist: 100,
+  idealist: 100,
+  globalist: 100,
+  conservative: 100,
+  economist: 100,
   realist: 1000,
-  nationalist: 1000,
-  populist: 1000
+  nationalist: 100,
+  populist: 100
 };
 
 mainHeading = {
   explorer: 1,
-  voyager: 1,
-  captain: 1,
-  merchant: 1,
-  shipwright: 1,
-  fisherman: 1,
-  smuggler: 1,
-  arbiter: 1,
-  sailor: 1
+  voyager: 0,
+  captain: 0,
+  merchant: 0,
+  shipwright: 0,
+  fisherman: 0,
+  smuggler: 0,
+  arbiter: 0,
+  sailor: 0
 };
+
+function getSVGFilename(trait, score) {
+  if (score > 0) {
+    return `svg/${trait}P.svg`;
+  } else {
+    return `svg/${trait}N.svg`;
+  }
+}
+
+function selectSVGs(mainHeading) {
+  // Convert the object to an array of [key, value] pairs
+  let traitsArray = Object.entries(mainHeading);
+
+  // Sort the array based on the values (scores)
+  traitsArray.sort((a, b) => b[1] - a[1]);
+
+  // Get the top two highest traits and the lowest trait
+  let top1 = traitsArray[0];
+  let top2 = traitsArray[1];
+  let lowest = traitsArray[traitsArray.length - 1];
+
+  // Determine the SVG filenames using the modular function
+  let top1SVG = getSVGFilename(top1[0], top1[1]);
+  let top2SVG = getSVGFilename(top2[0], top2[1]);
+  let lowestSVG = getSVGFilename(lowest[0], lowest[1]);
+
+  return [top1SVG, top2SVG, lowestSVG];
+}
+
+function updateSVGs() {
+  let [topSVG, secondSVG, worstSVG] = selectSVGs(mainHeading);
+  document.getElementById('topTrait').src = topSVG;
+  document.getElementById('secondTrait').src = secondSVG;
+  document.getElementById('worstTrait').src = worstSVG;
+}
+
+// Call this function whenever you want to update the SVGs
+updateSVGs();
+
+
+
+
 
 function updatePopulations() {
     updateData(populations, 'population', 'average');
@@ -84,6 +126,8 @@ function getProgressBarColor(percentage) {
 function startUpdating() {
     setInterval(() => {
         updatePopulations();
+        updateSVGs();
+        testData();
         updateMainHeadings();  // Ensure this is called to update magicType progress bars
     }, 1000);
 }

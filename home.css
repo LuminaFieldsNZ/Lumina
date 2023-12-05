@@ -5,6 +5,25 @@
 }
 
 
+
+.image-container {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    right: 10px;
+    z-index: 100000000000000000000000000000000000000000000000000000000; /* Optional: To ensure it's above other elements */
+}
+
+
+  .layer {
+    position: absolute;
+    width: 90%;
+       height: 90%;
+       z-index: 0; /* Ensure the image is below the donut border */
+       object-fit: cover;
+  }
+
+
 /* For Webkit browsers like Chrome, Safari */
 ::-webkit-scrollbar {
     display: none;
@@ -20,9 +39,44 @@ html {
 body {
     -ms-overflow-style: none;
 }
+#personSVG {
+    width: 95%;
+    position: relative;
+    height: 300px; /* Assuming a height, can be adjusted */
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+#personSVG img {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%; /* Centering vertically */
+    transform: translateY(-50%); /* Centering vertically */
+    z-index: 1;
+}
+
+#personSVG .top {
+    z-index: 2;
+    left: 50%; /* Centering the top SVG */
+    transform: translateX(-50%) translateY(-50%); /* Centering the top SVG */
+}
+
+#personSVG .second {
+    z-index: 1;
+    left: calc(50% + 20px); /* Positioning the second SVG to the right, slightly overlapped by 20% */
+    transform: translateY(-50%); /* Centering vertically */
+}
+
+#personSVG .worst {
+    z-index: 1;
+    opacity: 0.5;
+    left: calc(50% - 220px); /* Positioning the worst SVG to the left, slightly overlapped by 20% */
+    transform: translateY(-50%); /* Centering vertically */
+}
 
 
-        .chat-window, .json-editor {
+        .chat-window {
             width: 100%;
             height: 400px;
             overflow-y: scroll;
@@ -31,23 +85,6 @@ body {
             margin: 10px 10px 10px 10px;
             white-space: pre-wrap;
         }
-        @keyframes ellipsis {
-      0% { content: "(๑ > ᴗ < ๑)"; }
-      10% { content: ".(๑ > ᴗ < ๑)"; }
-      20% { content: "૮₍  ˶•⤙•˶ ₎ა"; }
-      30% { content: ".૮₍  ˶•⤙•˶ ₎ა"; }
-      40% { content: "(づ ᴗ _ᴗ)づ"; }
-      50% { content: ".(づ ᴗ _ᴗ)づ"; }
-      60% { content: "৻(  •̀ ᗜ •́  ৻)"; }
-      70% { content: ".৻(  •̀ ᗜ •́  ৻)"; }
-      80% { content: ".(づ ᴗ _ᴗ)づ"; }
-      90% { content: "(づ ᴗ _ᴗ)づ"; }
-      100% { content: "(๑ > ᴗ < ๑)"; }
-  }
-  .thinking::after {
-      content: "...";
-      animation: ellipsis 2.3s infinite;
-  }
 
 :root {
   --app-container: #f3f6fd;
@@ -118,7 +155,7 @@ button, a {
   transition: 0.2s;
   max-width: 1800px;
 }
-.app-container button, .app-container input, .app-container optgroup, .app-container select, .app-container textarea {
+.app-container button, .app-container input, .app-container optgroup, .app-container select {
   font-family: "DM Sans", sans-serif;
 }
 .app-content {

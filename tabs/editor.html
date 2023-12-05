@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Editor</title>
+</head>
+<body>
+    <h1>JSON Editor</h1>
+    <input type="file" id="jsonFileInput" accept=".json">
+    <textarea id="jsonEditor" rows="10" cols="40"></textarea><br>
+    <hr>
+    <button id="saveButton">Save JSON</button>
+    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@luminafields" data-unique-id="luminafields" data-embed-type="creator" style="max-width: 780px; min-width: 288px;" > <section> <a target="_blank" href="https://www.tiktok.com/@luminafields?refer=creator_embed">@luminafields</a> </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>
+
+    <script>
+        const jsonFileInput = document.getElementById('jsonFileInput');
+        const jsonEditor = document.getElementById('jsonEditor');
+        const saveButton = document.getElementById('saveButton');
+
+        // Function to load and display JSON data
+        jsonFileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const jsonContent = e.target.result;
+                    jsonEditor.value = JSON.stringify(JSON.parse(jsonContent), null, 2);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Function to save JSON data as a file
+        saveButton.addEventListener('click', () => {
+            const jsonData = jsonEditor.value;
+            try {
+                const jsonObject = JSON.parse(jsonData);
+                const jsonString = JSON.stringify(jsonObject, null, 2);
+                const blob = new Blob([jsonString], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'edited.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } catch (error) {
+                alert('Invalid JSON format. Please correct the JSON data.');
+            }
+        });
+    </script>
+</body>
+</html>
