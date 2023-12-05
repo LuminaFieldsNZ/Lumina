@@ -1,487 +1,310 @@
-function init() {
+/* Follow the tutorial here:
+https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-character-with-three-js/
+*/
 
-  const elements = {
-    body: document.querySelector('.wrapper'),
-    wrapper: document.querySelector('.wrapper'),
-    dog: document.querySelector('.dog'),
-    marker: document.querySelectorAll('.marker'),
-  }
+(function () {
+  // Set our main variables
+  let scene,
+  renderer,
+  camera,
+  model, // Our character
+  neck, // Reference to the neck bone in the skeleton
+  waist, // Reference to the waist bone in the skeleton
+  possibleAnims, // Animations found in our file
+  mixer, // THREE.js animations mixer
+  idle, // Idle, the default state our character returns to
+  clock = new THREE.Clock(), // Used for anims, which run to a clock instead of frame rate
+  currentlyAnimating = false, // Used to check whether characters neck is being used in another anim
+  raycaster = new THREE.Raycaster(), // Used to detect the click on our character
+  loaderAnim = document.getElementById('js-loader');
 
-  const animationFrames = {
-    rotate: [[0], [1], [2], [3], [5], [3, 'f'], [2, 'f'], [1, 'f']]
-  }
+  init();
 
-  const directionConversions = {
-    360: 'up',
-    45: 'upright',
-    90: 'right',
-    135: 'downright',
-    180: 'down',
-    225: 'downleft',
-    270: 'left',
-    315: 'upleft',
-  }
+  function init() {
 
-  const angles = [360, 45, 90, 135, 180, 225, 270, 315]
-  const defaultEnd = 4
-  //  A ---- A  ________ ________
-  // |         |         |        |
-  // | ^     ^ |         |        |
-  //  ____^___  _________|________|
-  //            | |  | |  | |  | |
-  //             1    2    3    4
-  //             L    R    L    R
-  const partPositions = [
-    { //0
-      leg1: { x: 26, y: 43 },
-      leg2: { x: 54, y: 43 },
-      leg3: { x: 26, y: 75 },
-      leg4: { x: 54, y: 75 },
-      tail: { x: 40, y: 70, z: 1 },
-    },
-    { //1
-      leg1: { x: 33, y: 56 },
-      leg2: { x: 55, y: 56 },
-      leg3: { x: 12, y: 72 },
-      leg4: { x: 32, y: 74 },
-      tail: { x: 20, y: 64, z: 1 },
-    },
-    { //2
-      leg1: { x: 59, y: 62 },
-      leg2: { x: 44, y: 60 },
-      leg3: { x: 25, y: 64 },
-      leg4: { x: 11, y: 61 },
-      tail: { x: 4, y: 44, z: 1 },
-    },
-    { //3
-      leg1: { x: 39, y: 63 },
-      leg2: { x: 60, y: 56 },
-      leg3: { x: 12, y: 52 },
-      leg4: { x: 28, y: 50 },
-      tail: { x: 7, y: 21, z: 0 },
-    },
-    { //4
-      leg1: { x: 23, y: 54 },
-      leg2: { x: 56, y: 54 },
-      leg3: { x: 24, y: 25 },
-      leg4: { x: 54, y: 25 },
-      tail: { x: 38, y: 2, z: 0 },
-    },
-    { //5
-      leg1: { x: 21, y: 58 },
-      leg2: { x: 41, y: 64 },
-      leg3: { x: 53, y: 50 },
-      leg4: { x: 69, y: 53 },
-      tail: { x: 72, y: 22, z: 0 },
-    },
-    { //6
-      leg1: { x: 22, y: 59 },
-      leg2: { x: 30, y: 64 },
-      leg3: { x: 56, y: 60 },
-      leg4: { x: 68, y: 62 },
-      tail: { x: 78, y: 40, z: 0 },
-    },
-    { //7
-      leg1: { x: 47, y: 45 },
-      leg2: { x: 24, y: 53 },
-      leg3: { x: 68, y: 68 },
-      leg4: { x: 47, y: 73 },
-      tail: { x: 65, y: 65, z: 1 },
-    },
-  ]
+    const MODEL_PATH = 'https://luminafields.com/face/micheal.glb';
+    const canvas = document.querySelector('#c');
+    const backgroundColor = 0xf1f1f1;
 
-  const control = {
-    x: null,
-    y: null,
-    angle: null,
-  }
+    // Init the scene
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(backgroundColor);
+    scene.fog = new THREE.Fog(backgroundColor, 60, 100);
 
-  const distance = 30
-  const nearestN = (x, n) => x === 0 ? 0 : (x - 1) + Math.abs(((x - 1) % n) - n)
-  const px = num => `${num}px`
-  const radToDeg = rad => Math.round(rad * (180 / Math.PI))
-  const degToRad = deg => deg / (180 / Math.PI)
-  const overlap = (a, b) =>{
-    const buffer = 20
-    return Math.abs(a - b) < buffer
-  }
+    // Init the renderer
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.shadowMap.enabled = true;
+    renderer.setPixelRatio(window.devicePixelRatio);
+    document.body.appendChild(renderer.domElement);
 
-  const rotateCoord = ({ angle, origin, x, y }) =>{
-    const a = degToRad(angle)
-    const aX = x - origin.x
-    const aY = y - origin.y
-    return {
-      x: (aX * Math.cos(a)) - (aY * Math.sin(a)) + origin.x,
-      y: (aX * Math.sin(a)) + (aY * Math.cos(a)) + origin.y,
-    }
-  }
+    // Add a camera
+    camera = new THREE.PerspectiveCamera(
+    50,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000);
 
-  const setStyles = ({ target, h, w, x, y }) =>{
-    if (h) target.style.height = h
-    if (w) target.style.width = w
-    target.style.transform = `translate(${x || 0}, ${y || 0})`
-  }
+    camera.position.z = 30;
+    camera.position.x = 0;
+    camera.position.y = -3;
 
-  const targetAngle = dog =>{
-    if (!dog) return
-    const angle = radToDeg(Math.atan2(dog.pos.y - control.y, dog.pos.x - control.x)) - 90
-    const adjustedAngle = angle < 0 ? angle + 360 : angle
-    return nearestN(adjustedAngle, 45)
-  }
+    let stacy_txt = new THREE.TextureLoader().load('');
+    stacy_txt.flipY = false;
 
-  const reachedTheGoalYeah = (x, y) =>{
-    return overlap(control.x , x) && overlap(control.y, y)
-  }
+    const stacy_mtl = new THREE.MeshPhongMaterial({
+      map: stacy_txt,
+      color: 0xffffff,
+      skinning: true });
 
-  const positionLegs = (dog, frame) => {
-    ;[5, 7, 9, 11].forEach((n, i) => {
-      const { x, y } = partPositions[frame][`leg${i + 1}`]
-      setStyles({
-        target: dog.childNodes[n],
-        x: px(x), y: px(y),
-      })
-    })
-  }
 
-  const moveLegs = dog => {
-    ;[5, 11].forEach(i => dog.childNodes[i].childNodes[1].classList.add('walk-1'))
-    ;[7, 9].forEach(i => dog.childNodes[i].childNodes[1].classList.add('walk-2'))
-  }
 
-  const stopLegs = dog => {
-    ;[5, 11].forEach(i => dog.childNodes[i].childNodes[1].classList.remove('walk-1'))
-    ;[7, 9].forEach(i => dog.childNodes[i].childNodes[1].classList.remove('walk-2'))
-  }
+    var loader = new THREE.GLTFLoader();
 
-  const positionTail = (dog, frame) => {
-    setStyles({
-      target: dog.childNodes[13],
-      x: px(partPositions[frame].tail.x), y: px(partPositions[frame].tail.y),
-    })
-    dog.childNodes[13].style.zIndex = partPositions[frame].tail.z
-    dog.childNodes[13].childNodes[1].classList.add('wag')
-  }
+    loader.load(
+    MODEL_PATH,
+    function (gltf) {
+      model = gltf.scene;
+      let fileAnimations = gltf.animations;
 
-  const animateDog = ({ target, frameW, currentFrame, end, data, part, speed, direction }) => {
-    const offset = direction === 'clockwise' ? 1 : -1
+      model.traverse(o => {
 
-    target.style.transform = `translateX(${px(data.animation[currentFrame][0] * -frameW)})`
-    if (part === 'body') {
-      positionLegs(data.dog, currentFrame)
-      moveLegs(data.dog)
-      positionTail(data.dog, currentFrame)
-    } else {
-      target.parentNode.classList.add('happy')
-    }
-    data.angle = angles[currentFrame]
-    data.index = currentFrame
-
-  target.parentNode.classList[data.animation[currentFrame][1] === 'f' ? 'add' : 'remove']('flip')
-
-    let nextFrame = currentFrame + offset
-    nextFrame = nextFrame === -1
-      ? data.animation.length - 1
-      : nextFrame === data.animation.length
-        ? 0
-        : nextFrame
-    if (currentFrame !== end) {
-      data.timer[part] = setTimeout(()=> animateDog({
-        target, data, part, frameW,
-        currentFrame: nextFrame, end, direction,
-        speed,
-      }), speed || 150)
-    } else if (part === 'body') {
-      // end
-      control.angle = angles[end]
-      data.walk = true
-      setTimeout(()=> {
-        stopLegs(data.dog)
-      }, 200)
-      setTimeout(()=> {
-        document.querySelector('.happy')?.classList.remove('happy')
-      }, 5000)
-    }
-  }
-
-  const triggerDogAnimation = ({ target, frameW, start, end, data, speed, part, direction }) => {
-    clearTimeout(data.timer[part])
-    data.timer[part] = setTimeout(()=> animateDog({
-      target, data, part, frameW,
-      currentFrame: start, end, direction,
-      speed,
-    }), speed || 150)
-  }
-
-  const getDirection = ({ pos, facing, target }) =>{
-    const dx2 = facing.x - pos.x
-    const dy1 = pos.y - target.y
-    const dx1 = target.x - pos.x
-    const dy2 = pos.y - facing.y
-
-    return dx2 * dy1 > dx1 * dy2 ? 'anti-clockwise' : 'clockwise'
-  }
-
-  const turnDog = ({ dog, start, end, direction }) => {
-    triggerDogAnimation({
-      target: dog.dog.childNodes[3].childNodes[1],
-      frameW: 31 * 2,
-      start, end,
-      data: dog,
-      speed: 100,
-      direction,
-      part: 'head'
-    })
-
-    setTimeout(()=>{
-      triggerDogAnimation({
-        target: dog.dog.childNodes[1].childNodes[1],
-        frameW: 48 * 2,
-        start, end,
-        data: dog,
-        speed: 100,
-        direction,
-        part: 'body'
-      })
-    }, 200)
-  }
-
-  const createDog = () => {
-    const { dog } = elements
-    const { width, height, left, top } = dog.getBoundingClientRect()
-    dog.style.left = px(left)
-    dog.style.top = px(top)
-
-    positionLegs(dog, 0)
-    const index = 0
-
-    const dogData = {
-      timer: {
-        head: null, body: null, all: null,
-      },
-      pos: {
-        x: left + (width / 2),
-        y: top + (height / 2),
-      },
-      actualPos: {
-        x: left,
-        y: top,
-      },
-      facing: {
-        x: left + (width / 2),
-        y: top + (height / 2) + 30,
-      },
-      animation: animationFrames.rotate,
-      angle: 360,
-      index,
-      dog,
-    }
-    elements.dog = dogData
-
-    turnDog({
-      dog: dogData,
-      start: index, end: defaultEnd,
-      direction: 'clockwise'
-    })
-    positionTail(dog, 0)
-  }
-
-  const checkBoundaryAndUpdateDogPos = (x, y, dog, dogData) =>{
-    const lowerLimit = -40 // buffer from window edge
-    const upperLimit = 40
-    if (x > lowerLimit && x < (elements.body.clientWidth - upperLimit)){
-      dogData.pos.x = x + 48
-      dogData.actualPos.x = x
-    }
-    if (y > lowerLimit && y < (elements.body.clientHeight - upperLimit)){
-      dogData.pos.y = y + 48
-      dogData.actualPos.y = y
-    }
-    dog.style.left = px(x)
-    dog.style.top = px(y)
-  }
-
-  const positionMarker = (i, pos) => {
-    elements.marker[i].style.left = px(pos.x)
-    elements.marker[i].style.top = px(pos.y)
-  }
-
-  const moveDog = () =>{
-    clearInterval(elements.dog.timer.all)
-    const { dog } = elements.dog
-
-    elements.dog.timer.all = setInterval(()=> {
-      const { left, top } = dog.getBoundingClientRect()
-      const start = angles.indexOf(elements.dog.angle)
-      const end = angles.indexOf(targetAngle(elements.dog))
-
-      // stop dog
-      if (reachedTheGoalYeah(left + 48, top + 48)) {
-        clearInterval(elements.dog.timer.all)
-        const { x, y } = elements.dog.actualPos
-        dog.style.left = px(x)
-        dog.style.top = px(y)
-        stopLegs(dog)
-        turnDog({
-          dog: elements.dog,
-          start,
-          end: defaultEnd,
-          direction: 'clockwise'
-        })
-        return
-      }
-
-      let { x, y } = elements.dog.actualPos
-      const dir = directionConversions[targetAngle(elements.dog)]
-      if (dir !== 'up' && dir !== 'down') x += (dir.includes('left')) ? -distance : distance
-      if (dir !== 'left' && dir !== 'right') y += (dir.includes('up')) ? -distance : distance
-
-      positionMarker(0, elements.dog.pos)
-      positionMarker(1, control)
-
-      const { x: x2, y: y2 } = rotateCoord({
-        angle: elements.dog.angle,
-        origin: elements.dog.pos,
-        x: elements.dog.pos.x,
-        y: elements.dog.pos.y - 100,
-      })
-      elements.dog.facing.x = x2
-      elements.dog.facing.y = y2
-      positionMarker(2, elements.dog.facing)
-
-      if (start === end) {
-        elements.dog.turning = false
-      }
-
-      if (!elements.dog.turning && elements.dog.walk) {
-        if (start !== end) {
-          elements.dog.turning = true
-
-          const direction = getDirection({
-            pos: elements.dog.pos,
-            facing: elements.dog.facing,
-            target: control,
-          })
-          turnDog({
-            dog: elements.dog,
-            start, end, direction,
-          })
-        } else {
-          checkBoundaryAndUpdateDogPos(x, y, dog, elements.dog)
-          moveLegs(dog)
+        if (o.isMesh) {
+          o.castShadow = true;
+          o.receiveShadow = true;
+          o.material = stacy_mtl;
         }
-      }
-    }, 200)
-  }
-
-
-  createDog()
-
-  const triggerTurnDog = () => {
-    const dog = elements.dog
-    dog.walk = false
-    control.angle = null
-
-    const direction = getDirection({
-      pos: dog.pos,
-      facing: dog.facing,
-      target: control,
-    })
-
-    const start = angles.indexOf(dog.angle)
-    const end = angles.indexOf(targetAngle(dog))
-    turnDog({
-      dog,
-      start, end, direction
-    })
-  }
-
-  elements.body.addEventListener('mousemove', e =>{
-    control.x = e.pageX
-    control.y = e.pageY
-    triggerTurnDog()
-  })
-
-
-  elements.body.addEventListener('click', moveDog)
-
-}
-
-
-window.addEventListener('DOMContentLoaded', init)
-
-function scrollToBottom() {
-    const textContainer = document.getElementById('textContainer');
-    const targetScroll = textContainer.scrollHeight - textContainer.clientHeight;
-    const scrollStep = (targetScroll - textContainer.scrollTop) / 60; // 60 frames in 1.5 seconds
-    const startTime = performance.now();
-
-    function animateScroll(currentTime) {
-        const elapsedTime = currentTime - startTime;
-        if (elapsedTime < 1500) { // 1.5 seconds
-            textContainer.scrollTop += scrollStep;
-            window.requestAnimationFrame(animateScroll);
-        } else {
-            // Ensure we've reached the bottom after 1.5 seconds
-            textContainer.scrollTop = targetScroll;
+        // Reference the neck and waist bones
+        if (o.isBone && o.name === 'mixamorigNeck') {
+          neck = o;
         }
-    }
+        if (o.isBone && o.name === 'mixamorigSpine') {
+          waist = o;
+        }
+      });
 
-    window.requestAnimationFrame(animateScroll);
-}
+      model.scale.set(7, 7, 7);
+      model.position.y = -11;
+
+      scene.add(model);
+
+      loaderAnim.remove();
+
+      mixer = new THREE.AnimationMixer(model);
+
+      let clips = fileAnimations.filter(val => val.name !== 'idle');
+      possibleAnims = clips.map(val => {
+        let clip = THREE.AnimationClip.findByName(clips, val.name);
+
+        clip.tracks.splice(3, 3);
+        clip.tracks.splice(9, 3);
+
+        clip = mixer.clipAction(clip);
+        return clip;
+      });
 
 
+      let idleAnim = THREE.AnimationClip.findByName(fileAnimations, 'idle');
 
-// Call this function whenever new text is added to the container
+      idleAnim.tracks.splice(3, 3);
+      idleAnim.tracks.splice(9, 3);
 
-function loadFile(event) {
-    const input = event.target;
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const container = document.getElementById('textContainer');
-            container.innerHTML = '';  // Clear existing containers
+      idle = mixer.clipAction(idleAnim);
+      idle.play();
 
-            const fileContent = e.target.result;
-            const textSegments = fileContent.split('🐕');
-
-            // Process each segment without removing the 🐕 symbol
-            textSegments.forEach((segment, index) => {
-                if (index > 0) { // Add the symbol back except for the first segment
-                    segment = '🐕' + segment;
-                }
-                const segmentContainer = document.createElement('div');
-                segmentContainer.contentEditable = true;
-                segmentContainer.classList.add('segment');
-                segmentContainer.textContent = segment.trim();
-                // ... (rest of the styling and appending)
-                container.appendChild(segmentContainer);
-            });
-
-            scrollToBottom();
-        };
-        reader.readAsText(input.files[0]);
-    }
-}
-
-document.getElementById('copyDogSymbol').addEventListener('click', function() {
-    navigator.clipboard.writeText('🐕').then(function() {
-        console.log('🐕 symbol copied to clipboard');
-    }).catch(function(err) {
-        console.error('Could not copy text: ', err);
+    },
+    undefined, // We don't need this function
+    function (error) {
+      console.error(error);
     });
-});
 
 
-// Function to export edits to a file
-function exportToFile() {
-    const textContainer = document.getElementById('textContainer');
-    const textToWrite = textContainer.textContent || textContainer.innerText;
-    const blob = new Blob([textToWrite], { type: 'text/plain' });
-    const anchorElement = document.createElement('a');
+    // Add lights
+    let hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.61);
+    hemiLight.position.set(0, 50, 0);
+    // Add hemisphere light to scene
+    scene.add(hemiLight);
 
-    anchorElement.href = URL.createObjectURL(blob);
-    anchorElement.download = 'luminafields.txt';
-    document.body.appendChild(anchorElement); // Required for Firefox
-    anchorElement.click();
-    document.body.removeChild(anchorElement);
-}
+    let d = 8.25;
+    let dirLight = new THREE.DirectionalLight(0xffffff, 0.54);
+    dirLight.position.set(-8, 12, 8);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize = new THREE.Vector2(1024, 1024);
+    dirLight.shadow.camera.near = 0.1;
+    dirLight.shadow.camera.far = 1500;
+    dirLight.shadow.camera.left = d * -1;
+    dirLight.shadow.camera.right = d;
+    dirLight.shadow.camera.top = d;
+    dirLight.shadow.camera.bottom = d * -1;
+    // Add directional Light to scene
+    scene.add(dirLight);
+
+
+    // Floor
+    let floorGeometry = new THREE.PlaneGeometry(5000, 5000, 1, 1);
+    let floorMaterial = new THREE.MeshPhongMaterial({
+      color: 0xeeeeee,
+      shininess: 0 });
+
+
+    let floor = new THREE.Mesh(floorGeometry, floorMaterial);
+    floor.rotation.x = -0.5 * Math.PI;
+    floor.receiveShadow = true;
+    floor.position.y = -11;
+    scene.add(floor);
+
+    let geometry = new THREE.SphereGeometry(8, 32, 32);
+    let material = new THREE.MeshBasicMaterial({ color: 0x9bffaf }); // 0xf2ce2e
+    let sphere = new THREE.Mesh(geometry, material);
+
+    sphere.position.z = -15;
+    sphere.position.y = -2.5;
+    sphere.position.x = -0.25;
+    scene.add(sphere);
+  }
+
+
+  function update() {
+    if (mixer) {
+      mixer.update(clock.getDelta());
+    }
+
+    if (resizeRendererToDisplaySize(renderer)) {
+      const canvas = renderer.domElement;
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+    }
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(update);
+  }
+
+  update();
+
+  function resizeRendererToDisplaySize(renderer) {
+    const canvas = renderer.domElement;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let canvasPixelWidth = canvas.width / window.devicePixelRatio;
+    let canvasPixelHeight = canvas.height / window.devicePixelRatio;
+
+    const needResize =
+    canvasPixelWidth !== width || canvasPixelHeight !== height;
+    if (needResize) {
+      renderer.setSize(width, height, false);
+    }
+    return needResize;
+  }
+
+  window.addEventListener('click', e => raycast(e));
+  window.addEventListener('touchend', e => raycast(e, true));
+
+  function raycast(e, touch = false) {
+    var mouse = {};
+    if (touch) {
+      mouse.x = 2 * (e.changedTouches[0].clientX / window.innerWidth) - 1;
+      mouse.y = 1 - 2 * (e.changedTouches[0].clientY / window.innerHeight);
+    } else {
+      mouse.x = 2 * (e.clientX / window.innerWidth) - 1;
+      mouse.y = 1 - 2 * (e.clientY / window.innerHeight);
+    }
+    // update the picking ray with the camera and mouse position
+    raycaster.setFromCamera(mouse, camera);
+
+    // calculate objects intersecting the picking ray
+    var intersects = raycaster.intersectObjects(scene.children, true);
+
+    if (intersects[0]) {
+      var object = intersects[0].object;
+
+      if (object.name === 'stacy') {
+
+        if (!currentlyAnimating) {
+          currentlyAnimating = true;
+          playOnClick();
+        }
+      }
+    }
+  }
+
+  // Get a random animation, and play it
+  function playOnClick() {
+    let anim = Math.floor(Math.random() * possibleAnims.length) + 0;
+    playModifierAnimation(idle, 0.25, possibleAnims[anim], 0.25);
+  }
+
+
+  function playModifierAnimation(from, fSpeed, to, tSpeed) {
+    to.setLoop(THREE.LoopOnce);
+    to.reset();
+    to.play();
+    from.crossFadeTo(to, fSpeed, true);
+    setTimeout(function () {
+      from.enabled = true;
+      to.crossFadeTo(from, tSpeed, true);
+      currentlyAnimating = false;
+    }, to._clip.duration * 1000 - (tSpeed + fSpeed) * 1000);
+  }
+
+  document.addEventListener('mousemove', function (e) {
+    var mousecoords = getMousePos(e);
+    if (neck && waist) {
+
+      moveJoint(mousecoords, neck, 50);
+      moveJoint(mousecoords, waist, 30);
+    }
+  });
+
+  function getMousePos(e) {
+    return { x: e.clientX, y: e.clientY };
+  }
+
+  function moveJoint(mouse, joint, degreeLimit) {
+    let degrees = getMouseDegrees(mouse.x, mouse.y, degreeLimit);
+    joint.rotation.y = THREE.Math.degToRad(degrees.x);
+    joint.rotation.x = THREE.Math.degToRad(degrees.y);
+  }
+
+  function getMouseDegrees(x, y, degreeLimit) {
+    let dx = 0,
+    dy = 0,
+    xdiff,
+    xPercentage,
+    ydiff,
+    yPercentage;
+
+    let w = { x: window.innerWidth, y: window.innerHeight };
+
+    // Left (Rotates neck left between 0 and -degreeLimit)
+    // 1. If cursor is in the left half of screen
+    if (x <= w.x / 2) {
+      // 2. Get the difference between middle of screen and cursor position
+      xdiff = w.x / 2 - x;
+      // 3. Find the percentage of that difference (percentage toward edge of screen)
+      xPercentage = xdiff / (w.x / 2) * 100;
+      // 4. Convert that to a percentage of the maximum rotation we allow for the neck
+      dx = degreeLimit * xPercentage / 100 * -1;
+    }
+
+    // Right (Rotates neck right between 0 and degreeLimit)
+    if (x >= w.x / 2) {
+      xdiff = x - w.x / 2;
+      xPercentage = xdiff / (w.x / 2) * 100;
+      dx = degreeLimit * xPercentage / 100;
+    }
+    // Up (Rotates neck up between 0 and -degreeLimit)
+    if (y <= w.y / 2) {
+      ydiff = w.y / 2 - y;
+      yPercentage = ydiff / (w.y / 2) * 100;
+      // Note that I cut degreeLimit in half when she looks up
+      dy = degreeLimit * 0.5 * yPercentage / 100 * -1;
+    }
+    // Down (Rotates neck down between 0 and degreeLimit)
+    if (y >= w.y / 2) {
+      ydiff = y - w.y / 2;
+      yPercentage = ydiff / (w.y / 2) * 100;
+      dy = degreeLimit * yPercentage / 100;
+    }
+    return { x: dx, y: dy };
+  }
+
+})();
