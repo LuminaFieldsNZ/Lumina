@@ -44,9 +44,9 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
     0.1,
     1000);
 
-    camera.position.z = 30;
+    camera.position.z = 60;
     camera.position.x = 0;
-    camera.position.y = -3;
+    camera.position.y = 13;
 
     let stacy_txt = new THREE.TextureLoader().load('');
     stacy_txt.flipY = false;
@@ -82,7 +82,7 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
         }
       });
 
-      model.scale.set(7, 7, 7);
+      model.scale.set(1.6, 1.6, 1.6);
       model.position.y = -11;
 
       scene.add(model);

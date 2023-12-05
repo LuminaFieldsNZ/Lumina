@@ -80,12 +80,3 @@ body {
     transform: rotateY(180deg)  rotateX(180deg);
   }
 }
-
-.tutorial-link {
-  position: absolute;
-  display: block;
-  z-index: 100;
-  top: 2em; left: 2em;
-  tranform: translateX(-50%);
-  font-weight: bold;
-}
