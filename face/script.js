@@ -22,7 +22,7 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
 
   function init() {
 
-    const MODEL_PATH = 'https://luminafields.com/face/micheal.glb';
+    const MODEL_PATH = './bald.glb';
     const canvas = document.querySelector('#c');
     const backgroundColor = 0xf1f1f1;
 
@@ -44,19 +44,17 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
     0.1,
     1000);
 
-    camera.position.z = 60;
+    camera.position.z = 30;
     camera.position.x = 0;
-    camera.position.y = 13;
+    camera.position.y = -3;
 
-    let stacy_txt = new THREE.TextureLoader().load('');
+    let stacy_txt = new THREE.TextureLoader().load('./micheal.jpg');
     stacy_txt.flipY = false;
 
     const stacy_mtl = new THREE.MeshPhongMaterial({
       map: stacy_txt,
       color: 0xffffff,
       skinning: true });
-
-
 
     var loader = new THREE.GLTFLoader();
 
@@ -82,7 +80,7 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
         }
       });
 
-      model.scale.set(1.6, 1.6, 1.6);
+      model.scale.set(7, 7, 7);
       model.position.y = -11;
 
       scene.add(model);
