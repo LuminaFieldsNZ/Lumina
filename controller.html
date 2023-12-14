@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Control Panel</title>
+</head>
+<body>
+    <input type="number" id="speedInput" placeholder="Speed" value="1">
+    <input type="number" id="spikesInput" placeholder="Spikes" value="1">
+    <input type="number" id="processingInput" placeholder="Processing" value="1">
+    <button onclick="sendValues()">Update Blob</button>
+
+    <script>
+        let rendererWindow;
+
+        function openRendererWindow() {
+            rendererWindow = window.open('renderer.html');
+        }
+
+        function sendValues() {
+            var messageData = {
+                speed: parseFloat(document.getElementById('speedInput').value),
+                spikes: parseFloat(document.getElementById('spikesInput').value),
+                processing: parseFloat(document.getElementById('processingInput').value)
+            };
+
+            rendererWindow.postMessage(messageData, '*');
+        }
+
+        // Open the renderer window automatically
+        openRendererWindow();
+    </script>
+</body>
+</html>

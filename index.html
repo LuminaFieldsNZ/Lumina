@@ -17,11 +17,46 @@
 
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
             <link rel="stylesheet" href="./home.css">
-            <link rel="stylesheet" href="./loader.css">
+            <link rel="stylesheet" href="./book.css">
 
 
             </head>
             <body>
+
+
+              <a onclick="birdBomb()" style="z-index: 9999999999999;position: absolute; bottom: 5px; left: 15px;"><image src="bird1.gif" id="bird1">
+                <image src="bird2.gif" style="display:none;" id="bird2"></a>
+        <script>
+
+        function birdBomb() {
+  var bird1 = document.getElementById('bird1');
+  var bird2 = document.getElementById('bird2');
+
+  // Save the current src of each image
+  var bird1Src = bird1.getAttribute('src');
+  var bird2Src = bird2.getAttribute('src');
+
+  if (bird1.style.display === 'none') {
+    // If bird1 is hidden, show it and hide bird2
+    bird1.style.display = 'block';
+    bird2.style.display = 'none';
+
+    // Reset the src to restart the GIF animation
+    bird1.setAttribute('src', '');
+    bird1.setAttribute('src', bird1Src);
+  } else {
+    // If bird1 is shown (or the display property is not set), hide it and show bird2
+    bird1.style.display = 'none';
+    bird2.style.display = 'block';
+
+    // Reset the src to restart the GIF animation
+    bird2.setAttribute('src', '');
+    bird2.setAttribute('src', bird2Src);
+  }
+}
+
+
+        </script>
 
               <div class="app-container" style="z-index:999;">
 
@@ -33,33 +68,7 @@
 
                 <div class="projects-section">
 
-<div id="energyAudit" class="project-boxes" style="display: none; margin: 40px;">
-
-
-        <div id="personSVG">
-          <img id="topTrait" alt="Top Trait" class="top">
-      <img id="secondTrait" alt="Second Trait" class="second">
-      <img id="worstTrait" alt="Worst Trait" class="worst">
-            </div>
-
-
-
-<button class="open-modal" onclick = "nextPhoto();">Learn More</button>
-<a id="descriptAll"></a>
-<br>
-<a id="descriptAll2"></a>
-
-
-
-<div>
-
-<div id="storyContainer"></div>
-<div id="reflectionsContainer"></div>
-
-</div>
-
-
-<br><br>
+<div id="energyAudit" class="project-boxes" style="display: block; margin: 10px;">
 
   <div class="projects-section-line">
           <div class="projects-status" style="justify-content: center;">
@@ -79,6 +88,8 @@
               <span id="mainHeadingAverage" class="status-number">0</span>
               <span class="status-type">EQ.</span>
             </div>
+
+
 
 
           </div>
@@ -473,505 +484,13 @@
      </div>
    </div>
 
-
-</div>
-
-
-
-<div id="loader1" class="project-boxes" style="display: block;">
-
-  <iframe id="bookFrame4" src="" style="width: 100%; height:93vh; border-radius: 22px;"></iframe>
-
-</div>
-
-<div id="settingsMain" class="project-boxes" style="display: none; margin: 40px;">
-
-<div class="grid-container">
-  <div class="grid-item">
-    <br>
-    <textarea id="popupIframe" style="width: 100%; height:40vh; border-radius: 22px; scrollbar-width: 0px;"></textarea>
-  </div>
-<div class="grid-item">
-<hr>
-<div id="toolMenu2" style="width: 100%;">
-  <textarea readonly class="json-editor" style="height:300px; width:100%;" id="jsonEditor" placeholder="JSON Format: [question, answer, liveChange]"></textarea>
-</div>
-</div>
-
-</div>
-</div>
-
-
-
-
-<div id="splash" class="project-boxes" style="display: none;">
-<iframe id="bookFrame5" src="" style="width: 100%; height:99vh; border-radius: 22px;"></iframe>
-</div>
-                  <div id="secretDiv" class="project-boxes" style="display: none;">
-
-<!--Box-->
-                   <div class="project-box-wrapper">
-                      <div class="project-box" style="background-color: #C8EED1;">
-                        <div class="project-box-header">
-                          <span><p id="finalNumber">0</p><p>/$5000</p></span>
-                          <div class="more-wrapper">
-                            <button class="project-btn-more" onclick="settingsActive();">
-                              <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                   <defs>
-                                   <filter id="drop-shadow">
-                                   <feDropShadow dx="2" dy="2" stdDeviation="2"/>
-                                   </filter>
-                                  </defs>
-                                  <rect x="2" y="2" width="36" height="46" stroke="#222222" stroke-width="2" filter="url(#drop-shadow)"/>
-                                  <rect x="4" y="4" width="32" height="42" stroke="#222222" stroke-width="2" filter="url(#drop-shadow)"/>
-                                  <text x="20" y="32" fill="#222222" font-size="24" text-anchor="middle" >$</text>
-                                  </svg>
-                            </button>
-                      </div>
-                    </div>
-                    <div class="project-box-content-header">
-                      <p class="box-content-header" onclick="settingsActive();">T's House</p>
-                      <p class="box-content-subheader">v3.0 Ends Sep 5</p>
-                    </div>
-                    <div class="box-progress-wrapper">
-                      <p class="box-progress-header">Progress</p>
-                      <div class="box-progress-bar">
-                        <span id="tBoxProgress" class="box-progress" style="width: 1%; background-color: #054950"></span>
-                      </div>
-                      <p class="box-progress-percentage" id="tPercentInput">1%</p>
-                    </div>
-                    <div class="project-box-footer">
-                      <div class="participants">
-                        <img src="pics/collective.png" alt="participant">
-                        <button class="add-participant" style="color: #054950;">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                            <path d="M12 5v14M5 12h14" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div class="days-left" style="color: #054950;">
-                        <div id="timer"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-
-
-
-
-<!--BoxA-->
-                   <div class="project-box-wrapper">
-                      <div class="project-box" style="background-color: #29E054;">
-                        <div class="project-box-header">
-                          <span>Somewhere Nice</span>
-                          <div class="more-wrapper">
-                            <button class="project-btn-more">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
-                                <circle cx="12" cy="12" r="1" />
-                                <circle cx="12" cy="5" r="1" />
-                                <circle cx="12" cy="19" r="1" /></svg>
-                            </button>
-                      </div>
-                    </div>
-                    <div class="project-box-content-header">
-                      <p class="box-content-header">Pictures</p>
-                      <p class="box-content-subheader">Self Portraits</p>
-                    </div>
-                    <div class="box-progress-wrapper">
-                      <p class="box-progress-header">Progress</p>
-                      <div class="box-progress-bar">
-                        <span class="box-progress" style="width: 20%; background-color: #054950"></span>
-                      </div>
-                      <p class="box-progress-percentage" id="1tPercentInput">20%</p>
-                    </div>
-                    <div class="project-box-footer">
-                      <div class="participants">
-                        <img src="pics/collective.png" alt="participant">
-                        <button class="add-participant" style="color: #054950;">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                            <path d="M12 5v14M5 12h14" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div class="days-left" style="color: #054950;">
-                        <div id="timera"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-
-
-
-
-<!--Box1-->
-                <div class="project-box-wrapper">
-                  <div class="project-box" style="background-color: #C8EED1;">
-                    <div class="project-box-header">
-                     <span id="paid1">1600</span>
-                      <div class="more-wrapper">
-                        <button class="project-btn-more">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
-                            <circle cx="12" cy="12" r="1" />
-                            <circle cx="12" cy="5" r="1" />
-                            <circle cx="12" cy="19" r="1" /></svg>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="project-box-content-header">
-                      <p class="box-content-header">Window</p>
-                      <p class="box-content-subheader">Demolition</p>
-                    </div>
-                    <div class="box-progress-wrapper">
-                      <p class="box-progress-header">Progress</p>
-                      <div class="box-progress-bar">
-                        <span class="box-progress" style="width: 1%; background-color: #054950"></span>
-                      </div>
-                      <p class="box-progress-percentage" id="2tPercentInput">1%</p>
-                    </div>
-                    <div class="project-box-footer">
-                      <div class="participants">
-                        <img src="pics/collective.png" alt="participant">
-                        <button class="add-participant" style="color: #054950;">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                            <path d="M12 5v14M5 12h14" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div class="days-left" style="color: #054950;">
-                        <div id="timer1"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-
-
-
-
-<!--Box2-->
-                <div class="project-box-wrapper">
-                  <div class="project-box"  style="background-color: #C8EED1;">
-                    <div class="project-box-header">
-                      <span id="paid2">0</span>
-                      <div class="more-wrapper">
-                        <button class="project-btn-more">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
-                            <circle cx="12" cy="12" r="1" />
-                            <circle cx="12" cy="5" r="1" />
-                            <circle cx="12" cy="19" r="1" /></svg>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="project-box-content-header">
-                      <p class="box-content-header">Window</p>
-                      <p class="box-content-subheader">Exterior</p>
-                    </div>
-                    <div class="box-progress-wrapper">
-                      <p class="box-progress-header">Progress</p>
-                      <div class="box-progress-bar">
-                        <span class="box-progress" style="width: 1%; background-color: #054950"></span>
-                      </div>
-                      <p class="box-progress-percentage" id="3tPercentInput">1%</p>
-                    </div>
-                    <div class="project-box-footer">
-                      <div class="participants">
-                        <img src="pics/collective.png" alt="participant">
-                        <button class="add-participant" style="color: #054950;">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                            <path d="M12 5v14M5 12h14" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div class="days-left" style="color: #054950;">
-                        <div id="timer2"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-
-
-
-<!--Box3-->
-                <div class="project-box-wrapper">
-                  <div class="project-box" style="background-color: #C8EED1;">
-                    <div class="project-box-header">
-                      <span id="paid3">0</span>
-                      <div class="more-wrapper">
-                        <button class="project-btn-more">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
-                            <circle cx="12" cy="12" r="1" />
-                            <circle cx="12" cy="5" r="1" />
-                            <circle cx="12" cy="19" r="1" /></svg>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="project-box-content-header">
-                      <p class="box-content-header">Window</p>
-                      <p class="box-content-subheader">Bench Build</p>
-                    </div>
-                    <div class="box-progress-wrapper">
-                      <p class="box-progress-header">Progress</p>
-                      <div class="box-progress-bar">
-                        <span class="box-progress" style="width: 1%; background-color: #054950"></span>
-                      </div>
-                      <p class="box-progress-percentage" id="4tPercentInput">1%</p>
-                    </div>
-                    <div class="project-box-footer">
-                      <div class="participants">
-                        <img src="pics/collective.png" alt="participant">
-                        <button class="add-participant" style="color: #054950;">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                            <path d="M12 5v14M5 12h14" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div class="days-left" style="color: #054950;">
-                        <div id="timer3"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-
-
-
-<!--Box4-->
-                <div class="project-box-wrapper">
-                  <div class="project-box" style="background-color: #C8EED1;">
-                    <div class="project-box-header">
-                      <span id="paid4">300</span>
-                      <div class="more-wrapper">
-                        <button class="project-btn-more">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
-                            <circle cx="12" cy="12" r="1" />
-                            <circle cx="12" cy="5" r="1" />
-                            <circle cx="12" cy="19" r="1" /></svg>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="project-box-content-header">
-                      <p class="box-content-header">Window</p>
-                      <p class="box-content-subheader">Window Install</p>
-                    </div>
-                    <div class="box-progress-wrapper">
-                      <p class="box-progress-header">Progress</p>
-                      <div class="box-progress-bar">
-                        <span class="box-progress" style="width: 1%; background-color: #054950"></span>
-                      </div>
-                      <p class="box-progress-percentage" id="5tPercentInput">1%</p>
-                    </div>
-                    <div class="project-box-footer">
-                      <div class="participants">
-                        <img src="pics/collective.png" alt="participant">
-                        <button class="add-participant" style="color: #054950;">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                            <path d="M12 5v14M5 12h14" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div class="days-left" style="color: #054950;">
-                        <div id="timer4"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-
-
-
-<!--Box5-->
-                <div class="project-box-wrapper">
-                  <div class="project-box" style="background-color: #C8EED1;">
-                    <div class="project-box-header">
-                      <span id="paid5">150</span>
-                      <div class="more-wrapper">
-                        <button class="project-btn-more">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
-                            <circle cx="12" cy="12" r="1" />
-                            <circle cx="12" cy="5" r="1" />
-                            <circle cx="12" cy="19" r="1" /></svg>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="project-box-content-header">
-                      <p class="box-content-header">Electrical</p>
-                      <p class="box-content-subheader">Fan Switch Addition</p>
-                    </div>
-                    <div class="box-progress-wrapper">
-                      <p class="box-progress-header">Progress</p>
-                      <div class="box-progress-bar">
-                        <span class="box-progress" style="width: 100%; background-color: #054950"></span>
-                      </div>
-                      <p class="box-progress-percentage" id="6tPercentInput">100%</p>
-                    </div>
-                    <div class="project-box-footer">
-                      <div class="participants">
-                        <img src="pics/collective.png" alt="participant">
-                        <button class="add-participant" style="color: #054950;">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                            <path d="M12 5v14M5 12h14" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div class="days-left" style="color: #054950;">
-                        <div id="timer5"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<!--Box7-->
-                <div class="project-box-wrapper">
-                  <div class="project-box" style="background-color: #C8EED1;">
-                    <div class="project-box-header">
-                      <span id="paid7">250</span>
-                      <div class="more-wrapper">
-                        <button class="project-btn-more">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
-                            <circle cx="12" cy="12" r="1" />
-                            <circle cx="12" cy="5" r="1" />
-                            <circle cx="12" cy="19" r="1" /></svg>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="project-box-content-header">
-                      <p class="box-content-header">Stairs</p>
-                      <p class="box-content-subheader">Refinish</p>
-                    </div>
-                    <div class="box-progress-wrapper">
-                      <p class="box-progress-header">Progress</p>
-                      <div class="box-progress-bar">
-                        <span class="box-progress" style="width: 1%; background-color: #054950"></span>
-                      </div>
-                      <p class="box-progress-percentage" id="8tPercentInput">1%</p>
-                    </div>
-                    <div class="project-box-footer">
-                      <div class="participants">
-                        <img src="pics/collective.png" alt="participant">
-                        <button class="add-participant" style="color: #054950;">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                            <path d="M12 5v14M5 12h14" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div class="days-left" style="color: #054950;">
-                        <div id="timer7"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<!--Box8-->
-                <div class="project-box-wrapper">
-                  <div class="project-box" style="background-color: #C8EED1;">
-                    <div class="project-box-header">
-                      <span id="paid8">250</span>
-                      <div class="more-wrapper">
-                        <button class="project-btn-more">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
-                            <circle cx="12" cy="12" r="1" />
-                            <circle cx="12" cy="5" r="1" />
-                            <circle cx="12" cy="19" r="1" /></svg>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="project-box-content-header">
-                      <p class="box-content-header">Stairs</p>
-                      <p class="box-content-subheader">Lighting</p>
-                    </div>
-                    <div class="box-progress-wrapper">
-                      <p class="box-progress-header">Progress</p>
-                      <div class="box-progress-bar">
-                        <span class="box-progress" style="width: 1%; background-color: #054950"></span>
-                      </div>
-                      <p class="box-progress-percentage" id="9tPercentInput">1%</p>
-                    </div>
-                    <div class="project-box-footer">
-                      <div class="participants">
-                        <img src="pics/collective.png" alt="participant">
-                        <button class="add-participant" style="color: #054950;">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                            <path d="M12 5v14M5 12h14" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div class="days-left" style="color: #054950;">
-                        <div id="timer8"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-
-<!--Box6-->
-                <div class="project-box-wrapper">
-                  <div class="project-box" style="background-color: #C8EED1;">
-                    <div class="project-box-header">
-                      <span id="paid6">150</span>
-                      <div class="more-wrapper">
-                        <button class="project-btn-more">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
-                            <circle cx="12" cy="12" r="1" />
-                            <circle cx="12" cy="5" r="1" />
-                            <circle cx="12" cy="19" r="1" /></svg>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="project-box-content-header">
-                      <p class="box-content-header">Electrical</p>
-                      <p class="box-content-subheader">Entry Hall Light</p>
-                    </div>
-                    <div class="box-progress-wrapper">
-                      <p class="box-progress-header">Progress</p>
-                      <div class="box-progress-bar">
-                        <span class="box-progress" style="width: 100%; background-color: #054950"></span>
-                      </div>
-                      <p class="box-progress-percentage" id="7tPercentInput">100%</p>
-                    </div>
-                    <div class="project-box-footer">
-                      <div class="participants">
-                        <img src="pics/collective.png" alt="participant">
-                        <button class="add-participant" style="color: #054950;">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                            <path d="M12 5v14M5 12h14" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div class="days-left" style="color: #054950;">
-                        <div id="timer6"></div>
-                      </div>
-                    </div>
-
-<!--End of Boxes-->
-              </div>
-              <button class="open-modal" onclick="window.open('https://drive.google.com/drive/folders/1F2CSJxkEszsHV1ul2nPu2v4FoU1ezHVv?usp=drive_link'); return false;">Receipts</button>
-              <button class="open-modal" onclick="window.open('https://docs.google.com/spreadsheets/d/e/2PACX-1vTmrMboaSeuwCdUO7WrelcJBmyN5ECgsVz0KzxGixksQFu0-7SOW-vB4nTfdiOSropFsL1SkDWzDQqV/pubhtml', '_blank');">Payroll</button>
-
-            </div>
-              </div>
-
-
-
-
-
-
-
-
-
-
-
-<div id="schedule" class="project-boxes jsGridView" style="display: none;">
-
-
-  <iframe id="bookFrame1" src="" style="width: 100%; height:99vh; border-radius: 22px;"></iframe>
+   <br><hr><br>
+
+   <a id="descriptAll"></a>
+   <br>
+   <a id="descriptAll2"></a>
+   <br><hr><br>
+   <button class="open-modal" onclick = "nextPhoto();">Learn More</button>
 
 
 
@@ -990,107 +509,144 @@
               <div class="messages">
 <div class="message-box">
     <div class="search-wrapper">
+      <a class="mode-switch app-sidebar-link" onclick="document.getElementById('popupIframe').src = '';" title="Switch Theme">
+        <svg class="link-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
+          <defs></defs>
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+        </svg>
+      </a>
       <input class="search-input" placeholder="Search" type="text" id="passcode" oninput="checkPasscode();">
-      <div class="loader">
-        <div class="square" ></div>
-        <div class="square"></div>
-        <div class="square last"></div>
-        <div class="square clear"></div>
-        <div class="square"></div>
-        <div class="square last"></div>
-        <div class="square clear"></div>
-        <div class="square "></div>
-        <div class="square last"></div>
-      </div>
 
     </div>
 </div>
-                <div class="message-box">
-                <div class="chat-window" id="chatWindow">
-<font id="load3">Pulse Status:</font> <font id="load1" style="color:#fdc96f;">Connecting</font>
-                </div>
-                </div>
-              </div>
-              <div class="message-box">
-                <input type="textarea" id="userInput" style="width: 100%;
-  height: 80px;
-  padding: 12px 20px;
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  background-color: #f8f8f8;
-  resize: none;" placeholder="Type message...">
-              </div>
-              <div class="message-box"><button class="open-modal" onclick="sendMessage()">Send</button></div>
-              <div class="message-box">
-                <a id="navHome" onclick="splashActive();" class="app-sidebar-link">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                    <polyline points="9 22 9 12 15 12 15 22" /></svg>
-                </a>
 
-                <a id="navAudit" onclick="energyAuditActive();" target="_SEJ" rel="noreferrer" class="app-sidebar-link">
-                  <svg class="link-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-pie-chart" viewBox="0 0 24 24">
-                    <defs />
-                    <path d="M21.21 15.89A10 10 0 118 2.83M22 12A10 10 0 0012 2v10z" />
-                  </svg>
-                </a>
+<div class="message-box" id="mb1">
+  <section class="closed-book">
+      <header>
+          <h1>Quest 1: Enter the Password</h1>
+          <h6>Cryptic Enigma</h6>
+      </header>
+      <article>
+        <h2 class="chapter-title">Unveil the Ultimate Key</h2>
+          <div id="lowRisk"><p>
+Current risk: Low
+              </p><p>
+            16
+            </p><p>
+            12
+            </p><p>
+            20
+            </p><p>
+            4
+            </p><p>
+            23
+            </p><p>
+            6
+            </p><p>
+            10
+            </p><p>
+            17
+            </p><p>
+            14
+            </p><p>
+            8
+          </p>
+            <button id="option1a" onclick="run1a();" class="open-modal">Sacrifice 100000 for a passage referring to these numbers.</button>
+</div>
+<div id="medRisk" style="display:none;"><p>
+Risk increse to: Med
+</p><p>PeeL on Husk, seek the essence within. Visions guide the vigilant.
 
-                <a id="navSchedule" onclick="scheduleActive();" target="_SEJ" rel="noreferrer" class="app-sidebar-link">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                    <line x1="16" y1="2" x2="16" y2="6" />
-                    <line x1="8" y1="2" x2="8" y2="6" />
-                    <line x1="3" y1="10" x2="21" y2="10" /></svg>
-                </a>
+</p>
+<dl id="option2a" onclick="run2a();">Sacrifice 200000 for an additional hint</dl>
+</div>
+<div id="highRisk" style="display:none;"><p>
+Risk increase to: High
+</p><p>
+3 5 12 15 14 8 21 19 11
+</p>
+</div>
+      </article>
 
-                <a id="navSettings" onclick="settingsActive();" class="app-sidebar-link">
-                  <svg class="link-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-settings" viewBox="0 0 24 24">
-                    <defs />
-                    <circle cx="12" cy="12" r="3" />
-                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
-                  </svg>
-                </a>
 
-                <a class="mode-switch app-sidebar-link" onclick="document.getElementById('popupIframe').src = '';" title="Switch Theme">
-                  <svg class="link-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
-                    <defs></defs>
-                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
-                  </svg>
-                </a>
+      <script>
 
-                <div class="image-container" id="profilePic" style="z-index: 9999999999;">
-                  <img src="./body/body0.png" id="bodyLayer" class="layer" style="z-index: 1;">
-                  <img src="./head.png" alt="Head" class="layer" style="z-index: 2;">
-                  <img id="glassesLayer" class="layer" style="z-index: 3;">
-                  <img id="hairLayer" class="layer" style="z-index: 4;">
-                  <img src="./outer/outer0.png"  id="outerLayer" class="layer" style="z-index: 5;">
-                </div>
-              </div>
+
+                      function run1a(){
+                      const nationalistValue = -250000; // Or any value you want to add to populist
+                      window.parent.postMessage({ nationalist: nationalistValue }, 'luminafields.com');
+                      const progressiveValue = -250000; // Or any value you want to add to progressive
+                      window.parent.postMessage({ progressive: progressiveValue }, 'luminafields.com');
+                      const conservativeValue = -250000; // Or any value you want to add to populist
+                      window.parent.postMessage({ conservative: conservativeValue }, 'luminafields.com');
+                      const globalistValue = -250000; // Or any value you want to add to progressive
+                      window.parent.postMessage({ globalist: globalistValue }, 'luminafields.com');
+
+                      const option1a = document.getElementById('option1a');
+                      document.getElementById('option1a').disabled = true;
+                      document.getElementById('option1a').style.pointerEvents = 'none';
+                      document.getElementById('medRisk').style.display = "block";
+                      }
+                      function run2a(){
+                      const populistValue = -500000; // Or any value you want to add to populist
+                      window.parent.postMessage({ populist: populistValue }, 'luminafields.com');
+                      const realistValue = -500000; // Or any value you want to add to progressive
+                      window.parent.postMessage({ realist: realistValue }, 'luminafields.com');
+                      const idealistValue = -500000; // Or any value you want to add to populist
+                      window.parent.postMessage({ idealist: idealistValue }, 'luminafields.com');
+                      const economistValue = -500000; // Or any value you want to add to progressive
+                      window.parent.postMessage({ economist: economistValue }, 'luminafields.com');
+
+                      const option2a = document.getElementById('option2a');
+                      document.getElementById('option2a').disabled = true;
+                      document.getElementById('option2a').style.pointerEvents = 'none';
+                      document.getElementById('highRisk').style.display = "block";
+                      }
+
+      </script>
+  </section>
+</div>
+<div class="message-box">
+    <iframe id="soulFrame" src="soul/index.html" width="100%" height="300px" style="border: none;"></iframe>
+</div>
+
+
+
+<div class="message-box">
+
+<button class="open-modal" onclick="sendValuesToSoul(20, 15, 10)">Send Values</button>
+</div>
+
+
+<script>
+function sendValuesToSoul(speed, spikes, processing) {
+    var soulFrame = document.getElementById('soulFrame');
+
+    // Check if the iframe is present
+    if (soulFrame) {
+        var messageData = {
+            speed: speed,
+            spikes: spikes,
+            processing: processing
+        };
+
+        // Post the message to the iframe's content window
+        soulFrame.contentWindow.postMessage(messageData, '*');
+    } else {
+        console.log("Soul iframe is not present.");
+    }
+}
+
+
+</script>
+
             </div>
             </div>
             </div>
             <!-- partial -->
               <script  src="home.js"></script>
-              <script  src="navbuttons.js"></script>
-              <script src="chatbot.js"></script>
               <script src="hpxml.js"></script>
               <script src="populations.js"></script>
-              <script src="hardData/faxium.js"></script>
-              <script src="hardData/collective.js"></script>
-
-
-<script>
-
-function countActive(){
-  document.getElementById("clicksRed").style.display = "block";
-  document.getElementById("clicksBlue").style.display = "block";
-  document.getElementById("clicksBlack").style.display = "block";
-  document.getElementById("clicksGold").style.display = "block";
-}
-
-</script>
-
 
 
 
