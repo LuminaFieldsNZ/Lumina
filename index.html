@@ -538,31 +538,10 @@
 
 <div class="message-box">
 
-<button class="open-modal" onclick="sendValuesToSoul(20, 15, 10)">Vibe Check</button>
+<button class="open-modal" onclick="sendValuesToSoul()">Vibe Check</button>
 </div>
 
 
-<script>
-function sendValuesToSoul(speed, spikes, processing) {
-    var soulFrame = document.getElementById('soulFrame');
-
-    // Check if the iframe is present
-    if (soulFrame) {
-        var messageData = {
-            speed: speed,
-            spikes: spikes,
-            processing: processing
-        };
-
-        // Post the message to the iframe's content window
-        soulFrame.contentWindow.postMessage(messageData, '*');
-    } else {
-        console.log("Soul iframe is not present.");
-    }
-}
-
-
-</script>
 
             </div>
             </div>

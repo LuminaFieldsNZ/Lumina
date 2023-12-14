@@ -14,15 +14,15 @@ function clearStorage() {
 }
 
 populations = {
-  progressive: 100,
-  socialist: 100,
-  idealist: 100,
-  globalist: 100,
-  conservative: 100,
-  economist: 100,
-  realist: 1000,
-  nationalist: 100,
-  populist: 100
+  progressive: 1,
+  socialist: 1,
+  idealist: 1,
+  globalist: 1,
+  conservative: 1,
+  economist: 1,
+  realist: 1,
+  nationalist: 1,
+  populist: 1
 };
 
 mainHeading = {
@@ -37,7 +37,27 @@ mainHeading = {
   sailor: 0
 };
 
+let speedx = 120,
+spikesx = .8,
+processingx = 2;
 
+function sendValuesToSoul() {
+    var soulFrame = document.getElementById('soulFrame');
+
+    // Check if the iframe is present
+    if (soulFrame) {
+        var messageData = {
+            speed: speedx,
+            spikes: spikesx,
+            processing: processingx
+        };
+
+        // Post the message to the iframe's content window
+        soulFrame.contentWindow.postMessage(messageData, '*');
+    } else {
+        console.log("Soul iframe is not present.");
+    }
+}
 
 
 function updatePopulations() {
