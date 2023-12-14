@@ -320,6 +320,7 @@ function loadFile(event) {
             });
             countEmojisAndUpdate();
             countEmotionKeywordsAndUpdate();
+            countKeywordsForNationsAndUpdate();
             scrollToBottom();
         };
         reader.readAsText(input.files[0]);
@@ -419,5 +420,31 @@ function calculateValues(angerCount, happyCount, depressedCount) {
     return { speedx, spikesx, processingx };
 }
 
-// Example usage:
-// var { speedx, spikesx, processingx } = calculateValues(angerCount, happyCount, depressedCount);
+function countKeywordsForNationsAndUpdate() {
+    const textContainer = document.getElementById('textContainer');
+    const text = textContainer.textContent || textContainer.innerText.toLowerCase();
+
+    const nationKeywords = {
+        globalist: ['healthcare', 'international', 'wellness', 'compassion', 'aid'],
+        conservative: ['self-reliant', 'traditional', 'isolationist', 'individualism', 'stability'],
+        nationalist: ['patriotism', 'gems', 'prosperity', 'sovereignty', 'heritage'],
+        idealist: ['innovation', 'bioluminescence', 'creativity', 'science', 'organic'],
+        populist: ['grassroots', 'affordable', 'community', 'fishery', 'basic'],
+        progressive: ['reform', 'equality', 'diversity', 'wealth', 'change'],
+        economist: ['trade', 'mobility', 'commerce', 'gold', 'market'],
+        realist: ['resources', 'isolation', 'survival', 'pragmatic', 'rugged'],
+        socialist: ['collective', 'ai', 'humanity', 'protection', 'sharing']
+    };
+
+    // Count each keyword for each nation
+    for (const nation in nationKeywords) {
+        nationKeywords[nation].forEach(keyword => {
+            populations[nation] += (text.match(new RegExp('\\b' + keyword + '\\b', 'g')) || []).length;
+        });
+    }
+
+    console.log('Updated populations:', populations);
+    return populations;
+}
+
+// Call this function to count the nation-related keywords in the text.
