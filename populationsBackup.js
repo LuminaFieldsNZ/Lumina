@@ -386,7 +386,7 @@ function countEmotionKeywordsAndUpdate() {
     const textContainer = document.getElementById('textContainer');
     const text = textContainer.textContent || textContainer.innerText.toLowerCase(); // Convert text to lowercase for matching
 
-    const angerKeywords = ['furious', 'anger', 'angered', 'angering', 'angry', 'angrily', 'angrier', 'angriest', 'angerless', 'angerlessness', 'unanger', 'unangered', 'unangering', 'unangrily', 'unangry', 'overanger', 'overangered', 'overangering', 'overangry', 'reanger', 'reangered', 'reangering', 'reangry', 'angerful', 'angerfully', 'angerfulness', 'angerly', 'misanger', 'misangered', 'misangering', 'misangry', 'rage', 'annoyed', 'irritated', 'frustrated', 'livid', 'seething', 'incensed', 'wrathful', 'hostile', 'agitated', 'bitter', 'exasperated', 'infuriated', 'resentful', 'outraged', 'enraged', 'vexed', 'irked', 'upset', 'heated', 'cross', 'aggressive', 'provoked', 'peeved', 'indignant', 'riled', 'boiling', 'fuming'];
+    const angerKeywords = ['furious', 'rage', 'angry', 'annoyed', 'irritated', 'frustrated', 'livid', 'seething', 'incensed', 'wrathful', 'hostile', 'agitated', 'bitter', 'exasperated', 'infuriated', 'resentful', 'outraged', 'enraged', 'vexed', 'irked', 'upset', 'heated', 'cross', 'aggressive', 'provoked', 'peeved', 'indignant', 'riled', 'boiling', 'fuming'];
     const happyKeywords = ['joyful', 'happy', 'elated', 'jubilant', 'cheerful', 'delighted', 'ecstatic', 'content', 'blissful', 'radiant'];
     const depressedKeywords = ['sad', 'depressed', 'melancholic', 'hopeless', 'despair', 'downcast', 'miserable', 'gloomy', 'dismal', 'heartbroken'];
 
