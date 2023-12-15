@@ -4,6 +4,11 @@ for(let i = 0, element; element = document.querySelectorAll('input[type="range"]
     });
 }
 
+let material = new THREE.MeshPhongMaterial({
+    color: 0xE4ECFA,
+    shininess: 100
+});
+
 $(document).ready(function() {
 
     let speedSlider = $('input[name="speed"]'),
@@ -22,6 +27,13 @@ $(document).ready(function() {
         setProcessing(event.data.processing);
     }
 });
+
+window.addEventListener('message', function(event) {
+    if (event.data.color) {
+        material.color.setHex(event.data.color);
+    }
+});
+
 
 
 function setSpeed(value) {
@@ -58,10 +70,6 @@ function setProcessing(value) {
 
     let geometry = new THREE.SphereGeometry(.8, 128, 128);
 
-    let material = new THREE.MeshPhongMaterial({
-        color: 0xE4ECFA,
-        shininess: 100
-    });
 
     let lightTop = new THREE.DirectionalLight(0xFFFFFF, .7);
     lightTop.position.set(0, 500, 200);

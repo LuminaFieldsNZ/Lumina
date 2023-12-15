@@ -490,6 +490,7 @@
   <section class="closed-book">
       <header>
           <h1 id="titleChange2">LuminaFields</h1>
+          OS v2.1: <font id="titleChange">Data</font>
       </header>
       <div id="reflectionsContainer"></div>
 
@@ -507,7 +508,6 @@
 <div class="message-box">
   <div class="item-status">
     <span class="status-number">
-      <font id="titleChange" style="color: #D95952;">Data</font>
       <font id="mainHeadingTotal">0</font>
     </span>
     <span class="status-type">Heading.</span>
@@ -528,9 +528,9 @@
 <div class="message-box">
               <!-- Upload Button -->
                <input type="file" id="fileInput" accept=".txt" style="display: none;" onchange="loadFile(event)">
-               <button onclick="document.getElementById('fileInput').click()">Upload File</button>
+               <button class="open-modal" onclick="document.getElementById('fileInput').click()">Upload File</button>
                <!-- Export Button -->
-               <button id="exportButton" onclick="exportToFile()">Export Edits</button>
+               <button class="open-modal" id="exportButton" onclick="exportToFile()">Export Edits</button>
   </div>
 </div>
 <div class="message-box">
@@ -552,6 +552,7 @@
             </div>
             <!-- partial -->
               <script  src="home.js"></script>
+              <script  src="upload.js"></script>
               <script src="populations.js"></script>
   <script  src="story.js"></script>
 
