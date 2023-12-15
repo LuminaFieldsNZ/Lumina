@@ -323,15 +323,34 @@ function generateRandomStory() {
 
       const button = document.createElement('button');
       button.className = "open-modal";
-      button.textContent = "Submit";
+      button.textContent = "Vibe Check";
       button.onclick = function() {
         analyzeUserResponse(textarea.value);
+        sendValuesToSoul();
+        copyStoryAndResponseToClipboard();
         button.style.display = 'none';  // Hide the button after submission
     };
       storyContainer.appendChild(button);
   }
 
   displayStory();
+
+  function copyStoryAndResponseToClipboard() {
+    const storyContainer = document.getElementById('storyContainer');
+    const storyText = storyContainer.textContent || storyContainer.innerText; // Get the story text
+
+    const responseTextarea = document.querySelector('textarea');
+    const userResponse = responseTextarea.value; // Get the user response
+
+    const textToCopy = `🐕 ${storyText} ${userResponse} 🐕`; // Construct the string
+
+    navigator.clipboard.writeText(textToCopy).then(function() {
+        alert('Story and response copied to clipboard successfully. Paste the txt field and dont forget to export your file at the end of session.');
+    }, function(err) {
+        console.error('Could not copy text: ', err);
+    });
+}
+
 
 
                     function calcLevenshteinDistance(str1, str2) {
