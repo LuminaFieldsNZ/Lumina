@@ -14,15 +14,15 @@ function clearStorage() {
 }
 
 populations = {
-  progressive: 1,
-  socialist: 1,
-  idealist: 1,
-  globalist: 1,
-  conservative: 1,
-  economist: 1,
+  progressive: 0,
+  socialist: 0,
+  idealist: 0,
+  globalist: 0,
+  conservative: 0,
+  economist: 0,
   realist: 1,
-  nationalist: 1,
-  populist: 1
+  nationalist: 0,
+  populist: 0
 };
 
 const colorMapping = {

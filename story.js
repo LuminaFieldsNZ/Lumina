@@ -326,7 +326,6 @@ function generateRandomStory() {
       button.textContent = "Vibe Check";
       button.onclick = function() {
         analyzeUserResponse(textarea.value);
-        sendValuesToSoul();
         copyStoryAndResponseToClipboard();
         button.style.display = 'none';  // Hide the button after submission
     };
@@ -345,7 +344,7 @@ function generateRandomStory() {
     const textToCopy = `🐕 ${storyText} ${userResponse} 🐕`; // Construct the string
 
     navigator.clipboard.writeText(textToCopy).then(function() {
-        alert('Story and response copied to clipboard successfully. Paste the txt field and dont forget to export your file at the end of session.');
+      document.getElementById('textContainer').innerHTML = textToCopy;
     }, function(err) {
         console.error('Could not copy text: ', err);
     });
