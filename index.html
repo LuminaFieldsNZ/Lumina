@@ -1,4 +1,3 @@
-
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
@@ -10,53 +9,19 @@
       <META NAME="ROBOTS" CONTENT="ALL,FOLLOW">
           <meta name="description" content="Helping humans become more artificial">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <link rel="apple-touch-icon" sizes="180x180" href="pics/logo.jpg">
-              <link rel="icon" type="image/png" href="pics/logo.jpg" sizes="32x32">
-              <link rel="icon" type="image/png" href="pics/logo.jpg" sizes="16x16">
-              <link rel="mask-icon" href="pics/logo.jpg" color="#fff">
-              <link rel="shortcut icon" href="pics/logo.jpg">
+          <link rel="apple-touch-icon" sizes="180x180" href="pics/logo.png">
+              <link rel="icon" type="image/png" href="pics/logo.png" sizes="32x32">
+              <link rel="icon" type="image/png" href="pics/logo.png" sizes="16x16">
+              <link rel="mask-icon" href="pics/logo.png" color="#fff">
+              <link rel="shortcut icon" href="pics/logo.png">
 
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
             <link rel="stylesheet" href="./home.css">
+            <link rel="stylesheet" href="./loader.css">
 
 
             </head>
             <body>
-
-
-              <a onclick="birdBomb();randomActionAndColor()" style="z-index: 9999999999999;position: absolute; top: 5px; left: 15px;"><image src="bird1.gif" id="bird1">
-                <image src="bird2.gif" style="display:none; top: -18px; right: -88px; position: absolute;" id="bird2"></a>
-        <script>
-
-        function birdBomb() {
-  var bird1 = document.getElementById('bird1');
-  var bird2 = document.getElementById('bird2');
-
-  // Save the current src of each image
-  var bird1Src = bird1.getAttribute('src');
-  var bird2Src = bird2.getAttribute('src');
-
-  if (bird1.style.display === 'none') {
-    // If bird1 is hidden, show it and hide bird2
-    bird1.style.display = 'block';
-    bird2.style.display = 'none';
-
-    // Reset the src to restart the GIF animation
-    bird1.setAttribute('src', '');
-    bird1.setAttribute('src', bird1Src);
-  } else {
-    // If bird1 is shown (or the display property is not set), hide it and show bird2
-    bird1.style.display = 'none';
-    bird2.style.display = 'block';
-
-    // Reset the src to restart the GIF animation
-    bird2.setAttribute('src', '');
-    bird2.setAttribute('src', bird2Src);
-  }
-}
-
-
-        </script>
 
               <div class="app-container" style="z-index:999;">
 
@@ -68,28 +33,86 @@
 
                 <div class="projects-section">
 
-<div id="energyAudit" class="project-boxes" style="display: block; margin: 10px;">
-  <iframe id="soulFrame" src="soul/index.html" width="100%" height="300px" style="border: none;"></iframe>
+<div id="energyAudit" class="project-boxes" style="display: none; margin: 40px;">
+
+
+        <div id="personSVG">
+          <img id="topTrait" alt="Top Trait" class="top">
+      <img id="secondTrait" alt="Second Trait" class="second">
+      <img id="worstTrait" alt="Worst Trait" class="worst">
+            </div>
+
+
+
+<button class="open-modal" onclick = "nextPhoto();">Learn More</button>
+<a id="descriptAll"></a>
+<br>
+<a id="descriptAll2"></a>
+
+
+
+<div>
+
+<div id="storyContainer"></div>
+<div id="reflectionsContainer"></div>
+
+</div>
+
+
+<br><br>
 
   <div class="projects-section-line">
+          <div class="projects-status" style="justify-content: center;">
+            <div class="item-status">
+              <span id="population" class="status-number">0</span>
+              <span class="status-type">Pop.</span>
+            </div>
+            <div class="item-status">
+              <span id="average" class="status-number">0</span>
+              <span class="status-type">Avg.</span>
+            </div>
+            <div class="item-status">
+              <span class="status-number"><font id="titleChange" style="color: #D95952;">Data</font><font id="titleChange2">School</font> | <font id="mainHeadingTotal">0</font></span>
+              <span class="status-type">Heading.</span>
+            </div>
+            <div class="item-status">
+              <span id="mainHeadingAverage" class="status-number">0</span>
+              <span class="status-type">EQ.</span>
+            </div>
 
 
-    <div id="storyContainer"></div>
-
-
+          </div>
+          <div class="view-actions">
+            <button class="view-btn list-view" title="List View">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list">
+                <line x1="8" y1="6" x2="21" y2="6" />
+                <line x1="8" y1="12" x2="21" y2="12" />
+                <line x1="8" y1="18" x2="21" y2="18" />
+                <line x1="3" y1="6" x2="3.01" y2="6" />
+                <line x1="3" y1="12" x2="3.01" y2="12" />
+                <line x1="3" y1="18" x2="3.01" y2="18" /></svg>
+            </button>
+            <button class="view-btn grid-view active" title="Grid View">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid">
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" /></svg>
+            </button>
+          </div>
         </div>
   <div class="project-boxes jsGridView">
 
     <div class="project-box-wrapper">
       <div class="project-box" style="background-color: rgba(199, 60, 32, .1);">
-
+    <div class="project-box-header">
+      <div class="days-left" style="color: rgba(199, 60, 32, 1)">
+        Module
+      </div>
+</div>
 <div class="project-box-content-header">
   <p class="box-content-header">Explorer</p>
   <p class="box-content-subheader">Discovery and Exploration</p>
-
-<iframe style="width: 100%; height: 100px; border: none;" id="explorerBlob" src="soul/index.html"></iframe>
-
-
 </div>
     <div class="box-progress-wrapper">
       <p class="box-progress-header">Total Experience Gained: <font id="explorer"></font></p>
@@ -105,12 +128,14 @@
 <div class="project-box-wrapper">
   <div class="project-box" style="background-color: rgba(46, 190, 219, .1);">
 
-
+    <div class="project-box-header">
+      <div class="days-left" style="color: rgba(46, 190, 219, 1)">
+        Module
+      </div>
+</div>
 <div class="project-box-content-header">
   <p class="box-content-header">Voyager</p>
   <p class="box-content-subheader">Cultural Immersion and Adaptability</p>
-  <iframe style="width: 100%; height: 100px; border: none;" id="voyagerBlob" src="soul/index.html"></iframe>
-
 </div>
     <div class="box-progress-wrapper">
       <p class="box-progress-header">Total Experience Gained: <font id="voyager"></font></p>
@@ -123,12 +148,14 @@
 </div>
 <div class="project-box-wrapper">
   <div class="project-box"  style="background-color: rgba(66, 235, 161, .1);">
-
+    <div class="project-box-header">
+      <div class="days-left" style="color: rgba(66, 235, 161, 1)">
+        Module
+      </div>
+</div>
 <div class="project-box-content-header">
   <p class="box-content-header">Captain</p>
   <p class="box-content-subheader">Leadership and Crisis Management</p>
-  <iframe style="width: 100%; height: 100px; border: none;" id="captainBlob" src="soul/index.html"></iframe>
-
 </div>
     <div class="box-progress-wrapper">
       <p class="box-progress-header">Total Experience Gained: <font id="captain"></font></p>
@@ -141,13 +168,15 @@
 </div>
 
     <div class="project-box-wrapper">
-      <div class="project-box" style="background-color: rgba(189, 186, 94, .1);">
-
+      <div class="project-box" style="background-color: rgba(224, 219, 74, .1);">
+        <div class="project-box-header">
+          <div class="days-left" style="color: rgba(224, 219, 74, 1)">
+            Module
+          </div>
+    </div>
     <div class="project-box-content-header">
       <p class="box-content-header">Merchant</p>
       <p class="box-content-subheader">Economics and Trade</p>
-      <iframe style="width: 100%; height: 100px; border: none;" id="merchantBlob" src="soul/index.html"></iframe>
-
     </div>
         <div class="box-progress-wrapper">
           <p class="box-progress-header">Total Experience Gained: <font id="merchant"></font></p>
@@ -160,11 +189,14 @@
     </div>
     <div class="project-box-wrapper">
       <div class="project-box" style="background-color: rgba(105, 78, 47, .1);">
-
+        <div class="project-box-header">
+          <div class="days-left" style="color: rgba(105, 78, 47, 1)">
+            Module
+          </div>
+        </div>
         <div class="project-box-content-header">
         <p class="box-content-header">Shipwright</p>
         <p class="box-content-subheader">Engineering and Craftsmanship</p>
-        <iframe style="width: 100%; height: 100px; border: none;" id="shipwrightBlob" src="soul/index.html"></iframe>
         </div>
         <div class="box-progress-wrapper">
           <p class="box-progress-header">Total Experience Gained: <font id="shipwright"></font></p>
@@ -177,11 +209,14 @@
     </div>
     <div class="project-box-wrapper">
       <div class="project-box" style="background-color: rgba(82, 78, 74, .1);">
-
+        <div class="project-box-header">
+          <div class="days-left" style="color: rgba(82, 78, 74, 1)">
+            Module
+          </div>
+        </div>
         <div class="project-box-content-header">
         <p class="box-content-header">Fisherman</p>
         <p class="box-content-subheader">Nature and Sustainability</p>
-        <iframe style="width: 100%; height: 100px; border: none;" id="fishermanBlob" src="soul/index.html"></iframe>
         </div>
         <div class="box-progress-wrapper">
           <p class="box-progress-header">Total Experience Gained: <font id="fisherman"></font></p>
@@ -194,11 +229,14 @@
     </div>
     <div class="project-box-wrapper">
       <div class="project-box" style="background-color: rgba(49, 235, 198, .1);">
-
+        <div class="project-box-header">
+          <div class="days-left" style="color: rgba(49, 235, 198, 1)">
+            Module
+          </div>
+        </div>
         <div class="project-box-content-header">
         <p class="box-content-header">Smuggler</p>
         <p class="box-content-subheader">Strategy and Risk Management</p>
-        <iframe style="width: 100%; height: 100px; border: none;" id="smugglerBlob" src="soul/index.html"></iframe>
         </div>
         <div class="box-progress-wrapper">
           <p class="box-progress-header">Total Experience Gained: <font id="smuggler"></font></p>
@@ -211,10 +249,14 @@
     </div>
     <div class="project-box-wrapper">
       <div class="project-box" style="background-color: rgba(232, 216, 153, .1);">
+        <div class="project-box-header">
+          <div class="days-left" style="color: rgba(232, 216, 153, 1)">
+            Module
+          </div>
+        </div>
         <div class="project-box-content-header">
         <p class="box-content-header">Arbiter</p>
         <p class="box-content-subheader">Law, Order, and Ethics</p>
-        <iframe style="width: 100%; height: 100px; border: none;" id="arbiterBlob" src="soul/index.html"></iframe>
         </div>
         <div class="box-progress-wrapper">
           <p class="box-progress-header">Total Experience Gained: <font id="arbiter"></font></p>
@@ -227,11 +269,14 @@
     </div>
     <div class="project-box-wrapper">
       <div class="project-box" style="background-color: rgba(219, 215, 200, .1);">
-  
+        <div class="project-box-header">
+          <div class="days-left" style="color: rgba(46, 190, 219, 1)">
+            Module
+          </div>
+        </div>
         <div class="project-box-content-header">
         <p class="box-content-header">Sailor</p>
         <p class="box-content-subheader">Discipline, Loyalty, and Skill Acquisition</p>
-        <iframe style="width: 100%; height: 100px; border: none;" id="sailorBlob" src="soul/index.html"></iframe>
         </div>
         <div class="box-progress-wrapper">
           <p class="box-progress-header">Total Experience Gained: <font id="sailor"></font></p>
@@ -244,17 +289,689 @@
     </div>
 
 
+         <div class="project-box-wrapper">
+           <div class="project-box" style="background-color: #fee4cb;">
+             <div class="project-box-header">
+               <div class="days-left" style="color: #ff942e;">
+                 2 Days Left
+               </div>
+         </div>
+         <div class="project-box-content-header">
+           <p class="box-content-header">Ventura</p>
+           <p class="box-content-subheader">Prototyping</p>
+         </div>
+         <div class="box-progress-wrapper">
+           <p class="box-progress-header">Population: <font id="progressive"></font></p>
+           <div class="box-progress-bar">
+             <span class="progressive-progress box-progress" style="width: 0%; background-color: rgba(42,19,246,1)"></span>
 
+           </div>
+           <p id="progressivebp" class="box-progress-percentage">0%</p>
+         </div>
 
+       </div>
+     </div>
+     <div class="project-box-wrapper">
+       <div class="project-box" style="background-color: #e9e7fd;">
+         <div class="project-box-header">
+           <div class="days-left" style="color: #4f3ff0;">
+             2 Days Left
+           </div>
+         </div>
+         <div class="project-box-content-header">
+           <p class="box-content-header">Trantum</p>
+           <p class="box-content-subheader">Prototyping</p>
+         </div>
+         <div class="box-progress-wrapper">
+           <p class="box-progress-header">Population: <font id="conservative"></font></p>
+           <div class="box-progress-bar">
+<span class="conservative-progress box-progress" style="width: 0%; background-color: rgba(230,0,0,1)"></span>
+          </div>
+           <p id="conservativebp" class="box-progress-percentage">0%</p>
+         </div>
+       </div>
+     </div>
+     <div class="project-box-wrapper">
+       <div class="project-box">
+         <div class="project-box-header">
+           <div class="days-left" style="color: #096c86;">
+             2 Days Left
+           </div>
+         </div>
+         <div class="project-box-content-header">
+           <p class="box-content-header">Collective</p>
+           <p class="box-content-subheader">Prototyping</p>
+         </div>
+         <div class="box-progress-wrapper">
+           <p class="box-progress-header">Population: <font id="socialist"></font></p>
+           <div class="box-progress-bar">
+<span class="socialist-progress box-progress" style="width: 60%; background-color: rgba(236,220,202,1)"></span>
+           </div>
+           <p id="socialistbp" class="box-progress-percentage">0%</p>
+         </div>
+       </div>
+     </div>
+     <div class="project-box-wrapper">
+       <div class="project-box" style="background-color: #ffd3e2;">
+         <div class="project-box-header">
+           <div class="days-left" style="color: #df3670;">
+             2 Days Left
+           </div>
+         </div>
+         <div class="project-box-content-header">
+           <p class="box-content-header">Mercado</p>
+           <p class="box-content-subheader">Prototyping</p>
+         </div>
+         <div class="box-progress-wrapper">
+           <p class="box-progress-header">Population: <font id="economist"></font></p>
+           <div class="box-progress-bar">
+<span class="economist-progress box-progress" style="width: 0%; background-color: rgba(212,175,55,1)"></span>
+           </div>
+           <p id="economistbp" class="box-progress-percentage">0%</p>
+         </div>
+       </div>
+     </div>
+     <div class="project-box-wrapper">
+       <div class="project-box" style="background-color: #c8f7dc;">
+         <div class="project-box-header">
+           <div class="days-left" style="color: #34c471;">
+             2 Days Left
+           </div>
+         </div>
+         <div class="project-box-content-header">
+           <p class="box-content-header">Faxium</p>
+           <p class="box-content-subheader">Prototyping</p>
+         </div>
+         <div class="box-progress-wrapper">
+           <p class="box-progress-header">Population: <font id="idealist"></font></p>
+           <div class="box-progress-bar">
+<span class="idealist-progress box-progress" style="width: 0%; background-color: rgba(0,184,0,1)"></span>
+           </div>
+           <p id="idealistbp" class="box-progress-percentage">0%</p>
+         </div>
+       </div>
+     </div>
+     <div class="project-box-wrapper">
+       <div class="project-box" style="background-color: #d5deff;">
+         <div class="project-box-header">
+           <div class="days-left" style="color: #4067f9;">
+             2 Days Left
+           </div>
+                  </div>
+         <div class="project-box-content-header">
+           <p class="box-content-header">Iron Coast</p>
+           <p class="box-content-subheader">Prototyping</p>
+         </div>
+         <div class="box-progress-wrapper">
+           <p class="box-progress-header">Population: <font id="realist"></font></p>
+           <div class="box-progress-bar">
+<span class="realist-progress box-progress" style="width: 60%; background-color: rgba(115,115,115,1)"></span>
+           </div>
+           <p id="realistbp" class="box-progress-percentage">40%</p>
+         </div>
+       </div>
+     </div>
+     <div class="project-box-wrapper">
+       <div class="project-box" style="background-color: #d5deff;">
+         <div class="project-box-header">
+           <div class="days-left" style="color: #4067f9;">
+             2 Days Left
+           </div>
+                  </div>
+         <div class="project-box-content-header">
+           <p class="box-content-header">Eventus</p>
+           <p class="box-content-subheader">Prototyping</p>
+         </div>
+         <div class="box-progress-wrapper">
+           <p class="box-progress-header">Population: <font id="globalist"></font></p>
+           <div class="box-progress-bar">
+<span class="globalist-progress box-progress" style="width: 0%; background-color: rgba(137,67,35,1)"></span>
+           </div>
+           <p id="globalistbp" class="box-progress-percentage">0%</p>
+         </div>
+       </div>
+     </div>
+     <div class="project-box-wrapper">
+       <div class="project-box" style="background-color: #d5deff;">
+         <div class="project-box-header">
+           <div class="days-left" style="color: #4067f9;">
+             2 Days Left
+           </div>
+                  </div>
+         <div class="project-box-content-header">
+           <p class="box-content-header">Abzimuth</p>
+           <p class="box-content-subheader">Prototyping</p>
+         </div>
+         <div class="box-progress-wrapper">
+           <p class="box-progress-header">Population: <font id="nationalist"></font></p>
+           <div class="box-progress-bar">
+<span class="nationalist-progress box-progress" style="width: 0%; background-color: rgba(47,204,181,1)"></span>
+           </div>
+           <p id="nationalistbp" class="box-progress-percentage">0%</p>
+         </div>
+       </div>
+     </div>
+     <div class="project-box-wrapper">
+       <div class="project-box" style="background-color: #d5deff;">
+         <div class="project-box-header">
+           <div class="days-left" style="color: #4067f9;">
+             2 Days Left
+           </div>
+                  </div>
+         <div class="project-box-content-header">
+           <p class="box-content-header">Occidentica</p>
+           <p class="box-content-subheader">Prototyping</p>
+         </div>
+         <div class="box-progress-wrapper">
+           <p class="box-progress-header">Population: <font id="populist"></font></p>
+           <div class="box-progress-bar">
+<span class="populist-progress box-progress" style="width: 0%; background-color: rgba(135,93,92,1)"></span>
+           </div>
+           <p id="populistbp" class="box-progress-percentage">0%</p>
+         </div>
+       </div>
+     </div>
    </div>
 
-   <br><hr><br>
 
-   <a id="descriptAll"></a>
-   <br>
-   <a id="descriptAll2"></a>
-   <br><hr><br>
-   <button class="open-modal" onclick = "nextPhoto();">Learn More</button>
+</div>
+
+
+
+<div id="loader1" class="project-boxes" style="display: block;">
+
+  <iframe id="bookFrame4" src="" style="width: 100%; height:93vh; border-radius: 22px;"></iframe>
+
+</div>
+
+<div id="settingsMain" class="project-boxes" style="display: none; margin: 40px;">
+
+<div class="grid-container">
+  <div class="grid-item">
+    <br>
+    <textarea id="popupIframe" style="width: 100%; height:40vh; border-radius: 22px; scrollbar-width: 0px;"></textarea>
+  </div>
+<div class="grid-item">
+<hr>
+<div id="toolMenu2" style="width: 100%;">
+  <textarea readonly class="json-editor" style="height:300px; width:100%;" id="jsonEditor" placeholder="JSON Format: [question, answer, liveChange]"></textarea>
+</div>
+</div>
+
+</div>
+</div>
+
+
+
+
+<div id="splash" class="project-boxes" style="display: none;">
+<iframe id="bookFrame5" src="" style="width: 100%; height:99vh; border-radius: 22px;"></iframe>
+</div>
+                  <div id="secretDiv" class="project-boxes" style="display: none;">
+
+<!--Box-->
+                   <div class="project-box-wrapper">
+                      <div class="project-box" style="background-color: #C8EED1;">
+                        <div class="project-box-header">
+                          <span><p id="finalNumber">0</p><p>/$5000</p></span>
+                          <div class="more-wrapper">
+                            <button class="project-btn-more" onclick="settingsActive();">
+                              <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                   <defs>
+                                   <filter id="drop-shadow">
+                                   <feDropShadow dx="2" dy="2" stdDeviation="2"/>
+                                   </filter>
+                                  </defs>
+                                  <rect x="2" y="2" width="36" height="46" stroke="#222222" stroke-width="2" filter="url(#drop-shadow)"/>
+                                  <rect x="4" y="4" width="32" height="42" stroke="#222222" stroke-width="2" filter="url(#drop-shadow)"/>
+                                  <text x="20" y="32" fill="#222222" font-size="24" text-anchor="middle" >$</text>
+                                  </svg>
+                            </button>
+                      </div>
+                    </div>
+                    <div class="project-box-content-header">
+                      <p class="box-content-header" onclick="settingsActive();">T's House</p>
+                      <p class="box-content-subheader">v3.0 Ends Sep 5</p>
+                    </div>
+                    <div class="box-progress-wrapper">
+                      <p class="box-progress-header">Progress</p>
+                      <div class="box-progress-bar">
+                        <span id="tBoxProgress" class="box-progress" style="width: 1%; background-color: #054950"></span>
+                      </div>
+                      <p class="box-progress-percentage" id="tPercentInput">1%</p>
+                    </div>
+                    <div class="project-box-footer">
+                      <div class="participants">
+                        <img src="pics/collective.png" alt="participant">
+                        <button class="add-participant" style="color: #054950;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                            <path d="M12 5v14M5 12h14" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="days-left" style="color: #054950;">
+                        <div id="timer"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+
+<!--BoxA-->
+                   <div class="project-box-wrapper">
+                      <div class="project-box" style="background-color: #29E054;">
+                        <div class="project-box-header">
+                          <span>Somewhere Nice</span>
+                          <div class="more-wrapper">
+                            <button class="project-btn-more">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                                <circle cx="12" cy="12" r="1" />
+                                <circle cx="12" cy="5" r="1" />
+                                <circle cx="12" cy="19" r="1" /></svg>
+                            </button>
+                      </div>
+                    </div>
+                    <div class="project-box-content-header">
+                      <p class="box-content-header">Pictures</p>
+                      <p class="box-content-subheader">Self Portraits</p>
+                    </div>
+                    <div class="box-progress-wrapper">
+                      <p class="box-progress-header">Progress</p>
+                      <div class="box-progress-bar">
+                        <span class="box-progress" style="width: 20%; background-color: #054950"></span>
+                      </div>
+                      <p class="box-progress-percentage" id="1tPercentInput">20%</p>
+                    </div>
+                    <div class="project-box-footer">
+                      <div class="participants">
+                        <img src="pics/collective.png" alt="participant">
+                        <button class="add-participant" style="color: #054950;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                            <path d="M12 5v14M5 12h14" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="days-left" style="color: #054950;">
+                        <div id="timera"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+
+<!--Box1-->
+                <div class="project-box-wrapper">
+                  <div class="project-box" style="background-color: #C8EED1;">
+                    <div class="project-box-header">
+                     <span id="paid1">1600</span>
+                      <div class="more-wrapper">
+                        <button class="project-btn-more">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" /></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="project-box-content-header">
+                      <p class="box-content-header">Window</p>
+                      <p class="box-content-subheader">Demolition</p>
+                    </div>
+                    <div class="box-progress-wrapper">
+                      <p class="box-progress-header">Progress</p>
+                      <div class="box-progress-bar">
+                        <span class="box-progress" style="width: 1%; background-color: #054950"></span>
+                      </div>
+                      <p class="box-progress-percentage" id="2tPercentInput">1%</p>
+                    </div>
+                    <div class="project-box-footer">
+                      <div class="participants">
+                        <img src="pics/collective.png" alt="participant">
+                        <button class="add-participant" style="color: #054950;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                            <path d="M12 5v14M5 12h14" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="days-left" style="color: #054950;">
+                        <div id="timer1"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+
+<!--Box2-->
+                <div class="project-box-wrapper">
+                  <div class="project-box"  style="background-color: #C8EED1;">
+                    <div class="project-box-header">
+                      <span id="paid2">0</span>
+                      <div class="more-wrapper">
+                        <button class="project-btn-more">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" /></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="project-box-content-header">
+                      <p class="box-content-header">Window</p>
+                      <p class="box-content-subheader">Exterior</p>
+                    </div>
+                    <div class="box-progress-wrapper">
+                      <p class="box-progress-header">Progress</p>
+                      <div class="box-progress-bar">
+                        <span class="box-progress" style="width: 1%; background-color: #054950"></span>
+                      </div>
+                      <p class="box-progress-percentage" id="3tPercentInput">1%</p>
+                    </div>
+                    <div class="project-box-footer">
+                      <div class="participants">
+                        <img src="pics/collective.png" alt="participant">
+                        <button class="add-participant" style="color: #054950;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                            <path d="M12 5v14M5 12h14" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="days-left" style="color: #054950;">
+                        <div id="timer2"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+<!--Box3-->
+                <div class="project-box-wrapper">
+                  <div class="project-box" style="background-color: #C8EED1;">
+                    <div class="project-box-header">
+                      <span id="paid3">0</span>
+                      <div class="more-wrapper">
+                        <button class="project-btn-more">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" /></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="project-box-content-header">
+                      <p class="box-content-header">Window</p>
+                      <p class="box-content-subheader">Bench Build</p>
+                    </div>
+                    <div class="box-progress-wrapper">
+                      <p class="box-progress-header">Progress</p>
+                      <div class="box-progress-bar">
+                        <span class="box-progress" style="width: 1%; background-color: #054950"></span>
+                      </div>
+                      <p class="box-progress-percentage" id="4tPercentInput">1%</p>
+                    </div>
+                    <div class="project-box-footer">
+                      <div class="participants">
+                        <img src="pics/collective.png" alt="participant">
+                        <button class="add-participant" style="color: #054950;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                            <path d="M12 5v14M5 12h14" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="days-left" style="color: #054950;">
+                        <div id="timer3"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+<!--Box4-->
+                <div class="project-box-wrapper">
+                  <div class="project-box" style="background-color: #C8EED1;">
+                    <div class="project-box-header">
+                      <span id="paid4">300</span>
+                      <div class="more-wrapper">
+                        <button class="project-btn-more">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" /></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="project-box-content-header">
+                      <p class="box-content-header">Window</p>
+                      <p class="box-content-subheader">Window Install</p>
+                    </div>
+                    <div class="box-progress-wrapper">
+                      <p class="box-progress-header">Progress</p>
+                      <div class="box-progress-bar">
+                        <span class="box-progress" style="width: 1%; background-color: #054950"></span>
+                      </div>
+                      <p class="box-progress-percentage" id="5tPercentInput">1%</p>
+                    </div>
+                    <div class="project-box-footer">
+                      <div class="participants">
+                        <img src="pics/collective.png" alt="participant">
+                        <button class="add-participant" style="color: #054950;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                            <path d="M12 5v14M5 12h14" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="days-left" style="color: #054950;">
+                        <div id="timer4"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+<!--Box5-->
+                <div class="project-box-wrapper">
+                  <div class="project-box" style="background-color: #C8EED1;">
+                    <div class="project-box-header">
+                      <span id="paid5">150</span>
+                      <div class="more-wrapper">
+                        <button class="project-btn-more">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" /></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="project-box-content-header">
+                      <p class="box-content-header">Electrical</p>
+                      <p class="box-content-subheader">Fan Switch Addition</p>
+                    </div>
+                    <div class="box-progress-wrapper">
+                      <p class="box-progress-header">Progress</p>
+                      <div class="box-progress-bar">
+                        <span class="box-progress" style="width: 100%; background-color: #054950"></span>
+                      </div>
+                      <p class="box-progress-percentage" id="6tPercentInput">100%</p>
+                    </div>
+                    <div class="project-box-footer">
+                      <div class="participants">
+                        <img src="pics/collective.png" alt="participant">
+                        <button class="add-participant" style="color: #054950;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                            <path d="M12 5v14M5 12h14" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="days-left" style="color: #054950;">
+                        <div id="timer5"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<!--Box7-->
+                <div class="project-box-wrapper">
+                  <div class="project-box" style="background-color: #C8EED1;">
+                    <div class="project-box-header">
+                      <span id="paid7">250</span>
+                      <div class="more-wrapper">
+                        <button class="project-btn-more">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" /></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="project-box-content-header">
+                      <p class="box-content-header">Stairs</p>
+                      <p class="box-content-subheader">Refinish</p>
+                    </div>
+                    <div class="box-progress-wrapper">
+                      <p class="box-progress-header">Progress</p>
+                      <div class="box-progress-bar">
+                        <span class="box-progress" style="width: 1%; background-color: #054950"></span>
+                      </div>
+                      <p class="box-progress-percentage" id="8tPercentInput">1%</p>
+                    </div>
+                    <div class="project-box-footer">
+                      <div class="participants">
+                        <img src="pics/collective.png" alt="participant">
+                        <button class="add-participant" style="color: #054950;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                            <path d="M12 5v14M5 12h14" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="days-left" style="color: #054950;">
+                        <div id="timer7"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<!--Box8-->
+                <div class="project-box-wrapper">
+                  <div class="project-box" style="background-color: #C8EED1;">
+                    <div class="project-box-header">
+                      <span id="paid8">250</span>
+                      <div class="more-wrapper">
+                        <button class="project-btn-more">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" /></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="project-box-content-header">
+                      <p class="box-content-header">Stairs</p>
+                      <p class="box-content-subheader">Lighting</p>
+                    </div>
+                    <div class="box-progress-wrapper">
+                      <p class="box-progress-header">Progress</p>
+                      <div class="box-progress-bar">
+                        <span class="box-progress" style="width: 1%; background-color: #054950"></span>
+                      </div>
+                      <p class="box-progress-percentage" id="9tPercentInput">1%</p>
+                    </div>
+                    <div class="project-box-footer">
+                      <div class="participants">
+                        <img src="pics/collective.png" alt="participant">
+                        <button class="add-participant" style="color: #054950;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                            <path d="M12 5v14M5 12h14" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="days-left" style="color: #054950;">
+                        <div id="timer8"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+<!--Box6-->
+                <div class="project-box-wrapper">
+                  <div class="project-box" style="background-color: #C8EED1;">
+                    <div class="project-box-header">
+                      <span id="paid6">150</span>
+                      <div class="more-wrapper">
+                        <button class="project-btn-more">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" /></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="project-box-content-header">
+                      <p class="box-content-header">Electrical</p>
+                      <p class="box-content-subheader">Entry Hall Light</p>
+                    </div>
+                    <div class="box-progress-wrapper">
+                      <p class="box-progress-header">Progress</p>
+                      <div class="box-progress-bar">
+                        <span class="box-progress" style="width: 100%; background-color: #054950"></span>
+                      </div>
+                      <p class="box-progress-percentage" id="7tPercentInput">100%</p>
+                    </div>
+                    <div class="project-box-footer">
+                      <div class="participants">
+                        <img src="pics/collective.png" alt="participant">
+                        <button class="add-participant" style="color: #054950;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                            <path d="M12 5v14M5 12h14" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="days-left" style="color: #054950;">
+                        <div id="timer6"></div>
+                      </div>
+                    </div>
+
+<!--End of Boxes-->
+              </div>
+              <button class="open-modal" onclick="window.open('https://drive.google.com/drive/folders/1F2CSJxkEszsHV1ul2nPu2v4FoU1ezHVv?usp=drive_link'); return false;">Receipts</button>
+              <button class="open-modal" onclick="window.open('https://docs.google.com/spreadsheets/d/e/2PACX-1vTmrMboaSeuwCdUO7WrelcJBmyN5ECgsVz0KzxGixksQFu0-7SOW-vB4nTfdiOSropFsL1SkDWzDQqV/pubhtml', '_blank');">Payroll</button>
+
+            </div>
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+<div id="schedule" class="project-boxes jsGridView" style="display: none;">
+
+
+  <iframe id="bookFrame1" src="" style="width: 100%; height:99vh; border-radius: 22px;"></iframe>
 
 
 
@@ -273,176 +990,109 @@
               <div class="messages">
 <div class="message-box">
     <div class="search-wrapper">
-      <a class="mode-switch app-sidebar-link" onclick="document.getElementById('popupIframe').src = '';" title="Switch Theme">
-        <svg class="link-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
-          <defs></defs>
-          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
-        </svg>
-      </a>
       <input class="search-input" placeholder="Search" type="text" id="passcode" oninput="checkPasscode();">
+      <div class="loader">
+        <div class="square" ></div>
+        <div class="square"></div>
+        <div class="square last"></div>
+        <div class="square clear"></div>
+        <div class="square"></div>
+        <div class="square last"></div>
+        <div class="square clear"></div>
+        <div class="square "></div>
+        <div class="square last"></div>
+      </div>
 
     </div>
 </div>
-
-<div class="message-box" id="mb1">
-  <section class="closed-book">
-      <header>
-          <h1 id="titleChange2">LuminaFields</h1>
-          <span>Pop.<font id="population">0</font></span>
-          <span>Avg.<font id="average">0</font></span>
-          <span>Hea.<font id="mainHeadingTotal">0</font></span>
-          <span>EmQ.<font id="mainHeadingAverage">0</font></span>
-          <br>
-          <font id="titleChange">Data</font>
-      </header>
-      <div id="reflectionsContainer"></div>
-
-    </div>
-
-
-
-    <div class="message-box" style="display: flex; flex-wrap: wrap;">
-      <div style="flex: 0 0 calc(33% - 20px); margin: 10px;" class="box-progress-wrapper">
-                 <p class="box-progress-header">Progressive: <font id="progressive"></font></p>
-                 <div class="box-progress-bar">
-                   <span class="progressive-progress box-progress" style="width: 0%; background-color: rgba(42,19,246,1)"></span>
-
-                 </div>
-                 <p id="progressivebp" class="box-progress-percentage">0%</p>
-               </div>
-
-               <div style="flex: 0 0 calc(33% - 20px); margin: 10px;" class="box-progress-wrapper">
-               <p class="box-progress-header">Conservative: <font id="conservative"></font></p>
-               <div class="box-progress-bar">
-    <span class="conservative-progress box-progress" style="width: 0%; background-color: rgba(230,0,0,1)"></span>
+                <div class="message-box">
+                <div class="chat-window" id="chatWindow">
+<font id="load3">Pulse Status:</font> <font id="load1" style="color:#fdc96f;">Connecting</font>
+                </div>
+                </div>
               </div>
-               <p id="conservativebp" class="box-progress-percentage">0%</p>
-             </div>
-
-             <div style="flex: 0 0 calc(33% - 20px); margin: 10px;" class="box-progress-wrapper">
-               <p class="box-progress-header">Socialist: <font id="socialist"></font></p>
-               <div class="box-progress-bar">
-    <span class="socialist-progress box-progress" style="width: 60%; background-color: rgba(236,220,202,1)"></span>
-               </div>
-               <p id="socialistbp" class="box-progress-percentage">0%</p>
-             </div>
-
-             <div style="flex: 0 0 calc(33% - 20px); margin: 10px;" class="box-progress-wrapper">
-                        <p class="box-progress-header">Economist: <font id="economist"></font></p>
-                        <div class="box-progress-bar">
-             <span class="economist-progress box-progress" style="width: 0%; background-color: rgba(212,175,55,1)"></span>
-                        </div>
-                        <p id="economistbp" class="box-progress-percentage">0%</p>
-                      </div>
-
-
-                      <div style="flex: 0 0 calc(33% - 20px); margin: 10px;" class="box-progress-wrapper">
-               <p class="box-progress-header">Idealist: <font id="idealist"></font></p>
-               <div class="box-progress-bar">
-    <span class="idealist-progress box-progress" style="width: 0%; background-color: rgba(0,184,0,1)"></span>
-               </div>
-               <p id="idealistbp" class="box-progress-percentage">0%</p>
-             </div>
-
-
-             <div style="flex: 0 0 calc(33% - 20px); margin: 10px;" class="box-progress-wrapper">
-                        <p class="box-progress-header">Realist: <font id="realist"></font></p>
-                        <div class="box-progress-bar">
-             <span class="realist-progress box-progress" style="width: 60%; background-color: rgba(115,115,115,1)"></span>
-                        </div>
-                        <p id="realistbp" class="box-progress-percentage">40%</p>
-                      </div>
-
-                      <div style="flex: 0 0 calc(33% - 20px); margin: 10px;" class="box-progress-wrapper">
-                                <p class="box-progress-header">Globalist: <font id="globalist"></font></p>
-                                <div class="box-progress-bar">
-                     <span class="globalist-progress box-progress" style="width: 0%; background-color: rgba(137,67,35,1)"></span>
-                                </div>
-                                <p id="globalistbp" class="box-progress-percentage">0%</p>
-                              </div>
-
-
-                              <div style="flex: 0 0 calc(33% - 20px); margin: 10px;" class="box-progress-wrapper">
-              <p class="box-progress-header">Nationalist: <font id="nationalist"></font></p>
-              <div class="box-progress-bar">
-    <span class="nationalist-progress box-progress" style="width: 0%; background-color: rgba(47,204,181,1)"></span>
+              <div class="message-box">
+                <input type="textarea" id="userInput" style="width: 100%;
+  height: 80px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  resize: none;" placeholder="Type message...">
               </div>
-              <p id="nationalistbp" class="box-progress-percentage">0%</p>
-            </div>
+              <div class="message-box"><button class="open-modal" onclick="sendMessage()">Send</button></div>
+              <div class="message-box">
+                <a id="navHome" onclick="splashActive();" class="app-sidebar-link">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" /></svg>
+                </a>
 
-            <div style="flex: 0 0 calc(33% - 20px); margin: 10px;" class="box-progress-wrapper">
-                       <p class="box-progress-header">Populist: <font id="populist"></font></p>
-                       <div class="box-progress-bar">
-            <span class="populist-progress box-progress" style="width: 0%; background-color: rgba(135,93,92,1)"></span>
-                       </div>
-                       <p id="populistbp" class="box-progress-percentage">0%</p>
-                     </div>
+                <a id="navAudit" onclick="energyAuditActive();" target="_SEJ" rel="noreferrer" class="app-sidebar-link">
+                  <svg class="link-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-pie-chart" viewBox="0 0 24 24">
+                    <defs />
+                    <path d="M21.21 15.89A10 10 0 118 2.83M22 12A10 10 0 0012 2v10z" />
+                  </svg>
+                </a>
 
-    </div>
+                <a id="navSchedule" onclick="scheduleActive();" target="_SEJ" rel="noreferrer" class="app-sidebar-link">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" /></svg>
+                </a>
 
+                <a id="navSettings" onclick="settingsActive();" class="app-sidebar-link">
+                  <svg class="link-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-settings" viewBox="0 0 24 24">
+                    <defs />
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+                  </svg>
+                </a>
 
-<div class="message-box">
-              <!-- Upload Button -->
-               <input type="file" id="fileInput" accept=".txt" style="display: none;" onchange="loadFile(event)">
-               <button class="open-modal" onclick="document.getElementById('fileInput').click()">Upload File</button>
-               <!-- Export Button -->
-               <button class="open-modal" id="exportButton" onclick="exportToFile()">Export Edits</button>
-  </div>
-</div>
-<div class="message-box">
-  <!-- Editable Text Container -->
-<div id="textContainer" contenteditable="true" style="margin-top: 10px; border: none; padding: 20px; min-height: 100px; max-height: 80vh; overflow-y: auto;">
-<!-- Uploaded text will appear here -->
-</div>
-</div>
+                <a class="mode-switch app-sidebar-link" onclick="document.getElementById('popupIframe').src = '';" title="Switch Theme">
+                  <svg class="link-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
+                    <defs></defs>
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                  </svg>
+                </a>
 
-<div class="message-box" style="display: flex; flex-wrap: wrap;">
-            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
-              <a id="copyDogSymbol">🐕</a>
-            </div>
-            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
-              <a id="copyexplorerSymbol">🐬</a>
-            </div>
-            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
-              <a id="copyarbiterSymbol">🐈</a>
-            </div>
-            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
-              <a id="copymerchantSymbol">🦉</a>
-            </div>
-            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
-              <a id="copysmugglerSymbol">🦘</a>
-            </div>
-            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
-              <a id="copysailorSymbol">🦜</a>
-            </div>
-            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
-              <a id="copyvoyagerSymbol">🐢</a>
-            </div>
-            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
-              <a id="copyshipwrightSymbol">🦔</a>
-            </div>
-            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
-              <a id="copycaptainSymbol">🐙</a>
-            </div>
-            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
-              <a id="copyfishermanSymbol">🐧</a>
-            </div>
-</div>
-
-
-
-
-
-
+                <div class="image-container" id="profilePic" style="z-index: 9999999999;">
+                  <img src="./body/body0.png" id="bodyLayer" class="layer" style="z-index: 1;">
+                  <img src="./head.png" alt="Head" class="layer" style="z-index: 2;">
+                  <img id="glassesLayer" class="layer" style="z-index: 3;">
+                  <img id="hairLayer" class="layer" style="z-index: 4;">
+                  <img src="./outer/outer0.png"  id="outerLayer" class="layer" style="z-index: 5;">
+                </div>
+              </div>
             </div>
             </div>
             </div>
             <!-- partial -->
+            <script  src="peepmovement.js"></script>
               <script  src="home.js"></script>
-              <script  src="upload.js"></script>
+              <script  src="navbuttons.js"></script>
+              <script src="chatbot.js"></script>
+              <script src="hpxml.js"></script>
               <script src="populations.js"></script>
-  <script  src="story.js"></script>
-  <script  src="collection.js"></script>
+              <script src="hardData/faxium.js"></script>
+              <script src="hardData/collective.js"></script>
+
+
+<script>
+
+function countActive(){
+  document.getElementById("clicksRed").style.display = "block";
+  document.getElementById("clicksBlue").style.display = "block";
+  document.getElementById("clicksBlack").style.display = "block";
+  document.getElementById("clicksGold").style.display = "block";
+}
+
+</script>
+
+
 
 
 

@@ -4,118 +4,7 @@
   box-sizing: border-box;
 }
 
-#blob {
-  position: relative;
-}
-#blob canvas {
-  width: 1000px;
-  margin-top: -7%;
-}
-@media (max-width: 1200px) {
-  #blob canvas {
-    margin-top: -10%;
-    width: 800px;
-  }
-}
-@media (max-width: 600px) {
-  #blob canvas {
-    width: 800px;
-  }
-}
 
-.controls {
-  background: #3F4656;
-  display: flex;
-  padding: 20px;
-  border-radius: 10px;
-  position: relative;
-  z-index: 3;
-  box-shadow: 0 4px 20px -1px rgba(18, 22, 33, 0.7);
-}
-@media (max-width: 1200px) {
-  .controls {
-    margin-top: -4%;
-  }
-}
-@media (max-width: 600px) {
-  .controls {
-    flex-direction: column;
-  }
-}
-.controls label {
-  color: #CDD9ED;
-  font-weight: 500;
-  font-size: 14px;
-  display: block;
-  margin-bottom: 16px;
-}
-@media (max-width: 600px) {
-  .controls label {
-    margin-bottom: 12px;
-  }
-}
-.controls [type=range] {
-  width: 160px;
-}
-@media (max-width: 600px) {
-  .controls [type=range] {
-    width: 280px;
-  }
-}
-.controls > div:not(:last-child) {
-  margin-right: 20px;
-}
-@media (max-width: 600px) {
-  .controls > div:not(:last-child) {
-    margin: 0 0 24px 0;
-  }
-}
-
-.rangeSlider {
-  position: relative;
-  background: none;
-  border: 1px solid #fff;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.rangeSlider.rangeSlider__horizontal {
-  height: 10px;
-  width: 160px;
-}
-.rangeSlider .rangeSlider__fill {
-  border-radius: 7px;
-  background: #fff;
-  position: absolute;
-}
-.rangeSlider .rangeSlider__fill:before {
-  content: "";
-  left: -2px;
-  top: -2px;
-  bottom: -2px;
-  right: -2px;
-  border: 2px solid #3F4656;
-  border-radius: 6px;
-  position: absolute;
-}
-.rangeSlider .rangeSlider__fill__horizontal {
-  height: 100%;
-  top: 0;
-  left: 0;
-}
-.rangeSlider .rangeSlider__handle {
-  border: 2px solid #3F4656;
-  cursor: grab;
-  cursor: -webkit-grab;
-  display: inline-block;
-  width: 22px;
-  height: 22px;
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-}
-.rangeSlider .rangeSlider__handle__horizontal {
-  top: -7px;
-}
 
 .image-container {
     position: absolute;
@@ -153,14 +42,14 @@ body {
 #personSVG {
     width: 95%;
     position: relative;
-    height: 100px; /* Assuming a height, can be adjusted */
+    height: 300px; /* Assuming a height, can be adjusted */
     margin: 0 auto;
     overflow: hidden;
 }
 
 #personSVG img {
-    width: 90px;
-    height: 90px;
+    width: 200px;
+    height: 200px;
     position: absolute;
     top: 50%; /* Centering vertically */
     transform: translateY(-50%); /* Centering vertically */
@@ -175,13 +64,14 @@ body {
 
 #personSVG .second {
     z-index: 1;
-    left: 5%; /* Positioning the second SVG to the right, slightly overlapped by 20% */
+    left: calc(50% + 20px); /* Positioning the second SVG to the right, slightly overlapped by 20% */
     transform: translateY(-50%); /* Centering vertically */
 }
 
 #personSVG .worst {
     z-index: 1;
-    right: 5%; /* Positioning the worst SVG to the left, slightly overlapped by 20% */
+    opacity: 0.5;
+    left: calc(50% - 220px); /* Positioning the worst SVG to the left, slightly overlapped by 20% */
     transform: translateY(-50%); /* Centering vertically */
 }
 
@@ -647,7 +537,7 @@ button, a {
   width: 33.3%;
 }
 .project-boxes.jsListView .project-box-wrapper {
-  width: 99.3%;
+  width: 95.3%;
 }
 .project-boxes.jsListView .project-box {
   display: flex;
@@ -671,14 +561,18 @@ button, a {
   flex-direction: column;
   justify-content: flex-start;
 }
+.project-boxes.jsListView .project-box-footer:after {
+  display: none;
+}
 .project-boxes.jsListView .participants {
   margin-bottom: 8px;
   display: none;
 }
 .project-boxes.jsListView .project-box-content-header p {
   text-align: left;
+  overflow: hidden;
   white-space: nowrap;
-  text-overflow: inherit;
+  text-overflow: ellipsis;
 }
 .project-boxes.jsListView .project-box-header > span {
   position: absolute;
@@ -694,7 +588,7 @@ button, a {
 .project-box {
   --main-color-card: #dbf6fd;
   border-radius: 30px;
-  padding: 6px;
+  padding: 16px;
   background-color: var(--main-color-card);
 }
 .project-box-header {
@@ -779,17 +673,17 @@ button, a {
   margin: 8px 0;
 }
 .box-progress-header {
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 1px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
   margin: 0;
 }
 .box-progress-percentage {
-  text-align: left;
+  text-align: right;
   margin: 0;
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 1px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
 }
 
 .project-box-footer {
@@ -866,6 +760,9 @@ button, a {
 }
 
 @media screen and (max-width: 980px) {
+  .project-boxes.jsGridView .project-box-wrapper {
+    width: 50%;
+  }
 
   .status-number, .status-type {
     font-size: 14px;
@@ -924,7 +821,7 @@ button, a {
   }
 
   .project-boxes {
-    overflow: visible;
+    overflow-y: visible;
   }
 
 
@@ -1010,10 +907,18 @@ button, a {
 
   .days-left {
     font-size: 8px;
-    padding: 2px;
+    padding: 6px 6px;
     text-align: center;
   }
 
+  .project-boxes.jsListView .project-box > * {
+    margin-right: 10px;
+  }
+
+  .project-boxes.jsListView .more-wrapper {
+    right: 2px;
+    top: 10px;
+  }
 }
 
 

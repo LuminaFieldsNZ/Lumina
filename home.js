@@ -7,6 +7,23 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 
+  var listView = document.querySelector('.list-view');
+  var gridView = document.querySelector('.grid-view');
+  var projectsList = document.querySelector('.project-boxes');
+
+  listView.addEventListener('click', function () {
+    gridView.classList.remove('active');
+    listView.classList.add('active');
+    projectsList.classList.remove('jsGridView');
+    projectsList.classList.add('jsListView');
+  });
+
+  gridView.addEventListener('click', function () {
+    gridView.classList.add('active');
+    listView.classList.remove('active');
+    projectsList.classList.remove('jsListView');
+    projectsList.classList.add('jsGridView');
+  });
 
 
   const messagesSection = document.querySelector('.messages-section');
@@ -25,17 +42,14 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+window.addEventListener('message', function(event) {
+    if (event.data.action === 'changeSrc') {
+        bookFrame1.src = event.data.newSrc;
+    }
+}, false);
 
+const bookFrame4 = document.getElementById('bookFrame4');
+bookFrame4.src = 'face/index.html';
 
-function checkPasscode() {
-  const code = document.getElementById("passcode").value;
-  if(code === "100") {
-    parent.postMessage({ action: 'changeSrc', newSrc: '100/index.html' }, 'https://luminafields.com/');
-  }
-  if(code === "micheal") {
-    parent.postMessage({ action: 'changeSrc', newSrc: 'face/index.html' }, 'https://luminafields.com/');
-  }
-  if(code === "587112349") {
-    parent.postMessage({ action: 'changeSrc', newSrc: 'nations/book.html' }, 'https://luminafields.com/');
-  }
-}
+const bookFrame1 = document.getElementById('bookFrame1');
+bookFrame1.src = 'tabs/index.html';
