@@ -43,3 +43,85 @@ var explorerBlob = document.getElementById('explorerBlob');
 explorerBlob.onload = function() {
     explorerBlob.contentWindow.postMessage({ color: 0xe87c66, speed: 50, spikes: 2, processing: 0.8 }, '*');
 };
+
+
+
+document.getElementById('copyDogSymbol').addEventListener('click', function() {
+    navigator.clipboard.writeText('🐕').then(function() {
+        console.log('🐕 symbol copied to clipboard');
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+    });
+});
+
+document.getElementById('copyexplorerSymbol').addEventListener('click', function() {
+    navigator.clipboard.writeText('🐬').then(function() {
+        console.log('🐬 symbol copied to clipboard');
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+    });
+});
+
+document.getElementById('copyarbiterSymbol').addEventListener('click', function() {
+    navigator.clipboard.writeText('🐈').then(function() {
+        console.log('🐈 symbol copied to clipboard');
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+    });
+});
+
+document.getElementById('copymerchantSymbol').addEventListener('click', function() {
+    navigator.clipboard.writeText('🦉').then(function() {
+        console.log('🦉 symbol copied to clipboard');
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+    });
+});
+
+document.getElementById('copysmugglerSymbol').addEventListener('click', function() {
+    navigator.clipboard.writeText('🦘').then(function() {
+        console.log('🦘 symbol copied to clipboard');
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+    });
+});
+
+document.getElementById('copysailorSymbol').addEventListener('click', function() {
+    navigator.clipboard.writeText('🦜').then(function() {
+        console.log('🦜 symbol copied to clipboard');
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+    });
+});
+
+document.getElementById('copyvoyagerSymbol').addEventListener('click', function() {
+    navigator.clipboard.writeText('🐢').then(function() {
+        console.log('🐢 symbol copied to clipboard');
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+    });
+});
+
+document.getElementById('copyshipwrightSymbol').addEventListener('click', function() {
+    navigator.clipboard.writeText('🦔').then(function() {
+        console.log('🦔 symbol copied to clipboard');
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+    });
+});
+
+document.getElementById('copycaptainSymbol').addEventListener('click', function() {
+    navigator.clipboard.writeText('🐙').then(function() {
+        console.log('🐙 symbol copied to clipboard');
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+    });
+});
+
+document.getElementById('copyfishermanSymbol').addEventListener('click', function() {
+    navigator.clipboard.writeText('🐧').then(function() {
+        console.log('🐧 symbol copied to clipboard');
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+    });
+});

@@ -275,25 +275,25 @@ function updateListener(event, dataObj) {
   }
 
 
-function spikeUp(){
-  spikesx += .03;
-  sendValuesToSoul();
-}
-function speedUp(){
-  speedx += 3;
-  sendValuesToSoul();
-}
-function processingUp(){
-  processingx += .03;
-  sendValuesToSoul();
-}
+  function randomActionAndColor() {
+      // Randomly set values within specified constraints
+      speedx = Math.random() * (120 - 10) + 10; // Range: 10 to 120
+      spikesx = Math.random() * (2 - 0.05) + 0.05; // Range: 0.05 to 2
+      processingx = Math.random() * (2.4 - 0.6) + 0.6; // Range: 0.6 to 2.4
 
+      // Randomly choose a color
+      const colorKeys = Object.keys(colorMapping);
+      const randomColorKey = colorKeys[Math.floor(Math.random() * colorKeys.length)];
+      const blobColor = colorMapping[randomColorKey];
 
-
-document.getElementById('copyDogSymbol').addEventListener('click', function() {
-    navigator.clipboard.writeText('🐕').then(function() {
-        console.log('🐕 symbol copied to clipboard');
-    }).catch(function(err) {
-        console.error('Could not copy text: ', err);
-    });
-});
+      // Send the random values to the blob
+      var soulFrame = document.getElementById('soulFrame');
+      if (soulFrame) {
+          soulFrame.contentWindow.postMessage({
+              color: blobColor,
+              speed: speedx,
+              spikes: spikesx,
+              processing: processingx
+          }, '*');
+      }
+  }

@@ -24,8 +24,8 @@
             <body>
 
 
-              <a onclick="birdBomb()" style="z-index: 9999999999999;position: absolute; bottom: 5px; left: 15px;"><image src="bird1.gif" id="bird1">
-                <image src="bird2.gif" style="display:none; bottom: -18px; right: -88px; position: absolute;" id="bird2"></a>
+              <a onclick="birdBomb();randomActionAndColor()" style="z-index: 9999999999999;position: absolute; top: 5px; left: 15px;"><image src="bird1.gif" id="bird1">
+                <image src="bird2.gif" style="display:none; top: -18px; right: -88px; position: absolute;" id="bird2"></a>
         <script>
 
         function birdBomb() {
@@ -82,11 +82,7 @@
 
     <div class="project-box-wrapper">
       <div class="project-box" style="background-color: rgba(199, 60, 32, .1);">
-    <div class="project-box-header">
-      <a onclick="spikeUp()"><div class="days-left" style="color: rgba(199, 60, 32, 1)">
-        Spike Up
-      </div></a>
-</div>
+
 <div class="project-box-content-header">
   <p class="box-content-header">Explorer</p>
   <p class="box-content-subheader">Discovery and Exploration</p>
@@ -109,11 +105,7 @@
 <div class="project-box-wrapper">
   <div class="project-box" style="background-color: rgba(46, 190, 219, .1);">
 
-    <div class="project-box-header">
-      <a onclick="speedUp()"><div class="days-left" style="color: rgba(46, 190, 219, 1)">
-        Speed Up
-      </div></a>
-</div>
+
 <div class="project-box-content-header">
   <p class="box-content-header">Voyager</p>
   <p class="box-content-subheader">Cultural Immersion and Adaptability</p>
@@ -131,11 +123,7 @@
 </div>
 <div class="project-box-wrapper">
   <div class="project-box"  style="background-color: rgba(66, 235, 161, .1);">
-    <div class="project-box-header">
-      <div class="days-left" style="color: rgba(66, 235, 161, 1)">
-        Module
-      </div>
-</div>
+
 <div class="project-box-content-header">
   <p class="box-content-header">Captain</p>
   <p class="box-content-subheader">Leadership and Crisis Management</p>
@@ -154,11 +142,7 @@
 
     <div class="project-box-wrapper">
       <div class="project-box" style="background-color: rgba(189, 186, 94, .1);">
-        <div class="project-box-header">
-          <div class="days-left" style="color: rgba(189, 186, 94, 1)">
-            Module
-          </div>
-    </div>
+
     <div class="project-box-content-header">
       <p class="box-content-header">Merchant</p>
       <p class="box-content-subheader">Economics and Trade</p>
@@ -176,11 +160,7 @@
     </div>
     <div class="project-box-wrapper">
       <div class="project-box" style="background-color: rgba(105, 78, 47, .1);">
-        <div class="project-box-header">
-          <div class="days-left" style="color: rgba(105, 78, 47, 1)">
-            Module
-          </div>
-        </div>
+
         <div class="project-box-content-header">
         <p class="box-content-header">Shipwright</p>
         <p class="box-content-subheader">Engineering and Craftsmanship</p>
@@ -197,11 +177,7 @@
     </div>
     <div class="project-box-wrapper">
       <div class="project-box" style="background-color: rgba(82, 78, 74, .1);">
-        <div class="project-box-header">
-          <div class="days-left" style="color: rgba(82, 78, 74, 1)">
-            Module
-          </div>
-        </div>
+
         <div class="project-box-content-header">
         <p class="box-content-header">Fisherman</p>
         <p class="box-content-subheader">Nature and Sustainability</p>
@@ -218,11 +194,7 @@
     </div>
     <div class="project-box-wrapper">
       <div class="project-box" style="background-color: rgba(49, 235, 198, .1);">
-        <div class="project-box-header">
-          <div class="days-left" style="color: rgba(49, 235, 198, 1)">
-            Module
-          </div>
-        </div>
+
         <div class="project-box-content-header">
         <p class="box-content-header">Smuggler</p>
         <p class="box-content-subheader">Strategy and Risk Management</p>
@@ -239,11 +211,6 @@
     </div>
     <div class="project-box-wrapper">
       <div class="project-box" style="background-color: rgba(232, 216, 153, .1);">
-        <div class="project-box-header">
-          <div class="days-left" style="color: rgba(232, 216, 153, 1)">
-            <button class="open-modal" id="copyDogSymbol">🐕</button>
-          </div>
-        </div>
         <div class="project-box-content-header">
         <p class="box-content-header">Arbiter</p>
         <p class="box-content-subheader">Law, Order, and Ethics</p>
@@ -260,11 +227,7 @@
     </div>
     <div class="project-box-wrapper">
       <div class="project-box" style="background-color: rgba(219, 215, 200, .1);">
-        <div class="project-box-header">
-          <div class="days-left" style="color: rgba(46, 190, 219, 1)">
-            Module
-          </div>
-        </div>
+  
         <div class="project-box-content-header">
         <p class="box-content-header">Sailor</p>
         <p class="box-content-subheader">Discipline, Loyalty, and Skill Acquisition</p>
@@ -433,7 +396,38 @@
 </div>
 </div>
 
-
+<div class="message-box" style="display: flex; flex-wrap: wrap;">
+            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
+              <a id="copyDogSymbol">🐕</a>
+            </div>
+            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
+              <a id="copyexplorerSymbol">🐬</a>
+            </div>
+            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
+              <a id="copyarbiterSymbol">🐈</a>
+            </div>
+            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
+              <a id="copymerchantSymbol">🦉</a>
+            </div>
+            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
+              <a id="copysmugglerSymbol">🦘</a>
+            </div>
+            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
+              <a id="copysailorSymbol">🦜</a>
+            </div>
+            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
+              <a id="copyvoyagerSymbol">🐢</a>
+            </div>
+            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
+              <a id="copyshipwrightSymbol">🦔</a>
+            </div>
+            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
+              <a id="copycaptainSymbol">🐙</a>
+            </div>
+            <div style="flex: 0 0 calc(20% - 20px); margin: 10px;  font-size: 1.8em;" class="days-left" >
+              <a id="copyfishermanSymbol">🐧</a>
+            </div>
+</div>
 
 
 
