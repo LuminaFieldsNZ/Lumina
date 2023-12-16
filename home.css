@@ -694,7 +694,7 @@ button, a {
 .project-box {
   --main-color-card: #dbf6fd;
   border-radius: 30px;
-  padding: 26px;
+  padding: 6px;
   background-color: var(--main-color-card);
 }
 .project-box-header {
@@ -779,17 +779,17 @@ button, a {
   margin: 8px 0;
 }
 .box-progress-header {
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 16px;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1px;
   margin: 0;
 }
 .box-progress-percentage {
-  text-align: right;
+  text-align: left;
   margin: 0;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 16px;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1px;
 }
 
 .project-box-footer {

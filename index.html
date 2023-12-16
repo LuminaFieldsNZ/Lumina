@@ -1,3 +1,4 @@
+
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
@@ -17,7 +18,6 @@
 
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
             <link rel="stylesheet" href="./home.css">
-            <link rel="stylesheet" href="./book.css">
 
 
             </head>
@@ -25,7 +25,7 @@
 
 
               <a onclick="birdBomb()" style="z-index: 9999999999999;position: absolute; bottom: 5px; left: 15px;"><image src="bird1.gif" id="bird1">
-                <image src="bird2.gif" style="display:none;" id="bird2"></a>
+                <image src="bird2.gif" style="display:none; bottom: -18px; right: -88px; position: absolute;" id="bird2"></a>
         <script>
 
         function birdBomb() {
@@ -90,6 +90,10 @@
 <div class="project-box-content-header">
   <p class="box-content-header">Explorer</p>
   <p class="box-content-subheader">Discovery and Exploration</p>
+
+<iframe style="width: 100%; height: 100px; border: none;" id="explorerBlob" src="soul/index.html"></iframe>
+
+
 </div>
     <div class="box-progress-wrapper">
       <p class="box-progress-header">Total Experience Gained: <font id="explorer"></font></p>
@@ -113,6 +117,8 @@
 <div class="project-box-content-header">
   <p class="box-content-header">Voyager</p>
   <p class="box-content-subheader">Cultural Immersion and Adaptability</p>
+  <iframe style="width: 100%; height: 100px; border: none;" id="voyagerBlob" src="soul/index.html"></iframe>
+
 </div>
     <div class="box-progress-wrapper">
       <p class="box-progress-header">Total Experience Gained: <font id="voyager"></font></p>
@@ -133,6 +139,8 @@
 <div class="project-box-content-header">
   <p class="box-content-header">Captain</p>
   <p class="box-content-subheader">Leadership and Crisis Management</p>
+  <iframe style="width: 100%; height: 100px; border: none;" id="captainBlob" src="soul/index.html"></iframe>
+
 </div>
     <div class="box-progress-wrapper">
       <p class="box-progress-header">Total Experience Gained: <font id="captain"></font></p>
@@ -145,15 +153,17 @@
 </div>
 
     <div class="project-box-wrapper">
-      <div class="project-box" style="background-color: rgba(224, 219, 74, .1);">
+      <div class="project-box" style="background-color: rgba(189, 186, 94, .1);">
         <div class="project-box-header">
-          <div class="days-left" style="color: rgba(224, 219, 74, 1)">
+          <div class="days-left" style="color: rgba(189, 186, 94, 1)">
             Module
           </div>
     </div>
     <div class="project-box-content-header">
       <p class="box-content-header">Merchant</p>
       <p class="box-content-subheader">Economics and Trade</p>
+      <iframe style="width: 100%; height: 100px; border: none;" id="merchantBlob" src="soul/index.html"></iframe>
+
     </div>
         <div class="box-progress-wrapper">
           <p class="box-progress-header">Total Experience Gained: <font id="merchant"></font></p>
@@ -174,6 +184,7 @@
         <div class="project-box-content-header">
         <p class="box-content-header">Shipwright</p>
         <p class="box-content-subheader">Engineering and Craftsmanship</p>
+        <iframe style="width: 100%; height: 100px; border: none;" id="shipwrightBlob" src="soul/index.html"></iframe>
         </div>
         <div class="box-progress-wrapper">
           <p class="box-progress-header">Total Experience Gained: <font id="shipwright"></font></p>
@@ -194,6 +205,7 @@
         <div class="project-box-content-header">
         <p class="box-content-header">Fisherman</p>
         <p class="box-content-subheader">Nature and Sustainability</p>
+        <iframe style="width: 100%; height: 100px; border: none;" id="fishermanBlob" src="soul/index.html"></iframe>
         </div>
         <div class="box-progress-wrapper">
           <p class="box-progress-header">Total Experience Gained: <font id="fisherman"></font></p>
@@ -214,6 +226,7 @@
         <div class="project-box-content-header">
         <p class="box-content-header">Smuggler</p>
         <p class="box-content-subheader">Strategy and Risk Management</p>
+        <iframe style="width: 100%; height: 100px; border: none;" id="smugglerBlob" src="soul/index.html"></iframe>
         </div>
         <div class="box-progress-wrapper">
           <p class="box-progress-header">Total Experience Gained: <font id="smuggler"></font></p>
@@ -234,6 +247,7 @@
         <div class="project-box-content-header">
         <p class="box-content-header">Arbiter</p>
         <p class="box-content-subheader">Law, Order, and Ethics</p>
+        <iframe style="width: 100%; height: 100px; border: none;" id="arbiterBlob" src="soul/index.html"></iframe>
         </div>
         <div class="box-progress-wrapper">
           <p class="box-progress-header">Total Experience Gained: <font id="arbiter"></font></p>
@@ -254,6 +268,7 @@
         <div class="project-box-content-header">
         <p class="box-content-header">Sailor</p>
         <p class="box-content-subheader">Discipline, Loyalty, and Skill Acquisition</p>
+        <iframe style="width: 100%; height: 100px; border: none;" id="sailorBlob" src="soul/index.html"></iframe>
         </div>
         <div class="box-progress-wrapper">
           <p class="box-progress-header">Total Experience Gained: <font id="sailor"></font></p>
@@ -433,6 +448,7 @@
               <script  src="upload.js"></script>
               <script src="populations.js"></script>
   <script  src="story.js"></script>
+  <script  src="collection.js"></script>
 
 
 

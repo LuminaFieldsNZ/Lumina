@@ -36,6 +36,21 @@ window.addEventListener('message', function(event) {
 
 
 
+
+
+window.addEventListener('message', function(event) {
+    if (event.data.color) material.color.setHex(event.data.color);
+    if (event.data.speed) setSpeed(event.data.speed);
+    if (event.data.spikes) setSpikes(event.data.spikes);
+    if (event.data.processing) setProcessing(event.data.processing);
+});
+
+
+
+
+
+
+
 function setSpeed(value) {
     $('input[name="speed"]').val(value).trigger('change');
 }
