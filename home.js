@@ -24,7 +24,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var projectsList = document.querySelector('.project-boxes');
 });
-
-
-const bookFrame4 = document.getElementById('bookFrame4');
-bookFrame4.src = 'product/index.html';

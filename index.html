@@ -43,7 +43,7 @@
             </head>
             <body>
 
-
+<!--
               <a class="image-container" id="profilePic" style="z-index: 9999999999;">
                 <img src="./body/body12.png" id="bodyLayer" class="layer" style="z-index: 1;">
                 <img src="./head.png" alt="Head" class="layer" style="z-index: 2;">
@@ -52,7 +52,7 @@
                 <img src="./outer/outer0.png"  id="outerLayer" class="layer" style="z-index: 5;">
               </a>
 
-
+ -->
 
               <div class="app-container" style="z-index:999;">
 
@@ -69,53 +69,15 @@
 
 <div id="loader1" class="project-boxes" style="display: block;">
 
-  <iframe id="bookFrame4" src="" style="width: 100%; height:98vh; border-radius: 22px;"></iframe>
+  <iframe id="bookFrame4" src="peep.html" style="width: 100%; height:98vh; border-radius: 22px;"></iframe>
 
 </div>
 
-<div id="settingsMain" class="project-boxes" style="display: none; margin: 40px;">
-
-<div class="grid-container">
-  <div class="grid-item">
-    <br>
-    <textarea id="popupIframe" style="width: 100%; height:40vh; border-radius: 22px; scrollbar-width: 0px;"></textarea>
-  </div>
-<div class="grid-item">
-<hr>
-<div id="toolMenu2" style="width: 100%;">
-  <textarea readonly class="json-editor" style="height:300px; width:100%;" id="jsonEditor" placeholder="JSON Format: [question, answer, liveChange]"></textarea>
-</div>
-</div>
-
-</div>
-</div>
-
-
-
-
-<div id="splash" class="project-boxes" style="display: none;">
-<iframe id="bookFrame5" src="" style="width: 100%; height:99vh; border-radius: 22px;"></iframe>
-</div>
 
 
 
 
 
-
-
-
-
-
-
-
-<div id="schedule" class="project-boxes jsGridView" style="display: none;">
-
-
-  <iframe id="bookFrame1" src="" style="width: 100%; height:99vh; border-radius: 22px;"></iframe>
-
-
-
-</div>
             </div>
 
 
@@ -130,6 +92,12 @@
               <div class="messages">
 <div class="message-box">
     <div class="search-wrapper">
+      <a class="mode-switch app-sidebar-link" title="Switch Theme">
+        <svg class="link-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
+          <defs></defs>
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+        </svg>
+      </a>
       <input class="search-input" placeholder="Search" type="text" id="passcode" oninput="checkPasscode();">
       <div class="loader">
         <div class="square" ></div>
@@ -163,19 +131,7 @@
               <div class="message-box">
                 <button class="btn-56" onclick="sendMessage()">Send</button>
 
-                <a onclick="homeActive();" class="app-sidebar-link">
-                  <svg class="link-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                    <polyline points="9 22 9 12 15 12 15 22" /></svg>
-                </a>
 
-                <a onclick="peepActive();" class="app-sidebar-link">
-                  <svg class="link-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-settings" viewBox="0 0 24 24">
-                    <defs />
-                    <circle cx="12" cy="12" r="3" />
-                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
-                  </svg>
-                </a>
               </div>
             </div>
             </div>

@@ -318,7 +318,7 @@ body {
 }
 .messages-section .messages-close {
   position: absolute;
-  bottom: 12px;
+  bottom: 48px;
   right: 12px;
   z-index: 3;
   border: none;
@@ -639,8 +639,8 @@ body {
   border-radius: 4px 0 0 4px;
   position: absolute;
   right: 0;
-  bottom: 48px;
-  z-index: 9999999999999999999999999999999999;
+  bottom: 58px;
+  z-index: 1;
   background-color: var(--message-btn);
   border: none;
   color: var(--main-color);

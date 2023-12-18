@@ -1,36 +1,3 @@
-let countImage = 0;
-
-
-function nextPages() {
-  let allImages = [
-    "./pics/trantum.png",
-    "./pics/ventura.png",
-    "./pics/occidentica.png",
-    "./pics/eventus.png",
-    "./pics/collective.png",
-    "./pics/abzimuth.png",
-    "./pics/ironcoast.png",
-    "./pics/faxium.png",
-    "./pics/mercado.png"
-  ];
-
-  // Select the .screen > .screen-image element
-  const screenImage = document.querySelector('.screen > .screen-image');
-
-  if (countImage != 9) {
-    document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),url('" + allImages[countImage] + "')";
-    screenImage.style.backgroundImage = "url('" + allImages[countImage] + "')";
-    countImage += 1;
-  } else {
-    countImage = 0;
-  }
-}
-
-setInterval(() => {
-  nextPages();
-}, 8000);
-
-
 
 
 let state = {
