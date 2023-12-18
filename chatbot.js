@@ -25,7 +25,7 @@ function exitAll() {
 
 let userId = "Guest";
 let state = {
-     hair: './hair/hair0.png',
+     hair: './hair/hair2.png',
      glasses: './glasses/glasses0.png',
      body: './body/body0.png',
      outer: './outer/outer0.png'
@@ -44,7 +44,7 @@ let conversationData = [];
 
 
 setTimeout(function() {
-    chatWindow.innerHTML += '<p>Collective: <font id="greeting"></font>, <a id="loginPlace2">before we continue a <b>profile.json</b> file is needed.</a> <button class="open-modal"  onclick="exportData()">Download</button></p>';
+    chatWindow.innerHTML += '<p>Collective: <font id="greeting"></font>, <a id="loginPlace2">before we continue a <b>profile.json</b> file is needed.</a> <button class="btn-56" style="font-size:.7em;"  onclick="exportData()">Download</button></p>';
     const greetingElement = document.getElementById('greeting');
     const currentTime = new Date();
     const currentHour = currentTime.getHours();
@@ -63,7 +63,7 @@ setTimeout(function() {
     scrollToBottom();
 }, 2200);
 setTimeout(function() {
-    chatWindow.innerHTML += '<p id="loginPlace">Upload your profile:<br><input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" placeholder="Import Base Data Set"></p>';
+    chatWindow.innerHTML += '<a onclick="document.getElementById("baseDataSet").addEventListener("change", importBaseDataSet);"><p id="loginPlace">Upload your profile:<br><label for="baseDataSet"  style="font-size:.7em; display: inline-block;" class="btn-56">Import Data Set</label><input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" style="display: none;"></p></a>';
     scrollToBottom();
 }, 600);
 
@@ -73,7 +73,7 @@ function showCommands() {
 }
 function changeName(){
 setTimeout(function() {
-    chatWindow.innerHTML += '<p>Collective: What should I call you? <input type="textarea" id="userNameChange" placeholder="Enter name..."><button class="open-modal" onclick="sendMessage2()">Change</button></p>';
+    chatWindow.innerHTML += '<p>Collective: What should I call you? <input type="textarea" id="userNameChange" placeholder="Enter name..."><button class="btn-56" style="font-size:.7em;" onclick="sendMessage2()">Change</button></p>';
     scrollToBottom();
 }, 1200);}
 
@@ -262,13 +262,7 @@ function sendMessage() {
             // Append the variables to the response string
             response += `
 {
-  userId: "${userId}",
   state: ${JSON.stringify(state)},
-  populations: ${JSON.stringify(populations)},
-  mainHeading: ${JSON.stringify(mainHeading)},
-  completedProjects: ${JSON.stringify(completedProjects)},
-  homePage: ${JSON.stringify(homePage)},
-  userCompletedProjects: ${JSON.stringify(userCompletedProjects)},
   conversationData: ${JSON.stringify(conversationData)}
 }`;
             conversationData.push([message, response, timestamp]);
@@ -340,7 +334,7 @@ function isValidDataFormat(data) {
 function postMessageToAllFrames(win, message) {
     // Iterate through all iframes in the current window/frame and post the message recursively
     for (let i = 0; i < win.frames.length; i++) {
-        win.frames[i].postMessage(message, 'https://luminafields.com/');
+        win.frames[i].postMessage(message, '*');
         postMessageToAllFrames(win.frames[i], message); // Recursive call for nested iframes
     }
 }
@@ -512,10 +506,17 @@ function sendFaxiumMessage(message, sender) {
 
 
 
+function peepActive(){
+  bookFrame4.src = 'peep.html';
+}
+function homeActive(){
+  bookFrame4.src = 'product/index.html';
+}
+
+
 
 let htmlContent;
 const rawHtmlTextarea = document.getElementById('popupIframe');
-const bookFrame5 = document.getElementById('bookFrame5');
 
 // Create a new XMLHttpRequest
 const xhr = new XMLHttpRequest();
@@ -529,8 +530,8 @@ function updateIframes() {
   htmlContent = rawHtmlTextarea.value;
   homePage = htmlContent;
   // Set the srcdoc property of bookFrame5 if it's an iframe
-  if (bookFrame5) {
-    bookFrame5.srcdoc = htmlContent;
+  if (bookFrame4) {
+    bookFrame4.srcdoc = htmlContent;
   }
 
   // Update the JSON editor
