@@ -82,7 +82,7 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
 
       mixer = new THREE.AnimationMixer(model);
 
-      let clips = fileAnimations.filter(val => val.name !== 'idle');
+      let clips = fileAnimations.filter(val => val.name !== 'Armature.002');
       possibleAnims = clips.map(val => {
         let clip = THREE.AnimationClip.findByName(clips, val.name);
 
@@ -94,7 +94,7 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
       });
 
 
-      let idleAnim = THREE.AnimationClip.findByName(fileAnimations, 'idle');
+      let idleAnim = THREE.AnimationClip.findByName(fileAnimations, 'Armature.002');
 
       idleAnim.tracks.splice(3, 3);
       idleAnim.tracks.splice(9, 3);
