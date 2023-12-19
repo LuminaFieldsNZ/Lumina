@@ -249,7 +249,7 @@ function render() {
 
 
 function openSettings() {
-parent.postMessage({ action: 'openSettings', value: 'openSettings' }, 'https://luminafields.com/');
+parent.postMessage({ action: 'openSettings', value: 'openSettings' }, '*');
 }
 
 const peepContent = document.documentElement.outerHTML;
@@ -261,7 +261,7 @@ const peepContent = document.documentElement.outerHTML;
            action: 'peepContent',
            peepContent: peepContent
          };
-         window.parent.postMessage(message, 'https://luminafields.com/');
+         window.parent.postMessage(message, '*');
    });
 
 

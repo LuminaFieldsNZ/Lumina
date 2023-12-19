@@ -21,12 +21,12 @@ window.addEventListener('message', function(event) {
 function checkPasscode() {
   const code = document.getElementById("passcode").value;
   if(code === "100") {
-    parent.postMessage({ action: 'changeSrc', newSrc: '100/index.html' }, 'https://luminafields.com/');
+    parent.postMessage({ action: 'changeSrc', newSrc: '100/index.html' }, '*');
   }
   if(code === "micheal") {
-    parent.postMessage({ action: 'changeSrc', newSrc: 'face/index.html' }, 'https://luminafields.com/');
+    parent.postMessage({ action: 'changeSrc', newSrc: 'face/index.html' }, '*');
   }
   if(code === "587112349") {
-    parent.postMessage({ action: 'changeSrc', newSrc: 'nations/book.html' }, 'https://luminafields.com/');
+    parent.postMessage({ action: 'changeSrc', newSrc: 'nations/book.html' }, '*');
   }
 }
