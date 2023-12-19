@@ -22,7 +22,7 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
 
   function init() {
 
-    const MODEL_PATH = 'https://models.readyplayer.me/6581e517965fecc7e2d90ee5.glb';
+    const MODEL_PATH = 'https://luminafields.com/avatar/models/micheal.glb';
     const canvas = document.querySelector('#c');
     const backgroundColor = 0xf1f1f1;
 
@@ -82,7 +82,7 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
 
       mixer = new THREE.AnimationMixer(model);
 
-      let clips = fileAnimations.filter(val => val.name !== 'Armature.002');
+      let clips = fileAnimations.filter(val => val.name !== 'idle');
       possibleAnims = clips.map(val => {
         let clip = THREE.AnimationClip.findByName(clips, val.name);
 
@@ -94,7 +94,7 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
       });
 
 
-      let idleAnim = THREE.AnimationClip.findByName(fileAnimations, 'Armature.002');
+      let idleAnim = THREE.AnimationClip.findByName(fileAnimations, 'idle');
 
       idleAnim.tracks.splice(3, 3);
       idleAnim.tracks.splice(9, 3);
