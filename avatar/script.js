@@ -22,7 +22,7 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
 
   function init() {
 
-    const MODEL_PATH = 'https://luminafields.com/avatar/models/micheal.glb';
+    const MODEL_PATH = 'https://models.readyplayer.me/6581e517965fecc7e2d90ee5.glb';
     const canvas = document.querySelector('#c');
     const backgroundColor = 0xf1f1f1;
 
@@ -39,7 +39,7 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
 
     // Add a camera
     camera = new THREE.PerspectiveCamera(
-    50,
+    30,
     window.innerWidth / window.innerHeight,
     0.1,
     1000);
@@ -110,10 +110,11 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
 
 
     // Add lights
-    let hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.61);
+    let hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.81);
     hemiLight.position.set(0, 50, 0);
     // Add hemisphere light to scene
     scene.add(hemiLight);
+
 
     let d = 8.25;
     let dirLight = new THREE.DirectionalLight(0xffffff, 0.54);
