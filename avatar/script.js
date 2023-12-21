@@ -2,7 +2,6 @@
 https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-character-with-three-js/
 */
 
-
 (function () {
   // Set our main variables
   let scene,
@@ -19,12 +18,11 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
   raycaster = new THREE.Raycaster(), // Used to detect the click on our character
   loaderAnim = document.getElementById('js-loader');
 
-
   init();
 
   function init() {
 
-    const MODEL_PATH = '../static/mike1.glb';
+    const MODEL_PATH = 'https://luminafields.com/micheal.glb';
     const canvas = document.querySelector('#c');
     const backgroundColor = 0xf1f1f1;
 
@@ -49,67 +47,6 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
     camera.position.z = 30;
     camera.position.x = 0;
     camera.position.y = -3;
-
-
-
-
-
-
-
-
-
-    // Global variables for animations
-    var idleAnimation, ninjaAnimation;
-
-    loader.load(MODEL_PATH, function (gltf) {
-      // ... existing model setup code ...
-      mixer = new THREE.AnimationMixer(model);
-
-      // Load the animation file
-      loader.load('../static/animate.glb', function (animData) {
-        animData.animations.forEach((clip) => {
-          if (clip.name === 'idle') {
-            idleAnimation = mixer.clipAction(clip);
-            idleAnimation.play();
-          } else if (clip.name === 'ninja') {
-            ninjaAnimation = mixer.clipAction(clip);
-          }
-        });
-      });
-    }, undefined, function (error) {
-      console.error(error);
-    });
-
-    // Handle click event to play ninja animation
-    window.addEventListener('click', function () {
-      if (ninjaAnimation && !currentlyAnimating) {
-        playModifierAnimation(idleAnimation, 0.25, ninjaAnimation, 0.25);
-      }
-    });
-
-    function playModifierAnimation(from, fSpeed, to, tSpeed) {
-      currentlyAnimating = true;
-      to.reset();
-      to.setLoop(THREE.LoopOnce);
-      to.play();
-      from.crossFadeTo(to, fSpeed, true);
-      setTimeout(function () {
-        from.enabled = true;
-        to.crossFadeTo(from, tSpeed, true);
-        currentlyAnimating = false;
-      }, to._clip.duration * 1000 - (tSpeed + fSpeed) * 1000);
-    }
-
-    // ... rest of the script ...
-
-
-
-
-
-
-
-
-
 
 
     var loader = new THREE.GLTFLoader();
@@ -144,21 +81,31 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
 
       mixer = new THREE.AnimationMixer(model);
 
+      let clips = fileAnimations.filter(val => val.name !== 'idle');
+      possibleAnims = clips.map(val => {
+        let clip = THREE.AnimationClip.findByName(clips, val.name);
 
-      // Load the animation file
-      const ANIMATION_PATH = '../static/animate.glb'; // Path to your animations GLB file
-      loader.load(ANIMATION_PATH, function (animData) {
-        let animMixer = new THREE.AnimationMixer(model);
-        animData.animations.forEach((clip) => {
-          animMixer.clipAction(clip).play();
-        });
+        clip.tracks.splice(3, 3);
+        clip.tracks.splice(9, 3);
+
+        clip = mixer.clipAction(clip);
+        return clip;
       });
 
 
+      let idleAnim = THREE.AnimationClip.findByName(fileAnimations, 'idle');
 
+      idleAnim.tracks.splice(3, 3);
+      idleAnim.tracks.splice(9, 3);
+
+      idle = mixer.clipAction(idleAnim);
+      idle.play();
 
     },
-    undefined,);
+    undefined, // We don't need this function
+    function (error) {
+      console.error(error);
+    });
 
 
     // Add lights
@@ -196,7 +143,7 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
     scene.add(floor);
 
     let geometry = new THREE.SphereGeometry(8, 32, 32);
-    let material = new THREE.MeshBasicMaterial({ color: 0xeb947f }); // 0xf2ce2e
+    let material = new THREE.MeshBasicMaterial({ color: 0xffda85 }); // 0xf2ce2e
     let sphere = new THREE.Mesh(geometry, material);
 
     sphere.position.z = -15;
@@ -258,14 +205,21 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
 
     if (intersects[0]) {
       var object = intersects[0].object;
-// add mouse event here
 
+      if (object.name === 'stacy') {
 
-
-
-
-
+        if (!currentlyAnimating) {
+          currentlyAnimating = true;
+          playOnClick();
+        }
+      }
     }
+  }
+
+  // Get a random animation, and play it
+  function playOnClick() {
+    let anim = Math.floor(Math.random() * possibleAnims.length) + 0;
+    playModifierAnimation(idle, 0.25, possibleAnims[anim], 0.25);
   }
 
 

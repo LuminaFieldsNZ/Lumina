@@ -2,7 +2,7 @@ body,
 html {
   margin: 0;
   padding: 0;
-  background: #eb947f;
+  background: #25252B;
 }
 * {
   touch-action: manipulation;
@@ -63,7 +63,7 @@ body {
   top: 25px;
   width: 50px;
   height: 50px;
-  background-color: #eb947f;
+  background-color: #f5c147;
   animation: flip 1s infinite;
 }
 
@@ -79,13 +79,4 @@ body {
   100% {
     transform: rotateY(180deg)  rotateX(180deg);
   }
-}
-
-.tutorial-link {
-  position: absolute;
-  display: block;
-  z-index: 100;
-  top: 2em; left: 2em;
-  tranform: translateX(-50%);
-  font-weight: bold;
 }
