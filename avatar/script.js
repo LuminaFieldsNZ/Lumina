@@ -22,7 +22,7 @@ https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-characte
 
   function init() {
 
-    const MODEL_PATH = 'https://luminafields.com/micheal.glb';
+    const MODEL_PATH = 'https://luminafields.com/micheal2.glb';
     const canvas = document.querySelector('#c');
     const backgroundColor = 0xf1f1f1;
 
