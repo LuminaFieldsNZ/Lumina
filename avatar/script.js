@@ -127,4 +127,38 @@ function changeAnimation(animationIndex) {
     document.onmouseup = null;
     document.onmousemove = null;
   }
+
+
+handle.addEventListener('touchstart', dragStart, false);
+handle.addEventListener('touchend', dragEnd, false);
+handle.addEventListener('touchmove', drag, false);
+
+function dragStart(e) {
+    e.preventDefault();
+    if (e.touches.length == 1) { // Only deal with one finger
+        var touch = e.touches[0]; // Get the information for finger #1
+        pos3 = touch.pageX;
+        pos4 = touch.pageY;
+    }
+}
+
+function drag(e) {
+    e.preventDefault();
+    if (e.touches.length == 1) { // Only deal with one finger
+        var touch = e.touches[0]; // Get the information for finger #1
+        pos1 = pos3 - touch.pageX;
+        pos2 = pos4 - touch.pageY;
+        pos3 = touch.pageX;
+        pos4 = touch.pageY;
+        // Move your element
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+}
+
+function dragEnd(e) {
+    e.preventDefault();
+    // Stop moving when finger is removed
+}
+
 })();
