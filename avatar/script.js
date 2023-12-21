@@ -1,180 +1,83 @@
-/* --------------------------
-* THREE JS EXPERIMENT
-* Waving Character
-* -------------------------- */
-
-/* --------------------------
-* GENERAL VARIABLES
-* -------------------------- */
-
-let scene,
-  camera,
-  renderer,
-  controls,
-  model,
-  mixer,
-  action,
-  delta;
-
+let scene, camera, renderer, controls, model, mixer, action, delta;
 let clock = new THREE.Clock();
-
-let waveButton = document.querySelector('.wave-button');
-
-// Add Greensock Ticker
-gsap.ticker.add(render);
-
-
-/* --------------------------
- * INIT
- * -------------------------- */
-
-function init() {
-
-  /**
-   * Scene
-   */
-  scene = new THREE.Scene();
-  /**
-  scene.background = new THREE.Color(0xffffff);
-   */
-  scene.fog = new THREE.Fog(0x000000, 0, 16);
-
-
-  /**
-   * Camera
-   */
-
-  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
-  camera.position.set(0, 0, 4);
-  camera.lookAt(0, 0, 0);
-
-
-  /**
-   * Ambient Light
-   */
-
-  // Ambient Light
-  ambient = new THREE.AmbientLight(0xffffff, 1);
-  scene.add(ambient);
-
-
-  /**
-   * POINT LIGHTS
-   */
-
-  pointLight = new THREE.PointLight(0xffffff, 0.5);
-  pointLight.position.z = 2500;
-  scene.add(pointLight);
-
-  var pointLight2 = new THREE.PointLight(0xffffff, 1);
-  camera.add(pointLight2);
-
-  var pointLight3 = new THREE.PointLight(0xffffff, 0.5);
-  pointLight3.position.x = - 1000;
-  pointLight3.position.z = 1000;
-  scene.add(pointLight3);
-
-
-  /**
-   * Load Character
-   */
-
-  var loader = new THREE.GLTFLoader();
-
-  loader.load('https://luminafields.com/micheal3.glb', function (gltf) {
-
-    model = gltf.scene;
-    model.traverse(o => {
-      if (o.isMesh) {
-        o.castShadow = true;
-        o.receiveShadow = true;
-      }
-    });
-
-    scene.add(model);
-    model.position.y = -0.7
-
-
-    /**
-     * Load Character Animations
-     */
-
-
-   mixer = new THREE.AnimationMixer(model);
-   let animations = gltf.animations; // Assuming all animations are stored in this array
-   let currentAnimationIndex = 0; // To keep track of the current animation
-
-   action = mixer.clipAction(animations[currentAnimationIndex]);
-   action.setLoop(THREE.LoopRepeat); // Set to loop forever
-   action.play();
-
-   /**
-    * Add Event Listeners For Interactivity
-    */
-   waveButton.addEventListener('click', function() {
-       // On click, switch to the next animation
-       action.stop(); // Stop the current animation
-       currentAnimationIndex = (currentAnimationIndex + 1) % animations.length; // Move to the next animation, loop back if at the end
-       action = mixer.clipAction(animations[currentAnimationIndex]);
-       action.setLoop(THREE.LoopRepeat);
-       action.play();
-   });
-
-
-
-  }, undefined, function (error) {
-
-    console.error(error);
-
-  });
-
-
-  /**
-   * RENDERER
-   */
-
-   renderer = new THREE.WebGLRenderer({ alpha: true }); // Enable transparency
- renderer.setSize(window.innerWidth, window.innerHeight);
- document.body.appendChild(renderer.domElement);
-
-  // Shadow maps
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-  // Navigation Controls
-  controls = new THREE.OrbitControls(camera, renderer.domElement);
-  controls.keyPanSpeed = 100;
-
-  controls.update();
-
-  renderer.setSize(window.innerWidth, window.innerHeight);
-
-  // Set the renderer to render at native device ratios
-  renderer.setPixelRatio(window.devicePixelRatio);
-
-  // Add the threejs scene to the app div
-  document.getElementById("app").appendChild(renderer.domElement);
-
-
-  /* --------------------------
-  * BEGIN RENDER
-  * -------------------------- */
-  render();
-}
-
-
-/* --------------------------
- * RENDER THE SCENE
- * -------------------------- */
+let animations, currentAnimationIndex = 0;
+let spine, neck;
+let mouse = new THREE.Vector2();
+let targetRotation = new THREE.Vector3();
+let allowHeadTracking = true;
 
 function render() {
   delta = clock.getDelta();
-
-  if (mixer != null) {
+  if (mixer) {
     mixer.update(delta);
-  };
-
+  }
+  if (spine && neck && allowHeadTracking) {
+    spine.rotation.y += 0.01 * (targetRotation.y - spine.rotation.y);
+    neck.rotation.y += 0.05 * (targetRotation.y - neck.rotation.y);
+    spine.rotation.x += 0.09 * (targetRotation.x - spine.rotation.x);
+    neck.rotation.x += 0.09 * (targetRotation.x - neck.rotation.x);
+  }
   renderer.render(scene, camera);
 }
 
-init();
+gsap.ticker.add(render);
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  init();
+
+  document.addEventListener('click', function() {
+    action.stop();
+    currentAnimationIndex = (currentAnimationIndex + 1) % 4;
+    action = mixer.clipAction(animations[currentAnimationIndex]);
+    action.setLoop(THREE.LoopRepeat);
+    action.play();
+  });
+
+  document.addEventListener('mousemove', function(event) {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = (event.clientY / window.innerHeight) * 2 - 1; // Inverted Y-axis
+    targetRotation.x = (mouse.y * 0.2) * Math.PI;
+    targetRotation.y = (mouse.x * 0.5) * Math.PI;
+
+  });
+});
+
+
+function init() {
+  scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x000000, 0, 16);
+  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 0, 4);
+  camera.lookAt(0, 0, 0);
+
+  let ambient = new THREE.AmbientLight(0xffffff, 1);
+  scene.add(ambient);
+  let pointLight = new THREE.PointLight(0xffffff, 0.5);
+  pointLight.position.z = 2500;
+  scene.add(pointLight);
+
+  let loader = new THREE.GLTFLoader();
+  loader.load('https://luminafields.com/micheal3.glb', function (gltf) {
+    model = gltf.scene;
+    scene.add(model);
+    model.position.y = -0.7;
+
+    mixer = new THREE.AnimationMixer(model);
+    animations = gltf.animations;
+    action = mixer.clipAction(animations[currentAnimationIndex]);
+    action.setLoop(THREE.LoopRepeat);
+    action.play();
+
+    spine = model.getObjectByName('Spine'); // Replace 'Spine' with the actual name of the spine bone/mesh
+    neck = model.getObjectByName('Neck'); // Replace 'Neck' with the actual name of the neck bone/mesh
+  });
+
+  renderer = new THREE.WebGLRenderer({ alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+  renderer.shadowMap.enabled = true;
+  renderer.setPixelRatio(window.devicePixelRatio);
+  document.getElementById("app").appendChild(renderer.domElement);
+
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+}
