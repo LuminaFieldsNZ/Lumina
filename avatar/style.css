@@ -28,3 +28,11 @@ html {
 body {
     -ms-overflow-style: none;
 }
+
+#dropdown-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: move;
+    z-index: 1000;
+}

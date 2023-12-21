@@ -5,6 +5,20 @@ let spine, neck;
 let mouse = new THREE.Vector2();
 let targetRotation = new THREE.Vector3();
 let allowHeadTracking = true;
+let dropdown = document.getElementById('animation-selector');
+let dropdownRect;
+
+gsap.ticker.add(render);
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  init();
+
+  document.addEventListener('click', changeAnimation);
+  document.addEventListener('touchstart', changeAnimation);
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('touchmove', onTouchMove);
+});
 
 function render() {
   delta = clock.getDelta();
@@ -17,29 +31,17 @@ function render() {
     spine.rotation.x += 0.09 * (targetRotation.x - spine.rotation.x);
     neck.rotation.x += 0.09 * (targetRotation.x - neck.rotation.x);
   }
+
+  dropdownRect = dropdown.getBoundingClientRect();
+  let dropdownScreenPos = {
+    x: (dropdownRect.left + dropdownRect.width / 2) / window.innerWidth,
+    y: (dropdownRect.top + dropdownRect.height / 2) / window.innerHeight
+  };
+  mouse.x = (dropdownScreenPos.x * 2) - 1;
+  mouse.y = (dropdownScreenPos.y * 2) - 1;
+
   renderer.render(scene, camera);
 }
-
-gsap.ticker.add(render);
-
-document.addEventListener('DOMContentLoaded', (event) => {
-  init();
-
-  // Handle click and touchstart events
-  function changeAnimation() {
-    action.stop();
-    currentAnimationIndex = (currentAnimationIndex + 1) % 4;
-    action = mixer.clipAction(animations[currentAnimationIndex]);
-    action.setLoop(THREE.LoopRepeat);
-    action.play();
-  }
-
-  document.addEventListener('click', changeAnimation);
-  document.addEventListener('touchstart', changeAnimation);
-
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('touchmove', onTouchMove);
-});
 
 function onMouseMove(event) {
   updateMousePosition(event.clientX, event.clientY);
@@ -56,9 +58,7 @@ function updateMousePosition(x, y) {
   mouse.y = (y / window.innerHeight) * 2 - 1;
   targetRotation.x = (mouse.y * 0.5) * Math.PI;
   targetRotation.y = (mouse.x * 0.5) * Math.PI;
-
 }
-
 
 function init() {
   scene = new THREE.Scene();
@@ -85,8 +85,8 @@ function init() {
     action.setLoop(THREE.LoopRepeat);
     action.play();
 
-    spine = model.getObjectByName('Spine'); // Replace 'Spine' with the actual name of the spine bone/mesh
-    neck = model.getObjectByName('Neck'); // Replace 'Neck' with the actual name of the neck bone/mesh
+    spine = model.getObjectByName('Spine');
+    neck = model.getObjectByName('Neck');
   });
 
   renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -97,4 +97,50 @@ function init() {
   document.getElementById("app").appendChild(renderer.domElement);
 
   controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+  dropdown.addEventListener('change', function() {
+    let selectedValue = parseInt(this.value);
+    changeAnimation(selectedValue);
+  });
 }
+
+function changeAnimation(animationIndex) {
+  if (mixer && animations[animationIndex]) {
+    action.stop();
+    currentAnimationIndex = animationIndex;
+    action = mixer.clipAction(animations[currentAnimationIndex]);
+    action.setLoop(THREE.LoopRepeat);
+    action.play();
+  }
+}
+
+(function makeDropdownMovable() {
+  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  let elmnt = document.getElementById("dropdown-container");
+  let handle = document.getElementById("drag-handle");
+
+  handle.onmousedown = dragMouseDown;
+
+  function dragMouseDown(e) {
+    e.preventDefault();
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e.preventDefault();
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+})();
