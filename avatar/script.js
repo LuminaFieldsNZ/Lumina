@@ -25,22 +25,39 @@ gsap.ticker.add(render);
 document.addEventListener('DOMContentLoaded', (event) => {
   init();
 
-  document.addEventListener('click', function() {
+  // Handle click and touchstart events
+  function changeAnimation() {
     action.stop();
     currentAnimationIndex = (currentAnimationIndex + 1) % 4;
     action = mixer.clipAction(animations[currentAnimationIndex]);
     action.setLoop(THREE.LoopRepeat);
     action.play();
-  });
+  }
 
-  document.addEventListener('mousemove', function(event) {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = (event.clientY / window.innerHeight) * 2 - 1; // Inverted Y-axis
-    targetRotation.x = (mouse.y * 0.2) * Math.PI;
-    targetRotation.y = (mouse.x * 0.5) * Math.PI;
+  document.addEventListener('click', changeAnimation);
+  document.addEventListener('touchstart', changeAnimation);
 
-  });
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('touchmove', onTouchMove);
 });
+
+function onMouseMove(event) {
+  updateMousePosition(event.clientX, event.clientY);
+}
+
+function onTouchMove(event) {
+  if (event.touches.length > 0) {
+    updateMousePosition(event.touches[0].clientX, event.touches[0].clientY);
+  }
+}
+
+function updateMousePosition(x, y) {
+  mouse.x = (x / window.innerWidth) * 2 - 1;
+  mouse.y = (y / window.innerHeight) * 2 - 1;
+  targetRotation.x = (mouse.y * 0.5) * Math.PI;
+  targetRotation.y = (mouse.x * 0.5) * Math.PI;
+
+}
 
 
 function init() {
