@@ -11,3 +11,20 @@ body {
   width: 100vw;
   height: 100vh;
 }
+
+
+/* For Webkit browsers like Chrome, Safari */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* For Firefox */
+html {
+    scrollbar-width: none;
+    overflow: -moz-scrollbars-none;
+}
+
+/* For IE and Edge */
+body {
+    -ms-overflow-style: none;
+}
