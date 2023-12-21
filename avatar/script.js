@@ -2,7 +2,6 @@ let scene, camera, renderer, controls, model, mixer, action, delta;
 let clock = new THREE.Clock();
 let animations, currentAnimationIndex = 0;
 let spine, neck;
-let mouse = new THREE.Vector2();
 let targetRotation = new THREE.Vector3();
 let allowHeadTracking = true;
 let dropdown = document.getElementById('animation-selector');
@@ -16,8 +15,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
   document.addEventListener('click', changeAnimation);
   document.addEventListener('touchstart', changeAnimation);
 
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('touchmove', onTouchMove);
+  dropdown.addEventListener('change', function() {
+    let selectedValue = parseInt(this.value);
+    changeAnimation(selectedValue);
+  });
 });
 
 function render() {
@@ -26,10 +27,10 @@ function render() {
     mixer.update(delta);
   }
   if (spine && neck && allowHeadTracking) {
-    spine.rotation.y += 0.01 * (targetRotation.y - spine.rotation.y);
-    neck.rotation.y += 0.05 * (targetRotation.y - neck.rotation.y);
-    spine.rotation.x += 0.09 * (targetRotation.x - spine.rotation.x);
-    neck.rotation.x += 0.09 * (targetRotation.x - neck.rotation.x);
+    spine.rotation.y += 0.4 * (targetRotation.y - spine.rotation.y);
+    neck.rotation.y += 0.3 * (targetRotation.y - neck.rotation.y);
+    spine.rotation.x += 0.4 * (targetRotation.x - spine.rotation.x);
+    neck.rotation.x += 0.4 * (targetRotation.x - neck.rotation.x);
   }
 
   dropdownRect = dropdown.getBoundingClientRect();
@@ -37,27 +38,10 @@ function render() {
     x: (dropdownRect.left + dropdownRect.width / 2) / window.innerWidth,
     y: (dropdownRect.top + dropdownRect.height / 2) / window.innerHeight
   };
-  mouse.x = (dropdownScreenPos.x * 2) - 1;
-  mouse.y = (dropdownScreenPos.y * 2) - 1;
+  targetRotation.x = (dropdownScreenPos.y * 2) - 1;
+  targetRotation.y = (dropdownScreenPos.x * 2) - 1;
 
   renderer.render(scene, camera);
-}
-
-function onMouseMove(event) {
-  updateMousePosition(event.clientX, event.clientY);
-}
-
-function onTouchMove(event) {
-  if (event.touches.length > 0) {
-    updateMousePosition(event.touches[0].clientX, event.touches[0].clientY);
-  }
-}
-
-function updateMousePosition(x, y) {
-  mouse.x = (x / window.innerWidth) * 2 - 1;
-  mouse.y = (y / window.innerHeight) * 2 - 1;
-  targetRotation.x = (mouse.y * 0.5) * Math.PI;
-  targetRotation.y = (mouse.x * 0.5) * Math.PI;
 }
 
 function init() {
