@@ -1,4 +1,4 @@
-let scene, camera, renderer, controls, model, mixer, action, city, snowman, computers, delta;
+let scene, camera, renderer, controls, model, mixer, mixer2, animation2, action2, action, city, snowman, computers, delta;
 let clock = new THREE.Clock();
 let animations, currentAnimationIndex = 0;
 let spine, neck;
@@ -6,9 +6,12 @@ let targetRotation = new THREE.Vector3();
 let allowHeadTracking = true;
 let dropdown = document.getElementById('animation-selector');
 let dropdownRect;
-
+let dragon_bossMixer;
 let isSnowmanMoving = false;
 let lastSnowmanMoveTime = Date.now();
+let lastRestartTime = 0; // Keep track of the last time the animation was restarted
+let animationDuration = 2.9; // Duration to play before restarting
+let animationSpeed = 0.2; // Speed of the animation (half speed)
 
 gsap.ticker.add(render);
 
@@ -28,6 +31,18 @@ function render() {
     delta = clock.getDelta();
     if (mixer) {
         mixer.update(delta);
+    }
+    if (mixer2) {
+        // Update the elapsed time since the last restart
+        lastRestartTime += delta;
+
+        // Check if the specified duration has passed
+        if (lastRestartTime >= animationDuration / animationSpeed) {
+            action2.reset().play(); // Restart the animation
+            lastRestartTime = 0; // Reset the timer
+        }
+
+        mixer2.update(delta); // Continue to update the mixer
     }
 
     if (spine && neck && allowHeadTracking) {
@@ -159,6 +174,43 @@ computers.position.y -= .1;
 computers.position.z -= .5;
 // Perform any additional setup for the city model here
 });
+
+loader.load('https://luminafields.com/dragon2.glb', function (gltf) {
+    dragon_boss = gltf.scene;
+    scene.add(dragon_boss);
+    dragon_boss.scale.set(13, 13, 13);
+    dragon_boss.position.y += 5.2;
+    dragon_boss.position.z += -30.2;
+
+    mixer2 = new THREE.AnimationMixer(dragon_boss);
+    const dragonAnimations = gltf.animations;
+
+    if (dragonAnimations && dragonAnimations.length > 0) {
+        action2 = mixer2.clipAction(dragonAnimations[0]);
+        action2.timeScale = animationSpeed; // Set the animation speed to half
+        action2.play();
+    } else {
+        console.error('No animations found in dragon2.glb');
+    }
+});
+
+
+// Handle dragon boss animation selector changes
+const dragonBossDropdown = document.getElementById('dragon-boss-animation-selector');
+dragonBossDropdown.addEventListener('change', function() {
+    const selectedValue = parseInt(this.value);
+    changeDragonBossAnimation(selectedValue);
+});
+
+
+function changeDragonBossAnimation(animationIndex) {
+if (dragon_bossMixer && animations[animationIndex]) {
+    const action = dragon_bossMixer.clipAction(animations[animationIndex]);
+    action.reset();
+    action.play();
+}
+}
+
 
   renderer = new THREE.WebGLRenderer({ alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
