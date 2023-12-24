@@ -588,8 +588,8 @@ function changeAnimation(animationIndex) {
   function closeDragElement() {
       document.onmouseup = null;
       document.onmousemove = null;
-    document.ontouchend = null;
-    document.ontouchmove = null;
+      document.ontouchend = null;
+      document.ontouchmove = null;
 
       // Calculate the screen position of the center of the draggable element
       let rect = elmnt.getBoundingClientRect();
@@ -610,10 +610,8 @@ function changeAnimation(animationIndex) {
       // Find where the ray intersects the plane
       let target = new THREE.Vector3();
       if (raycaster.ray.intersectPlane(plane, target)) {
-        createGreenDotMarker(target);
-
-          // Update Anya's target position to the intersection point
           moveAnyaToPosition(target);
+          createGreenDotMarker(target);
       }
   }
 
@@ -650,42 +648,6 @@ function dragEnd(e) {
     e.preventDefault();
     // Stop moving when finger is removed
 }
-
-
-function onDocumentMouseUp(event) {
-    isSnowmanMoving = false;
-    controls.enabled = true;
-
-    // Add any additional logic needed for handling the mouse up event
-}
-
-
-function onDocumentMouseDown(event) {
-    // Check if the dropdown or its children are clicked
-    if (event.target.closest('#dropdown-container')) {
-        // Click is inside dropdown, do not proceed with dragging logic
-        return;
-    }
-
-    // Calculate mouse position in normalized device coordinates
-    const mouse = new THREE.Vector2();
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    // Set up a raycaster
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, camera);
-
-}
-
-
-
-
-document.addEventListener('mouseup', onDocumentMouseUp, false);
-
-
-
-
 
 
 
