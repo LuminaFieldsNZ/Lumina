@@ -153,7 +153,7 @@ function checkCollision() {
     // Now you can use anyaPosition and knifePosition to check for collision
     // For example, check if the distance between them is less than some threshold
     const distance = anyaPosition.distanceTo(knifePosition);
-    const collisionThreshold = .056; // Set your collision threshold
+    const collisionThreshold = .56; // Set your collision threshold
 
     if (distance < collisionThreshold) {
       attachKnifeToAnya();
@@ -253,47 +253,41 @@ function init() {
   camera.position.set(0, 3, 6);
   camera.lookAt(0, 0, 0);
 
-  let ambient = new THREE.AmbientLight(0xffffff, 1);
-  scene.add(ambient);
-  let pointLight = new THREE.PointLight(0xffffff, 0.5);
-  pointLight.position.z = 2500;
-  scene.add(pointLight);
 
-  pointLight.castShadow = true;
-  pointLight.shadow.mapSize.width = 1024;  // Shadow map resolution width
-  pointLight.shadow.mapSize.height = 1024; // Shadow map resolution height
+  // Ambient Light
+     let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+     scene.add(ambientLight);
 
-  // Spotlight setup
-let spotlight = new THREE.SpotLight(0xffffff, 1); // White light with full intensity
-spotlight.position.set(0, 12500, 0); // Adjust the position as needed
+     // Directional Light
+     let directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+     directionalLight.position.set(50, 100, 50); // Adjust position as needed
+     scene.add(directionalLight);
 
-// Creating a target object for the spotlight
-let spotlightTarget = new THREE.Object3D();
-spotlightTarget.position.set(0, 0, 0); // Set this to the center or focus area of your city
-scene.add(spotlightTarget);
+     // Adjust camera far plane
+     camera.far = 10000; // Set this according to the size of your scene
+     camera.updateProjectionMatrix();
 
-spotlight.target = spotlightTarget;
+     // Adjust Spotlight
+     let spotlight = new THREE.SpotLight(0xffffff, 1, 10000, Math.PI / 4, 0.5, 2);
+     spotlight.position.set(0, 100, 0); // Adjust position as needed
+     let spotlightTarget = new THREE.Object3D();
+     spotlightTarget.position.set(0, 0, 0); // Set target position
+     scene.add(spotlightTarget);
+     spotlight.target = spotlightTarget;
+     scene.add(spotlight);
 
-// Add a grid to the scene
-const size = 1200;
-const divisions = 60;
-const gridHelper = new THREE.GridHelper(size, divisions);
-scene.add(gridHelper);
-
-// Adjust these properties as needed
-spotlight.angle = Math.PI / 4;
-spotlight.penumbra = 0.5;
-spotlight.decay = 2;
-spotlight.distance = 0; // No limit to the distance of the light
-
-
-scene.add(spotlight);
+     // Grid Helper
+     const gridSize = 1200;
+     const gridDivisions = 520;
+     const gridHelper = new THREE.GridHelper(gridSize, gridDivisions);
+     scene.add(gridHelper);
 
 
   let loader = new THREE.GLTFLoader();
   loader.load('https://luminafields.com/micheal3.glb', function (gltf) {
     model = gltf.scene;
     scene.add(model);
+    model.position.x += 3.6;
     mixer = new THREE.AnimationMixer(model);
     animations = gltf.animations;
     action = mixer.clipAction(animations[1]);
@@ -309,7 +303,7 @@ scene.add(spotlight);
 
   loader.load('https://luminafields.com/city.glb', function (gltf) {
   city = gltf.scene;
-  city.scale.set(60, 60, 60); // Adjust the 100 factor as needed
+  city.scale.set(0, 0, 0); // Adjust the 100 factor as needed
   scene.add(city);
   city.position.y += 0.2;
   // Perform any additional setup for the city model here
@@ -391,7 +385,7 @@ loader.load('https://luminafields.com/knife.glb', function (gltf) {
 knife = gltf.scene;
 scene.add(knife);
 knife.scale.set(.02, .02, .02); // Adjust the 100 factor as needed
-knife.position.x += -1.2;
+knife.position.x += -6.2;
 knife.position.z += 0.9;
 
 // Perform any additional setup for the city model here
@@ -425,6 +419,64 @@ loader.load('https://luminafields.com/dragon2.glb', function (gltf) {
         console.error('No animations found in dragon2.glb');
     }
 });
+
+
+
+
+
+
+
+
+
+
+loader.load('https://luminafields.com/tree.glb', function (gltf) {
+tree = gltf.scene;
+scene.add(tree);
+tree.scale.set(9, 9, 9); // Adjust the 100 factor as needed
+tree.position.x += -10.2;
+tree.position.z -= .5;
+tree.position.y -= -2.15;
+// Perform any additional setup for the city model here
+});
+
+loader.load('https://luminafields.com/building1.glb', function (gltf) {
+building1 = gltf.scene;
+building1.scale.set(12, 12, 12); // Adjust the 100 factor as needed
+scene.add(building1);
+building1.position.x += 5.2;
+building1.position.z -= .5;
+building1.position.y -= -4.7;
+building1.rotation.y = 825;
+
+// Perform any additional setup for the city model here
+});
+
+loader.load('https://luminafields.com/hobbitmountain.glb', function (gltf) {
+hobbitmountain = gltf.scene;
+hobbitmountain.scale.set(25, 25, 25); // Adjust the 100 factor as needed
+scene.add(hobbitmountain);
+hobbitmountain.position.x += -11.2;
+hobbitmountain.position.z -= 25.5;
+hobbitmountain.position.y -= -7.5;
+
+// Perform any additional setup for the city model here
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -470,7 +522,7 @@ if (dragon_bossMixer && animations[animationIndex]) {
 
 // Function to create a green dot marker
 function createGreenDotMarker(position) {
-    const geometry = new THREE.SphereGeometry(1, 32, 32);
+    const geometry = new THREE.SphereGeometry(.08, 32, 32);
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     const dot = new THREE.Mesh(geometry, material);
     dot.position.copy(position);
