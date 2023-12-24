@@ -78,25 +78,32 @@ function onAnimationFinished(event) {
 }
 
 function updateAnyaMovement() {
-    if (!isAnyaMoving) return;
+  // Enhanced logging
+  console.log(`Anya ready state: ${isAnyaLoaded}, Anya object: ${anya}, Anya position: ${anya?.position}`);
 
-    let distance = anya.position.distanceTo(moveDestination);
-    if (distance < 0.1) {
-        // Anya has reached the destination
-        isAnyaMoving = false;
-        anyaAction.stop();
-        anyaAction = anyaMixer.clipAction(anyaAnimations[1]); // Return to the first animation
-        anyaAction.play();
-        return;
-    }
+  if (!isAnyaLoaded || !anya || !anya.position || isNaN(anya.position.x) || anya.position.x === Infinity) {
+      console.error('Invalid or undefined position detected, resetting Anya');
+      if (anya && anya.position) {
+        anya.position.set(0, 0, 0);
+      }
+      return;
+  }
 
-    // Calculate step based on duration and frame rate
-    let step = distance / (1 * animationDuration2);
-    anya.position.lerp(moveDestination, step);
+  let distance = anya.position.distanceTo(moveDestination);
+  console.log(`Distance to destination: ${distance}, Move destination: X: ${moveDestination.x}, Y: ${moveDestination.y}, Z: ${moveDestination.z}`);
 
-    // Rotate Anya towards the destination
-    anya.lookAt(moveDestination);
+  if (distance < 0.1 || distance === Infinity) {
+      isAnyaMoving = false;
+      // Reset animation if needed...
+      return;
+  }
+
+  let step = Math.min(distance / (1 * animationDuration2), 0.05);
+  anya.position.lerp(moveDestination, step);
+  anya.lookAt(moveDestination);
 }
+
+
 
 function moveAnyaToPosition(worldPosition) {
     // Constrain within 1200x1200 plane
@@ -146,7 +153,7 @@ function checkCollision() {
     // Now you can use anyaPosition and knifePosition to check for collision
     // For example, check if the distance between them is less than some threshold
     const distance = anyaPosition.distanceTo(knifePosition);
-    const collisionThreshold = 1.0; // Set your collision threshold
+    const collisionThreshold = .056; // Set your collision threshold
 
     if (distance < collisionThreshold) {
       attachKnifeToAnya();
@@ -155,7 +162,6 @@ function checkCollision() {
     }
 }
 
-const collisionThreshold = 1.0; // Adjust based on your scale
 
 function attachKnifeToAnya() {
     const anyaHand = anya.getObjectByName('LeftHand'); // Replace 'Hand' with the actual hand part name
@@ -173,7 +179,12 @@ function attachKnifeToAnya() {
 function render() {
     delta = clock.getDelta();
     if (mixer) {
+
+       console.log('Anya position before move:', anya.position);
+      // ... movement logic ...
         mixer.update(delta);
+        console.log('Anya position after move:', anya.position);
+
     }
     // Update the anya mixer
        if (anyaMixer) {
@@ -202,20 +213,6 @@ function render() {
         let focusX, focusY;
         const currentTime = Date.now();
 
-        if (snowman && (isSnowmanMoving || currentTime - lastSnowmanMoveTime < 3000)) {
-            // Calculate focus point from snowman's position
-            const snowmanScreenPos = toScreenPosition(snowman, camera);
-            focusX = (snowmanScreenPos.x / window.innerWidth) * 2 - 1;
-            focusY = -(snowmanScreenPos.y / window.innerHeight) * 2 + 1;
-        } else {
-            // Calculate focus point from dropdown's position
-            dropdownRect = dropdown.getBoundingClientRect();
-            focusX = ((dropdownRect.left + dropdownRect.width / 2) / window.innerWidth) * 2 - 1;
-            focusY = -((dropdownRect.top + dropdownRect.height / 2) / window.innerHeight) * -2;
-        }
-
-        targetRotation.x = focusY;
-        targetRotation.y = focusX;
 
         // Apply rotations to spine and neck
         spine.rotation.y += 0.4 * (targetRotation.y - spine.rotation.y);
@@ -225,9 +222,9 @@ function render() {
     }
 
  checkCollision();
+
  // Update Anya's movement
      updateAnyaMovement();
- camera.lookAt(anya.position);
 
  renderer.render(scene, camera);
 }
@@ -277,6 +274,12 @@ scene.add(spotlightTarget);
 
 spotlight.target = spotlightTarget;
 
+// Add a grid to the scene
+const size = 1200;
+const divisions = 60;
+const gridHelper = new THREE.GridHelper(size, divisions);
+scene.add(gridHelper);
+
 // Adjust these properties as needed
 spotlight.angle = Math.PI / 4;
 spotlight.penumbra = 0.5;
@@ -291,7 +294,6 @@ scene.add(spotlight);
   loader.load('https://luminafields.com/micheal3.glb', function (gltf) {
     model = gltf.scene;
     scene.add(model);
-    model.position.y = -0.7;
     mixer = new THREE.AnimationMixer(model);
     animations = gltf.animations;
     action = mixer.clipAction(animations[1]);
@@ -309,28 +311,18 @@ scene.add(spotlight);
   city = gltf.scene;
   city.scale.set(60, 60, 60); // Adjust the 100 factor as needed
   scene.add(city);
-  city.position.y += 8.2;
+  city.position.y += 0.2;
   // Perform any additional setup for the city model here
 });
 
-loader.load('https://luminafields.com/snowman.glb', function (gltf) {
-snowman = gltf.scene;
-snowman.scale.set(3, 3, 3); // Adjust the 100 factor as needed
-scene.add(snowman);
-snowman.position.x += 2.2;
-snowman.rotation.y = 525;
-
-// Perform any additional setup for the city model here
-});
 
 loader.load('https://luminafields.com/AnyaR.glb', function (gltf) {
-  isAnyaLoaded = true;
 anya = gltf.scene;
 scene.add(anya);
 anya.scale.set(.8, .8, .8); // Adjust the 100 factor as needed
 anya.position.x += -0.6;
-anya.position.y = -0.7;
 anyaAnimations = gltf.animations; // Store animations
+
 // ... after loading the gltf
 if (gltf.animations) {
     walkAnimationIndex = gltf.animations.findIndex(anim => anim.name === 'walk'); // Replace 'walk' with the actual name of the walk animation
@@ -347,6 +339,7 @@ if (gltf.animations) {
         console.error('No animations found in AnyaR.glb');
     }
 
+ isAnyaLoaded = true;
 // Perform any additional setup for the city model here
 });
 
@@ -356,7 +349,6 @@ scene.add(felix);
 felix.scale.set(.5, .5, .4); // Adjust the 100 factor as needed
 felix.position.x += 1.1;
 felix.position.z += 0.5;
-felix.position.y = -0.7;
 felix.rotation.y = 225;
 
 // Create an animation mixer for the felix model
@@ -378,7 +370,6 @@ crycella = gltf.scene;
 scene.add(crycella);
 crycella.scale.set(.9, .9, .9); // Adjust the 100 factor as needed
 crycella.position.x += 0.8;
-crycella.position.y = -0.7;
 crycella.rotation.y = 125;
 
 // Create an animation mixer for the crycella model
@@ -402,7 +393,6 @@ scene.add(knife);
 knife.scale.set(.02, .02, .02); // Adjust the 100 factor as needed
 knife.position.x += -1.2;
 knife.position.z += 0.9;
-knife.position.y = -0.7;
 
 // Perform any additional setup for the city model here
 });
@@ -412,7 +402,7 @@ computers = gltf.scene;
 computers.scale.set(5, 5, 5); // Adjust the 100 factor as needed
 scene.add(computers);
 computers.position.x += -1.2;
-computers.position.y -= .1;
+computers.position.y -= -0.6;
 computers.position.z -= .5;
 // Perform any additional setup for the city model here
 });
@@ -472,6 +462,26 @@ if (dragon_bossMixer && animations[animationIndex]) {
   });
 }
 
+
+
+
+
+
+
+// Function to create a green dot marker
+function createGreenDotMarker(position) {
+    const geometry = new THREE.SphereGeometry(1, 32, 32);
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const dot = new THREE.Mesh(geometry, material);
+    dot.position.copy(position);
+    scene.add(dot);
+}
+
+
+
+
+
+
 function changeAnimation(animationIndex) {
   if (mixer && animations[animationIndex]) {
     action.stop();
@@ -494,6 +504,7 @@ function changeAnimation(animationIndex) {
     pos3 = e.clientX;
     pos4 = e.clientY;
     document.onmouseup = closeDragElement;
+    document.ontouchend = function(event) { closeDragElement(event.changedTouches[0]) };
     document.onmousemove = elementDrag;
   }
 
@@ -525,6 +536,8 @@ function changeAnimation(animationIndex) {
   function closeDragElement() {
       document.onmouseup = null;
       document.onmousemove = null;
+    document.ontouchend = null;
+    document.ontouchmove = null;
 
       // Calculate the screen position of the center of the draggable element
       let rect = elmnt.getBoundingClientRect();
@@ -545,6 +558,8 @@ function changeAnimation(animationIndex) {
       // Find where the ray intersects the plane
       let target = new THREE.Vector3();
       if (raycaster.ray.intersectPlane(plane, target)) {
+        createGreenDotMarker(target);
+
           // Update Anya's target position to the intersection point
           moveAnyaToPosition(target);
       }
@@ -585,30 +600,12 @@ function dragEnd(e) {
 }
 
 
-function onDocumentMouseMove(event) {
-    if (!isSnowmanMoving) return;
+function onDocumentMouseUp(event) {
+    isSnowmanMoving = false;
+    controls.enabled = true;
 
-    const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-    const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    // Create a raycaster
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), camera);
-
-    // Define a horizontal plane at the snowman's height
-    const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -snowman.position.y);
-
-    // Find where the ray intersects the plane
-    const target = new THREE.Vector3();
-    raycaster.ray.intersectPlane(plane, target);
-
-    if (target) {
-        // Move snowman to the intersection point
-        snowman.position.x = target.x;
-        snowman.position.z = target.z;
-    }
+    // Add any additional logic needed for handling the mouse up event
 }
-
 
 
 function onDocumentMouseDown(event) {
@@ -627,25 +624,10 @@ function onDocumentMouseDown(event) {
     const raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse, camera);
 
-    // Check if the snowman is intersected by the ray
-    const intersects = raycaster.intersectObject(snowman, true);
-
-    if (intersects.length > 0) {
-        // The snowman was clicked
-        isSnowmanMoving = true;
-        controls.enabled = false;
-        event.preventDefault(); // Prevent default only if snowman is clicked
-    }
 }
 
 
 
-
-
-function onDocumentMouseUp(event) {
-    isSnowmanMoving = false;
-    controls.enabled = true;
-}
 
 document.addEventListener('mouseup', onDocumentMouseUp, false);
 
