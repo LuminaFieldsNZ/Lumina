@@ -36,27 +36,11 @@ let isKnifeLoaded = false;
 let walkAnimationIndex; // The index of the walk animation in the gltf.animations array
 let moveDestination = new THREE.Vector3();
 let isAnyaMoving = false;
-let animationDuration2 = 1; // Default duration
+let animationDuration2 = 3; // Default duration
 let isWalking = false;
 
 
 
-function startWalking() {
-    if (!isWalking && walkAnimationIndex !== undefined) {
-        anyaAction.stop();
-        anyaAction = anyaMixer.clipAction(gltf.animations[walkAnimationIndex]);
-        anyaAction.play();
-        isWalking = true;
-
-        // Set a timeout to switch back to the first animation
-        setTimeout(() => {
-            anyaAction.stop();
-            anyaAction = anyaMixer.clipAction(gltf.animations[0]);
-            anyaAction.play();
-            isWalking = false;
-        }, 1000); // Switch back after 1 second
-    }
-}
 
 
 function switchToAnimation(animationIndex, playOnce = false) {
@@ -80,30 +64,44 @@ function onAnimationFinished(event) {
 }
 
 function updateAnyaMovement() {
-  // Enhanced logging
-  console.log(`Anya ready state: ${isAnyaLoaded}, Anya object: ${anya}, Anya position: ${anya?.position}`);
+    if (!isAnyaLoaded || !anya || !anya.position || isNaN(anya.position.x) || anya.position.x === Infinity) {
+        console.error('Invalid or undefined position detected, resetting Anya');
+        if (anya && anya.position) {
+            anya.position.set(0, 0, 0);
+        }
+        return;
+    }
 
-  if (!isAnyaLoaded || !anya || !anya.position || isNaN(anya.position.x) || anya.position.x === Infinity) {
-      console.error('Invalid or undefined position detected, resetting Anya');
-      if (anya && anya.position) {
-        anya.position.set(0, 0, 0);
-      }
-      return;
-  }
+    let direction = moveDestination.clone().sub(anya.position).normalize();
+    let speed = 0.06; // or whatever your speed value is
+    let movement = direction.multiplyScalar(speed);
 
-  let distance = anya.position.distanceTo(moveDestination);
-  console.log(`Distance to destination: ${distance}, Move destination: X: ${moveDestination.x}, Y: ${moveDestination.y}, Z: ${moveDestination.z}`);
+    console.log(`Direction: ${JSON.stringify(direction)}, Speed: ${speed}, Movement: ${JSON.stringify(movement)}`);
 
-  if (distance < 0.1 || distance === Infinity) {
-      isAnyaMoving = false;
-      // Reset animation if needed...
-      return;
-  }
+    let distance = anya.position.distanceTo(moveDestination);
 
-  let step = Math.min(distance / (1 * animationDuration2), 0.05);
-  anya.position.lerp(moveDestination, step);
-  anya.lookAt(moveDestination);
+    if (distance < 0.001 || distance === Infinity || isMovingAwayFromDestination(anya.position, moveDestination, movement)) {
+        isAnyaMoving = false;
+        switchToAnimation(0); // Switch back to idle animation
+        return;
+    }
+
+    anya.position.add(movement);
+
+    // After updating the position
+    console.log(`Updated Anya position: ${JSON.stringify(anya.position)}`);
+
+    // Make Anya face the destination
+    anya.lookAt(moveDestination);
 }
+
+function isMovingAwayFromDestination(currentPosition, destination, movement) {
+    let nextPosition = currentPosition.clone().add(movement);
+    return nextPosition.distanceTo(destination) > currentPosition.distanceTo(destination);
+}
+
+
+
 
 
 
@@ -120,8 +118,8 @@ function moveAnyaToPosition(worldPosition) {
 
    // Play the selected animation
    anyaAction.stop();
-   anyaAction = anyaMixer.clipAction(anyaAnimations[1]);
-   anyaAction.setLoop(THREE.LoopOnce);
+   anyaAction = anyaMixer.clipAction(anyaAnimations[5]);
+   anyaAction.setLoop(THREE.LoopRepeat);
    anyaAction.play();
 
    // Use the onFinished callback of the mixer to switch back to idle
@@ -225,8 +223,10 @@ function render() {
 
  checkCollision();
 
- // Update Anya's movement
+ if (isAnyaMoving) {
      updateAnyaMovement();
+ }
+
 
  renderer.render(scene, camera);
 }
@@ -307,7 +307,7 @@ function init() {
     model.position.x += 3.6;
     mixer = new THREE.AnimationMixer(model);
     animations = gltf.animations;
-    action = mixer.clipAction(animations[1]);
+    action = mixer.clipAction(animations[0]);
     action.setLoop(THREE.LoopRepeat);
     action.play();
 
@@ -347,7 +347,7 @@ if (gltf.animations) {
         anyaAction = anyaMixer.clipAction(gltf.animations[0]);
         anyaAction.play();
     } else {
-        console.error('No animations found in AnyaR.glb');
+        console.error('No animations found in anya.glb');
     }
 
  isAnyaLoaded = true;
@@ -391,7 +391,7 @@ crycella.rotation.y = 125;
         crycellaAction = crycellaMixer.clipAction(gltf.animations[0]);
         crycellaAction.play();
     } else {
-        console.error('No animations found in CrycellaFinal.glb');
+        console.error('No animations found in crycella.glb');
     }
 
 // Perform any additional setup for the city model here
