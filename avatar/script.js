@@ -479,6 +479,11 @@ hobbitmountain.position.y -= -7.5;
 
 
 
+let planeGeometry = new THREE.PlaneGeometry(1000, 1000); // Adjust size as needed
+let planeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide, visible: false });
+let plane = new THREE.Mesh(planeGeometry, planeMaterial);
+plane.rotation.x = -Math.PI / 2; // Rotate to horizontal
+scene.add(plane);
 
 
 
@@ -568,29 +573,37 @@ function changeAnimation(animationIndex) {
       pos4 = e.clientY;
       elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
       elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-      updateAnyaPosition();
   }
 
   function updateAnyaPosition() {
       let rect = elmnt.getBoundingClientRect();
       let screenX = rect.left + rect.width / 2;
       let screenY = rect.top + rect.height / 2;
-      let worldPosition = screenToWorld(screenX, screenY, camera);
-      moveAnyaToPosition(worldPosition);
+      let worldPosition = screenToWorld(screenX, screenY, camera, plane);
+      if (worldPosition) {
+          moveAnyaToPosition(worldPosition);
+      }
   }
-  
+
+
   // Helper function to convert screen coordinates to world coordinates
-  function screenToWorld(x, y, camera) {
-      let vec = new THREE.Vector3(
-          (x / window.innerWidth) * 2 - 1,
-          - (y / window.innerHeight) * 2 + 1,
-          0.5 ); // z position for the vector
-      vec.unproject(camera);
-      let dir = vec.sub(camera.position).normalize();
-      let distance = - camera.position.z / dir.z;
-      let pos = camera.position.clone().add(dir.multiplyScalar(distance));
-      return pos;
+  function screenToWorld(x, y, camera, plane) {
+      let mouse = new THREE.Vector2();
+      mouse.x = (x / window.innerWidth) * 2 - 1;
+      mouse.y = -(y / window.innerHeight) * 2 + 1;
+
+      let raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera(mouse, camera);
+
+      let intersects = raycaster.intersectObject(plane);
+
+      if (intersects.length > 0) {
+          return intersects[0].point;
+      } else {
+          return null;
+      }
   }
+
 
 
   function closeDragElement() {
