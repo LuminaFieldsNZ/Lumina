@@ -594,6 +594,44 @@ function changeAnimation(animationIndex) {
 
   handle.onmousedown = dragMouseDown;
 
+  // Touch event handlers specifically for the drag-handle
+handle.addEventListener('touchstart', handleTouchStart, false);
+handle.addEventListener('touchmove', handleTouchMove, false);
+handle.addEventListener('touchend', handleTouchEnd, false);
+
+function handleTouchStart(e) {
+    e.preventDefault();
+    if (e.touches.length == 1) {
+        var touch = e.touches[0];
+        pos3 = touch.pageX;
+        pos4 = touch.pageY;
+    }
+}
+
+function handleTouchMove(e) {
+    e.preventDefault();
+    if (e.touches.length == 1) {
+        var touch = e.touches[0];
+        var newPos1 = pos3 - touch.pageX;
+        var newPos2 = pos4 - touch.pageY;
+        pos3 = touch.pageX;
+        pos4 = touch.pageY;
+
+        // Move the drag-handle
+        handle.style.top = (handle.offsetTop - newPos2) + "px";
+        handle.style.left = (handle.offsetLeft - newPos1) + "px";
+
+        // Update Anya's position based on the drag-handle's new position
+        updateAnyaPosition(touch.pageX, touch.pageY);
+    }
+}
+
+function handleTouchEnd(e) {
+    e.preventDefault();
+    // Code for handling the end of the touch event
+    // Optionally, you can update Anya's final position here
+}
+
   function dragMouseDown(e) {
     e.preventDefault();
     pos3 = e.clientX;
