@@ -301,7 +301,7 @@ function init() {
      plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0); // Plane at y = 0
 
   let loader = new THREE.GLTFLoader();
-  loader.load('https://luminafields.com/micheal3.glb', function (gltf) {
+  loader.load('https://luminafields.com/micheal.glb', function (gltf) {
     model = gltf.scene;
     scene.add(model);
     model.position.x += 3.6;
@@ -327,7 +327,7 @@ function init() {
 });
 
 
-loader.load('https://luminafields.com/AnyaR.glb', function (gltf) {
+loader.load('https://luminafields.com/anya.glb', function (gltf) {
 anya = gltf.scene;
 scene.add(anya);
 anya.scale.set(.8, .8, .8); // Adjust the 100 factor as needed
@@ -376,7 +376,7 @@ felix.rotation.y = 225;
 // Perform any additional setup for the city model here
 });
 
-loader.load('https://luminafields.com/CrycellaFinal.glb', function (gltf) {
+loader.load('https://luminafields.com/crycella.glb', function (gltf) {
 crycella = gltf.scene;
 scene.add(crycella);
 crycella.scale.set(.9, .9, .9); // Adjust the 100 factor as needed
