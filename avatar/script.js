@@ -568,9 +568,17 @@ function changeAnimation(animationIndex) {
       pos4 = e.clientY;
       elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
       elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      updateAnyaPosition();
   }
 
-
+  function updateAnyaPosition() {
+      let rect = elmnt.getBoundingClientRect();
+      let screenX = rect.left + rect.width / 2;
+      let screenY = rect.top + rect.height / 2;
+      let worldPosition = screenToWorld(screenX, screenY, camera);
+      moveAnyaToPosition(worldPosition);
+  }
+  
   // Helper function to convert screen coordinates to world coordinates
   function screenToWorld(x, y, camera) {
       let vec = new THREE.Vector3(
@@ -632,15 +640,15 @@ function dragStart(e) {
 
 function drag(e) {
     e.preventDefault();
-    if (e.touches.length == 1) { // Only deal with one finger
-        var touch = e.touches[0]; // Get the information for finger #1
+    if (e.touches.length == 1) {
+        var touch = e.touches[0];
         pos1 = pos3 - touch.pageX;
         pos2 = pos4 - touch.pageY;
         pos3 = touch.pageX;
         pos4 = touch.pageY;
-        // Move your element
         elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        updateAnyaPosition();
     }
 }
 
