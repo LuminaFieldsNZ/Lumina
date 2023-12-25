@@ -39,6 +39,8 @@ let isAnyaMoving = false;
 let animationDuration2 = 1; // Default duration
 let isWalking = false;
 
+
+
 function startWalking() {
     if (!isWalking && walkAnimationIndex !== undefined) {
         anyaAction.stop();
@@ -277,11 +279,26 @@ function init() {
      scene.add(spotlight);
 
      // Grid Helper
-     const gridSize = 1200;
+     const gridSize = 500;
      const gridDivisions = 520;
      const gridHelper = new THREE.GridHelper(gridSize, gridDivisions);
      scene.add(gridHelper);
 
+     // Create and add the plane to the scene for raycasting
+     let planeGeometry = new THREE.PlaneGeometry(500, 500); // Adjust size as needed
+     let planeMaterial = new THREE.MeshBasicMaterial({
+         color: 0x00ff00,
+         side: THREE.DoubleSide,
+         transparent: true,
+         opacity: 0.5
+     });     let planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+     planeMesh.rotation.x = -Math.PI / 2; // Rotate to horizontal
+     planeMesh.position.set(0, 0, 0); // Adjust position as needed
+     planeMesh.visible = true; // Make the plane visible for debugging
+     scene.add(planeMesh);
+
+     // Define a mathematical plane for raycasting
+     plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0); // Plane at y = 0
 
   let loader = new THREE.GLTFLoader();
   loader.load('https://luminafields.com/micheal3.glb', function (gltf) {
@@ -424,20 +441,50 @@ loader.load('https://luminafields.com/dragon2.glb', function (gltf) {
 
 
 
-
-
-
-
-
 loader.load('https://luminafields.com/tree.glb', function (gltf) {
-tree = gltf.scene;
-scene.add(tree);
-tree.scale.set(9, 9, 9); // Adjust the 100 factor as needed
-tree.position.x += -10.2;
-tree.position.z -= .5;
-tree.position.y -= -2.15;
-// Perform any additional setup for the city model here
+    let tree = gltf.scene;
+    tree.scale.set(9, 9, 9);
+    tree.position.set(-10.2, -2.15, 0);
+    tree.position.y -= -4.25;
+
+    let light = new THREE.PointLight(0xffffff, 10, 100000); // Adjust color, intensity, and distance
+    light.position.set(0, 5, 0); // Adjust light position relative to the tree
+    tree.add(light);
+
+    scene.add(tree);
 });
+
+function addRandomTrees(numberOfTrees) {
+    const treeGridSize = 35; // Size of the grid
+    const halfGridSize = treeGridSize / 2;
+    const groundLevelY = 2; // Set this to the elevation where the ground is
+
+    for (let i = 0; i < numberOfTrees; i++) {
+        loader.load('https://luminafields.com/tree.glb', function (gltf) {
+            let tree = gltf.scene;
+            tree.scale.set(9, 9, 9);
+
+            // Random position within the 30x30 grid
+            let x = Math.random() * treeGridSize - halfGridSize; // Random X within [-15, 15]
+            let z = Math.random() * treeGridSize - halfGridSize; // Random Z within [-15, 15]
+            let y = groundLevelY; // Elevation at ground level
+
+            tree.position.set(x, y, z);
+
+            let light = new THREE.PointLight(0xffffff, 1, 100); // Adjust as needed
+            light.position.set(0, 5, 0); // Position the light above the tree
+            tree.add(light);
+
+            scene.add(tree);
+        });
+    }
+}
+
+
+addRandomTrees(9);
+
+
+
 
 loader.load('https://luminafields.com/building1.glb', function (gltf) {
 building1 = gltf.scene;
@@ -476,17 +523,6 @@ hobbitmountain.position.y -= -7.5;
 
 
 
-
-
-
-let planeGeometry = new THREE.PlaneGeometry(1000, 1000); // Adjust size as needed
-let planeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide, visible: false });
-let plane = new THREE.Mesh(planeGeometry, planeMaterial);
-plane.rotation.x = -Math.PI / 2; // Rotate to horizontal
-scene.add(plane);
-
-
-
 // Handle dragon boss animation selector changes
 const dragonBossDropdown = document.getElementById('dragon-boss-animation-selector');
 dragonBossDropdown.addEventListener('change', function() {
@@ -517,6 +553,8 @@ if (dragon_bossMixer && animations[animationIndex]) {
     let selectedValue = parseInt(this.value);
     changeAnimation(selectedValue);
   });
+
+
 }
 
 
@@ -527,7 +565,7 @@ if (dragon_bossMixer && animations[animationIndex]) {
 
 // Function to create a green dot marker
 function createGreenDotMarker(position) {
-    const geometry = new THREE.SphereGeometry(.08, 32, 32);
+    const geometry = new THREE.SphereGeometry(0.08, 32, 32);
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     const dot = new THREE.Mesh(geometry, material);
     dot.position.copy(position);
@@ -575,10 +613,7 @@ function changeAnimation(animationIndex) {
       elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
   }
 
-  function updateAnyaPosition() {
-      let rect = elmnt.getBoundingClientRect();
-      let screenX = rect.left + rect.width / 2;
-      let screenY = rect.top + rect.height / 2;
+  function updateAnyaPosition(screenX, screenY) {
       let worldPosition = screenToWorld(screenX, screenY, camera, plane);
       if (worldPosition) {
           moveAnyaToPosition(worldPosition);
@@ -586,7 +621,7 @@ function changeAnimation(animationIndex) {
   }
 
 
-  // Helper function to convert screen coordinates to world coordinates
+
   function screenToWorld(x, y, camera, plane) {
       let mouse = new THREE.Vector2();
       mouse.x = (x / window.innerWidth) * 2 - 1;
@@ -595,14 +630,12 @@ function changeAnimation(animationIndex) {
       let raycaster = new THREE.Raycaster();
       raycaster.setFromCamera(mouse, camera);
 
-      let intersects = raycaster.intersectObject(plane);
-
-      if (intersects.length > 0) {
-          return intersects[0].point;
-      } else {
-          return null;
-      }
+      // Assuming 'plane' is a THREE.Plane object positioned in the world
+      let target = new THREE.Vector3();
+      raycaster.ray.intersectPlane(plane, target);
+      return target;
   }
+
 
 
 
@@ -655,21 +688,28 @@ function drag(e) {
     e.preventDefault();
     if (e.touches.length == 1) {
         var touch = e.touches[0];
-        pos1 = pos3 - touch.pageX;
-        pos2 = pos4 - touch.pageY;
-        pos3 = touch.pageX;
-        pos4 = touch.pageY;
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-        updateAnyaPosition();
+        updateAnyaPosition(touch.pageX, touch.pageY);
     }
 }
 
 function dragEnd(e) {
     e.preventDefault();
-    // Stop moving when finger is removed
-}
 
+    // Calculate the screen position of the center of the draggable element
+    let rect = elmnt.getBoundingClientRect();
+    let screenX = rect.left + rect.width / 2;
+    let screenY = rect.top + rect.height / 2;
+
+    // Get the 3D position corresponding to the screen position
+    let worldPosition = screenToWorld(screenX, screenY, camera, plane);
+
+    // Create and place the green dot marker at the 3D position
+    if (worldPosition) {
+        createGreenDotMarker(worldPosition);
+    }
+
+    // Additional code for ending drag, if any...
+}
 
 
 
