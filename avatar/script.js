@@ -1,10 +1,10 @@
 // Global variables
 let scene, camera, renderer, controls;
-let model, crycella, mixer, mixer2, anyaMixer, anyaAction, action2, action;
+let model, crycella, felix, mixer, mixer2, anyaMixer, anyaAction, action2, action;
 let city, computers, delta;
 let felixMixer, felixAction, crycellaMixer, crycellaAction;
 let clock = new THREE.Clock();
-let animations, crycellaAnimations, currentAnimation = 0;
+let animations, crycellaAnimations, felixAnimations, currentAnimation = 0;
 let spine, neck, anya, knife, anyaPosition, knifePosition;
 let targetRotation = new THREE.Vector3();
 let dropdown = document.getElementById('animation-selector');
@@ -17,7 +17,8 @@ const farCollisionThreshold = 4.86;
 let currentTime = Date.now();
 const crycellaFixedPosition = new THREE.Vector3(0.8, 0, 5);
 const crycellaFixedRotationY = 160;
-
+let markers = []; // Array to store green dot markers
+let felixIsRunning = false;
 
 gsap.ticker.add(render);
 
@@ -195,6 +196,98 @@ function moveAnyaToPosition(worldPosition) {
 
 
 
+
+
+
+function updateFelixBehavior() {
+    let closestMarker = null;
+    let closestDistance = Infinity;
+
+    // Find the closest marker to Felix
+    markers.forEach((marker) => {
+        const distance = getDistance(felix, marker);
+        if (distance < closestDistance) {
+            closestDistance = distance;
+            closestMarker = marker;
+        }
+    });
+
+    // Move Felix towards the closest marker at reduced speed
+    if (closestMarker) {
+        const felixSpeedFactor = 1 / 3; // One third of Anya's speed
+        const felixSpeed = 0.06 * felixSpeedFactor;
+        const directionToFelix = closestMarker.position.clone().sub(felix.position).normalize();
+        const felixMovement = directionToFelix.multiplyScalar(felixSpeed);
+        felix.position.add(felixMovement);
+        felix.lookAt(closestMarker.position);
+        switchToFelixAnimation(1); // Run animation while moving
+    }
+
+    // Remove the marker on collision
+    markers.forEach((marker, index) => {
+        if (checkCollision(felix, marker, 0.5)) {
+            scene.remove(marker);
+            markers.splice(index, 1);
+            if (markers.length === 0) {
+                switchToFelixAnimation(0); // Switch to idle animation if no markers left
+            }
+        }
+    });
+}
+
+
+
+function switchToFelixAnimation(animationIndex) {
+    if (felixMixer && felixAnimations) {
+        // Check if the requested animation exists
+        if (animationIndex >= 0 && animationIndex < felixAnimations.length) {
+            // Stop the current animation
+            const currentAction = felixMixer.existingAction(felixAnimations[currentFelixAnimation]);
+            if (currentAction) {
+                currentAction.stop();
+            }
+
+            // Start the new animation
+            const newAction = felixMixer.clipAction(felixAnimations[animationIndex]);
+            newAction.reset();
+            newAction.play();
+        } else {
+            console.error('Felix animation not found for index:', animationIndex);
+        }
+    } else {
+        console.error('Felix mixer or animations not defined.');
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+function checkCollision(object1, object2, threshold) {
+    if (!object1 || !object2) {
+        return false;
+    }
+
+    const position1 = new THREE.Vector3();
+    const position2 = new THREE.Vector3();
+    object1.getWorldPosition(position1);
+    object2.getWorldPosition(position2);
+    const distance = position1.distanceTo(position2);
+
+    return distance < threshold;
+}
+
+
+
+
+
+
 function checkCollision() {
     if (!anya || !knife) {
         // If anya or knife are not yet loaded, exit the function
@@ -357,6 +450,7 @@ function render() {
      updateAnyaMovement();
  }
 
+updateFelixBehavior();
 
  renderer.render(scene, camera);
 }
@@ -718,6 +812,9 @@ function createGreenDotMarker(position) {
     const dot = new THREE.Mesh(geometry, material);
     dot.position.copy(position);
     scene.add(dot);
+
+    markers.push(dot); // Add the new marker to the array
+
 }
 
 
