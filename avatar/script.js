@@ -605,7 +605,7 @@ loader.load('https://luminafields.com/tree.glb', function (gltf) {
 function addRandomTrees(numberOfTrees) {
     const treeGridSize = 35; // Size of the grid
     const halfGridSize = treeGridSize / 2;
-    const groundLevelY = 1; // Set this to the elevation where the ground is
+    const groundLevelY = 2; // Set this to the elevation where the ground is
 
     for (let i = 0; i < numberOfTrees; i++) {
         loader.load('https://luminafields.com/tree.glb', function (gltf) {
@@ -629,7 +629,7 @@ function addRandomTrees(numberOfTrees) {
 }
 
 
-addRandomTrees(9);
+addRandomTrees(5);
 
 
 
@@ -853,6 +853,17 @@ function drag(e) {
     e.preventDefault();
     if (e.touches.length == 1) {
         var touch = e.touches[0];
+
+        // Calculate new position of the element
+        pos1 = pos3 - touch.pageX;
+        pos2 = pos4 - touch.pageY;
+        pos3 = touch.pageX;
+        pos4 = touch.pageY;
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+
+        // Update Anya's position
+        updateAnyaPosition(touch.pageX, touch.pageY);
     }
 }
 
@@ -871,7 +882,6 @@ function dragEnd(e) {
     if (worldPosition) {
         createGreenDotMarker(worldPosition);
     }
-
     // Additional code for ending drag, if any...
 }
 
