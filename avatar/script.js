@@ -1,7 +1,7 @@
 // Global variables
 let scene, camera, renderer, controls;
 let model, crycella, mixer, mixer2, anyaMixer, anyaAction, action2, action;
-let city, snowman, computers, delta;
+let city, computers, delta;
 let felixMixer, felixAction, crycellaMixer, crycellaAction;
 let clock = new THREE.Clock();
 let animations, crycellaAnimations, currentAnimation = 0;
@@ -10,13 +10,11 @@ let targetRotation = new THREE.Vector3();
 let allowHeadTracking = true;
 let dropdown = document.getElementById('animation-selector');
 let dragon_bossMixer;
-let isSnowmanMoving = false;
-let lastSnowmanMoveTime = Date.now();
 let lastRestartTime = 0;
 let animationDuration = 2.9;
 let animationSpeed = 0.2;
-const closeCollisionThreshold = 0.86;
-const farCollisionThreshold = 1.86;
+const closeCollisionThreshold = 0.96;
+const farCollisionThreshold = 4.86;
 let currentTime = Date.now();
 const crycellaFixedPosition = new THREE.Vector3(0.8, 0, 5);
 const crycellaFixedRotationY = 160;
@@ -26,9 +24,6 @@ gsap.ticker.add(render);
 
 document.addEventListener('DOMContentLoaded', (event) => {
   init();
-
-  document.addEventListener('click', changeAnimation);
-  document.addEventListener('touchstart', changeAnimation);
 
   dropdown.addEventListener('change', function() {
     let selectedValue = parseInt(this.value);
@@ -253,43 +248,60 @@ function getDistance(object1, object2) {
 
 
 
-let isInCollisionRangeMainModel = false;
-let isInCollisionRangeCrycella = false;
 
 
+
+let isInCloseRangeMainModel = false;
+let isInFarRangeMainModel = false;
+let isInCloseRangeCrycella = false;
+let isInFarRangeCrycella = false;
 
 function checkDistanceAndTriggerActions() {
     const distanceToMainModel = getDistance(anya, model);
     const distanceToCrycella = getDistance(anya, crycella);
 
-    // Collision with main model
-    if (distanceToMainModel < farCollisionThreshold && !isInCollisionRangeMainModel) {
-        isInCollisionRangeMainModel = true;
-        changeAnimation(1);
-    }
-    if (distanceToMainModel < closeCollisionThreshold && currentTime - lastAlertTime > 5000) {
-        alert("Collision with Micheal!");
-        lastAlertTime = currentTime;
-    }
-    if (distanceToMainModel >= farCollisionThreshold && isInCollisionRangeMainModel) {
-        isInCollisionRangeMainModel = false;
-        resetAnimation();
+    // Collision logic for the main model
+    if (distanceToMainModel < closeCollisionThreshold) {
+        if (!isInCloseRangeMainModel) {
+            isInCloseRangeMainModel = true;
+            changeAnimation(4); // Close collision animation
+            isInFarRangeMainModel = false; // Reset far collision state
+        }
+    } else if (distanceToMainModel < farCollisionThreshold) {
+        if (!isInFarRangeMainModel && !isInCloseRangeMainModel) {
+            isInFarRangeMainModel = true;
+            changeAnimation(6); // Far collision animation
+        }
+    } else {
+        if (isInCloseRangeMainModel || isInFarRangeMainModel) {
+            isInCloseRangeMainModel = false;
+            isInFarRangeMainModel = false;
+            changeAnimation(0); // No collision animation
+        }
     }
 
-    // Collision with Crycella
-    if (distanceToCrycella < closeCollisionThreshold && !isInCollisionRangeCrycella) {
-        isInCollisionRangeCrycella = true;
-        changeCrycellaAnimation(3);
-    }
-    if (distanceToCrycella < closeCollisionThreshold && currentTime - lastAlertTime > 5000) {
-        alert("Collision with Crycella!");
-        lastAlertTime = currentTime;
-    }
-    if (distanceToCrycella >= closeCollisionThreshold && isInCollisionRangeCrycella) {
-        isInCollisionRangeCrycella = false;
-        changeCrycellaAnimation(0);
+    // Collision logic for Crycella
+    if (distanceToCrycella < closeCollisionThreshold) {
+        if (!isInCloseRangeCrycella) {
+            isInCloseRangeCrycella = true;
+            changeCrycellaAnimation(4); // Close collision animation for Crycella
+            isInFarRangeCrycella = false; // Reset far collision state
+        }
+    } else if (distanceToCrycella < farCollisionThreshold) {
+        if (!isInFarRangeCrycella && !isInCloseRangeCrycella) {
+            isInFarRangeCrycella = true;
+            changeCrycellaAnimation(6); // Far collision animation for Crycella
+        }
+    } else {
+        if (isInCloseRangeCrycella || isInFarRangeCrycella) {
+            isInCloseRangeCrycella = false;
+            isInFarRangeCrycella = false;
+            changeCrycellaAnimation(0); // No collision animation for Crycella
+        }
     }
 }
+
+
 
 
 
@@ -305,10 +317,7 @@ function render() {
 
           if (mixer) {
 
-       console.log('Anya position before move:', anya.position);
-      // ... movement logic ...
         mixer.update(delta);
-        console.log('Anya position after move:', anya.position);
 
     }
     // Update the anya mixer
@@ -881,19 +890,6 @@ function changeAnimation(animationIndex) {
         action.play();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
