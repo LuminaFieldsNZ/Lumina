@@ -55,7 +55,7 @@ function updateHeadTracking() {
 
     // Update tracking for each character
     updateCharacterTracking(model, anyaWorldPos, new THREE.Vector3(0, 0, 1)); // Assuming model faces along positive Z-axis initially
-    updateCharacterTracking(felix, anyaWorldPos, new THREE.Vector3(0, 0, 0)); // Adjust initial facing direction if different
+    updateCharacterTracking(felix, anyaWorldPos, new THREE.Vector3(0, 0, -.25)); // Adjust initial facing direction if different
     updateCharacterTracking(crycella, anyaWorldPos, new THREE.Vector3(0, 0, -1)); // Adjust initial facing direction if different
 }
 
@@ -253,6 +253,7 @@ function moveFelixTowardsMarker(marker) {
     if (!felixIsRunning) {
         felixIsRunning = true;
         switchToFelixAnimation(2); // Assuming animation index 1 is running
+        startInterval();
     }
 }
 
@@ -273,7 +274,22 @@ function switchToFelixAnimation(animationIndex) {
 
 
 
+function triggerAnimation() {
+    // Switch to the desired animation (assumed to be index 2)
+    switchToFelixAnimation(1);
 
+    // Set a timeout to switch back to idle animation (assumed to be index 1)
+    setTimeout(() => {
+        switchToFelixAnimation(2); // Switch back to idle animation
+    }, 3000); // Assuming animation[2] takes less than 4 seconds to complete
+}
+
+// Function to start the interval after Felix model has been running for at least 3 seconds
+function startInterval() {
+    setTimeout(() => {
+        setTimeout(triggerAnimation, 4000);
+    }, 3000); // Wait for 3 seconds before starting the interval
+}
 
 
 
