@@ -870,20 +870,38 @@ function drag(e) {
 function dragEnd(e) {
     e.preventDefault();
 
+    // Resetting the drag event handlers
+    document.onmouseup = null;
+    document.onmousemove = null;
+    document.ontouchend = null;
+    document.ontouchmove = null;
+
     // Calculate the screen position of the center of the draggable element
     let rect = elmnt.getBoundingClientRect();
     let screenX = rect.left + rect.width / 2;
     let screenY = rect.top + rect.height / 2;
 
-    // Get the 3D position corresponding to the screen position
-    let worldPosition = screenToWorld(screenX, screenY, camera, plane);
+    // Convert screen coordinates to normalized device coordinates
+    let x = (screenX / window.innerWidth) * 2 - 1;
+    let y = -(screenY / window.innerHeight) * 2 + 1;
 
-    // Create and place the green dot marker at the 3D position
-    if (worldPosition) {
-        createGreenDotMarker(worldPosition);
+    // Set up a raycaster
+    let raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(new THREE.Vector2(x, y), camera);
+
+    // Define a plane at Anya's height
+    let plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -anya.position.y);
+
+    // Find where the ray intersects the plane
+    let target = new THREE.Vector3();
+    if (raycaster.ray.intersectPlane(plane, target)) {
+        moveAnyaToPosition(target);
+        createGreenDotMarker(target);
     }
-    // Additional code for ending drag, if any...
+
+    // Here you can also reset the drag handle's position if needed
 }
+
 
 
 
