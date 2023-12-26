@@ -862,8 +862,6 @@ function drag(e) {
         elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
 
-        // Update Anya's position
-        updateAnyaPosition(touch.pageX, touch.pageY);
     }
 }
 
