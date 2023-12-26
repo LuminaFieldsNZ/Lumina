@@ -1,10 +1,10 @@
 // Global variables
 let scene, camera, renderer, controls;
 let model, crycella, felix, mixer, mixer2, anyaMixer, anyaAction, action2, action;
-let city, computers, delta;
-let felixMixer, felixAction, crycellaMixer, crycellaAction;
+let city, computers, newAction, delta;
+let felixMixer, animationIndex, animationIndex2, crycellaMixer, crycellaAction;
 let clock = new THREE.Clock();
-let animations, crycellaAnimations, felixAnimations, currentAnimation = 0;
+let animations, crycellaAnimations, felixAction, currentAnimation = 0;
 let spine, neck, anya, knife, anyaPosition, knifePosition;
 let targetRotation = new THREE.Vector3();
 let dropdown = document.getElementById('animation-selector');
@@ -45,13 +45,17 @@ let isWalking = false;
 
 
 function updateHeadTracking() {
+
+  if (!anya || !felix || !crycella) {
+       return; // Exit if any models are undefined
+   }
     // Anya's world position
     const anyaWorldPos = new THREE.Vector3();
     anya.getWorldPosition(anyaWorldPos);
 
     // Update tracking for each character
     updateCharacterTracking(model, anyaWorldPos, new THREE.Vector3(0, 0, 1)); // Assuming model faces along positive Z-axis initially
-    updateCharacterTracking(felix, anyaWorldPos, new THREE.Vector3(0, 0, .5)); // Adjust initial facing direction if different
+    updateCharacterTracking(felix, anyaWorldPos, new THREE.Vector3(0, 0, 0)); // Adjust initial facing direction if different
     updateCharacterTracking(crycella, anyaWorldPos, new THREE.Vector3(0, 0, -1)); // Adjust initial facing direction if different
 }
 
@@ -200,6 +204,15 @@ function moveAnyaToPosition(worldPosition) {
 
 
 function updateFelixBehavior() {
+    if (markers.length === 0) {
+        // If there are no markers, make sure Felix is in the idle state
+        if (felixIsRunning) {
+            felixIsRunning = false;
+            switchToFelixAnimation(0); // Switch to idle animation
+        }
+        return;
+    }
+
     let closestMarker = null;
     let closestDistance = Infinity;
 
@@ -212,52 +225,54 @@ function updateFelixBehavior() {
         }
     });
 
-    // Move Felix towards the closest marker at reduced speed
-    if (closestMarker) {
-        const felixSpeedFactor = 1 / 3; // One third of Anya's speed
-        const felixSpeed = 0.06 * felixSpeedFactor;
-        const directionToFelix = closestMarker.position.clone().sub(felix.position).normalize();
-        const felixMovement = directionToFelix.multiplyScalar(felixSpeed);
-        felix.position.add(felixMovement);
-        felix.lookAt(closestMarker.position);
-        switchToFelixAnimation(1); // Run animation while moving
-    }
+    // Check if Felix is close enough to the marker
+    if (closestDistance < 0.5) { // Adjust the threshold as needed
+        // Remove the reached marker
+        scene.remove(closestMarker);
+        markers = markers.filter(marker => marker !== closestMarker);
 
-    // Remove the marker on collision
-    markers.forEach((marker, index) => {
-        if (checkCollision(felix, marker, 0.5)) {
-            scene.remove(marker);
-            markers.splice(index, 1);
-            if (markers.length === 0) {
-                switchToFelixAnimation(0); // Switch to idle animation if no markers left
-            }
+        // If there are no more markers, set Felix to idle
+        if (markers.length === 0) {
+            felixIsRunning = false;
+            switchToFelixAnimation(0); // Switch to idle animation
         }
-    });
+    } else {
+        // Move Felix towards the closest marker
+        moveFelixTowardsMarker(closestMarker);
+    }
 }
 
+function moveFelixTowardsMarker(marker) {
+    const felixSpeed = 0.02; // Adjust speed as necessary
+    const directionToFelix = marker.position.clone().sub(felix.position).normalize();
+    const felixMovement = directionToFelix.multiplyScalar(felixSpeed);
+    felix.position.add(felixMovement);
+    felix.lookAt(marker.position);
+
+    // Check if Felix is already running, if not, trigger running animation
+    if (!felixIsRunning) {
+        felixIsRunning = true;
+        switchToFelixAnimation(2); // Assuming animation index 1 is running
+    }
+}
 
 
 function switchToFelixAnimation(animationIndex) {
-    if (felixMixer && felixAnimations) {
-        // Check if the requested animation exists
-        if (animationIndex >= 0 && animationIndex < felixAnimations.length) {
-            // Stop the current animation
-            const currentAction = felixMixer.existingAction(felixAnimations[currentFelixAnimation]);
-            if (currentAction) {
-                currentAction.stop();
-            }
-
-            // Start the new animation
-            const newAction = felixMixer.clipAction(felixAnimations[animationIndex]);
-            newAction.reset();
-            newAction.play();
-        } else {
-            console.error('Felix animation not found for index:', animationIndex);
-        }
-    } else {
-        console.error('Felix mixer or animations not defined.');
+    if (!felixMixer || !felixAnimations || felixAnimations.length <= animationIndex) {
+        console.error('Felix mixer, animations not defined, or animation index out of range.');
+        return;
     }
+
+    if (felixAction) {
+        felixAction.stop();
+    }
+
+    felixAction = felixMixer.clipAction(felixAnimations[animationIndex]);
+    felixAction.play();
 }
+
+
+
 
 
 
@@ -579,26 +594,26 @@ if (gltf.animations) {
 });
 
 loader.load('https://luminafields.com/FelixGLB.glb', function (gltf) {
-felix = gltf.scene;
-scene.add(felix);
-felix.scale.set(.5, .5, .4); // Adjust the 100 factor as needed
-felix.position.x += 1.1;
-felix.position.z += 0.5;
-felix.rotation.y = 225;
+    felix = gltf.scene;
+    scene.add(felix);
+    felix.scale.set(.5, .5, .4); // Adjust the size as needed
+    felix.position.x += 1.1;
+    felix.position.z += 0.5;
+    felix.rotation.y = 225;
 
-// Create an animation mixer for the felix model
     felixMixer = new THREE.AnimationMixer(felix);
+    felixAnimations = gltf.animations; // Store Felix's animations in a global array
 
-    // Assuming the first animation is the one you want to play
-    if (gltf.animations && gltf.animations.length > 0) {
-        felixAction = felixMixer.clipAction(gltf.animations[0]);
+    // Play the first animation by default (if it exists)
+    if (felixAnimations && felixAnimations.length > 0) {
+        felixAction = felixMixer.clipAction(felixAnimations[0]);
         felixAction.play();
     } else {
-        console.error('No animations found in felixGLB.glb');
+        console.error('No animations found in FelixGLB.glb');
     }
-
-// Perform any additional setup for the city model here
+    // ... rest of your setup for Felix
 });
+
 
 loader.load('https://luminafields.com/crycella.glb', function (gltf) {
     crycella = gltf.scene;
