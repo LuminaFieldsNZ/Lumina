@@ -7,7 +7,6 @@ let clock = new THREE.Clock();
 let animations, crycellaAnimations, currentAnimation = 0;
 let spine, neck, anya, knife, anyaPosition, knifePosition;
 let targetRotation = new THREE.Vector3();
-let allowHeadTracking = true;
 let dropdown = document.getElementById('animation-selector');
 let dragon_bossMixer;
 let lastRestartTime = 0;
@@ -854,7 +853,6 @@ function drag(e) {
     e.preventDefault();
     if (e.touches.length == 1) {
         var touch = e.touches[0];
-        updateAnyaPosition(touch.pageX, touch.pageY);
     }
 }
 
