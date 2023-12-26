@@ -1,18 +1,26 @@
-let scene, camera, renderer, controls, model, mixer, mixer2, anyaMixer, anyaAction, animation2, action2, action, city, snowman, computers, delta;
+// Global variables
+let scene, camera, renderer, controls;
+let model, crycella, mixer, mixer2, anyaMixer, anyaAction, action2, action;
+let city, snowman, computers, delta;
 let felixMixer, felixAction, crycellaMixer, crycellaAction;
 let clock = new THREE.Clock();
-let animations, currentAnimationIndex = 0;
+let animations, crycellaAnimations, currentAnimation = 0;
 let spine, neck, anya, knife, anyaPosition, knifePosition;
 let targetRotation = new THREE.Vector3();
 let allowHeadTracking = true;
 let dropdown = document.getElementById('animation-selector');
-let dropdownRect;
 let dragon_bossMixer;
 let isSnowmanMoving = false;
 let lastSnowmanMoveTime = Date.now();
-let lastRestartTime = 0; // Keep track of the last time the animation was restarted
-let animationDuration = 2.9; // Duration to play before restarting
-let animationSpeed = 0.2; // Speed of the animation (half speed)
+let lastRestartTime = 0;
+let animationDuration = 2.9;
+let animationSpeed = 0.2;
+const closeCollisionThreshold = 0.86;
+const farCollisionThreshold = 1.86;
+let currentTime = Date.now();
+const crycellaFixedPosition = new THREE.Vector3(0.8, 0, 5);
+const crycellaFixedRotationY = 160;
+
 
 gsap.ticker.add(render);
 
@@ -39,6 +47,62 @@ let isAnyaMoving = false;
 let animationDuration2 = 3; // Default duration
 let isWalking = false;
 
+
+
+function updateHeadTracking() {
+    // Anya's world position
+    const anyaWorldPos = new THREE.Vector3();
+    anya.getWorldPosition(anyaWorldPos);
+
+    // Update tracking for each character
+    updateCharacterTracking(model, anyaWorldPos, new THREE.Vector3(0, 0, 1)); // Assuming model faces along positive Z-axis initially
+    updateCharacterTracking(felix, anyaWorldPos, new THREE.Vector3(0, 0, .5)); // Adjust initial facing direction if different
+    updateCharacterTracking(crycella, anyaWorldPos, new THREE.Vector3(0, 0, -1)); // Adjust initial facing direction if different
+}
+
+function updateCharacterTracking(character, targetPosition, initialFacingDirection) {
+    if (!character) {
+        return;
+    }
+
+    // Getting spine and neck bones
+    const spine = character.getObjectByName('Spine');
+    const neck = character.getObjectByName('Neck');
+
+    if (!spine || !neck) {
+        return;
+    }
+
+    // Calculate direction to target from character's head
+    const headWorldPos = new THREE.Vector3();
+    neck.getWorldPosition(headWorldPos);
+    const directionToTarget = targetPosition.clone().sub(headWorldPos).normalize();
+
+    // Adjust for initial facing direction
+    const adjustedDirectionToTarget = directionToTarget.clone().applyQuaternion(
+        new THREE.Quaternion().setFromUnitVectors(initialFacingDirection, new THREE.Vector3(0, 0, 1))
+    );
+
+    // Determine rotations based on adjusted direction
+    const targetYRotation = Math.atan2(adjustedDirectionToTarget.x, adjustedDirectionToTarget.z);
+    const targetXRotation = -Math.asin(adjustedDirectionToTarget.y);
+
+    // Apply rotation with smoothing
+    spine.rotation.y += 0.3 * (targetYRotation - spine.rotation.y);
+    neck.rotation.y += 0.3 * (targetYRotation - neck.rotation.y);
+    spine.rotation.x += 0.3 * (targetXRotation - spine.rotation.x);
+    neck.rotation.x += 0.3 * (targetXRotation - neck.rotation.x);
+}
+
+
+
+function resetAnimation() {
+    // Stop the current animation and reset to the idle animation
+    action.stop();
+    action = mixer.clipAction(animations[0]);
+    action.setLoop(THREE.LoopRepeat);
+    action.play();
+}
 
 
 
@@ -172,13 +236,74 @@ function attachKnifeToAnya() {
     }
 }
 
+let lastAlertTime = 0;
+
+function getDistance(object1, object2) {
+    if (!object1 || !object2) return Infinity;
+
+    const position1 = new THREE.Vector3();
+    const position2 = new THREE.Vector3();
+
+    object1.getWorldPosition(position1);
+    object2.getWorldPosition(position2);
+
+    return position1.distanceTo(position2);
+}
+
+
+
+
+let isInCollisionRangeMainModel = false;
+let isInCollisionRangeCrycella = false;
+
+
+
+function checkDistanceAndTriggerActions() {
+    const distanceToMainModel = getDistance(anya, model);
+    const distanceToCrycella = getDistance(anya, crycella);
+
+    // Collision with main model
+    if (distanceToMainModel < farCollisionThreshold && !isInCollisionRangeMainModel) {
+        isInCollisionRangeMainModel = true;
+        changeAnimation(1);
+    }
+    if (distanceToMainModel < closeCollisionThreshold && currentTime - lastAlertTime > 5000) {
+        alert("Collision with Micheal!");
+        lastAlertTime = currentTime;
+    }
+    if (distanceToMainModel >= farCollisionThreshold && isInCollisionRangeMainModel) {
+        isInCollisionRangeMainModel = false;
+        resetAnimation();
+    }
+
+    // Collision with Crycella
+    if (distanceToCrycella < closeCollisionThreshold && !isInCollisionRangeCrycella) {
+        isInCollisionRangeCrycella = true;
+        changeCrycellaAnimation(3);
+    }
+    if (distanceToCrycella < closeCollisionThreshold && currentTime - lastAlertTime > 5000) {
+        alert("Collision with Crycella!");
+        lastAlertTime = currentTime;
+    }
+    if (distanceToCrycella >= closeCollisionThreshold && isInCollisionRangeCrycella) {
+        isInCollisionRangeCrycella = false;
+        changeCrycellaAnimation(0);
+    }
+}
+
+
+
+
 
 
 
 
 function render() {
-    delta = clock.getDelta();
-    if (mixer) {
+
+      currentTime = Date.now(); // Update current time
+      delta = clock.getDelta();
+
+          if (mixer) {
 
        console.log('Anya position before move:', anya.position);
       // ... movement logic ...
@@ -209,18 +334,15 @@ function render() {
         mixer2.update(delta); // Continue to update the mixer
     }
 
-    if (spine && neck && allowHeadTracking) {
-        let focusX, focusY;
-        const currentTime = Date.now();
+    if (crycella) {
+       crycella.position.set(crycellaFixedPosition.x, crycellaFixedPosition.y, crycellaFixedPosition.z);
+       crycella.rotation.y = THREE.Math.degToRad(crycellaFixedRotationY);
 
+   }
+    checkDistanceAndTriggerActions();
 
-        // Apply rotations to spine and neck
-        spine.rotation.y += 0.4 * (targetRotation.y - spine.rotation.y);
-        neck.rotation.y += 0.3 * (targetRotation.y - neck.rotation.y);
-        spine.rotation.x += 0.4 * (targetRotation.x - spine.rotation.x);
-        neck.rotation.x += 0.4 * (targetRotation.x - neck.rotation.x);
-    }
-
+    // Update head tracking
+    updateHeadTracking();
  checkCollision();
 
  if (isAnyaMoving) {
@@ -377,25 +499,43 @@ felix.rotation.y = 225;
 });
 
 loader.load('https://luminafields.com/crycella.glb', function (gltf) {
-crycella = gltf.scene;
-scene.add(crycella);
-crycella.scale.set(.9, .9, .9); // Adjust the 100 factor as needed
-crycella.position.x += 0.8;
-crycella.rotation.y = 125;
+    crycella = gltf.scene;
+    scene.add(crycella);
+    crycella.scale.set(.9, .9, .9); // Adjust the 100 factor as needed
+    crycella.position.set(crycellaFixedPosition.x, crycellaFixedPosition.y, crycellaFixedPosition.z);
+    crycella.rotation.y = THREE.Math.degToRad(crycellaFixedRotationY);
 
-// Create an animation mixer for the crycella model
+    // Create an animation mixer for the crycella model
     crycellaMixer = new THREE.AnimationMixer(crycella);
 
-    // Assuming the first animation is the one you want to play
     if (gltf.animations && gltf.animations.length > 0) {
         crycellaAction = crycellaMixer.clipAction(gltf.animations[0]);
         crycellaAction.play();
     } else {
         console.error('No animations found in crycella.glb');
     }
+});
 
+
+loader.load('https://luminafields.com/booth.glb', function (gltf) {
+booth = gltf.scene;
+scene.add(booth);
+booth.scale.set(3, 3, 3); // Adjust the 100 factor as needed
+booth.rotation.y = 40;
+booth.position.z += 6;
+booth.position.x += 2;
+booth.position.y += 1.6;
 // Perform any additional setup for the city model here
 });
+
+
+
+
+
+
+
+
+
 
 loader.load('https://luminafields.com/knife.glb', function (gltf) {
   isKnifeLoaded = true;
@@ -577,15 +717,33 @@ function createGreenDotMarker(position) {
 
 
 
-function changeAnimation(animationIndex) {
-  if (mixer && animations[animationIndex]) {
-    action.stop();
-    currentAnimationIndex = animationIndex;
-    action = mixer.clipAction(animations[currentAnimationIndex]);
-    action.setLoop(THREE.LoopRepeat);
-    action.play();
-  }
+// Function to change animation based on selected animation
+function changeAnimation(selectedAnimation) {
+    if (mixer && animations[selectedAnimation]) {
+        action.stop();
+        currentAnimation = selectedAnimation;
+        action = mixer.clipAction(animations[currentAnimation]);
+        action.setLoop(THREE.LoopRepeat);
+        action.play();
+    }
 }
+
+function changeCrycellaAnimation(selectedAnimation) {
+    if (crycellaMixer && animations[selectedAnimation]) {
+        crycellaAction.stop();
+        crycellaAction = crycellaMixer.clipAction(animations[selectedAnimation]);
+        crycellaAction.setLoop(THREE.LoopRepeat);
+        crycellaAction.play();
+
+        // Reapply fixed position and rotation
+        crycella.position.set(crycellaFixedPosition.x, crycellaFixedPosition.y, crycellaFixedPosition.z);
+        crycella.rotation.y = THREE.Math.degToRad(crycellaFixedRotationY);
+
+    }
+}
+
+
+
 
 (function makeDropdownMovable() {
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -709,6 +867,37 @@ function dragEnd(e) {
 
     // Additional code for ending drag, if any...
 }
+
+
+
+
+
+function changeAnimation(animationIndex) {
+    if (mixer && animations[animationIndex]) {
+        action.stop();
+        currentAnimationIndex = animationIndex;
+        action = mixer.clipAction(animations[currentAnimationIndex]);
+        action.setLoop(THREE.LoopRepeat);
+        action.play();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
