@@ -1,17 +1,14 @@
 // Global variables
 let scene, camera, renderer, controls;
-let model, crycella, felix, mixer, mixer2, anyaMixer, anyaAction, action2, action;
+let model, crycella, felix, mixer, anyaMixer, anyaAction, action2, action;
 let city, computers, newAction, delta;
 let felixMixer, animationIndex, animationIndex2, crycellaMixer, crycellaAction;
 let clock = new THREE.Clock();
 let animations, crycellaAnimations, felixAction, currentAnimation = 0;
-let spine, neck, anya, knife, anyaPosition, knifePosition;
+let spine, neck, anya, knife, knifePosition;
 let targetRotation = new THREE.Vector3();
 let dropdown = document.getElementById('animation-selector');
-let dragon_bossMixer;
 let lastRestartTime = 0;
-let animationDuration = 2.9;
-let animationSpeed = 0.2;
 const closeCollisionThreshold = 0.96;
 const farCollisionThreshold = 4.86;
 let currentTime = Date.now();
@@ -42,6 +39,21 @@ let isAnyaMoving = false;
 let animationDuration2 = 3; // Default duration
 let isWalking = false;
 
+
+
+function checkCollision(object1, object2, threshold) {
+    if (!object1 || !object2) {
+        return false;
+    }
+
+    const position1 = new THREE.Vector3();
+    const position2 = new THREE.Vector3();
+    object1.getWorldPosition(position1);
+    object2.getWorldPosition(position2);
+    const distance = position1.distanceTo(position2);
+
+    return distance < threshold;
+}
 
 
 function updateHeadTracking() {
@@ -300,19 +312,6 @@ function startInterval() {
 
 
 
-function checkCollision(object1, object2, threshold) {
-    if (!object1 || !object2) {
-        return false;
-    }
-
-    const position1 = new THREE.Vector3();
-    const position2 = new THREE.Vector3();
-    object1.getWorldPosition(position1);
-    object2.getWorldPosition(position2);
-    const distance = position1.distanceTo(position2);
-
-    return distance < threshold;
-}
 
 
 
@@ -325,7 +324,6 @@ function checkCollision() {
         return;
     }
 
-    const anyaPosition = new THREE.Vector3();
     const knifePosition = new THREE.Vector3();
 
     // Get the world position of anya and knife
@@ -482,6 +480,8 @@ function render() {
  }
 
 updateFelixBehavior();
+updateDragonBehavior();
+
 
  renderer.render(scene, camera);
 }
@@ -691,26 +691,6 @@ computers.position.z -= .5;
 // Perform any additional setup for the city model here
 });
 
-loader.load('https://luminafields.com/dragon2.glb', function (gltf) {
-    dragon_boss = gltf.scene;
-    scene.add(dragon_boss);
-    dragon_boss.scale.set(8, 8, 8);
-    dragon_boss.position.y += 5.2;
-    dragon_boss.position.z += -30.2;
-
-    mixer2 = new THREE.AnimationMixer(dragon_boss);
-    const dragonAnimations = gltf.animations;
-
-    if (dragonAnimations && dragonAnimations.length > 0) {
-        action2 = mixer2.clipAction(dragonAnimations[0]);
-        action2.timeScale = animationSpeed; // Set the animation speed to half
-        action2.play();
-    } else {
-        console.error('No animations found in dragon2.glb');
-    }
-});
-
-
 
 
 
@@ -786,33 +766,6 @@ hobbitmountain.position.y -= -7.5;
 
 
 
-
-
-
-
-
-
-
-
-
-
-// Handle dragon boss animation selector changes
-const dragonBossDropdown = document.getElementById('dragon-boss-animation-selector');
-dragonBossDropdown.addEventListener('change', function() {
-    const selectedValue = parseInt(this.value);
-    changeDragonBossAnimation(selectedValue);
-});
-
-
-function changeDragonBossAnimation(animationIndex) {
-if (dragon_bossMixer && animations[animationIndex]) {
-    const action = dragon_bossMixer.clipAction(animations[animationIndex]);
-    action.reset();
-    action.play();
-}
-}
-
-
   renderer = new THREE.WebGLRenderer({ alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
@@ -829,9 +782,6 @@ if (dragon_bossMixer && animations[animationIndex]) {
 
 
 }
-
-
-
 
 
 
@@ -907,7 +857,7 @@ function changeCrycellaAnimation(selectedAnimation) {
   }
 
   function updateAnyaPosition(screenX, screenY) {
-      let worldPosition = screenToWorld(screenX, screenY, camera, plane);
+      worldPosition = screenToWorld(screenX, screenY, camera, plane);
       if (worldPosition) {
           moveAnyaToPosition(worldPosition);
       }
