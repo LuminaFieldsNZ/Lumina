@@ -275,41 +275,9 @@ function updateListener(event, dataObj) {
       }
     }
 
-    if (colorMapping[largestElementId]) {
-          var soulFrame = document.getElementById('soulFrame');
-          if (soulFrame) {
-              soulFrame.contentWindow.postMessage({ color: colorMapping[largestElementId] }, '*');
-          }
-      } else {
-          console.error("Color not defined for: " + largestElementId);
-      }
     // alert("The largest number is: " + largestNumber + "\nSpan ID: " + largestElementId);
     document.getElementById("titleChange").innerHTML = largestElementId;
     setTimeout(function() {
         document.getElementById("titleChange2").innerHTML = pHeading;
     }, 1500); // 1500 milliseconds = 1.5 seconds
-  }
-
-
-  function randomActionAndColor() {
-      // Randomly set values within specified constraints
-      speedx = Math.random() * (120 - 10) + 10; // Range: 10 to 120
-      spikesx = Math.random() * (2 - 0.05) + 0.05; // Range: 0.05 to 2
-      processingx = Math.random() * (2.4 - 0.6) + 0.6; // Range: 0.6 to 2.4
-
-      // Randomly choose a color
-      const colorKeys = Object.keys(colorMapping);
-      const randomColorKey = colorKeys[Math.floor(Math.random() * colorKeys.length)];
-      const blobColor = colorMapping[randomColorKey];
-
-      // Send the random values to the blob
-      var soulFrame = document.getElementById('soulFrame');
-      if (soulFrame) {
-          soulFrame.contentWindow.postMessage({
-              color: blobColor,
-              speed: speedx,
-              spikes: spikesx,
-              processing: processingx
-          }, '*');
-      }
   }

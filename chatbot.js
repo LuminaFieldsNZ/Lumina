@@ -1,4 +1,8 @@
+const chatWindow = document.getElementById('chatWindow');
 
+function scrollToBottom() {
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
 
  baseData =
 [
@@ -21,21 +25,6 @@ function exitAll() {
 
 
 let userId = "Guest";
-let state = {
-     hair: './hair/hair2.png',
-     glasses: './glasses/glasses0.png',
-     body: './body/body0.png',
-     outer: './outer/outer0.png'
- };
-let completedProjects = [];
-let homePage = "";
-let userCompletedProjects = [];
-let conversationData = [];
-
-
-
-
-
 
 
 setTimeout(function() {
@@ -191,18 +180,14 @@ function parseCollectiveCommand(data) {
     return "Command accepted: " + action + " " + value + " points in " + category;
 }
 
-function sendMessage2() {
-  const inputElem2 = document.getElementById('userNameChange');
-  userId = inputElem2.value;
-  chatWindow.innerHTML += '<p>Collective: Hello again ' + userId + '</p>';
+function introduction() {
+  chatWindow.innerHTML += '<p>Collective: Hello ' + userId + '</p>';
   scrollToBottom();
 }
 
 function sendMessage(textareaValue) {
     const message = textareaValue;
 
-    // Ensure chatWindow exists and then update its content
-      const chatWindow = document.getElementById('chatWindow');
       if (chatWindow) {
           const newMessage = document.createElement('p');
           newMessage.textContent = userId + ': ' + message;
@@ -210,11 +195,8 @@ function sendMessage(textareaValue) {
           scrollToBottom(chatWindow);
       }
 
-
     setTimeout(() => {
-        if (message.trim().toLowerCase().startsWith('<frame>')) {
-            sendHTMLMessage(message, 'User');
-        } else {
+
             const commandResponse = parseCollectiveCommand(message);
             let response;
             if (commandResponse) {
@@ -226,49 +208,22 @@ function sendMessage(textareaValue) {
                 chatWindow.innerHTML += '<p>Collective: ' + response + '</p>';
                 scrollToBottom();
             }
-        }
-
-        const timestamp = new Date().toISOString();
-        let response = getResponse(message);
-        if (!isRedundant(message)) {
-            // Append the variables to the response string
-            response += `
-{
-  state: ${JSON.stringify(state)},
-  conversationData: ${JSON.stringify(conversationData)}
-}`;
-            conversationData.push([message, response, timestamp]);
-        }
-
     }, 1000);
 }
 
 
-
 function updateChatWindow(sender, message) {
-    const chatWindow = document.getElementById('chatWindow');
     if (chatWindow) {
         const messageElement = document.createElement('p');
         messageElement.textContent = `${sender}: ${message}`;
         chatWindow.appendChild(messageElement);
-        chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to the bottom
+        scrollToBottom();
     }
 }
-
-
-
-
-function isRedundant(message) {
-    return conversationData.some(entry => entry[0] === message);
-}
-
 
 
 function getResponse(message) {
     let response = searchInData(message, baseData);
-    if (!response) {
-        response = searchInData(message, conversationData);
-    }
     return response || "I can't answer that until you provide me with an Updated OS.";
 }
 
@@ -276,23 +231,6 @@ function searchInData(message, data) {
     const closestQuestion = getClosestQuestion(message, data);
     return data.find(entry => entry[0] === closestQuestion)?.[1] || null;
 }
-
-
-function isValidDataFormat(data) {
-    if (!data || !data.conversationData || !Array.isArray(data.conversationData)) {
-        return false;
-    }
-    for (const entry of data.conversationData) {
-        if (!Array.isArray(entry) || entry.length !== 3 || typeof entry[0] !== 'string' || typeof entry[1] !== 'string' || typeof entry[2] !== 'string') {
-            return false;
-        }
-    }
-    if (!data.userData || typeof data.userData.id !== 'string' || typeof data.userData.state !== 'object' || typeof data.userData.mainHeading !== 'object' || typeof data.userData.populations !== 'object' || typeof data.userData.homePage !== 'string' || !Array.isArray(data.userData.completedProjects)) {
-        return false;
-    }
-    return true;
-}
-
 
 function postMessageToAllFrames(win, message) {
     // Iterate through all iframes in the current window/frame and post the message recursively
@@ -304,21 +242,11 @@ function postMessageToAllFrames(win, message) {
 
 
 
-
-function scrollToBottom() {
-    const chatWindow = document.getElementById('chatWindow');
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-}
-
-
   function postMessageToParent(value, category) {
     const message = {};
     message[category] = value;
-    window.parent.postMessage(message, 'https://luminafields.com/');
+    window.parent.postMessage(message, '*');
   }
-
-
-
 
     window.addEventListener('message', function(event) {
 

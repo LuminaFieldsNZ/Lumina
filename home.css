@@ -263,7 +263,6 @@ button, a {
   height: 100%;
   background-color: var(--app-container);
   transition: 0.2s;
-  max-width: 1800px;
 }
 .app-container button, .app-container input, .app-container optgroup, .app-container select {
   font-family: "DM Sans", sans-serif;

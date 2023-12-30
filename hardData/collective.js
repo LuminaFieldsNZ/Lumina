@@ -696,5 +696,5 @@ let baseData =
 window.onload = function() {
 setTimeout(function() {
   const collectiveContent = baseData;
-  window.parent.postMessage(collectiveContent, 'https://luminafields.com/');}, 1000);
+  window.parent.postMessage(collectiveContent, '*');}, 1000);
 };

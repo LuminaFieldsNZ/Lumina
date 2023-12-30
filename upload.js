@@ -51,6 +51,7 @@ function loadFile(event) {
             countKeywordsForNationsAndUpdate();
             scrollToBottom();
             sendValuesToSoul();
+            checkAndPromptForUsername();
         };
         reader.readAsText(input.files[0]);
     }
@@ -182,3 +183,36 @@ function countKeywordsForNationsAndUpdate() {
 }
 
 // Call this function to count the nation-related keywords in the text.
+
+// Function to be called every 5 seconds
+function periodicUpdate() {
+    countEmojisAndUpdate();
+    countEmotionKeywordsAndUpdate();
+    countKeywordsForNationsAndUpdate();
+    sendValuesToSoul();
+    checkAndPromptForUsername();
+    playNarrativeOnce();
+    scrollToBottom();
+}
+
+// Set up the interval
+setInterval(periodicUpdate, 9000); // 5000 milliseconds = 5 seconds
+
+
+function checkAndPromptForUsername() {
+    const textContainer = document.getElementById('textContainer');
+    const text = textContainer.textContent || textContainer.innerText;
+    const usernameRegex = /🐕Username:(.+)🐕/; // Regex to find the username line
+    const found = usernameRegex.test(text);
+
+    if (!found) {
+        let username = prompt("Please enter your username. It will be added to the document in the format 🐕Username:{Your Name}🐕");
+        if (username && username.trim()) {
+            textContainer.textContent += `🐕Username:${username.trim()}🐕\n`;
+                userId = username.trim();
+                introduction();
+        }
+    }
+}
+
+// Call this function at an appropriate time, e.g., after loading the file
