@@ -1,7 +1,4 @@
 
-faxiumResponses = {
-  "Hello": "Hey, it's Faxium here!"
-}
 
  baseData =
 [
@@ -30,8 +27,6 @@ let state = {
      body: './body/body0.png',
      outer: './outer/outer0.png'
  };
-let populations = {};
-let mainHeading = {};
 let completedProjects = [];
 let homePage = "";
 let userCompletedProjects = [];
@@ -44,7 +39,6 @@ let conversationData = [];
 
 
 setTimeout(function() {
-    chatWindow.innerHTML += '<p>Collective: <font id="greeting"></font>, <a id="loginPlace2">before we continue a <b>profile.json</b> file is needed.</a> <button class="btn-56" style="font-size:.7em;"  onclick="exportData()">Download</button></p>';
     const greetingElement = document.getElementById('greeting');
     const currentTime = new Date();
     const currentHour = currentTime.getHours();
@@ -52,42 +46,22 @@ setTimeout(function() {
     let greeting;
 
     if (currentHour >= 5 && currentHour < 12) {
-      greeting = 'Good morning';
+      greeting = 'Morning';
     } else if (currentHour >= 12 && currentHour < 18) {
-      greeting = 'Good afternoon';
+      greeting = 'Afternoon';
     } else {
-      greeting = 'Good evening';
+      greeting = 'Evening';
     }
 
     greetingElement.textContent = greeting;
     scrollToBottom();
 }, 2200);
-setTimeout(function() {
-    chatWindow.innerHTML += '<a onclick="document.getElementById("baseDataSet").addEventListener("change", importBaseDataSet);"><p id="loginPlace">Upload your profile:<br><label for="baseDataSet"  style="font-size:.7em; display: inline-block;" class="btn-56">Import Data Set</label><input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" style="display: none;"></p></a>';
-    scrollToBottom();
-}, 600);
 
 function showCommands() {
         chatWindow.innerHTML += '<p>Commands:<br><font style="color: lightblue;">[add]</font> Will increase a quantity<br><font style="color: lightblue;">[subtract]</font> Will decrease a quantity<br><font style="color: lightblue;">[set]</font> Will reset value to specified amount<br><font style="color: purple;">[frame]</font> Will create live elements</p>';
         scrollToBottom();
 }
-function changeName(){
-setTimeout(function() {
-    chatWindow.innerHTML += '<p>Collective: What should I call you? <input type="textarea" id="userNameChange" placeholder="Enter name..."><button class="btn-56" style="font-size:.7em;" onclick="sendMessage2()">Change</button></p>';
-    scrollToBottom();
-}, 1200);}
 
-function exportData() {
-    updateJSONDisplay(); // Update the JSON editor with the latest data
-
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jsonEditor.value);
-    const downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", "profile.json");
-    document.body.appendChild(downloadAnchorNode);
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
-}
 
 
 function levenshtein(a, b) {
@@ -224,20 +198,18 @@ function sendMessage2() {
   scrollToBottom();
 }
 
-function sendMessage() {
-    const inputElem = document.getElementById('userInput');
-    const message = inputElem.value;
-    inputElem.value = '';
+function sendMessage(textareaValue) {
+    const message = textareaValue;
 
-    const chatWindow = document.getElementById('chatWindow');
-    chatWindow.innerHTML += '<p>' + userId + ': ' + message + '</p>';
-    scrollToBottom();
+    // Ensure chatWindow exists and then update its content
+      const chatWindow = document.getElementById('chatWindow');
+      if (chatWindow) {
+          const newMessage = document.createElement('p');
+          newMessage.textContent = userId + ': ' + message;
+          chatWindow.appendChild(newMessage);
+          scrollToBottom(chatWindow);
+      }
 
-    // Check if the message starts with '@faxium'
-    if (message.trim().toLowerCase().startsWith('@faxium')) {
-        sendFaxiumMessage(message, 'User');
-        return; // Return early to prevent further processing
-    }
 
     setTimeout(() => {
         if (message.trim().toLowerCase().startsWith('<frame>')) {
@@ -268,12 +240,20 @@ function sendMessage() {
             conversationData.push([message, response, timestamp]);
         }
 
-        updateJSONDisplay();
     }, 1000);
 }
 
 
 
+function updateChatWindow(sender, message) {
+    const chatWindow = document.getElementById('chatWindow');
+    if (chatWindow) {
+        const messageElement = document.createElement('p');
+        messageElement.textContent = `${sender}: ${message}`;
+        chatWindow.appendChild(messageElement);
+        chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to the bottom
+    }
+}
 
 
 
@@ -295,23 +275,6 @@ function getResponse(message) {
 function searchInData(message, data) {
     const closestQuestion = getClosestQuestion(message, data);
     return data.find(entry => entry[0] === closestQuestion)?.[1] || null;
-}
-
-function updateJSONDisplay() {
-  // Your existing code to update the JSON editor
-  const jsonEditor = document.getElementById('jsonEditor');
-  const combinedData = {
-    conversationData: conversationData,
-    userData: {
-      id: userId,
-      state: state,
-      mainHeading: mainHeading,
-      populations: populations,
-      completedProjects: userCompletedProjects,
-      homePage: homePage
-    }
-  };
-  jsonEditor.value = JSON.stringify(combinedData, null, 2);
 }
 
 
@@ -339,62 +302,6 @@ function postMessageToAllFrames(win, message) {
     }
 }
 
-function importBaseDataSet(event) {
-    const files = event.target.files;
-    if (files.length === 0) {
-        return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = function (event) {
-        try {
-            const data = JSON.parse(event.target.result);
-
-            if (isValidDataFormat(data)) {
-                // Update global variables
-                conversationData = data.conversationData;
-                userId = data.userData.id;
-                state = data.userData.state;
-                mainHeading = data.userData.mainHeading;
-                populations = data.userData.populations;
-                completedProjects = data.userData.completedProjects;
-                homePage = data.userData.homePage;
-
-                    const messageUpdate = {
-                        conversationData: data.conversationData,
-                        userId: data.userData.id,
-                        state: data.userData.state,
-                        mainHeading: data.userData.mainHeading,
-                        populations: data.userData.populations,
-                        completedProjects: data.userData.completedProjects,
-                        homePage: data.userData.homePage,
-                    };
-
-                    postMessageToAllFrames(window.top, messageUpdate); // Start from the top-level window
-
-
-                // Update UI elements
-                updateCharacterFromState(); // Update character appearance based on the state
-                updateJSONDisplay(); // Update the JSON editor with the latest data
-                parent.postMessage({ action: 'openHome', value: 'openHome' }, 'https://luminafields.com/');
-                document.getElementById('loginPlace2').innerHTML = 'At the end of each session download your updated profile.json file.';
-                document.getElementById("load1").style.color = "grey";
-                document.getElementById("load1").innerHTML = userId;
-                document.getElementById('loginPlace').style.display = 'none';
-                document.getElementById("load3").style.color = "lightgreen";
-                document.getElementById("load3").innerHTML = 'User:';
-                document.getElementById('popupIframe').value = homePage;
-                if (userId == "Guest"){changeName();}
-            } else {
-                alert('Invalid data format.');
-            }
-        } catch (error) {
-            alert('Error reading the file: ' + error.message);
-        }
-    };
-    reader.readAsText(files[0]);
-}
 
 
 
@@ -411,118 +318,12 @@ function scrollToBottom() {
   }
 
 
-  function updateCharacterFromState() {
-      document.getElementById('hairLayer').src = state.hair;
-      document.getElementById('glassesLayer').src = state.glasses;
-      document.getElementById('bodyLayer').src = state.body;
-      document.getElementById('outerLayer').src = state.outer;
-  }
 
 
     window.addEventListener('message', function(event) {
 
-        if (event.data.action === 'faxiumContent') {
-            faxiumResponses = event.data.faxiumContent;
-        }
         if (event.data.action === 'collectiveContent') {
             baseData = event.data.collectiveContent;
         }
-        if (event.data.action === 'hair') {
-            state.hair = event.data.value;
-            updateCharacterFromState();
-            updateJSONDisplay();
-        }
-        if (event.data.action === 'glasses') {
-            state.glasses = event.data.value;
-            updateCharacterFromState();
-            updateJSONDisplay();
-        }
-        if (event.data.action === 'body') {
-            state.body = event.data.value;
-            updateCharacterFromState();
-            updateJSONDisplay();
-        }
-        if (event.data.action === 'outer') {
-            state.outer = event.data.value;
-            updateCharacterFromState();
-            updateJSONDisplay();
-        }
+
     }, false);
-
-
-
-
-
-    function handleUserInput() {
-    const userInputField = document.getElementById('userInput');
-    const message = userInputField.value;
-    if (message) {
-        sendFaxiumMessage(message, 'User');
-        userInputField.value = '';  // Clear the input field
-    }
-}
-
-function sendFaxiumMessage(message, sender) {
-    const chatWindow = document.getElementById('chatWindow');
-    let response;
-
-    // Convert the message to lowercase for case-insensitive checks
-    const lowerCaseMessage = message.toLowerCase();
-
-    // Check if the message starts with '@faxium' (case-insensitive and ignoring spaces)
-    if (lowerCaseMessage.startsWith('@faxium')) {
-        // Remove '@faxium' from the message (case-insensitive and ignoring spaces)
-        const faxiumMessage = message.replace(/^@\s*faxium\s+/i, '').trim();
-
-        // Initialize the maximum allowed Levenshtein distance
-        const maxDistance = 7;
-
-        // Check if the faxiumMessage is similar to any of the predefined questions
-        let closestQuestion = null;
-
-        for (const question of Object.keys(faxiumResponses)) {
-            const distance = levenshtein(faxiumMessage, question.toLowerCase());
-            if (distance <= maxDistance && (closestQuestion === null || distance < levenshtein(faxiumMessage, closestQuestion.toLowerCase()))) {
-                closestQuestion = question;
-            }
-        }
-
-        if (closestQuestion) {
-            response = "Faxium: " + faxiumResponses[closestQuestion];
-        } else {
-            response = "Faxium: I'm sorry, I couldn't understand your question.";
-        }
-    } else {
-        response = "Collective: " + getResponse(message);
-    }
-
-    setTimeout(() => {
-        chatWindow.innerHTML += '<p>' + response + '</p>';
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-    }, 1000); // 1-second delay
-}
-
-
-
-
-
-
-// List of questions 'faxium' will ask
-const faxiumQuestions = [
-  'What is the pulse network?',
-  'Interesting. Tell me, how many collective are in this? Whats your strength in numbers?'
-];
-
-let currentQuestionIndex = 0;
-let intervalId;
-
-function askChatbot() {
-    if (currentQuestionIndex < faxiumQuestions.length) {
-        // Display the question in the chat window
-        chatWindow.innerHTML += '<p>Faxium: ' + faxiumQuestions[currentQuestionIndex] + '</p>';
-        // Send the current question to the chatbot as 'faxium'
-        sendFaxiumMessage(faxiumQuestions[currentQuestionIndex], 'Faxium');
-        // Move to the next question
-        currentQuestionIndex++;
-    }
-}

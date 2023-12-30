@@ -1,12 +1,137 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
+* {
+  box-sizing: border-box;
+}
+
+#blob {
+  position: relative;
+}
+#blob canvas {
+  width: 1000px;
+  margin-top: -7%;
+}
+@media (max-width: 1200px) {
+  #blob canvas {
+    margin-top: -10%;
+    width: 800px;
+  }
+}
+@media (max-width: 600px) {
+  #blob canvas {
+    width: 800px;
+  }
+}
+
+.controls {
+  background: #3F4656;
+  display: flex;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 4px 20px -1px rgba(18, 22, 33, 0.7);
+}
+@media (max-width: 1200px) {
+  .controls {
+    margin-top: -4%;
+  }
+}
+@media (max-width: 600px) {
+  .controls {
+    flex-direction: column;
+  }
+}
+.controls label {
+  color: #CDD9ED;
+  font-weight: 500;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 16px;
+}
+@media (max-width: 600px) {
+  .controls label {
+    margin-bottom: 12px;
+  }
+}
+.controls [type=range] {
+  width: 160px;
+}
+@media (max-width: 600px) {
+  .controls [type=range] {
+    width: 280px;
+  }
+}
+.controls > div:not(:last-child) {
+  margin-right: 20px;
+}
+@media (max-width: 600px) {
+  .controls > div:not(:last-child) {
+    margin: 0 0 24px 0;
+  }
+}
+
+.rangeSlider {
+  position: relative;
+  background: none;
+  border: 1px solid #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.rangeSlider.rangeSlider__horizontal {
+  height: 10px;
+  width: 160px;
+}
+.rangeSlider .rangeSlider__fill {
+  border-radius: 7px;
+  background: #fff;
+  position: absolute;
+}
+.rangeSlider .rangeSlider__fill:before {
+  content: "";
+  left: -2px;
+  top: -2px;
+  bottom: -2px;
+  right: -2px;
+  border: 2px solid #3F4656;
+  border-radius: 6px;
+  position: absolute;
+}
+.rangeSlider .rangeSlider__fill__horizontal {
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.rangeSlider .rangeSlider__handle {
+  border: 2px solid #3F4656;
+  cursor: grab;
+  cursor: -webkit-grab;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+}
+.rangeSlider .rangeSlider__handle__horizontal {
+  top: -7px;
+}
+
+.image-container {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    right: 10px;
+    z-index: 100000000000000000000000000000000000000000000000000000000; /* Optional: To ensure it's above other elements */
+}
 
 
   .layer {
     position: absolute;
-    width: 100%;
-       height: 100%;
-       z-index: 10;
+    width: 90%;
+       height: 90%;
+       z-index: 0; /* Ensure the image is below the donut border */
+       object-fit: cover;
   }
 
 
@@ -25,6 +150,41 @@ html {
 body {
     -ms-overflow-style: none;
 }
+#personSVG {
+    width: 95%;
+    position: relative;
+    height: 100px; /* Assuming a height, can be adjusted */
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+#personSVG img {
+    width: 90px;
+    height: 90px;
+    position: absolute;
+    top: 50%; /* Centering vertically */
+    transform: translateY(-50%); /* Centering vertically */
+    z-index: 1;
+}
+
+#personSVG .top {
+    z-index: 2;
+    left: 50%; /* Centering the top SVG */
+    transform: translateX(-50%) translateY(-50%); /* Centering the top SVG */
+}
+
+#personSVG .second {
+    z-index: 1;
+    left: 5%; /* Positioning the second SVG to the right, slightly overlapped by 20% */
+    transform: translateY(-50%); /* Centering vertically */
+}
+
+#personSVG .worst {
+    z-index: 1;
+    right: 5%; /* Positioning the worst SVG to the left, slightly overlapped by 20% */
+    transform: translateY(-50%); /* Centering vertically */
+}
+
 
         .chat-window {
             width: 100%;
@@ -50,8 +210,9 @@ body {
   --more-list-bg: #fff;
   --more-list-bg-hover: #f6fbff;
   --more-list-shadow: rgba(209, 209, 209, 0.4);
+  --button-bg: #1f1c24;
   --search-area-bg: #fff;
-  --star: #1f1c2e;
+  --star: #1ff1c2e;
   --message-btn: #fff;
 }
 
@@ -64,6 +225,7 @@ body {
   --link-color: rgba(255,255,255,.8);
   --link-color-hover: rgba(195, 207, 244, 0.1);
   --link-color-active-bg: rgba(195, 207, 244, 0.2);
+  --button-bg: #1f2937;
   --search-area-bg: #1f2937;
   --message-box-hover: #243244;
   --message-box-border: rgba(255,255,255,.1);
@@ -77,7 +239,7 @@ body {
 
 html, body {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   margin: 0;
 }
 
@@ -90,6 +252,9 @@ body {
   background-color: var(--app-container);
 }
 
+button, a {
+  cursor: pointer;
+}
 
 .app-container {
   width: 100%;
@@ -100,14 +265,14 @@ body {
   transition: 0.2s;
   max-width: 1800px;
 }
-.app-container input, .app-container optgroup, .app-container select {
+.app-container button, .app-container input, .app-container optgroup, .app-container select {
   font-family: "DM Sans", sans-serif;
 }
 .app-content {
   display: flex;
   height: 100%;
   overflow: hidden;
-  padding: 0;
+  padding: 0px 4px 4px 0px;
 }
 .app-header {
   display: flex;
@@ -123,6 +288,9 @@ body {
 }
 .app-header-left {
   flex-grow: 1;
+}
+.app-header-right button {
+  margin-left: 10px;
 }
 .app-name {
   color: var(--main-color);
@@ -147,11 +315,11 @@ body {
   border-radius: 20px;
   background-color: var(--search-area-bg);
   padding-right: 12px;
-  width: 85%;
   height: 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   max-width: 480px;
   color: var(--light-font);
   box-shadow: 0 2px 6px 0 rgba(136, 148, 171, 0.2), 0 24px 20px -24px rgba(71, 82, 107, 0.1);
@@ -176,6 +344,53 @@ body {
   opacity: 0.6;
 }
 
+.add-btn {
+  color: #fff;
+  background-color: var(--button-bg);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-btn {
+  color: var(--main-color);
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-btn {
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  border-left: 2px solid #ddd;
+}
+.profile-btn img {
+  width: 32px;
+  height: 32px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+.profile-btn span {
+  color: var(--main-color);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+}
 
 .page-content  {
   flex: 1;
@@ -213,6 +428,8 @@ body {
 .projects-section {
   flex: 2;
   background-color: var(--projects-section);
+  border-radius: 22px;
+  padding: 0px 4px 4px 10px;
   overflow: hidden;
   height: 100%;
   display: flex;
@@ -307,18 +524,19 @@ body {
 
 .messages-section {
   flex-shrink: 0;
+  padding-bottom: 32px;
   background-color: var(--projects-section);
   margin-left: 24px;
   flex: 1;
   width: 100%;
-  height: 100%;
+  border-radius: 30px;
   position: relative;
   overflow: auto;
   transition: all 300ms cubic-bezier(0.19, 1, 0.56, 1);
 }
 .messages-section .messages-close {
   position: absolute;
-  bottom: 48px;
+  bottom: 12px;
   right: 12px;
   z-index: 3;
   border: none;
@@ -333,8 +551,9 @@ body {
 }
 .messages-section .projects-section-header {
   position: sticky;
+  top: 0;
   z-index: 1;
-  padding: 32px 24px 30px 24px;
+  padding: 32px 24px 0 24px;
   background-color: var(--projects-section);
 }
 
@@ -428,7 +647,7 @@ body {
   width: 33.3%;
 }
 .project-boxes.jsListView .project-box-wrapper {
-  width: 95.3%;
+  width: 99.3%;
 }
 .project-boxes.jsListView .project-box {
   display: flex;
@@ -452,18 +671,14 @@ body {
   flex-direction: column;
   justify-content: flex-start;
 }
-.project-boxes.jsListView .project-box-footer:after {
-  display: none;
-}
 .project-boxes.jsListView .participants {
   margin-bottom: 8px;
   display: none;
 }
 .project-boxes.jsListView .project-box-content-header p {
   text-align: left;
-  overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
+  text-overflow: inherit;
 }
 .project-boxes.jsListView .project-box-header > span {
   position: absolute;
@@ -479,7 +694,7 @@ body {
 .project-box {
   --main-color-card: #dbf6fd;
   border-radius: 30px;
-  padding: 16px;
+  padding: 6px;
   background-color: var(--main-color-card);
 }
 .project-box-header {
@@ -564,17 +779,17 @@ body {
   margin: 8px 0;
 }
 .box-progress-header {
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 16px;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1px;
   margin: 0;
 }
 .box-progress-percentage {
-  text-align: right;
+  text-align: left;
   margin: 0;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 16px;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1px;
 }
 
 .project-box-footer {
@@ -639,8 +854,7 @@ body {
   border-radius: 4px 0 0 4px;
   position: absolute;
   right: 0;
-  bottom: 58px;
-  z-index: 1;
+  bottom: 48px;
   background-color: var(--message-btn);
   border: none;
   color: var(--main-color);
@@ -651,10 +865,7 @@ body {
   display: none;
 }
 
-@media screen and (max-width: 980px) {
-  .project-boxes.jsGridView .project-box-wrapper {
-    width: 50%;
-  }
+@media screen and (max-width: 0px) {
 
   .status-number, .status-type {
     font-size: 14px;
@@ -668,7 +879,7 @@ body {
   .item-status {
     margin-right: 0;
   }
-}@media screen and (max-width: 880px) {
+}@media screen and (max-width: 5650px) {
   .messages-section {
     display: none; /* Initially set to none */
     position: absolute;
@@ -691,7 +902,7 @@ body {
   }
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 0px) {
 
 
   .add-btn, .notification-btn {
@@ -703,19 +914,22 @@ body {
     height: 16px;
   }
 
+  .app-header-right button {
+    margin-left: 4px;
+  }
 }
-@media screen and (max-width: 520px) {
+@media screen and (max-width: 0px) {
   .projects-section {
     overflow: auto;
   }
 
   .project-boxes {
-    overflow-y: visible;
+    overflow: visible;
   }
 
 
   .app-content {
-    padding: 0;
+    padding: 16px 12px 24px 12px;
   }
 
   .status-number, .status-type {
@@ -796,83 +1010,113 @@ body {
 
   .days-left {
     font-size: 8px;
-    padding: 6px 6px;
+    padding: 2px;
     text-align: center;
   }
 
-  .project-boxes.jsListView .project-box > * {
-    margin-right: 10px;
-  }
-
-  .project-boxes.jsListView .more-wrapper {
-    right: 2px;
-    top: 10px;
-  }
 }
 
 
-.btn-56,
-.btn-56 *,
-.btn-56 :after,
-.btn-56 :before,
-.btn-56:after,
-.btn-56:before {
-  border: 0 solid;
-  box-sizing: border-box;
+      .open-modal {
+         text-align: center;
+         display: block;
+        border: 2px solid black;
+        background: transparent;
+color: var(--main-color);
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        font-size: 14px;
+        padding: .5em 1em;
+        font-weight: bold;
+        -webkit-transition: background 0.3s;
+        transition: background 0.3s;
+        animation: pulse 8s infinite;
+
+      }
+
+      .open-modal:hover {
+        background: #D95952;
+      }
+
+
+      @keyframes pulse {
+      0% {
+      opacity:1;
+      }
+
+      40% {
+      opacity:0.8;
+      box-shadow:0px 0px 5px 0px $color;
+      }
+
+      60% {
+      opacity:0.7;
+      box-shadow:0px 0px 5px 0px $color;
+      }
+
+      100%{
+      opacity:1;
+      box-shadow:none;
+      }
+      }
+
+         .row {
+  display: flex;
+  flex-wrap: wrap;
 }
-.btn-56 {
-  -webkit-tap-highlight-color: transparent;
-  -webkit-appearance: button;
-  background-color: #1f2937;
-  background-image: none;
-  color: #fff;
-  cursor: pointer;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
-    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-  font-size: 100%;
-  line-height: 1.5;
-  margin: 0;
-  -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
-  padding: 0;
+
+/* Create four equal columns that sits next to each other */
+.column2 {
+  flex: 50%;
+  max-width: 50%;
 }
-.btn-56:disabled {
-  cursor: default;
-}
-.btn-56:-moz-focusring {
-  outline: none;
-}
-.btn-56 svg {
-  display: block;
-  vertical-align: middle;
-}
-.btn-56 [hidden] {
-  display: none;
-}
-.btn-56 {
-  border: 1px solid;
-  border-radius: 999px;
-  box-sizing: border-box;
-  display: block;
-  font-weight: 600;
-  -webkit-mask-image: none;
-  overflow: hidden;
-  padding: 10px 20px;
-  position: relative;
-  text-transform: uppercase;
-}
-.btn-56:hover {
-  -webkit-animation: pulse 0.5s;
-  animation: pulse 0.5s;
-  box-shadow: 0 0 0 2em transparent;
-}
-@-webkit-keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 #fff;
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column2 {
+    flex: 100%;
+    max-width: 100%;
   }
 }
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 #fff;
+
+
+  #icon-compass {
+  .needle {
+      transform-origin: center;
+    }
+
+  .needleOut {
+    transform-origin: center;
+    animation: spin 3.5 1;
+    -webkit-animation: spin 158.5s 1;
+    animation-iteration-count:infinite;
+    animation-timing-function: cubic-bezier(.5,-0.5,.5,1.5);
   }
 }
+
+  @keyframes spin {
+    100% {
+  		-webkit-transform: rotate(360deg);
+  		transform:rotate(360deg); }
+  }
+
+  .inactive {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  @keyframes swim {
+
+    0% {
+      transform: translateX(0);
+    }
+
+    50% {
+      transform: translateX(-25px);
+    }
+
+    100% {
+      transform: translateX(0);
+    }
+
+  }

@@ -1,289 +1,1004 @@
+// Global variables
+let scene, camera, renderer, controls;
+let model, crycella, felix, mixer, anyaMixer, anyaAction, action2, action;
+let city, computers, newAction, delta;
+let felixMixer, animationIndex, animationIndex2, crycellaMixer, crycellaAction;
+let clock = new THREE.Clock();
+let animations, crycellaAnimations, felixAction, currentAnimation = 0;
+let spine, neck, anya, knife, knifePosition;
+let targetRotation = new THREE.Vector3();
+let dropdown = document.getElementById('animation-selector');
+let lastRestartTime = 0;
+const closeCollisionThreshold = 0.96;
+const farCollisionThreshold = 4.86;
+let currentTime = Date.now();
+const crycellaFixedPosition = new THREE.Vector3(0.8, 0, 5);
+const crycellaFixedRotationY = 160;
+let markers = []; // Array to store green dot markers
+let felixIsRunning = false;
 
+gsap.ticker.add(render);
 
-let state = {
-     hair: './hair/hair0.png',
-     glasses: './glasses/glasses0.png',
-     body: './body/body0.png',
-     outer: './outer/outer0.png'
- };
+document.addEventListener('DOMContentLoaded', (event) => {
+  init();
 
-
-
-const config = {
-  src: 'peeps.png',
-  rows: 15,
-  cols: 7 };
-
-
-// UTILS
-
-const randomRange = (min, max) => min + Math.random() * (max - min);
-
-const randomIndex = array => randomRange(0, array.length) | 0;
-
-const removeFromArray = (array, i) => array.splice(i, 1)[0];
-
-const removeItemFromArray = (array, item) => removeFromArray(array, array.indexOf(item));
-
-const removeRandomFromArray = array => removeFromArray(array, randomIndex(array));
-
-const getRandomFromArray = (array) =>
-array[randomIndex(array) | 0];
-
-
-// TWEEN FACTORIES
-
-const resetPeep = ({ stage, peep }) => {
-  const direction = Math.random() > 0.5 ? 1 : -1;
-  // using an ease function to skew random to lower values to help hide that peeps have no legs
-  const offsetY = 100 - 250 * gsap.parseEase('power2.in')(Math.random());
-  const startY = stage.height - peep.height + offsetY;
-  let startX;
-  let endX;
-
-  if (direction === 1) {
-    startX = -peep.width;
-    endX = stage.width;
-    peep.scaleX = 1;
-  } else {
-    startX = stage.width + peep.width;
-    endX = 0;
-    peep.scaleX = -1;
-  }
-
-  peep.x = startX;
-  peep.y = startY;
-  peep.anchorY = startY;
-
-  return {
-    startX,
-    startY,
-    endX };
-
-};
-
-const normalWalk = ({ peep, props }) => {
-  const {
-    startX,
-    startY,
-    endX } =
-  props;
-
-  const xDuration = 10;
-  const yDuration = 0.25;
-
-  const tl = gsap.timeline();
-  tl.timeScale(randomRange(0.5, 1.5));
-  tl.to(peep, {
-    duration: xDuration,
-    x: endX,
-    ease: 'none' },
-  0);
-  tl.to(peep, {
-    duration: yDuration,
-    repeat: xDuration / yDuration,
-    yoyo: true,
-    y: startY - 10 },
-  0);
-
-  return tl;
-};
-
-const walks = [
-normalWalk];
-
-
-// CLASSES
-
-class Peep {
-  constructor({
-    image,
-    rect })
-  {
-    this.image = image;
-    this.setRect(rect);
-
-    this.x = 0;
-    this.y = 0;
-    this.anchorY = 0;
-    this.scaleX = 1;
-    this.walk = null;
-  }
-
-  setRect(rect) {
-    this.rect = rect;
-    this.width = rect[2];
-    this.height = rect[3];
-
-    this.drawArgs = [
-    this.image,
-    ...rect,
-    0, 0, this.width, this.height];
-
-  }
-
-  render(ctx) {
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.scale(this.scaleX, 1);
-    ctx.drawImage(...this.drawArgs);
-    ctx.restore();
-  }}
-
-
-// MAIN
-
-const img = document.createElement('img');
-img.onload = init;
-img.src = config.src;
-
-const canvas = document.querySelector('#canvas');
-const ctx = canvas.getContext('2d');
-
-const stage = {
-  width: 0,
-  height: 0 };
-
-
-const allPeeps = [];
-const availablePeeps = [];
-const crowd = [];
-
-function init() {
-  createPeeps();
-
-  // resize also (re)populates the stage
-  resize();
-
-  gsap.ticker.add(render);
-  window.addEventListener('resize', resize);
-}
-
-function createPeeps() {
-  const {
-    rows,
-    cols } =
-  config;
-  const {
-    naturalWidth: width,
-    naturalHeight: height } =
-  img;
-  const total = rows * cols;
-  const rectWidth = width / rows;
-  const rectHeight = height / cols;
-
-  for (let i = 0; i < total; i++) {
-    allPeeps.push(new Peep({
-      image: img,
-      rect: [
-      i % rows * rectWidth,
-      (i / rows | 0) * rectHeight,
-      rectWidth,
-      rectHeight] }));
-
-
-  }
-}
-
-function resize() {
-  stage.width = canvas.clientWidth;
-  stage.height = canvas.clientHeight;
-  canvas.width = stage.width * devicePixelRatio;
-  canvas.height = stage.height * devicePixelRatio;
-
-  crowd.forEach(peep => {
-    peep.walk.kill();
+  dropdown.addEventListener('change', function() {
+    let selectedValue = parseInt(this.value);
+    changeAnimation(selectedValue);
   });
+});
 
-  crowd.length = 0;
-  availablePeeps.length = 0;
-  availablePeeps.push(...allPeeps);
 
-  initCrowd();
-}
 
-function initCrowd() {
-  while (availablePeeps.length) {
-    // setting random tween progress spreads the peeps out
-    addPeepToCrowd().walk.progress(Math.random());
-  }
-}
+let anyaAnimations;
+let isAnyaLoaded = false;
+let isKnifeLoaded = false;
+let walkAnimationIndex; // The index of the walk animation in the gltf.animations array
+let moveDestination = new THREE.Vector3();
+let isAnyaMoving = false;
+let animationDuration2 = 3; // Default duration
+let isWalking = false;
 
-function addPeepToCrowd() {
-  const peep = removeRandomFromArray(availablePeeps);
-  const walk = getRandomFromArray(walks)({
-    peep,
-    props: resetPeep({
-      peep,
-      stage }) }).
 
-  eventCallback('onComplete', () => {
-    removePeepFromCrowd(peep);
-    addPeepToCrowd();
-  });
 
-  peep.walk = walk;
+function checkCollision(object1, object2, threshold) {
+    if (!object1 || !object2) {
+        return false;
+    }
 
-  crowd.push(peep);
-  crowd.sort((a, b) => a.anchorY - b.anchorY);
+    const position1 = new THREE.Vector3();
+    const position2 = new THREE.Vector3();
+    object1.getWorldPosition(position1);
+    object2.getWorldPosition(position2);
+    const distance = position1.distanceTo(position2);
 
-  return peep;
-}
-
-function removePeepFromCrowd(peep) {
-  removeItemFromArray(crowd, peep);
-  availablePeeps.push(peep);
-}
-
-function render() {
-  canvas.width = canvas.width;
-  ctx.save();
-  ctx.scale(devicePixelRatio, devicePixelRatio);
-
-  crowd.forEach(peep => {
-    peep.render(ctx);
-  });
-
-  ctx.restore();
+    return distance < threshold;
 }
 
 
-function openSettings() {
-parent.postMessage({ action: 'openSettings', value: 'openSettings' }, '*');
+function updateHeadTracking() {
+
+  if (!anya || !felix || !crycella) {
+       return; // Exit if any models are undefined
+   }
+    // Anya's world position
+    const anyaWorldPos = new THREE.Vector3();
+    anya.getWorldPosition(anyaWorldPos);
+
+    // Update tracking for each character
+    updateCharacterTracking(model, anyaWorldPos, new THREE.Vector3(0, 0, 1)); // Assuming model faces along positive Z-axis initially
+    updateCharacterTracking(felix, anyaWorldPos, new THREE.Vector3(0, 0, -.25)); // Adjust initial facing direction if different
+    updateCharacterTracking(crycella, anyaWorldPos, new THREE.Vector3(0, 0, -1)); // Adjust initial facing direction if different
 }
 
-const peepContent = document.documentElement.outerHTML;
+function updateCharacterTracking(character, targetPosition, initialFacingDirection) {
+    if (!character) {
+        return;
+    }
+
+    // Getting spine and neck bones
+    const spine = character.getObjectByName('Spine');
+    const neck = character.getObjectByName('Neck');
+
+    if (!spine || !neck) {
+        return;
+    }
+
+    // Calculate direction to target from character's head
+    const headWorldPos = new THREE.Vector3();
+    neck.getWorldPosition(headWorldPos);
+    const directionToTarget = targetPosition.clone().sub(headWorldPos).normalize();
+
+    // Adjust for initial facing direction
+    const adjustedDirectionToTarget = directionToTarget.clone().applyQuaternion(
+        new THREE.Quaternion().setFromUnitVectors(initialFacingDirection, new THREE.Vector3(0, 0, 1))
+    );
+
+    // Determine rotations based on adjusted direction
+    const targetYRotation = Math.atan2(adjustedDirectionToTarget.x, adjustedDirectionToTarget.z);
+    const targetXRotation = -Math.asin(adjustedDirectionToTarget.y);
+
+    // Apply rotation with smoothing
+    spine.rotation.y += 0.3 * (targetYRotation - spine.rotation.y);
+    neck.rotation.y += 0.3 * (targetYRotation - neck.rotation.y);
+    spine.rotation.x += 0.3 * (targetXRotation - spine.rotation.x);
+    neck.rotation.x += 0.3 * (targetXRotation - neck.rotation.x);
+}
 
 
-   document.addEventListener('DOMContentLoaded', function() {
-     const peepContent = document.documentElement.outerHTML;
-         const message = {
-           action: 'peepContent',
-           peepContent: peepContent
-         };
-         window.parent.postMessage(message, '*');
+
+function resetAnimation() {
+    // Stop the current animation and reset to the idle animation
+    action.stop();
+    action = mixer.clipAction(animations[0]);
+    action.setLoop(THREE.LoopRepeat);
+    action.play();
+}
+
+
+
+
+function switchToAnimation(animationIndex, playOnce = false) {
+    if (anyaMixer && anyaAnimations[1]) {
+        anyaAction.stop();
+        anyaAction = anyaMixer.clipAction(anyaAnimations[0]);
+        if (playOnce) {
+            anyaAction.setLoop(THREE.LoopOnce);
+            anyaAction.clampWhenFinished = true;
+        }
+        anyaAction.play();
+    }
+}
+
+function onAnimationFinished(event) {
+    // Remove the listener to prevent it from firing multiple times
+    event.action.removeEventListener('finished', onAnimationFinished);
+
+    // Switch back to the idle animation
+    switchToAnimation(0); // Assuming the first animation is the idle animation
+}
+
+function updateAnyaMovement() {
+    if (!isAnyaLoaded || !anya || !anya.position || isNaN(anya.position.x) || anya.position.x === Infinity) {
+        console.error('Invalid or undefined position detected, resetting Anya');
+        if (anya && anya.position) {
+            anya.position.set(0, 0, 0);
+        }
+        return;
+    }
+
+    let direction = moveDestination.clone().sub(anya.position).normalize();
+    let speed = 0.06; // or whatever your speed value is
+    let movement = direction.multiplyScalar(speed);
+
+    console.log(`Direction: ${JSON.stringify(direction)}, Speed: ${speed}, Movement: ${JSON.stringify(movement)}`);
+
+    let distance = anya.position.distanceTo(moveDestination);
+
+    if (distance < 0.001 || distance === Infinity || isMovingAwayFromDestination(anya.position, moveDestination, movement)) {
+        isAnyaMoving = false;
+        switchToAnimation(0); // Switch back to idle animation
+        return;
+    }
+
+    anya.position.add(movement);
+
+    // After updating the position
+    console.log(`Updated Anya position: ${JSON.stringify(anya.position)}`);
+
+    // Make Anya face the destination
+    anya.lookAt(moveDestination);
+}
+
+function isMovingAwayFromDestination(currentPosition, destination, movement) {
+    let nextPosition = currentPosition.clone().add(movement);
+    return nextPosition.distanceTo(destination) > currentPosition.distanceTo(destination);
+}
+
+
+
+
+
+
+function moveAnyaToPosition(worldPosition) {
+    // Constrain within 1200x1200 plane
+    worldPosition.clamp(new THREE.Vector3(-600, anya.position.y, -600), new THREE.Vector3(600, anya.position.y, 600));
+
+    let distance = anya.position.distanceTo(worldPosition);
+   moveDestination.copy(worldPosition);
+   isAnyaMoving = true;
+
+   let animationIndex = distance < 90 ? 1 : 2; // Choose animation based on distance
+   animationDuration2 = distance < 90 ? 2 : 2.2; // Set duration based on distance
+
+   // Play the selected animation
+   anyaAction.stop();
+   anyaAction = anyaMixer.clipAction(anyaAnimations[5]);
+   anyaAction.setLoop(THREE.LoopRepeat);
+   anyaAction.play();
+
+   // Use the onFinished callback of the mixer to switch back to idle
+   anyaMixer.addEventListener('finished', () => {
+       // Ensure this callback only runs once per animation play
+       anyaMixer.removeEventListener('finished', arguments.callee);
+
+       // Switch back to idle animation
+       anyaAction.stop();
+       anyaAction = anyaMixer.clipAction(anyaAnimations[0]); // Idle animation
+       anyaAction.play();
    });
 
+}
 
 
-    window.addEventListener('message', function(event) {
-        if (event.data.action === 'hair') {
-            document.getElementById('hairLayer').src = event.data.value;
+
+
+
+
+function updateFelixBehavior() {
+    if (markers.length === 0) {
+        // If there are no markers, make sure Felix is in the idle state
+        if (felixIsRunning) {
+            felixIsRunning = false;
+            switchToFelixAnimation(0); // Switch to idle animation
         }
-        if (event.data.action === 'glasses') {
-            document.getElementById('glassesLayer').src = event.data.value;
-        }
-        if (event.data.action === 'body') {
-            document.getElementById('bodyLayer').src = event.data.value;
-        }
-        if (event.data.action === 'outer') {
-            document.getElementById('outerLayer').src = event.data.value;
-        }
-    if (event.data.state) {
-        state = event.data.state;
-        document.getElementById('hairLayer').src = state.hair;
-        document.getElementById('glassesLayer').src = state.glasses;
-        document.getElementById('bodyLayer').src = state.body;
-        document.getElementById('outerLayer').src = state.outer;
+        return;
     }
-    }, false);
+
+    let closestMarker = null;
+    let closestDistance = Infinity;
+
+    // Find the closest marker to Felix
+    markers.forEach((marker) => {
+        const distance = getDistance(felix, marker);
+        if (distance < closestDistance) {
+            closestDistance = distance;
+            closestMarker = marker;
+        }
+    });
+
+    // Check if Felix is close enough to the marker
+    if (closestDistance < 0.5) { // Adjust the threshold as needed
+        // Remove the reached marker
+        scene.remove(closestMarker);
+        markers = markers.filter(marker => marker !== closestMarker);
+
+        // If there are no more markers, set Felix to idle
+        if (markers.length === 0) {
+            felixIsRunning = false;
+            switchToFelixAnimation(0); // Switch to idle animation
+        }
+    } else {
+        // Move Felix towards the closest marker
+        moveFelixTowardsMarker(closestMarker);
+    }
+}
+
+function moveFelixTowardsMarker(marker) {
+    const felixSpeed = 0.02; // Adjust speed as necessary
+    const directionToFelix = marker.position.clone().sub(felix.position).normalize();
+    const felixMovement = directionToFelix.multiplyScalar(felixSpeed);
+    felix.position.add(felixMovement);
+    felix.lookAt(marker.position);
+
+    // Check if Felix is already running, if not, trigger running animation
+    if (!felixIsRunning) {
+        felixIsRunning = true;
+        switchToFelixAnimation(2); // Assuming animation index 1 is running
+        startInterval();
+    }
+}
+
+
+function switchToFelixAnimation(animationIndex) {
+    if (!felixMixer || !felixAnimations || felixAnimations.length <= animationIndex) {
+        console.error('Felix mixer, animations not defined, or animation index out of range.');
+        return;
+    }
+
+    if (felixAction) {
+        felixAction.stop();
+    }
+
+    felixAction = felixMixer.clipAction(felixAnimations[animationIndex]);
+    felixAction.play();
+}
+
+
+
+function triggerAnimation() {
+    // Switch to the desired animation (assumed to be index 2)
+    switchToFelixAnimation(1);
+
+    // Set a timeout to switch back to idle animation (assumed to be index 1)
+    setTimeout(() => {
+        switchToFelixAnimation(2); // Switch back to idle animation
+    }, 3000); // Assuming animation[2] takes less than 4 seconds to complete
+}
+
+// Function to start the interval after Felix model has been running for at least 3 seconds
+function startInterval() {
+    setTimeout(() => {
+        setTimeout(triggerAnimation, 4000);
+    }, 3000); // Wait for 3 seconds before starting the interval
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function checkCollision() {
+    if (!anya || !knife) {
+        // If anya or knife are not yet loaded, exit the function
+        return;
+    }
+
+    const knifePosition = new THREE.Vector3();
+
+    // Get the world position of anya and knife
+    anya.getWorldPosition(anyaPosition);
+    knife.getWorldPosition(knifePosition);
+
+    // Now you can use anyaPosition and knifePosition to check for collision
+    // For example, check if the distance between them is less than some threshold
+    const distance = anyaPosition.distanceTo(knifePosition);
+    const collisionThreshold = .56; // Set your collision threshold
+
+    if (distance < collisionThreshold) {
+      attachKnifeToAnya();
+        // Collision detected
+        console.log('Collision detected between anya and knife');
+    }
+}
+
+
+function attachKnifeToAnya() {
+    const anyaHand = anya.getObjectByName('LeftHand'); // Replace 'Hand' with the actual hand part name
+    if (anyaHand) {
+        anyaHand.add(knife);
+        knife.position.set(-.55, -.20, 0); // Adjust as necessary
+        knife.rotation.y = 625;
+    }
+}
+
+let lastAlertTime = 0;
+
+function getDistance(object1, object2) {
+    if (!object1 || !object2) return Infinity;
+
+    const position1 = new THREE.Vector3();
+    const position2 = new THREE.Vector3();
+
+    object1.getWorldPosition(position1);
+    object2.getWorldPosition(position2);
+
+    return position1.distanceTo(position2);
+}
+
+
+
+
+
+
+
+let isInCloseRangeMainModel = false;
+let isInFarRangeMainModel = false;
+let isInCloseRangeCrycella = false;
+let isInFarRangeCrycella = false;
+
+function checkDistanceAndTriggerActions() {
+    const distanceToMainModel = getDistance(anya, model);
+    const distanceToCrycella = getDistance(anya, crycella);
+
+    // Collision logic for the main model
+    if (distanceToMainModel < closeCollisionThreshold) {
+        if (!isInCloseRangeMainModel) {
+            isInCloseRangeMainModel = true;
+            changeAnimation(4); // Close collision animation
+            isInFarRangeMainModel = false; // Reset far collision state
+        }
+    } else if (distanceToMainModel < farCollisionThreshold) {
+        if (!isInFarRangeMainModel && !isInCloseRangeMainModel) {
+            isInFarRangeMainModel = true;
+            changeAnimation(6); // Far collision animation
+        }
+    } else {
+        if (isInCloseRangeMainModel || isInFarRangeMainModel) {
+            isInCloseRangeMainModel = false;
+            isInFarRangeMainModel = false;
+            changeAnimation(0); // No collision animation
+        }
+    }
+
+    // Collision logic for Crycella
+    if (distanceToCrycella < closeCollisionThreshold) {
+        if (!isInCloseRangeCrycella) {
+            isInCloseRangeCrycella = true;
+            changeCrycellaAnimation(4); // Close collision animation for Crycella
+            isInFarRangeCrycella = false; // Reset far collision state
+        }
+    } else if (distanceToCrycella < farCollisionThreshold) {
+        if (!isInFarRangeCrycella && !isInCloseRangeCrycella) {
+            isInFarRangeCrycella = true;
+            changeCrycellaAnimation(6); // Far collision animation for Crycella
+        }
+    } else {
+        if (isInCloseRangeCrycella || isInFarRangeCrycella) {
+            isInCloseRangeCrycella = false;
+            isInFarRangeCrycella = false;
+            changeCrycellaAnimation(0); // No collision animation for Crycella
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+function render() {
+
+      currentTime = Date.now(); // Update current time
+      delta = clock.getDelta();
+
+          if (mixer) {
+
+        mixer.update(delta);
+
+    }
+    // Update the anya mixer
+       if (anyaMixer) {
+           anyaMixer.update(delta);
+       }
+       if (felixMixer) {
+           felixMixer.update(delta);
+       }
+       if (crycellaMixer) {
+           crycellaMixer.update(delta);
+       }
+    if (mixer2) {
+        // Update the elapsed time since the last restart
+        lastRestartTime += delta;
+
+        // Check if the specified duration has passed
+        if (lastRestartTime >= animationDuration / animationSpeed) {
+            action2.reset().play(); // Restart the animation
+            lastRestartTime = 0; // Reset the timer
+        }
+
+        mixer2.update(delta); // Continue to update the mixer
+    }
+
+    if (crycella) {
+       crycella.position.set(crycellaFixedPosition.x, crycellaFixedPosition.y, crycellaFixedPosition.z);
+       crycella.rotation.y = THREE.Math.degToRad(crycellaFixedRotationY);
+
+   }
+    checkDistanceAndTriggerActions();
+
+    // Update head tracking
+    updateHeadTracking();
+ checkCollision();
+
+ if (isAnyaMoving) {
+     updateAnyaMovement();
+ }
+
+updateFelixBehavior();
+updateDragonBehavior();
+
+
+ renderer.render(scene, camera);
+}
+
+
+
+function toScreenPosition(obj, camera) {
+    const vector = new THREE.Vector3();
+    const canvas = renderer.domElement;
+
+    obj.updateMatrixWorld();
+    vector.setFromMatrixPosition(obj.matrixWorld);
+    vector.project(camera);
+
+    vector.x = (vector.x + 1) * canvas.width / 2;
+    vector.y = -(vector.y - 1) * canvas.height / 2;
+
+    return { x: vector.x, y: vector.y };
+}
+
+
+function init() {
+  scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x000000, 0, 16);
+  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 3, 6);
+  camera.lookAt(0, 0, 0);
+
+
+  // Ambient Light
+     let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+     scene.add(ambientLight);
+
+     // Directional Light
+     let directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+     directionalLight.position.set(50, 100, 50); // Adjust position as needed
+     scene.add(directionalLight);
+
+     // Adjust camera far plane
+     camera.far = 10000; // Set this according to the size of your scene
+     camera.updateProjectionMatrix();
+
+     // Adjust Spotlight
+     let spotlight = new THREE.SpotLight(0xffffff, 1, 10000, Math.PI / 4, 0.5, 2);
+     spotlight.position.set(0, 100, 0); // Adjust position as needed
+     let spotlightTarget = new THREE.Object3D();
+     spotlightTarget.position.set(0, 0, 0); // Set target position
+     scene.add(spotlightTarget);
+     spotlight.target = spotlightTarget;
+     scene.add(spotlight);
+
+     // Grid Helper
+     const gridSize = 500;
+     const gridDivisions = 520;
+     const gridHelper = new THREE.GridHelper(gridSize, gridDivisions);
+     scene.add(gridHelper);
+
+     // Create and add the plane to the scene for raycasting
+     let planeGeometry = new THREE.PlaneGeometry(500, 500); // Adjust size as needed
+     let planeMaterial = new THREE.MeshBasicMaterial({
+         color: 0x00ff00,
+         side: THREE.DoubleSide,
+         transparent: true,
+         opacity: 0.5
+     });     let planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+     planeMesh.rotation.x = -Math.PI / 2; // Rotate to horizontal
+     planeMesh.position.set(0, 0, 0); // Adjust position as needed
+     planeMesh.visible = true; // Make the plane visible for debugging
+     scene.add(planeMesh);
+
+     // Define a mathematical plane for raycasting
+     plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0); // Plane at y = 0
+
+  let loader = new THREE.GLTFLoader();
+  loader.load('https://luminafields.com/micheal.glb', function (gltf) {
+    model = gltf.scene;
+    scene.add(model);
+    model.position.x += 3.6;
+    mixer = new THREE.AnimationMixer(model);
+    animations = gltf.animations;
+    action = mixer.clipAction(animations[0]);
+    action.setLoop(THREE.LoopRepeat);
+    action.play();
+
+    spine = model.getObjectByName('Spine');
+    neck = model.getObjectByName('Neck');
+
+
+  });
+
+
+  loader.load('https://luminafields.com/city.glb', function (gltf) {
+  city = gltf.scene;
+  city.scale.set(0, 0, 0); // Adjust the 100 factor as needed
+  scene.add(city);
+  city.position.y += 0.2;
+  // Perform any additional setup for the city model here
+});
+
+
+loader.load('https://luminafields.com/anya.glb', function (gltf) {
+anya = gltf.scene;
+scene.add(anya);
+anya.scale.set(.8, .8, .8); // Adjust the 100 factor as needed
+anya.position.x += -0.6;
+anyaAnimations = gltf.animations; // Store animations
+
+// ... after loading the gltf
+if (gltf.animations) {
+    walkAnimationIndex = gltf.animations.findIndex(anim => anim.name === 'walk'); // Replace 'walk' with the actual name of the walk animation
+}
+
+// Create an animation mixer for the anya model
+    anyaMixer = new THREE.AnimationMixer(anya);
+
+    // Assuming the first animation is the one you want to play
+    if (gltf.animations && gltf.animations.length > 0) {
+        anyaAction = anyaMixer.clipAction(gltf.animations[0]);
+        anyaAction.play();
+    } else {
+        console.error('No animations found in anya.glb');
+    }
+
+ isAnyaLoaded = true;
+// Perform any additional setup for the city model here
+});
+
+loader.load('https://luminafields.com/FelixGLB.glb', function (gltf) {
+    felix = gltf.scene;
+    scene.add(felix);
+    felix.scale.set(.5, .5, .4); // Adjust the size as needed
+    felix.position.x += 1.1;
+    felix.position.z += 0.5;
+    felix.rotation.y = 225;
+
+    felixMixer = new THREE.AnimationMixer(felix);
+    felixAnimations = gltf.animations; // Store Felix's animations in a global array
+
+    // Play the first animation by default (if it exists)
+    if (felixAnimations && felixAnimations.length > 0) {
+        felixAction = felixMixer.clipAction(felixAnimations[0]);
+        felixAction.play();
+    } else {
+        console.error('No animations found in FelixGLB.glb');
+    }
+    // ... rest of your setup for Felix
+});
+
+
+loader.load('https://luminafields.com/crycella.glb', function (gltf) {
+    crycella = gltf.scene;
+    scene.add(crycella);
+    crycella.scale.set(.9, .9, .9); // Adjust the 100 factor as needed
+    crycella.position.set(crycellaFixedPosition.x, crycellaFixedPosition.y, crycellaFixedPosition.z);
+    crycella.rotation.y = THREE.Math.degToRad(crycellaFixedRotationY);
+
+    // Create an animation mixer for the crycella model
+    crycellaMixer = new THREE.AnimationMixer(crycella);
+
+    if (gltf.animations && gltf.animations.length > 0) {
+        crycellaAction = crycellaMixer.clipAction(gltf.animations[0]);
+        crycellaAction.play();
+    } else {
+        console.error('No animations found in crycella.glb');
+    }
+});
+
+
+loader.load('https://luminafields.com/booth.glb', function (gltf) {
+booth = gltf.scene;
+scene.add(booth);
+booth.scale.set(3, 3, 3); // Adjust the 100 factor as needed
+booth.rotation.y = 40;
+booth.position.z += 6;
+booth.position.x += 2;
+booth.position.y += 1.6;
+// Perform any additional setup for the city model here
+});
+
+
+
+
+
+
+
+
+
+
+loader.load('https://luminafields.com/knife.glb', function (gltf) {
+  isKnifeLoaded = true;
+knife = gltf.scene;
+scene.add(knife);
+knife.scale.set(.02, .02, .02); // Adjust the 100 factor as needed
+knife.position.x += -6.2;
+knife.position.z += 0.9;
+
+// Perform any additional setup for the city model here
+});
+
+loader.load('https://luminafields.com/computers.glb', function (gltf) {
+computers = gltf.scene;
+computers.scale.set(5, 5, 5); // Adjust the 100 factor as needed
+scene.add(computers);
+computers.position.x += -1.2;
+computers.position.y -= -0.6;
+computers.position.z -= .5;
+// Perform any additional setup for the city model here
+});
+
+
+
+
+loader.load('https://luminafields.com/tree.glb', function (gltf) {
+    let tree = gltf.scene;
+    tree.scale.set(9, 9, 9);
+    tree.position.set(-10.2, -2.15, 0);
+    tree.position.y -= -4.25;
+
+    let light = new THREE.PointLight(0xffffff, 10, 100000); // Adjust color, intensity, and distance
+    light.position.set(0, 5, 0); // Adjust light position relative to the tree
+    tree.add(light);
+
+    scene.add(tree);
+});
+
+function addRandomTrees(numberOfTrees) {
+    const treeGridSize = 35; // Size of the grid
+    const halfGridSize = treeGridSize / 2;
+    const groundLevelY = 2; // Set this to the elevation where the ground is
+
+    for (let i = 0; i < numberOfTrees; i++) {
+        loader.load('https://luminafields.com/tree.glb', function (gltf) {
+            let tree = gltf.scene;
+            tree.scale.set(9, 9, 9);
+
+            // Random position within the 30x30 grid
+            let x = Math.random() * treeGridSize - halfGridSize; // Random X within [-15, 15]
+            let z = Math.random() * treeGridSize - halfGridSize; // Random Z within [-15, 15]
+            let y = groundLevelY; // Elevation at ground level
+
+            tree.position.set(x, y, z);
+
+            let light = new THREE.PointLight(0xffffff, 1, 100); // Adjust as needed
+            light.position.set(0, 5, 0); // Position the light above the tree
+            tree.add(light);
+
+            scene.add(tree);
+        });
+    }
+}
+
+
+addRandomTrees(5);
+
+
+
+
+loader.load('https://luminafields.com/building1.glb', function (gltf) {
+building1 = gltf.scene;
+building1.scale.set(12, 12, 12); // Adjust the 100 factor as needed
+scene.add(building1);
+building1.position.x += 5.2;
+building1.position.z -= .5;
+building1.position.y -= -4.7;
+building1.rotation.y = 825;
+
+// Perform any additional setup for the city model here
+});
+
+loader.load('https://luminafields.com/hobbitmountain.glb', function (gltf) {
+hobbitmountain = gltf.scene;
+hobbitmountain.scale.set(25, 25, 25); // Adjust the 100 factor as needed
+scene.add(hobbitmountain);
+hobbitmountain.position.x += -11.2;
+hobbitmountain.position.z -= 25.5;
+hobbitmountain.position.y -= -7.5;
+
+// Perform any additional setup for the city model here
+});
+
+
+
+
+
+  renderer = new THREE.WebGLRenderer({ alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+  renderer.shadowMap.enabled = true;
+  renderer.setPixelRatio(window.devicePixelRatio);
+  document.getElementById("app").appendChild(renderer.domElement);
+
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+  dropdown.addEventListener('change', function() {
+    let selectedValue = parseInt(this.value);
+    changeAnimation(selectedValue);
+  });
+
+
+}
+
+
+
+
+// Function to create a green dot marker
+function createGreenDotMarker(position) {
+    const geometry = new THREE.SphereGeometry(0.08, 32, 32);
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const dot = new THREE.Mesh(geometry, material);
+    dot.position.copy(position);
+    scene.add(dot);
+
+    markers.push(dot); // Add the new marker to the array
+
+}
+
+
+
+
+
+
+// Function to change animation based on selected animation
+function changeAnimation(selectedAnimation) {
+    if (mixer && animations[selectedAnimation]) {
+        action.stop();
+        currentAnimation = selectedAnimation;
+        action = mixer.clipAction(animations[currentAnimation]);
+        action.setLoop(THREE.LoopRepeat);
+        action.play();
+    }
+}
+
+function changeCrycellaAnimation(selectedAnimation) {
+    if (crycellaMixer && animations[selectedAnimation]) {
+        crycellaAction.stop();
+        crycellaAction = crycellaMixer.clipAction(animations[selectedAnimation]);
+        crycellaAction.setLoop(THREE.LoopRepeat);
+        crycellaAction.play();
+
+        // Reapply fixed position and rotation
+        crycella.position.set(crycellaFixedPosition.x, crycellaFixedPosition.y, crycellaFixedPosition.z);
+        crycella.rotation.y = THREE.Math.degToRad(crycellaFixedRotationY);
+
+    }
+}
+
+
+
+
+(function makeDropdownMovable() {
+  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  let elmnt = document.getElementById("dropdown-container");
+  let handle = document.getElementById("drag-handle");
+
+  handle.onmousedown = dragMouseDown;
+
+  function dragMouseDown(e) {
+    e.preventDefault();
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+      e.preventDefault();
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+      elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function updateAnyaPosition(screenX, screenY) {
+      worldPosition = screenToWorld(screenX, screenY, camera, plane);
+      if (worldPosition) {
+          moveAnyaToPosition(worldPosition);
+      }
+  }
+
+
+
+  function screenToWorld(x, y, camera, plane) {
+      let mouse = new THREE.Vector2();
+      mouse.x = (x / window.innerWidth) * 2 - 1;
+      mouse.y = -(y / window.innerHeight) * 2 + 1;
+
+      let raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera(mouse, camera);
+
+      // Assuming 'plane' is a THREE.Plane object positioned in the world
+      let target = new THREE.Vector3();
+      raycaster.ray.intersectPlane(plane, target);
+      return target;
+  }
+
+
+
+
+  function closeDragElement() {
+      document.onmouseup = null;
+      document.onmousemove = null;
+      document.ontouchend = null;
+      document.ontouchmove = null;
+
+      // Calculate the screen position of the center of the draggable element
+      let rect = elmnt.getBoundingClientRect();
+      let screenX = rect.left + rect.width / 2;
+      let screenY = rect.top + rect.height / 2;
+
+      // Convert screen coordinates to normalized device coordinates
+      let x = (screenX / window.innerWidth) * 2 - 1;
+      let y = -(screenY / window.innerHeight) * 2 + 1;
+
+      // Set up a raycaster
+      let raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera(new THREE.Vector2(x, y), camera);
+
+      // Define a plane at Anya's height
+      let plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -anya.position.y);
+
+      // Find where the ray intersects the plane
+      let target = new THREE.Vector3();
+      if (raycaster.ray.intersectPlane(plane, target)) {
+          moveAnyaToPosition(target);
+          createGreenDotMarker(target);
+      }
+  }
+
+
+
+handle.addEventListener('touchstart', dragStart, false);
+handle.addEventListener('touchend', dragEnd, false);
+handle.addEventListener('touchmove', drag, false);
+
+function dragStart(e) {
+    e.preventDefault();
+    if (e.touches.length == 1) { // Only deal with one finger
+        var touch = e.touches[0]; // Get the information for finger #1
+        pos3 = touch.pageX;
+        pos4 = touch.pageY;
+    }
+}
+
+function drag(e) {
+    e.preventDefault();
+    if (e.touches.length == 1) {
+        var touch = e.touches[0];
+
+        // Calculate new position of the element
+        pos1 = pos3 - touch.pageX;
+        pos2 = pos4 - touch.pageY;
+        pos3 = touch.pageX;
+        pos4 = touch.pageY;
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+
+    }
+}
+
+function dragEnd(e) {
+    e.preventDefault();
+
+    // Resetting the drag event handlers
+    document.onmouseup = null;
+    document.onmousemove = null;
+    document.ontouchend = null;
+    document.ontouchmove = null;
+
+    // Calculate the screen position of the center of the draggable element
+    let rect = elmnt.getBoundingClientRect();
+    let screenX = rect.left + rect.width / 2;
+    let screenY = rect.top + rect.height / 2;
+
+    // Convert screen coordinates to normalized device coordinates
+    let x = (screenX / window.innerWidth) * 2 - 1;
+    let y = -(screenY / window.innerHeight) * 2 + 1;
+
+    // Set up a raycaster
+    let raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(new THREE.Vector2(x, y), camera);
+
+    // Define a plane at Anya's height
+    let plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -anya.position.y);
+
+    // Find where the ray intersects the plane
+    let target = new THREE.Vector3();
+    if (raycaster.ray.intersectPlane(plane, target)) {
+        moveAnyaToPosition(target);
+        createGreenDotMarker(target);
+    }
+
+    // Here you can also reset the drag handle's position if needed
+}
+
+
+
+
+
+
+function changeAnimation(animationIndex) {
+    if (mixer && animations[animationIndex]) {
+        action.stop();
+        currentAnimationIndex = animationIndex;
+        action = mixer.clipAction(animations[currentAnimationIndex]);
+        action.setLoop(THREE.LoopRepeat);
+        action.play();
+    }
+}
+
+
+
+
+
+
+
+
+
+})();
