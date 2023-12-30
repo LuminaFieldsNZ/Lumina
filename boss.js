@@ -1,5 +1,5 @@
 let dragon_boss, dragon_bossMixer, mixer2, dragonFlight;
-let hitpoints = 999; // Initial hitpoints
+let hitpoints = 100; // Initial hitpoints
 let loader = new THREE.GLTFLoader();
 const anyaPosition = new THREE.Vector3();
 let animationDuration = 1.8;
@@ -12,8 +12,8 @@ loader.load('https://luminafields.com/dragon2.glb', function (gltf) {
     dragon_boss = gltf.scene;
     scene.add(dragon_boss);
     dragon_boss.scale.set(2, 2, 2);
-    dragon_boss.position.y += 5.2;
-    dragon_boss.position.z += -30.2;
+    dragon_boss.position.y += 15.2;
+    dragon_boss.position.z += -80.2;
 
     mixer2 = new THREE.AnimationMixer(dragon_boss);
     const dragonAnimations = gltf.animations;
@@ -68,7 +68,7 @@ function updateDragonBehavior() {
 }
 
 function movedragon_bossTowardsMarker(marker) {
-    const dragon_bossSpeed = 0.04; // Adjust speed as necessary
+    const dragon_bossSpeed = 0.01; // Adjust speed as necessary
     const directionTodragon_boss = marker.position.clone().sub(dragon_boss.position).normalize();
     const dragon_bossMovement = directionTodragon_boss.multiplyScalar(dragon_bossSpeed);
     dragon_boss.position.add(dragon_bossMovement);

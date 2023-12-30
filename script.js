@@ -437,7 +437,9 @@ function render() {
 
       currentTime = Date.now(); // Update current time
       delta = clock.getDelta();
-
+      if (anya) {
+              anya.getWorldPosition(anyaPosition);
+          }
           if (mixer) {
 
         mixer.update(delta);
