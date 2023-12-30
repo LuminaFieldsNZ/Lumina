@@ -13,7 +13,7 @@ function clearStorage() {
     sessionStorage.clear();
 }
 
-populations = {
+let populations = {
   progressive: 0,
   socialist: 0,
   idealist: 0,
@@ -49,28 +49,6 @@ const colorMapping = {
         arbiter: 0,
         sailor: 0
     };
-
-var speedx = 1;
-var spikesx = .1;
-var processingx = 1;
-
-function sendValuesToSoul() {
-    var soulFrame = document.getElementById('soulFrame');
-
-    // Check if the iframe is present
-    if (soulFrame) {
-        var messageData = {
-            speed: speedx,
-            spikes: spikesx,
-            processing: processingx
-        };
-
-        // Post the message to the iframe's content window
-        soulFrame.contentWindow.postMessage(messageData, '*');
-    } else {
-        console.log("Soul iframe is not present.");
-    }
-}
 
 
 function updatePopulations() {

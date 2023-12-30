@@ -1,4 +1,9 @@
 
+
+let angerCount = 0, happyCount = 0, depressedCount = 0;
+
+
+
 function scrollToBottom() {
     const textContainer = document.getElementById('textContainer');
     const targetScroll = textContainer.scrollHeight - textContainer.clientHeight;
@@ -20,42 +25,48 @@ function scrollToBottom() {
 }
 
 
-
-// Call this function whenever new text is added to the container
-
 function loadFile(event) {
     const input = event.target;
     if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
             const container = document.getElementById('textContainer');
-            container.innerHTML = '';  // Clear existing containers
+            container.innerHTML = '';  // Clear existing content
 
             const fileContent = e.target.result;
             const textSegments = fileContent.split('🐕');
 
-            // Process each segment without removing the 🐕 symbol
+            // Process each segment
             textSegments.forEach((segment, index) => {
-                if (index > 0) { // Add the symbol back except for the first segment
+                if (index > 0) {
                     segment = '🐕' + segment;
                 }
                 const segmentContainer = document.createElement('div');
                 segmentContainer.contentEditable = true;
                 segmentContainer.classList.add('segment');
                 segmentContainer.textContent = segment.trim();
-                // ... (rest of the styling and appending)
                 container.appendChild(segmentContainer);
             });
+
             countEmojisAndUpdate();
             countEmotionKeywordsAndUpdate();
             countKeywordsForNationsAndUpdate();
             scrollToBottom();
-            sendValuesToSoul();
+            shouldPlayNarrative = false;
+
+            // Find and update the username
+            const usernameRegex = /🐕Username:(.+)🐕/;
+            const usernameMatch = usernameRegex.exec(fileContent);
+            if (usernameMatch && usernameMatch[1]) {
+                userId = usernameMatch[1].trim(); // Update the global userId
+            }
+
             checkAndPromptForUsername();
         };
         reader.readAsText(input.files[0]);
     }
 }
+
 
 
 
@@ -114,7 +125,7 @@ function countEmotionKeywordsAndUpdate() {
     const happyKeywords = ['joyful', 'happy', 'elated', 'jubilant', 'cheerful', 'delighted', 'ecstatic', 'content', 'blissful', 'radiant'];
     const depressedKeywords = ['sad', 'depressed', 'melancholic', 'hopeless', 'despair', 'downcast', 'miserable', 'gloomy', 'dismal', 'heartbroken'];
 
-    let angerCount = 0, happyCount = 0, depressedCount = 0;
+    angerCount = 0, happyCount = 0, depressedCount = 0;
 
     // Count each keyword for each emotion
     angerKeywords.forEach(keyword => {
@@ -131,28 +142,9 @@ function countEmotionKeywordsAndUpdate() {
     console.log('Happy keywords count:', happyCount);
     console.log('Depressed keywords count:', depressedCount);
     // You can also use these counts as needed
-    calculateValues(angerCount, happyCount, depressedCount);
     return { angerCount, happyCount, depressedCount };
 }
 
-function calculateValues(angerCount, happyCount, depressedCount) {
-    // Calculate the total count of all emotions
-    const totalCount = angerCount + happyCount + depressedCount;
-
-    // Calculate the proportion of each emotion
-    const angerProportion = totalCount > 0 ? angerCount / totalCount : 0;
-    const happyProportion = totalCount > 0 ? happyCount / totalCount : 0;
-    const depressedProportion = totalCount > 0 ? depressedCount / totalCount : 0;
-
-    // Adjust the scale based on the proportion of each emotion
-    speedx = Math.min(Math.max(10 + (angerProportion * 110), 10), 120); // scale from 10 to 120
-    spikesx = Math.min(Math.max(0.5 + (happyProportion * 2), 0.5), 3); // scale from 0.5 to 2
-    processingx = Math.min(Math.max(0.6 + (depressedProportion * 1.8), 0.6), 2.4); // scale from 0.6 to 2.4
-
-    console.log(`speedx: ${speedx}, spikesx: ${spikesx}, processingx: ${processingx}`);
-    sendValuesToSoul();
-    return { speedx, spikesx, processingx };
-}
 
 
 function countKeywordsForNationsAndUpdate() {
@@ -169,6 +161,18 @@ function countKeywordsForNationsAndUpdate() {
         economist: ['trade', 'mobility', 'commerce', 'gold', 'market'],
         realist: ['resources', 'isolation', 'survival', 'pragmatic', 'rugged'],
         socialist: ['collective', 'ai', 'humanity', 'protection', 'sharing']
+    };
+
+    populations = {
+      progressive: 0,
+      socialist: 0,
+      idealist: 0,
+      globalist: 0,
+      conservative: 0,
+      economist: 0,
+      realist: 0,
+      nationalist: 0,
+      populist: 0
     };
 
     // Count each keyword for each nation
@@ -189,10 +193,13 @@ function periodicUpdate() {
     countEmojisAndUpdate();
     countEmotionKeywordsAndUpdate();
     countKeywordsForNationsAndUpdate();
-    sendValuesToSoul();
     checkAndPromptForUsername();
-    playNarrativeOnce();
+    if (shouldPlayNarrative) {
+            playNarrativeOnce();
+            shouldPlayNarrative = false; // Prevents playing again in future updates
+        }
     scrollToBottom();
+    document.getElementById('hitPoints').innerHTML = hitpoints;
 }
 
 // Set up the interval
