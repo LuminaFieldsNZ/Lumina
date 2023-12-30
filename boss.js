@@ -1,5 +1,5 @@
 let dragon_boss, dragon_bossMixer, mixer2, dragonFlight;
-let hitpoints = 1000; // Initial hitpoints
+let hitpoints = 999; // Initial hitpoints
 let loader = new THREE.GLTFLoader();
 const anyaPosition = new THREE.Vector3();
 let animationDuration = 1.8;
@@ -87,14 +87,22 @@ function checkCollision2() {
   const distance = dragon_boss.position.distanceTo(anyaPosition);
 
   // Adjust these thresholds based on the actual scale of your game objects and world
-  const collisionThresholdClose = 10;
-  const collisionThresholdMedium = 20;
-  const collisionThresholdFar = 30;
+  const collisionThresholdClose = 2;
+  const collisionThresholdMedium = 4;
+  const collisionThresholdFar = 8;
 
   if (distance < collisionThresholdClose) {
       hitpoints -= 5;
+        anyaAction.stop();
+        anyaAction = anyaMixer.clipAction(anyaAnimations[4]);
+            anyaAction.setLoop(THREE.LoopOnce);
+        anyaAction.play();
   } else if (distance < collisionThresholdMedium) {
       hitpoints -= 3;
+      anyaAction.stop();
+      anyaAction = anyaMixer.clipAction(anyaAnimations[2]);
+          anyaAction.setLoop(THREE.LoopOnce);
+      anyaAction.play();
   } else if (distance < collisionThresholdFar) {
       hitpoints -= 1;
   }

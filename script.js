@@ -151,7 +151,8 @@ function updateAnyaMovement() {
     let speed = 0.06; // or whatever your speed value is
     let movement = direction.multiplyScalar(speed);
 
-    console.log(`Direction: ${JSON.stringify(direction)}, Speed: ${speed}, Movement: ${JSON.stringify(movement)}`);
+    // Log direction, speed, and movement values
+    console.log(`Direction: ${direction.x}, ${direction.y}, ${direction.z}, Speed: ${speed}`);
 
     let distance = anya.position.distanceTo(moveDestination);
 
@@ -164,11 +165,12 @@ function updateAnyaMovement() {
     anya.position.add(movement);
 
     // After updating the position
-    console.log(`Updated Anya position: ${JSON.stringify(anya.position)}`);
+    console.log(`Updated Anya position: x=${anya.position.x}, y=${anya.position.y}, z=${anya.position.z}`);
 
     // Make Anya face the destination
     anya.lookAt(moveDestination);
 }
+
 
 function isMovingAwayFromDestination(currentPosition, destination, movement) {
     let nextPosition = currentPosition.clone().add(movement);
@@ -978,20 +980,6 @@ function dragEnd(e) {
     // Here you can also reset the drag handle's position if needed
 }
 
-
-
-
-
-
-function changeAnimation(animationIndex) {
-    if (mixer && animations[animationIndex]) {
-        action.stop();
-        currentAnimationIndex = animationIndex;
-        action = mixer.clipAction(animations[currentAnimationIndex]);
-        action.setLoop(THREE.LoopRepeat);
-        action.play();
-    }
-}
 
 
 
