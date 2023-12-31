@@ -99,6 +99,7 @@ function checkCollision2() {
           anyaAction.setLoop(THREE.LoopOnce);
       anyaAction.play();
   } else if (distance < collisionThresholdFar) {
+    questionStatus.PlayQuestion2 = true;
       hitpoints -= 1;
   }
 

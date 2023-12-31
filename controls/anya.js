@@ -46,7 +46,7 @@ function updateAnyaMovement() {
     }
 
     let direction = moveDestination.clone().sub(anya.position).normalize();
-    let speed = 0.06; // or whatever your speed value is
+    let speed = speedPoints; // or whatever your speed value is
     let movement = direction.multiplyScalar(speed);
 
     // Log direction, speed, and movement values
@@ -182,9 +182,9 @@ function mainJump() {
     }
 
     // Parameters for the jump
-    const jumpHeight = 5; // The height of the jump
-    const duration = 1.5; // Duration of the jump in seconds
-    const jumpUpDuration = duration / 2;
+    const jumpHeight = airPoints; // The height of the jump
+    const duration = Math.max(0.8, Math.min(airPoints / 2, 0.8)); // Duration of the jump in seconds
+    const jumpUpDuration = duration / 3;
     const jumpDownDuration = duration / 2;
 
     // Determine Anya's forward direction and speed
