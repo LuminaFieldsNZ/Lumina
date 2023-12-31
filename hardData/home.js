@@ -20,18 +20,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function checkPasscode() {
+  document.getElementById('backpack').style.display = 'block';
+  setTimeout(function() {
+      document.getElementById('backpack').style.display = 'none';
+  }, 25500); // 500 milliseconds equals half a second
   const code = document.getElementById("passcode").value;
   if(code === "candle") {
     document.getElementById('candle').style.display = 'block';
     setTimeout(function() {
         document.getElementById('candle').style.display = 'none';
-    }, 9500); // 500 milliseconds equals half a second
+    }, 19500); // 500 milliseconds equals half a second
 }
 if(code === "knife") {
   document.getElementById('knife').style.display = 'block';
   setTimeout(function() {
       document.getElementById('knife').style.display = 'none';
-  }, 9500); // 500 milliseconds equals half a second
+  }, 19500); // 500 milliseconds equals half a second
 }
   if(code === "100") {
     parent.postMessage({ action: 'changeSrc', newSrc: '100/index.html' }, '*');
@@ -42,10 +46,13 @@ if(code === "knife") {
   if(code === "587112349") {
     parent.postMessage({ action: 'changeSrc', newSrc: 'nations/book.html' }, '*');
   }
+
+
 }
 
 
 setTimeout(function() {
     document.getElementById('candle').style.display = 'none';
     document.getElementById('knife').style.display = 'none';
+    document.getElementById('backpack').style.display = 'none';
 }, 500); // 500 milliseconds equals half a second

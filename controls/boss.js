@@ -74,11 +74,6 @@ function movedragon_bossTowardsMarker(marker) {
     dragon_boss.position.add(dragon_bossMovement);
     dragon_boss.lookAt(marker.position);
 
-    // Check if dragon_boss is already running, if not, trigger running animation
-    if (!dragonFlight) {
-        dragonFlight = true;
-        startInterval();
-    }
 }
 
 

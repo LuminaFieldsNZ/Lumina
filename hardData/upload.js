@@ -203,7 +203,7 @@ function periodicUpdate() {
 }
 
 // Set up the interval
-setInterval(periodicUpdate, 9000); // 5000 milliseconds = 5 seconds
+setInterval(periodicUpdate, 19000); // 5000 milliseconds = 20 seconds
 
 
 function checkAndPromptForUsername() {
