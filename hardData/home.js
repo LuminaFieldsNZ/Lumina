@@ -32,7 +32,7 @@ function checkPasscode() {
   }, 25500); // 500 milliseconds equals half a second
   const code = document.getElementById("passcode").value;
   if(code === "candle") {
-    questionStatus.PlayQuestion3 = true;
+    questStatus.quest3 = true;
     document.getElementById('candle').style.display = 'block';
     setTimeout(function() {
         document.getElementById('candle').style.display = 'none';
@@ -50,14 +50,14 @@ if(code === "potion") {
       document.getElementById('potion').style.display = 'none';
   }, 19500); // 500 milliseconds equals half a second
 }
-  if(code === "100") {
-    parent.postMessage({ action: 'changeSrc', newSrc: '100/index.html' }, '*');
-  }
-  if(code === "micheal") {
-    parent.postMessage({ action: 'changeSrc', newSrc: 'face/index.html' }, '*');
-  }
-  if(code === "587112349") {
-    parent.postMessage({ action: 'changeSrc', newSrc: 'nations/book.html' }, '*');
+  if(code === "candlelight" || code === "light the candle" || code === "candle light" || code === "light candle") {
+    candlelight = true;
+    questStatus.quest4 = true;
+    candles.traverse((object) => {
+        if (object.isMesh) {
+            object.material.opacity = 1;
+        }
+    });
   }
 
 

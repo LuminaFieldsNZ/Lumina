@@ -14,6 +14,8 @@ let questStatus = {
     quest5: false
 };
 
+let candlelight = false;
+
 function checkAllQuestionsPlayed() {
     if (Object.values(questionStatus).every(status => status)) {
         alert("You have finished this weeks lesson, great job!");
@@ -21,10 +23,10 @@ function checkAllQuestionsPlayed() {
 }
 
 function PlayQuestion1() {
-    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: red;"><b>Micheal: Let us talk about movespeed, I will give you the first enchantment to allow you to move around the map better. Hold tight! asd?j?spd/increase/1asd$df2</b></font><hr><br>';
+  questStatus.quest1 = true;
+    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: red;"><b>Micheal: Let us talk about movespeed, I will give you the first enchantment to allow you to move around the map better. Come back in a few seconds! asd?j?spd/increase/1asd$df2</b></font><hr><br>';
     scrollToBottom();
     questionStatus.PlayQuestion1 = true;
-    questStatus.quest1 === true;
     checkAllQuestionsPlayed();
 }
 
@@ -52,43 +54,7 @@ function PlayQuestion4() {
 function PlayQuestion5() {
     chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: orange;"><b>Micheal: You have somehow made it this far, and earned the title soulcrafter. Share my final blessing, in the form of a huge status boost. <br> 3gggyujr5.fdsdt5,air/increase/1xtxspd/increase/1x112..a</b></font><hr><br>';
     scrollToBottom();
+    questStatus.quest5 = true;
     questionStatus.PlayQuestion5 = true;
     checkAllQuestionsPlayed();
-}
-
-function periodicUpdate2() {
-    countEmojisAndUpdate();
-    countEmotionKeywordsAndUpdate();
-    countKeywordsForNationsAndUpdate();
-
-    if (!questionStatus.PlayQuestion1) {
-        PlayQuestion1();
-    } else if (!questionStatus.PlayQuestion2) {
-        if (questStatus.quest1 === true) {
-            PlayQuestion2();
-        } else {
-            PlayQuestion1();
-        }
-    } else if (!questionStatus.PlayQuestion3) {
-        if (questStatus.quest2 === true) {
-            PlayQuestion3();
-        } else {
-            PlayQuestion2();
-        }
-    } else if (!questionStatus.PlayQuestion4) {
-        if (questStatus.quest3 === true) {
-            PlayQuestion4();
-        } else {
-            PlayQuestion3();
-        }
-    } else if (!questionStatus.PlayQuestion5) {
-        if (questStatus.quest4 === true) {
-            PlayQuestion5();
-        } else {
-            PlayQuestion4();
-        }
-    }
-
-    hitpoints = healthPoints;
-    document.getElementById('hitPoints').innerHTML = hitpoints;
 }

@@ -1,7 +1,7 @@
 // Global variables
 let scene, camera, renderer, controls;
 let model, crycella, felix, mixer, anyaMixer, anyaAction, action2, action;
-let city, computers, newAction, delta;
+let city, computers, newAction, delta, distanceArch;
 let felixMixer, animationIndex, animationIndex2, crycellaMixer, crycellaAction;
 let clock = new THREE.Clock();
 let animations, crycellaAnimations, felixAction, currentAnimation = 0;
@@ -149,6 +149,7 @@ function checkDistanceAndTriggerActions() {
         if (!isInCloseRangeCrycella) {
             isInCloseRangeCrycella = true;
             changeCrycellaAnimation(4); // Close collision animation for Crycella
+            crycellaMessage();
             isInFarRangeCrycella = false; // Reset far collision state
         }
     } else if (distanceToCrycella < farCollisionThreshold) {

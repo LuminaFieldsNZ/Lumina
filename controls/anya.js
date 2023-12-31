@@ -140,14 +140,17 @@ function checkCollision() {
     }
 
     const knifePosition = new THREE.Vector3();
+    const gatewayPosition = new THREE.Vector3();
 
     // Get the world position of anya and knife
     anya.getWorldPosition(anyaPosition);
     knife.getWorldPosition(knifePosition);
+    gateway.getWorldPosition(gatewayPosition);
 
     // Now you can use anyaPosition and knifePosition to check for collision
     // For example, check if the distance between them is less than some threshold
     const distance = anyaPosition.distanceTo(knifePosition);
+    const distanceArch = anyaPosition.distanceTo(gatewayPosition);
     const collisionThreshold = .56; // Set your collision threshold
 
     if (distance < collisionThreshold) {
@@ -158,6 +161,20 @@ function checkCollision() {
       scrollToBottom();
         // Collision detected
         console.log('Collision detected between anya and knife');
+    }
+
+    if (distanceArch < collisionThreshold) {
+
+      chatWindow.innerHTML += 'You have entered Bawon Samedis Altar';
+      if (questionStatus.PlayQuestion3 === true) {
+        chatWindow.innerHTML += '<font style="font-weight: 900; color: grey;"><i>Bawon Samedis Speaks: offer the wax light a candle needing a flame..</i></font>';
+      }
+      if ( candlelight === true ) {
+        questStatus.quest4 = true;
+      }
+      scrollToBottom();
+        // Collision detected
+        console.log('Collision detected between anya and altar');
     }
 }
 

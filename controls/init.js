@@ -231,15 +231,27 @@ gateway.traverse(function (child) {
 // Perform any additional setup for the city model here
 });
 
+
+
 loader.load('https://luminafields.com/candles.glb', function (gltf) {
-candles = gltf.scene;
-candles.scale.set(1, 1, 1); // Adjust the 100 factor as needed
-scene.add(candles);
-candles.position.x += 3.9;
-candles.position.y += .4;
-candles.position.z += 2.9;
-// Perform any additional setup for the city model here
+    candles = gltf.scene;
+    candles.scale.set(1, 1, 1); // Adjust the scale as needed
+    scene.add(candles);
+    candles.position.x += 10.9;
+    candles.position.y += .4;
+    candles.position.z += 11.9;
+
+    // Set material to transparent and initially hide the model
+    candles.traverse((object) => {
+        if (object.isMesh) {
+            object.material.transparent = true;
+            object.material.opacity = 0;
+        }
+    });
+
+    // Perform any additional setup for the candles model here
 });
+
 
 
 
