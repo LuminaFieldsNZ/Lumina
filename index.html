@@ -47,7 +47,13 @@
       <div id="drag-handle" style="width: 40px; height: 40px; background-color: red; border-radius: 50%;">
         <span id="hitPoints" style="color:black; font-weight:900; line-height:40px; margin-left:6px;">100</span>
 </div>
-</div><button id="mainJump" class="open=modal" style="position:absolute; bottom: 10px; left: 10px;">Jump</button>
+</div>
+<button id="mainJump" class="open-modal" style="position:absolute; bottom: 10px; left: 10px;">Jump</button>
+
+ <iframe id="backpack" style="display:block; position:absolute; bottom: 50px; left: 10px;" src="controls/inventory.html" width="200" height="200"></iframe>
+ <iframe id="candle" style="display:block; position:absolute; bottom: 50px; left: 10px;" src="controls/candle.html" width="200" height="200"></iframe>
+ <iframe id="knife" style="display:block; position:absolute; bottom: 50px; left: 10px;" src="controls/knife.html" width="200" height="200"></iframe>
+
 
   <div id="app"></div>
 
@@ -71,7 +77,7 @@
               <div class="messages">
 <div class="message-box">
     <div class="search-wrapper">
-      <a class="mode-switch app-sidebar-link" onclick="document.getElementById('popupIframe').src = '';" title="Switch Theme">
+      <a class="mode-switch app-sidebar-link" onclick="document.documentElement.classList.toggle('dark');modeSwitch.classList.toggle('active');" title="Switch Theme">
         <svg class="link-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
           <defs></defs>
           <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
@@ -89,6 +95,7 @@
                <button class="open-modal" onclick="document.getElementById('fileInput').click()">Upload File</button>
                <!-- Export Button -->
                <button class="open-modal" id="exportButton" onclick="exportToFile()">Export Edits</button>
+               <button class="open-modal" onclick = "nextPhoto()">View Fields</button>
 
                <div id="dragon-boss-animation-selector-container" style="position:absolute; right:10px; top: 20px;">
 
@@ -112,6 +119,9 @@
           <br>
           <font id="titleChange">Data</font>
       </header>
+      <a id="descriptAll"></a>
+      <br>
+      <a id="descriptAll2"></a>
       <div id="reflectionsContainer">
 <div class="chat-window" id="chatWindow">
             <a id="greeting"></a>'s fable:<a id="storyContainer"></a>
@@ -322,14 +332,6 @@
 </div>
 
 
-<div class="message-box" style="display: flex; flex-wrap: wrap;">
-
-                    <button class="open-modal" onclick = "nextPhoto();birdBomb();randomActionAndColor()">View Profanities</button>
-
-                    <a id="descriptAll"></a>
-                    <br>
-                    <a id="descriptAll2"></a>
-                  </div>
 
 
 
@@ -387,7 +389,6 @@
 <script  src="./script.js"></script>
 <script  src="./personality.js"></script>
 <script  src="chatbot.js"></script>
-
 <script  src="controls/anya.js"></script>
 
 

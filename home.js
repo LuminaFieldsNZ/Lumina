@@ -1,13 +1,5 @@
+
 document.addEventListener('DOMContentLoaded', function () {
-  var modeSwitch = document.querySelector('.mode-switch');
-
-  modeSwitch.addEventListener('click', function () {
-    document.documentElement.classList.toggle('dark');
-    modeSwitch.classList.toggle('active');
-  });
-
-
-
 
   const messagesSection = document.querySelector('.messages-section');
   const messagesBtn = document.querySelector('.messages-btn');
@@ -29,6 +21,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function checkPasscode() {
   const code = document.getElementById("passcode").value;
+  if(code === "candle") {
+    document.getElementById('candle').style.display = 'block';
+    setTimeout(function() {
+        document.getElementById('candle').style.display = 'none';
+    }, 9500); // 500 milliseconds equals half a second
+}
+if(code === "knife") {
+  document.getElementById('knife').style.display = 'block';
+  setTimeout(function() {
+      document.getElementById('knife').style.display = 'none';
+  }, 9500); // 500 milliseconds equals half a second
+}
   if(code === "100") {
     parent.postMessage({ action: 'changeSrc', newSrc: '100/index.html' }, '*');
   }
@@ -39,3 +43,9 @@ function checkPasscode() {
     parent.postMessage({ action: 'changeSrc', newSrc: 'nations/book.html' }, '*');
   }
 }
+
+
+setTimeout(function() {
+    document.getElementById('candle').style.display = 'none';
+    document.getElementById('knife').style.display = 'none';
+}, 500); // 500 milliseconds equals half a second

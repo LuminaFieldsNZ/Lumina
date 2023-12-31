@@ -439,6 +439,7 @@ function render() {
       delta = clock.getDelta();
       if (anya) {
               anya.getWorldPosition(anyaPosition);
+     // Make the camera always look at Anya           camera.lookAt(anyaPosition);
           }
           if (mixer) {
 
@@ -509,11 +510,16 @@ function toScreenPosition(obj, camera) {
 
 function init() {
   scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0x000000, 0, 16);
+  scene.fog = new THREE.Fog(0x000000, 0, 26);
+  const loader5 = new THREE.TextureLoader();
+
+  loader5.load('https://i.imgur.com/F3Qn6D9.jpeg', function(texture) {
+      texture.mapping = THREE.EquirectangularReflectionMapping;
+      scene.background = texture;
+  });
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.set(0, 3, 6);
   camera.lookAt(0, 0, 0);
-
 
   // Ambient Light
      let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -537,27 +543,29 @@ function init() {
      spotlight.target = spotlightTarget;
      scene.add(spotlight);
 
-     // Grid Helper
-     const gridSize = 500;
-     const gridDivisions = 520;
-     const gridHelper = new THREE.GridHelper(gridSize, gridDivisions);
-     scene.add(gridHelper);
+     // Load the texture
+     let textureLoader = new THREE.TextureLoader();
+     textureLoader.load('https://i.imgur.com/k6vp66z.jpeg', function(texture) {
+         // Texture is loaded and can be used
+         let planeMaterial = new THREE.MeshBasicMaterial({
+             side: THREE.DoubleSide,
+             map: texture
+         });
 
-     // Create and add the plane to the scene for raycasting
-     let planeGeometry = new THREE.PlaneGeometry(500, 500); // Adjust size as needed
-     let planeMaterial = new THREE.MeshBasicMaterial({
-         color: 0x00ff00,
-         side: THREE.DoubleSide,
-         transparent: true,
-         opacity: 0.5
-     });     let planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
-     planeMesh.rotation.x = -Math.PI / 2; // Rotate to horizontal
-     planeMesh.position.set(0, 0, 0); // Adjust position as needed
-     planeMesh.visible = true; // Make the plane visible for debugging
-     scene.add(planeMesh);
+         // Create the plane geometry
+         let planeGeometry = new THREE.PlaneGeometry(500, 500); // Adjust size as needed
 
-     // Define a mathematical plane for raycasting
-     plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0); // Plane at y = 0
+         // Create the plane mesh
+         let planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+         planeMesh.rotation.x = -Math.PI / 2; // Rotate to horizontal
+         planeMesh.position.set(0, 0, 0); // Adjust position as needed
+         planeMesh.visible = true; // Make the plane visible for debugging
+         scene.add(planeMesh);
+
+         // Define a mathematical plane for raycasting
+         let plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0); // Plane at y = 0
+     });
+
 
   let loader = new THREE.GLTFLoader();
   loader.load('https://luminafields.com/micheal.glb', function (gltf) {
@@ -695,14 +703,59 @@ computers.position.z -= .5;
 // Perform any additional setup for the city model here
 });
 
+loader.load('https://luminafields.com/altar.glb', function (gltf) {
+    altar = gltf.scene;
+    altar.scale.set(2, 2, 2); // Adjust the scale as needed
+    scene.add(altar);
+    altar.position.set(11.2, 1.2, 11.5); // Set position
+    altar.rotation.y = 40; // Set rotation
+
+    altar.traverse(function (child) {
+        if (child.isMesh) {
+            child.material.transparent = true;
+            child.material.opacity = 0.9; // Adjust the opacity as needed
+        }
+    });
+
+    // Perform any additional setup for the altar model here
+});
+
+
+loader.load('https://luminafields.com/gateway.glb', function (gltf) {
+gateway = gltf.scene;
+gateway.scale.set(4, 4, 4); // Adjust the 100 factor as needed
+scene.add(gateway);
+gateway.position.x += 11.2;
+gateway.position.y += 1.9;
+gateway.position.z += 11.5;
+gateway.rotation.y = 40;
+
+gateway.traverse(function (child) {
+    if (child.isMesh) {
+        child.material.transparent = true;
+        child.material.opacity = 0.75; // Adjust the opacity as needed
+    }
+});
+// Perform any additional setup for the city model here
+});
+
+loader.load('https://luminafields.com/candles.glb', function (gltf) {
+candles = gltf.scene;
+candles.scale.set(1, 1, 1); // Adjust the 100 factor as needed
+scene.add(candles);
+candles.position.x += 3.9;
+candles.position.y += .4;
+candles.position.z += 2.9;
+// Perform any additional setup for the city model here
+});
 
 
 
 loader.load('https://luminafields.com/tree.glb', function (gltf) {
     let tree = gltf.scene;
-    tree.scale.set(9, 9, 9);
+    tree.scale.set(39, 39, 39);
     tree.position.set(-10.2, -2.15, 0);
-    tree.position.y -= -4.25;
+    tree.position.y += 11.25;
 
     let light = new THREE.PointLight(0xffffff, 10, 100000); // Adjust color, intensity, and distance
     light.position.set(0, 5, 0); // Adjust light position relative to the tree
@@ -738,7 +791,7 @@ function addRandomTrees(numberOfTrees) {
 }
 
 
-addRandomTrees(5);
+addRandomTrees(2);
 
 
 

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GLB Viewer</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; background: transparent; } /* Ensure canvas background is transparent */
+    </style>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script>
+
+
+
+
+        let scene4, camera4, renderer4, controls4, model4;
+        let inventory4;
+
+        init();
+        animate();
+
+        function init() {
+          scene4 = new THREE.Scene();
+
+         camera4 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+         camera4.position.z = .5;
+
+         renderer4 = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // Enable alpha (transparency)
+         renderer4.setSize(window.innerWidth, window.innerHeight);
+         document.body.appendChild(renderer4.domElement);
+
+            // Ambient Light
+               let ambientLight4 = new THREE.AmbientLight(0xffffff, 3.5);
+               scene4.add(ambientLight4);
+
+               // Directional Light
+               let directionalLight4 = new THREE.DirectionalLight(0xffffff, 3.8);
+               directionalLight4.position.set(50, 100, 50); // Adjust position as needed
+               scene4.add(directionalLight4);
+
+
+               // Adjust Spotlight
+               let spotlight4 = new THREE.SpotLight(0xffffff, 1, 10000, Math.PI / 4, 0.5, 2);
+               spotlight4.position.set(0, 100, 0); // Adjust position as needed
+
+               let spotlightTarget4 = new THREE.Object3D();
+               spotlightTarget4.position.set(0, 0, 0); // Set target position
+               scene4.add(spotlightTarget4);
+               spotlight4.target = spotlightTarget4;
+               scene4.add(spotlight4);
+
+               inventory4 = 'https://luminafields.com/knife.glb';
+
+            const loader6 = new THREE.GLTFLoader();
+            loader6.load(inventory4, function (gltf) {
+                model4 = gltf.scene;
+                model4.scale.set(.02, .02, .02); // Adjust the 100 factor as needed
+                model4.position.x += .4;
+                model4.position.y -= .2;
+                scene4.add(model4);
+            });
+
+            controls4 = new THREE.OrbitControls(camera4, renderer4.domElement);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls4.update();
+            renderer4.render(scene4, camera4);
+        }
+    </script>
+</body>
+</html>
