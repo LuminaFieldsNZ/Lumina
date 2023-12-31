@@ -63,7 +63,7 @@ function init() {
   loader.load('https://luminafields.com/micheal.glb', function (gltf) {
     model = gltf.scene;
     scene.add(model);
-    model.position.x += 3.6;
+    model.position.x += 19.6;
     mixer = new THREE.AnimationMixer(model);
     animations = gltf.animations;
     action = mixer.clipAction(animations[0]);
@@ -185,13 +185,13 @@ knife.position.z += 0.9;
 // Perform any additional setup for the city model here
 });
 
-loader.load('https://luminafields.com/computers.glb', function (gltf) {
+loader.load('https://luminafields.com/potion.glb', function (gltf) {
 computers = gltf.scene;
-computers.scale.set(5, 5, 5); // Adjust the 100 factor as needed
+computers.scale.set(.2, .2, .2); // Adjust the 100 factor as needed
 scene.add(computers);
 computers.position.x += -1.2;
-computers.position.y -= -0.6;
-computers.position.z -= .5;
+computers.position.y += 0.16;
+computers.position.z += 1.5;
 // Perform any additional setup for the city model here
 });
 
@@ -285,6 +285,35 @@ function addRandomTrees(numberOfTrees) {
 
 addRandomTrees(2);
 
+function addRandomcaps(numberOfcaps) {
+    const capGridSize = 15; // Size of the grid
+    const halfGridSize = capGridSize / 2;
+    const groundLevelY = 0.8; // Set this to the elevation where the ground is
+
+    for (let i = 0; i < numberOfcaps; i++) {
+        loader.load('https://luminafields.com/powercaps.glb', function (gltf) {
+            let caps = gltf.scene;
+            caps.scale.set(1, 1, 1);
+
+            // Random position within the 30x30 grid
+            let x = Math.random() * capGridSize - halfGridSize; // Random X within [-15, 15]
+            let z = Math.random() * capGridSize - halfGridSize; // Random Z within [-15, 15]
+            let y = groundLevelY; // Elevation at ground level
+
+            caps.position.set(x, y, z);
+
+            let light = new THREE.PointLight(0xffffff, 1, 100); // Adjust as needed
+            light.position.set(0, 5, 0); // Position the light above the tree
+            caps.add(light);
+
+            scene.add(caps);
+        });
+    }
+}
+
+
+addRandomcaps(4);
+
 
 
 
@@ -292,7 +321,7 @@ loader.load('https://luminafields.com/building1.glb', function (gltf) {
 building1 = gltf.scene;
 building1.scale.set(12, 12, 12); // Adjust the 100 factor as needed
 scene.add(building1);
-building1.position.x += 5.2;
+building1.position.x += 25.2;
 building1.position.z -= .5;
 building1.position.y -= -4.7;
 building1.rotation.y = 825;

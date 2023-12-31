@@ -37,6 +37,12 @@ if(code === "knife") {
       document.getElementById('knife').style.display = 'none';
   }, 19500); // 500 milliseconds equals half a second
 }
+if(code === "potion") {
+  document.getElementById('potion').style.display = 'block';
+  setTimeout(function() {
+      document.getElementById('potion').style.display = 'none';
+  }, 19500); // 500 milliseconds equals half a second
+}
   if(code === "100") {
     parent.postMessage({ action: 'changeSrc', newSrc: '100/index.html' }, '*');
   }
@@ -54,5 +60,6 @@ if(code === "knife") {
 setTimeout(function() {
     document.getElementById('candle').style.display = 'none';
     document.getElementById('knife').style.display = 'none';
+    document.getElementById('potion').style.display = 'none';
     document.getElementById('backpack').style.display = 'none';
 }, 500); // 500 milliseconds equals half a second
