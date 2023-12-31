@@ -19,6 +19,7 @@ let candlelight = false;
 function checkAllQuestionsPlayed() {
     if (Object.values(questionStatus).every(status => status)) {
         alert("You have finished this weeks lesson, great job!");
+        healthPoints = 99999;
     }
 }
 
@@ -57,4 +58,44 @@ function PlayQuestion5() {
     questStatus.quest5 = true;
     questionStatus.PlayQuestion5 = true;
     checkAllQuestionsPlayed();
+}
+
+
+
+
+function periodicUpdate2() {
+    countEmojisAndUpdate();
+    countEmotionKeywordsAndUpdate();
+    countKeywordsForNationsAndUpdate();
+
+    if (!questionStatus.PlayQuestion1) {
+        PlayQuestion1();
+    } else if (!questionStatus.PlayQuestion2) {
+        if (questStatus.quest1 === true) {
+            PlayQuestion2();
+        } else {
+            PlayQuestion1();
+        }
+    } else if (!questionStatus.PlayQuestion3) {
+        if (questStatus.quest2 === true) {
+            PlayQuestion3();
+        } else {
+            PlayQuestion2();
+        }
+    } else if (!questionStatus.PlayQuestion4) {
+        if (questStatus.quest3 === true) {
+            PlayQuestion4();
+        } else {
+            PlayQuestion3();
+        }
+    } else if (!questionStatus.PlayQuestion5) {
+        if (questStatus.quest4 === true) {
+            PlayQuestion5();
+        } else {
+            PlayQuestion4();
+        }
+    }
+
+    hitpoints = healthPoints;
+    document.getElementById('hitPoints').innerHTML = hitpoints;
 }

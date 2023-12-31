@@ -40,6 +40,7 @@ function checkPasscode() {
 }
 if(code === "knife") {
   document.getElementById('knife').style.display = 'block';
+  chatWindow.innerHTML += '<font style="font-weight:900; color: #054950;"><b>Crycella: The is the knife of the last feline assasin tribe of Shuriman vastaya known as the Kiilash. The name of the last wielder is said to set its power free.</b></font>';
   setTimeout(function() {
       document.getElementById('knife').style.display = 'none';
   }, 19500); // 500 milliseconds equals half a second
