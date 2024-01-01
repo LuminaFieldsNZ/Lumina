@@ -149,6 +149,7 @@ function checkDistanceAndTriggerActions() {
         if (!isInCloseRangeCrycella) {
             isInCloseRangeCrycella = true;
             changeCrycellaAnimation(4); // Close collision animation for Crycella
+            potionAmountNum += 1;
             crycellaMessage();
             isInFarRangeCrycella = false; // Reset far collision state
         }

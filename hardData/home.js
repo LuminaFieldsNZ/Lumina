@@ -3,7 +3,7 @@
 
 
 let healthPoints = 100, spiritPoints = 10, attackDamage = 10, resilience = 1, airPoints = 1, speedPoints = .04;
-
+let potionAmountNum = 0;
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -30,7 +30,9 @@ function checkPasscode() {
   setTimeout(function() {
       document.getElementById('backpack').style.display = 'none';
   }, 25500); // 500 milliseconds equals half a second
-  const code = document.getElementById("passcode").value;
+
+  const code = document.getElementById("textarea").value.toLowerCase(); // Convert to lower case
+
   if(code === "candle") {
     questStatus.quest3 = true;
     document.getElementById('candle').style.display = 'block';
@@ -40,15 +42,16 @@ function checkPasscode() {
 }
 if(code === "knife") {
   document.getElementById('knife').style.display = 'block';
-  chatWindow.innerHTML += '<font style="font-weight:900; color: #054950;"><b>Crycella: The is the knife of the last feline assasin tribe of Shuriman vastaya known as the Kiilash. The name of the last wielder is said to set its power free.</b></font>';
   setTimeout(function() {
       document.getElementById('knife').style.display = 'none';
   }, 19500); // 500 milliseconds equals half a second
 }
 if(code === "potion") {
   document.getElementById('potion').style.display = 'block';
+  document.getElementById('potionAmount').style.display = 'block';
   setTimeout(function() {
       document.getElementById('potion').style.display = 'none';
+      document.getElementById('potionAmount').style.display = 'none';
   }, 19500); // 500 milliseconds equals half a second
 }
   if(code === "candlelight" || code === "light the candle" || code === "candle light" || code === "light candle") {

@@ -195,12 +195,14 @@ function periodicUpdate() {
     countKeywordsForNationsAndUpdate();
     checkAndPromptForUsername();
     updateStats();
+
     if (shouldPlayNarrative) {
             playNarrativeOnce();
             shouldPlayNarrative = false; // Prevents playing again in future updates
         }
     scrollToBottom();
     document.getElementById('hitPoints').innerHTML = hitpoints;
+    document.getElementById('potionAmountNum').innerHTML = potionAmountNum;
 }
 
 // Set up the interval

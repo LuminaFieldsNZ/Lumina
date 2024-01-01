@@ -127,6 +127,95 @@ function getDistance(object1, object2) {
 }
 
 
+function throwPotion() {
+    if (!potion || !anya) return;
+
+    // Get Anya's hand position
+    const anyaHand = anya.getObjectByName('LeftHand');
+    if (anyaHand) {
+        let handPosition = new THREE.Vector3();
+        anyaHand.getWorldPosition(handPosition);
+
+        // Make the potion visible and position it in Anya's hand
+        potion.traverse((object) => {
+            if (object.isMesh) {
+                object.material.opacity = 1; // Make visible
+            }
+        });
+        potion.position.set(handPosition.x, handPosition.y, handPosition.z);
+        scene.add(potion); // Detach the potion from Anya's hand
+
+        // Calculate the direction Anya is facing
+        let throwDirection = anya.getWorldDirection(new THREE.Vector3()).normalize();
+
+        // Create a timeline for the throw
+        let tl = gsap.timeline();
+
+        // First part of the timeline: move the potion up and forward
+        tl.to(potion.position, {
+            x: potion.position.x + throwDirection.x * 1.7, // Forward distance during the ascent
+            y: handPosition.y + 1.4, // Height of the arch
+            z: potion.position.z + throwDirection.z * 1.7, // Forward distance during the ascent
+            duration: 0.25,
+            ease: "power1.in"
+        });
+
+        // Second part of the timeline: move the potion forward and down
+        tl.to(potion.position, {
+            x: potion.position.x + throwDirection.x * 4.5, // Total forward distance
+            y: 0.16, // Ground level
+            z: potion.position.z + throwDirection.z * 4.5, // Total forward distance
+            duration: 0.25,
+            ease: "power1.out",
+            onComplete: growPowercap // Call growPowercap when the potion animation completes
+        });
+
+        // Animate the potion's rotation to end up straight up
+        tl.to(potion.rotation, {
+            x: 0, // End up facing straight up
+            y: 0, // Adjust as needed for correct orientation
+            z: 0, // Adjust as needed for correct orientation
+            duration: 0.5,
+            ease: "none"
+        }, "<"); // Start rotation animation at the same time as position animation
+    }
+}
+
+
+
+
+
+function growPowercap() {
+    loader.load('https://luminafields.com/powercaps.glb', function (gltf) {
+        let powercap = gltf.scene;
+        powercap.scale.set(0.1, 0.1, 0.1); // Start small
+
+        // Position the powercap where the potion landed
+        powercap.position.set(potion.position.x, 0.8, potion.position.z); // Adjust Y to ground level
+
+if (potionAmountNum > 0) {
+
+  scene.add(powercap);
+  potionAmountNum -= 1;
+
+}
+
+
+        // Animate the powercap growing
+        gsap.to(powercap.scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            duration: 10,
+            ease: "power1.inOut"
+        });
+
+        // Optionally, add a light or other effects as needed
+        let light = new THREE.PointLight(0xffffff, 1, 100);
+        light.position.set(0, 5, 0);
+        powercap.add(light);
+    });
+}
 
 
 
@@ -134,34 +223,50 @@ function getDistance(object1, object2) {
 
 
 function checkCollision() {
-    if (!anya || !knife) {
+    if (!anya || !knife || !gateway || !potion) {
         // If anya or knife are not yet loaded, exit the function
         return;
     }
 
     const knifePosition = new THREE.Vector3();
     const gatewayPosition = new THREE.Vector3();
+    const potionPosition = new THREE.Vector3();
+
 
     // Get the world position of anya and knife
     anya.getWorldPosition(anyaPosition);
     knife.getWorldPosition(knifePosition);
     gateway.getWorldPosition(gatewayPosition);
+    potion.getWorldPosition(potionPosition);
 
     // Now you can use anyaPosition and knifePosition to check for collision
     // For example, check if the distance between them is less than some threshold
     const distance = anyaPosition.distanceTo(knifePosition);
     const distanceArch = anyaPosition.distanceTo(gatewayPosition);
+    const distancePotion = anyaPosition.distanceTo(potionPosition);
     const collisionThreshold = .56; // Set your collision threshold
 
     if (distance < collisionThreshold) {
 
       attachKnifeToAnya();
       chatWindow.innerHTML += '<p>Knife:<br><font style="color: lightgreen;">[ATK]</font> Will increase attack by 5<br><font style="color: lightgreen;">[DEF]</font> Will increase defense by 1<br><font style="color: lightblue;">[MP]</font> Will increase mana by 0<br><font style="color: lightblue;">[HP]</font> Will increase health by 0</p>';
-        chatWindow.innerHTML += 'Search for Knife to examine';
+        chatWindow.innerHTML += 'Type for Knife to examine';
       scrollToBottom();
         // Collision detected
         console.log('Collision detected between anya and knife');
     }
+
+
+    if (distancePotion < collisionThreshold) {
+
+      attachPotionToAnya();
+      chatWindow.innerHTML += '<p>Potion:<br><font style="color: lightgreen;">[ATK]</font> Will increase attack by 0<br><font style="color: lightgreen;">[DEF]</font> Will increase defense by 0<br><font style="color: lightblue;">[MP]</font> Will increase mana by 0<br><font style="color: lightblue;">[HP]</font> Will increase health by 0</p>';
+        chatWindow.innerHTML += 'Type for Potion to examine';
+      scrollToBottom();
+        // Collision detected
+        console.log('Collision detected between anya and potion');
+    }
+
 
     if (distanceArch < collisionThreshold) {
 
@@ -188,11 +293,72 @@ function attachKnifeToAnya() {
     }
 }
 
+function throwKnife() {
+    if (!knife || !anya) return;
 
+    // Get Anya's hand position
+    const anyaHand = anya.getObjectByName('LeftHand');
+    if (anyaHand) {
+        let handPosition = new THREE.Vector3();
+        anyaHand.getWorldPosition(handPosition);
+
+        // Detach the knife from Anya's hand and add it to the scene
+        scene.add(knife);
+        knife.position.set(handPosition.x, handPosition.y, handPosition.z);
+
+        // Calculate the direction Anya is facing
+        let throwDirection = anya.getWorldDirection(new THREE.Vector3()).normalize();
+
+        // Create a timeline for the throw
+        let tl = gsap.timeline();
+
+        // First part of the timeline: move the knife up
+        tl.to(knife.position, {
+            y: handPosition.y + 1, // Adjust the height as needed
+            duration: 0.25,
+            ease: "power1.out"
+        });
+
+        // Second part of the timeline: move the knife forward and down
+        tl.to(knife.position, {
+            x: knife.position.x + throwDirection.x * 2.6, // Adjust distance as needed
+            y: 0.16, // Ground level
+            z: knife.position.z + throwDirection.z * 2.6, // Adjust distance as needed
+            duration: 0.25,
+            ease: "power1.in"
+        });
+    }
+}
+
+
+
+
+function attachPotionToAnya() {
+    const anyaHand2 = anya.getObjectByName('LeftHand'); // Replace 'Hand' with the actual hand part name
+    if (anyaHand2 && potion) {
+
+        // Attach the potion to Anya's hand
+        anyaHand2.add(potion);
+        potion.position.set(0, 0.2, 0); // Adjust as necessary
+        potion.rotation.z = 180; // Set rotation
+
+    }
+}
+
+
+
+let isJumpOnCooldown = false;
 
 
 
 function mainJump() {
+
+  // Check if the jump is on cooldown
+    if (isJumpOnCooldown) {
+        console.log('Jump is on cooldown');
+        return;
+    }
+
     if (!isAnyaLoaded || !anya || !anya.position) {
         console.error('Anya model not loaded or undefined');
         return;
@@ -235,6 +401,13 @@ function mainJump() {
             });
         }
     });
+
+    // Set the cooldown flag and reset it after 2 seconds
+       isJumpOnCooldown = true;
+       setTimeout(() => {
+           isJumpOnCooldown = false;
+       }, 2000); // 2000 milliseconds = 2 seconds
+
 }
 
 

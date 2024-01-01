@@ -186,12 +186,18 @@ knife.position.z += 0.9;
 });
 
 loader.load('https://luminafields.com/potion.glb', function (gltf) {
-computers = gltf.scene;
-computers.scale.set(.2, .2, .2); // Adjust the 100 factor as needed
-scene.add(computers);
-computers.position.x += -1.2;
-computers.position.y += 0.16;
-computers.position.z += 1.5;
+  potion = gltf.scene;
+     potion.scale.set(.2, .2, .2);
+     scene.add(potion);
+     potion.position.set(-1.2, 0.16, 1.5); // Initial position
+
+     // Set initial opacity to 0 (assuming potion material supports this)
+     potion.traverse((object) => {
+         if (object.isMesh) {
+             object.material.transparent = true;
+             object.material.opacity = 0;
+         }
+     });
 // Perform any additional setup for the city model here
 });
 
@@ -295,7 +301,7 @@ function addRandomTrees(numberOfTrees) {
 }
 
 
-addRandomTrees(2);
+addRandomTrees(7);
 
 function addRandomcaps(numberOfcaps) {
     const capGridSize = 15; // Size of the grid
@@ -324,7 +330,7 @@ function addRandomcaps(numberOfcaps) {
 }
 
 
-addRandomcaps(4);
+addRandomcaps(3);
 
 
 
