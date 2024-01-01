@@ -195,7 +195,7 @@ loader.load('https://luminafields.com/potion.glb', function (gltf) {
      potion.traverse((object) => {
          if (object.isMesh) {
              object.material.transparent = true;
-             object.material.opacity = 0;
+             object.material.opacity = 1;
          }
      });
 // Perform any additional setup for the city model here

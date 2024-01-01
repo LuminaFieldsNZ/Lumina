@@ -103,8 +103,6 @@ function checkCollision2() {
       hitpoints -= 1;
   }
 
-  // Debug log
-  console.log(`Distance: ${distance}, Hitpoints: ${hitpoints}`);
 
   if (hitpoints <= 0) {
          alert("Game Over");

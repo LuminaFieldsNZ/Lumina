@@ -5,7 +5,7 @@ let city, computers, newAction, delta, distanceArch;
 let felixMixer, animationIndex, animationIndex2, crycellaMixer, crycellaAction;
 let clock = new THREE.Clock();
 let animations, crycellaAnimations, felixAction, currentAnimation = 0;
-let spine, neck, anya, knife, knifePosition;
+let spine, neck, powercap, anya, knife, knifePosition;
 let targetRotation = new THREE.Vector3();
 let dropdown = document.getElementById('animation-selector');
 let lastRestartTime = 0;
@@ -45,22 +45,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-
-
-
-function checkCollision(object1, object2, threshold) {
-    if (!object1 || !object2) {
-        return false;
-    }
-
-    const position1 = new THREE.Vector3();
-    const position2 = new THREE.Vector3();
-    object1.getWorldPosition(position1);
-    object2.getWorldPosition(position2);
-    const distance = position1.distanceTo(position2);
-
-    return distance < threshold;
-}
 
 
 function updateHeadTracking() {
@@ -123,6 +107,7 @@ function checkDistanceAndTriggerActions() {
     const distanceToMainModel = getDistance(anya, model);
     const distanceToCrycella = getDistance(anya, crycella);
 
+
     // Collision logic for the main model
     if (distanceToMainModel < closeCollisionThreshold) {
         if (!isInCloseRangeMainModel) {
@@ -149,7 +134,9 @@ function checkDistanceAndTriggerActions() {
         if (!isInCloseRangeCrycella) {
             isInCloseRangeCrycella = true;
             changeCrycellaAnimation(4); // Close collision animation for Crycella
-            potionAmountNum += 1;
+            if (potionAmountNum < 2){
+              potionAmountNum += 1;
+            }
             crycellaMessage();
             isInFarRangeCrycella = false; // Reset far collision state
         }
@@ -217,6 +204,7 @@ function render() {
        crycella.rotation.y = THREE.Math.degToRad(crycellaFixedRotationY);
 
    }
+
     checkDistanceAndTriggerActions();
 
     // Update head tracking

@@ -1,6 +1,8 @@
 
 
+let jumpHeight = airPoints; // The height of the jump
 
+let jumpHeight2 = (airPoints) + 6; // The height of the jump
 
 
 
@@ -49,8 +51,6 @@ function updateAnyaMovement() {
     let speed = speedPoints; // or whatever your speed value is
     let movement = direction.multiplyScalar(speed);
 
-    // Log direction, speed, and movement values
-    console.log(`Direction: ${direction.x}, ${direction.y}, ${direction.z}, Speed: ${speed}`);
 
     let distance = anya.position.distanceTo(moveDestination);
 
@@ -61,9 +61,6 @@ function updateAnyaMovement() {
     }
 
     anya.position.add(movement);
-
-    // After updating the position
-    console.log(`Updated Anya position: x=${anya.position.x}, y=${anya.position.y}, z=${anya.position.z}`);
 
     // Make Anya face the destination
     anya.lookAt(moveDestination);
@@ -129,7 +126,7 @@ function getDistance(object1, object2) {
 
 function throwPotion() {
     if (!potion || !anya) return;
-
+if (potionAmountNum < 1) return;
     // Get Anya's hand position
     const anyaHand = anya.getObjectByName('LeftHand');
     if (anyaHand) {
@@ -200,7 +197,6 @@ if (potionAmountNum > 0) {
 
 }
 
-
         // Animate the powercap growing
         gsap.to(powercap.scale, {
             x: 1,
@@ -222,11 +218,15 @@ if (potionAmountNum > 0) {
 
 
 
+
+
+
 function checkCollision() {
     if (!anya || !knife || !gateway || !potion) {
         // If anya or knife are not yet loaded, exit the function
         return;
     }
+
 
     const knifePosition = new THREE.Vector3();
     const gatewayPosition = new THREE.Vector3();
@@ -238,6 +238,7 @@ function checkCollision() {
     knife.getWorldPosition(knifePosition);
     gateway.getWorldPosition(gatewayPosition);
     potion.getWorldPosition(potionPosition);
+
 
     // Now you can use anyaPosition and knifePosition to check for collision
     // For example, check if the distance between them is less than some threshold
@@ -257,13 +258,15 @@ function checkCollision() {
     }
 
 
+
+
     if (distancePotion < collisionThreshold) {
 
       attachPotionToAnya();
       chatWindow.innerHTML += '<p>Potion:<br><font style="color: lightgreen;">[ATK]</font> Will increase attack by 0<br><font style="color: lightgreen;">[DEF]</font> Will increase defense by 0<br><font style="color: lightblue;">[MP]</font> Will increase mana by 0<br><font style="color: lightblue;">[HP]</font> Will increase health by 0</p>';
         chatWindow.innerHTML += 'Type for Potion to examine';
       scrollToBottom();
-        // Collision detected
+      mainJump2();
         console.log('Collision detected between anya and potion');
     }
 
@@ -281,6 +284,8 @@ function checkCollision() {
         // Collision detected
         console.log('Collision detected between anya and altar');
     }
+
+
 }
 
 
@@ -365,7 +370,6 @@ function mainJump() {
     }
 
     // Parameters for the jump
-    const jumpHeight = airPoints; // The height of the jump
     const duration = Math.max(0.8, Math.min(airPoints / 2, 0.8)); // Duration of the jump in seconds
     const jumpUpDuration = duration / 3;
     const jumpDownDuration = duration / 2;
@@ -410,6 +414,70 @@ function mainJump() {
 
 }
 
-
 // Attach the function to the button
 document.getElementById('mainJump').addEventListener('click', mainJump);
+
+
+function mainJump2() {
+
+  // Check if the jump is on cooldown
+    if (isJumpOnCooldown) {
+        console.log('Jump is on cooldown');
+        return;
+    }
+
+    if (!isAnyaLoaded || !anya || !anya.position) {
+        console.error('Anya model not loaded or undefined');
+        return;
+    }
+
+    // Parameters for the jump
+    const duration2 = Math.max(0.8, Math.min(airPoints / 2, 0.8)); // duration2 of the jump in seconds
+    const jumpUpduration2 = duration2 / 1;
+    const jumpDownduration2 = duration2 * 5.5;
+
+    // Determine Anya's forward direction and speed
+    const forwardDirection = moveDestination.clone().sub(anya.position).normalize();
+    const forwardSpeed = isAnyaMoving ? 0.06 : 0; // Use the same speed as in updateAnyaMovement
+
+    // Create the jump effect
+    gsap.to(anya.position, {
+        y: "+=" + jumpHeight2, // Jump up
+        duration2: jumpUpduration2,
+        ease: "power2.out",
+        onUpdate: () => {
+            if (isAnyaMoving) {
+                // Continue moving forward while jumping up
+                let forwardMovement = forwardDirection.clone().multiplyScalar(forwardSpeed * gsap.ticker.deltaRatio());
+                anya.position.add(forwardMovement);
+            }
+        },
+        onComplete: () => {
+            gsap.to(anya.position, {
+                y: "-=" + jumpHeight2, // Fall down
+                duration2: jumpDownduration2,
+                ease: "power2.in",
+                onUpdate: () => {
+                    if (isAnyaMoving) {
+                        // Continue moving forward while jumping down
+                        let forwardMovement = forwardDirection.clone().multiplyScalar(forwardSpeed * gsap.ticker.deltaRatio());
+                        anya.position.add(forwardMovement);
+                    }
+                }
+            });
+        }
+    });
+
+    // Set the cooldown flag and reset it after 2 seconds
+       isJumpOnCooldown = true;
+       setTimeout(() => {
+           isJumpOnCooldown = false;
+       }, 2000); // 2000 milliseconds = 2 seconds
+
+}
+
+
+
+
+
+//end
