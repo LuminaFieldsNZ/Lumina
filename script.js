@@ -192,15 +192,6 @@ function render() {
            crycellaMixer.update(delta);
        }
     if (mixer2) {
-        // Update the elapsed time since the last restart
-        lastRestartTime += delta;
-
-        // Check if the specified duration has passed
-        if (lastRestartTime >= animationDuration / animationSpeed) {
-            action2.reset().play(); // Restart the animation
-            lastRestartTime = 0; // Reset the timer
-        }
-
         mixer2.update(delta); // Continue to update the mixer
     }
 
