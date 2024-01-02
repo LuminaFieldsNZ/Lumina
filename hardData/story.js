@@ -371,21 +371,6 @@ function allSend() {
 
 
 
-                      function updateCompilation() {
-                          const compilationContainer = document.getElementById('compilationContainer');
-
-                          // Process only new messages
-                          processedMessages.forEach(message => {
-                              const messageElement = document.createElement('p');
-                              messageElement.textContent = message;
-                              compilationContainer.appendChild(messageElement);
-                          });
-
-                          // Clear processedMessages array after updating
-                          processedMessages = [];
-                      }
-
-
 
                     function calcLevenshteinDistance(str1, str2) {
                         str1 = str1.toLowerCase();

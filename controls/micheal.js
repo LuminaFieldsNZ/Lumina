@@ -25,35 +25,35 @@ function checkAllQuestionsPlayed() {
 
 function PlayQuestion1() {
   questStatus.quest1 = true;
-    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: red;"><b>Micheal: Let us talk about movespeed, I will give you the first enchantment to allow you to move around the map better. Come back in a few seconds! asd?j?spd/increase/1asd$df2</b></font><hr><br>';
+    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: Let us talk about movespeed, I will give you the first enchantment to allow you to move around the map better. Find the Tomb and come back! By the swift winds of Legba, and the mighty force of Shango, I summon the rapid currents of Oya, to quicken my flow.</b></font><hr><br>';
     scrollToBottom();
     questionStatus.PlayQuestion1 = true;
     checkAllQuestionsPlayed();
 }
 
 function PlayQuestion2() {
-    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: Go and locate the Dragon, by the time you return, i will have your next incantation ready.</b></font><hr><br>';
+    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: Through the pathways of the Loa, let my speed be unmatched, as the serpent Damballah coils, let my agility be unattached. Now go and locate the Dragon. You will need to get their attention, as soon as you see your health drops you know you have their attention. Anytime you come back to me, I will refill your health.</b></font><hr><br>';
     scrollToBottom();
     questionStatus.PlayQuestion2 = true;
     checkAllQuestionsPlayed();
 }
 
 function PlayQuestion3() {
-    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: green;"><b>Micheal: Lets get this out the way first. mumbababab23air/increase/1df@cvvvv..sss <br><br>........<br><br>..... Ok, you now have the ability to jump a little higher. Go speak to Crycella to find out more about your inventory.</b></font><hr><br>';
+    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: In the name of Papa Ghede, bearer of the eternal crossroad, grant me the velocity of the cheetah, light as the load of a hummingbird. Go speak to Crycella to find out more about your inventory, then come back if you ever need help.</b></font><hr><br>';
     scrollToBottom();
     questionStatus.PlayQuestion3 = true;
     checkAllQuestionsPlayed();
 }
 
 function PlayQuestion4() {
-    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: purple;"><b>Micheal: You now have all the items for the ritual, place the candle at the spirit altar, and await for a Lwa to offer a blessing or a curse based on your story.</b></font><hr><br>';
+    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: You now have all the items for the ritual, place the candle at the spirit altar, and await for a Lwa to offer a blessing or a curse based on your story.</b></font><hr><br>';
     scrollToBottom();
     questionStatus.PlayQuestion4 = true;
     checkAllQuestionsPlayed();
 }
 
 function PlayQuestion5() {
-    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: orange;"><b>Micheal: You have somehow made it this far, and earned the title soulcrafter. Share my final blessing, in the form of a huge status boost. <br> 3gggyujr5.fdsdt5,air/increase/1xtxspd/increase/1x112..a</b></font><hr><br>';
+    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: You have somehow made it this far soulcrafter. Share my final blessing... With the blessing of the ancestors, and the spirits that guide, may my movements be a blur, like the relentless ride of the tide.</b></font><hr><br>';
     scrollToBottom();
     questStatus.quest5 = true;
     questionStatus.PlayQuestion5 = true;

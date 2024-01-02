@@ -86,7 +86,11 @@ function updateStats() {
   const attackCount = ['atk/increase/1'];
   const resilienceCount = ['def/increase/1'];
   const airCount = ['air/increase/1'];
-  const speedCount = ['spd/increase/1'];
+  const speedCount = ['By the swift winds of Legba, and the mighty force of Shango, I summon the rapid currents of Oya, to quicken my flow.'];
+  const speedCount1 = ['Through the pathways of the Loa, let my speed be unmatched, as the serpent Damballah coils, let my agility be unattached.'];
+  const speedCount2 = ['In the name of Papa Ghede, bearer of the eternal crossroad, grant me the velocity of the cheetah, light as the load of a hummingbird.'];
+  const speedCount3 = ['With the blessing of the ancestors, and the spirits that guide, may my movements be a blur, like the relentless ride of the tide.'];
+
 
   healthPoints = 100, spiritPoints = 10, attackDamage = 10, resilience = 1, airPoints = 1, speedPoints = .04;
 
@@ -107,7 +111,16 @@ function updateStats() {
       airPoints += ((text90.match(new RegExp('\\b' + keyword2 + '\\b', 'g')) || []).length) / 4;
   });
   speedCount.forEach(keyword2 => {
-      speedPoints += ((text90.match(new RegExp('\\b' + keyword2 + '\\b', 'g')) || []).length) / 25;
+      speedPoints += ((text90.match(new RegExp('\\b' + keyword2 + '\\b', 'g')) || []).length) / 90;
+  });
+  speedCount1.forEach(keyword2 => {
+      speedPoints += ((text90.match(new RegExp('\\b' + keyword2 + '\\b', 'g')) || []).length) / 90;
+  });
+  speedCount2.forEach(keyword2 => {
+      speedPoints += ((text90.match(new RegExp('\\b' + keyword2 + '\\b', 'g')) || []).length) / 90;
+  });
+  speedCount3.forEach(keyword2 => {
+      speedPoints += ((text90.match(new RegExp('\\b' + keyword2 + '\\b', 'g')) || []).length) / 90;
   });
 
   document.getElementById('mainhp').innerHTML = healthPoints;

@@ -194,7 +194,6 @@ function periodicUpdate() {
     countEmotionKeywordsAndUpdate();
     countKeywordsForNationsAndUpdate();
     checkAndPromptForUsername();
-    updateStats();
 
     if (shouldPlayNarrative) {
             playNarrativeOnce();

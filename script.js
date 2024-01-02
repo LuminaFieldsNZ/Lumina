@@ -12,8 +12,6 @@ let lastRestartTime = 0;
 const closeCollisionThreshold = 0.96;
 const farCollisionThreshold = 4.86;
 let currentTime = Date.now();
-const crycellaFixedPosition = new THREE.Vector3(0.8, 0, 5);
-const crycellaFixedRotationY = 160;
 let markers = []; // Array to store green dot markers
 let felixIsRunning = false;
 let anyaAnimations;
@@ -37,7 +35,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   dropdown.addEventListener('change', function() {
     let selectedValue = parseInt(this.value);
-    changeAnimation(selectedValue);
+
+    if (anyaMixer) {
+        anyaAction.stop();
+        anyaAction = anyaMixer.clipAction(anyaAnimations[selectedValue]);
+        anyaAction.play();
+    }
+
   });
 });
 
@@ -59,7 +63,7 @@ function updateHeadTracking() {
     // Update tracking for each character
     updateCharacterTracking(model, anyaWorldPos, new THREE.Vector3(0, 0, 1)); // Assuming model faces along positive Z-axis initially
     updateCharacterTracking(felix, anyaWorldPos, new THREE.Vector3(0, 0, -.25)); // Adjust initial facing direction if different
-    updateCharacterTracking(crycella, anyaWorldPos, new THREE.Vector3(0, 0, -1)); // Adjust initial facing direction if different
+    updateCharacterTracking(crycella, anyaWorldPos, new THREE.Vector3(0, 0, 0)); // Adjust initial facing direction if different
 }
 
 function updateCharacterTracking(character, targetPosition, initialFacingDirection) {
@@ -133,7 +137,7 @@ function checkDistanceAndTriggerActions() {
     if (distanceToCrycella < closeCollisionThreshold) {
         if (!isInCloseRangeCrycella) {
             isInCloseRangeCrycella = true;
-            changeCrycellaAnimation(4); // Close collision animation for Crycella
+            changeCrycellaAnimation(5); // Close collision animation for Crycella
             if (potionAmountNum < 2){
               potionAmountNum += 1;
             }
@@ -199,11 +203,6 @@ function render() {
         mixer2.update(delta); // Continue to update the mixer
     }
 
-    if (crycella) {
-       crycella.position.set(crycellaFixedPosition.x, crycellaFixedPosition.y, crycellaFixedPosition.z);
-       crycella.rotation.y = THREE.Math.degToRad(crycellaFixedRotationY);
-
-   }
 
     checkDistanceAndTriggerActions();
 
@@ -217,6 +216,7 @@ function render() {
 
 updateFelixBehavior();
 updateDragonBehavior();
+updateStats();
 
 
  renderer.render(scene, camera);

@@ -1,5 +1,6 @@
 let hasCrycellaMessageRun = false;
 let hasCrycellaMessage2Run = false;
+let hasCrycellaMessage3Run = false;
 
 function crycellaMessage() {
   if (questStatus.quest2 === true && !hasCrycellaMessageRun) {
@@ -15,6 +16,9 @@ function crycellaMessage2() {
   }
 }
 
-
-
-// chatWindow.innerHTML += '<font style="font-weight:900; color: #054950;"><b></b></font>';
+function crycellaMessage3() {
+  if (questStatus.quest5 === true && !hasCrycellaMessage3Run) {
+    displayStory2();
+    hasCrycellaMessage3Run = true;
+  }
+}

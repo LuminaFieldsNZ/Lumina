@@ -31,13 +31,9 @@ function changeAnimation(selectedAnimation) {
 function changeCrycellaAnimation(selectedAnimation) {
     if (crycellaMixer && animations[selectedAnimation]) {
         crycellaAction.stop();
-        crycellaAction = crycellaMixer.clipAction(animations[selectedAnimation]);
+        crycellaAction = crycellaMixer.clipAction(crycellaAnimations[selectedAnimation]);
         crycellaAction.setLoop(THREE.LoopRepeat);
         crycellaAction.play();
-
-        // Reapply fixed position and rotation
-        crycella.position.set(crycellaFixedPosition.x, crycellaFixedPosition.y, crycellaFixedPosition.z);
-        crycella.rotation.y = THREE.Math.degToRad(crycellaFixedRotationY);
 
     }
 }

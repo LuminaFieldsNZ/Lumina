@@ -13,11 +13,6 @@ let jumpHeight2 = (airPoints) + 6; // The height of the jump
 
 
 
-
-
-
-
-
 function switchToAnimation(animationIndex, playOnce = false) {
     if (anyaMixer && anyaAnimations[1]) {
         anyaAction.stop();

@@ -139,8 +139,10 @@ loader.load('https://luminafields.com/crycella.glb', function (gltf) {
     crycella = gltf.scene;
     scene.add(crycella);
     crycella.scale.set(.9, .9, .9); // Adjust the 100 factor as needed
-    crycella.position.set(crycellaFixedPosition.x, crycellaFixedPosition.y, crycellaFixedPosition.z);
-    crycella.rotation.y = THREE.Math.degToRad(crycellaFixedRotationY);
+    crycella.position.x += -6.2;
+    crycella.position.z += 0.9;
+    crycellaAnimations = gltf.animations; // Store animations
+
 
     // Create an animation mixer for the crycella model
     crycellaMixer = new THREE.AnimationMixer(crycella);
@@ -152,22 +154,6 @@ loader.load('https://luminafields.com/crycella.glb', function (gltf) {
         console.error('No animations found in crycella.glb');
     }
 });
-
-
-loader.load('https://luminafields.com/booth.glb', function (gltf) {
-booth = gltf.scene;
-scene.add(booth);
-booth.scale.set(3, 3, 3); // Adjust the 100 factor as needed
-booth.rotation.y = 40;
-booth.position.z += 6;
-booth.position.x += 2;
-booth.position.y += 1.6;
-// Perform any additional setup for the city model here
-});
-
-
-
-
 
 
 
@@ -189,13 +175,13 @@ loader.load('https://luminafields.com/potion.glb', function (gltf) {
   potion = gltf.scene;
      potion.scale.set(.2, .2, .2);
      scene.add(potion);
-     potion.position.set(-1.2, 0.16, 1.5); // Initial position
+     potion.position.set(0.8, 0, 5); // Initial position
 
      // Set initial opacity to 0 (assuming potion material supports this)
      potion.traverse((object) => {
          if (object.isMesh) {
              object.material.transparent = true;
-             object.material.opacity = 1;
+             object.material.opacity = 0;
          }
      });
 // Perform any additional setup for the city model here
@@ -261,11 +247,11 @@ loader.load('https://luminafields.com/candles.glb', function (gltf) {
 
 
 
-loader.load('https://luminafields.com/tree.glb', function (gltf) {
+loader.load('https://luminafields.com/powercaps.glb', function (gltf) {
     let tree = gltf.scene;
-    tree.scale.set(39, 39, 39);
+    tree.scale.set(9, 9, 9);
     tree.position.set(-10.2, -2.15, 0);
-    tree.position.y += 11.25;
+    tree.position.y += 5.25;
 
     let light = new THREE.PointLight(0xffffff, 10, 100000); // Adjust color, intensity, and distance
     light.position.set(0, 5, 0); // Adjust light position relative to the tree
@@ -301,36 +287,7 @@ function addRandomTrees(numberOfTrees) {
 }
 
 
-addRandomTrees(7);
-
-function addRandomcaps(numberOfcaps) {
-    const capGridSize = 15; // Size of the grid
-    const halfGridSize = capGridSize / 2;
-    const groundLevelY = 0.8; // Set this to the elevation where the ground is
-
-    for (let i = 0; i < numberOfcaps; i++) {
-        loader.load('https://luminafields.com/powercaps.glb', function (gltf) {
-            let caps = gltf.scene;
-            caps.scale.set(1, 1, 1);
-
-            // Random position within the 30x30 grid
-            let x = Math.random() * capGridSize - halfGridSize; // Random X within [-15, 15]
-            let z = Math.random() * capGridSize - halfGridSize; // Random Z within [-15, 15]
-            let y = groundLevelY; // Elevation at ground level
-
-            caps.position.set(x, y, z);
-
-            let light = new THREE.PointLight(0xffffff, 1, 100); // Adjust as needed
-            light.position.set(0, 5, 0); // Position the light above the tree
-            caps.add(light);
-
-            scene.add(caps);
-        });
-    }
-}
-
-
-addRandomcaps(3);
+addRandomTrees(3);
 
 
 
@@ -371,10 +328,6 @@ hobbitmountain.position.y -= -7.5;
 
   controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-  dropdown.addEventListener('change', function() {
-    let selectedValue = parseInt(this.value);
-    changeAnimation(selectedValue);
-  });
 
 
 }
