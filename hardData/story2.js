@@ -79,5 +79,5 @@ function generateRandomStory2() {
 function displayStory2() {
     const storyP2 = document.createElement('p');
     storyP2.textContent = generateRandomStory2();
-    storyContainer.appendChild(storyP2);
+    chatWindow.innerHTML += '<br><font style="font-weight:900; color: #054950;"><b>Crycella: ' + storyP2.textContent + '</b></font><br>';
 }

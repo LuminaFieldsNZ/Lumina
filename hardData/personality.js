@@ -16,9 +16,6 @@ const narrative = [
 
 
 let shouldPlayNarrative = true;
-
-
-
 let isLoaded2 = false;
 
 function playNarrativeOnce() {

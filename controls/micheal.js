@@ -18,7 +18,7 @@ let candlelight = false;
 
 function checkAllQuestionsPlayed() {
     if (Object.values(questionStatus).every(status => status)) {
-        alert("You have finished this weeks lesson, great job!");
+        alert("You have finished this months lesson!");
         healthPoints = 99999;
     }
 }

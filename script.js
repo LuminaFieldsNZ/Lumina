@@ -22,7 +22,7 @@ let moveDestination = new THREE.Vector3();
 let isAnyaMoving = false;
 let animationDuration2 = 3; // Default duration
 let isWalking = false;
-
+let knifeCount = 0;
 
 
 
@@ -62,7 +62,7 @@ function updateHeadTracking() {
 
     // Update tracking for each character
     updateCharacterTracking(model, anyaWorldPos, new THREE.Vector3(0, 0, 1)); // Assuming model faces along positive Z-axis initially
-    updateCharacterTracking(felix, anyaWorldPos, new THREE.Vector3(0, 0, -.25)); // Adjust initial facing direction if different
+    updateCharacterTracking(felix, anyaWorldPos, new THREE.Vector3(0, 0, 0)); // Adjust initial facing direction if different
     updateCharacterTracking(crycella, anyaWorldPos, new THREE.Vector3(0, 0, 0)); // Adjust initial facing direction if different
 }
 
@@ -142,6 +142,7 @@ function checkDistanceAndTriggerActions() {
               potionAmountNum = 1;
             }
             crycellaMessage();
+            crycellaMessage2();
             isInFarRangeCrycella = false; // Reset far collision state
         }
     } else if (distanceToCrycella < farCollisionThreshold) {
@@ -204,20 +205,17 @@ function render() {
     }
 
 
-    checkDistanceAndTriggerActions();
-
-    // Update head tracking
-    updateHeadTracking();
+ checkDistanceAndTriggerActions();
+ updateHeadTracking();
  checkCollision();
+ countEmojisAndUpdate();
+ countEmotionKeywordsAndUpdate();
+ countKeywordsForNationsAndUpdate();
+ updateFelixBehavior();
+ updateDragonBehavior();
+ updateStats();
 
- if (isAnyaMoving) {
-     updateAnyaMovement();
- }
- document.getElementById('potionAmountNum').innerHTML = potionAmountNum;
-updateFelixBehavior();
-updateDragonBehavior();
-updateStats();
-
+ if(isAnyaMoving){updateAnyaMovement();}
 
  renderer.render(scene, camera);
 }

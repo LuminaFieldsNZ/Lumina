@@ -49,8 +49,8 @@
 </div>
 </div>
 <button id="mainJump" class="open-modal" style="position:absolute; bottom: 10px; left: 10px;">Jump</button>
-<button onclick="throwPotion()" class="open-modal" style="position:absolute; bottom: 10px; left: 100px;">Shroom</button>
-<button onclick="throwKnife()" class="open-modal" style="position:absolute; bottom: 50px; left: 10px;">Yeet</button>
+<button id="shroomButton" onclick="throwPotion()" class="open-modal" style="position:absolute; bottom: 10px; left: 100px; display: none;">Shroom</button>
+<button id="knifeButton" onclick="throwKnife()" class="open-modal" style="position:absolute; bottom: 50px; left: 10px; display: none;">Yeet</button>
 <button id="superJump" onclick="mainJump2()" class="open-modal" style="position:absolute; bottom: 50px; left: 100px; display: none;">Super Jump</button>
 
 
@@ -59,7 +59,7 @@
  <iframe id="knife" style="display:block; position:absolute; bottom: 50px; left: 10px;" src="controls/knife.html" width="200" height="200"></iframe>
 
  <iframe id="potion" style="display:block; position:absolute; bottom: 50px; left: 10px;" src="controls/potion.html" width="200" height="200"></iframe>
-<div  id="potionAmount" style="display:block; position:absolute; bottom: 50px; left: 20px;"><font id="potionAmountNum" style="font-weight:900; font-size: 3em; color: lightblue; z-index: 999999999999;"></font></div>
+<div id="potionAmount" style="display:none; position:absolute; bottom: 50px; left: 20px;"><font id="potionAmountNum" style="font-weight:900; font-size: 3em; color: lightblue; z-index: 999999999999;"></font></div>
 
   <div id="app"></div>
 
@@ -149,6 +149,17 @@
           <textarea oninput="checkPasscode();" id="textarea" style="width:400px;height:80px;" placeholder="Enter your text here..."></textarea>
           <button class="open-modal" onclick="allSend()">Send</button>
       </div>
+</div>
+
+
+
+<div class="message-box" style="display: flex; flex-wrap: wrap;">
+  <div style="flex: 0 0 calc(30% - 20px); margin: 10px;  font-size: 1.2em;" class="days-left" >HP: <font id="mainhp"></font> </div>
+  <div style="flex: 0 0 calc(30% - 20px); margin: 10px;  font-size: 1.2em;" class="days-left" >MP: <font id="mainmp"></font> </div>
+  <div style="flex: 0 0 calc(30% - 20px); margin: 10px;  font-size: 1.2em;" class="days-left" >ATK: <font id="mainatk"></font> </div>
+  <div style="flex: 0 0 calc(30% - 20px); margin: 10px;  font-size: 1.2em;" class="days-left" >DEF: <font id="maindef"></font> </div>
+  <div style="flex: 0 0 calc(30% - 20px); margin: 10px;  font-size: 1.2em;" class="days-left" >AIR: <font id="mainair"></font> </div>
+  <div style="flex: 0 0 calc(30% - 20px); margin: 10px;  font-size: 1.2em;" class="days-left" >SPD: <font id="mainspd"></font> </div>
 </div>
 
 
@@ -337,7 +348,7 @@
     </div>
 
 </div>
-<div class="message-box">
+<div id="editFile" class="message-box" style="display:none;">
   <!-- Editable Text Container -->
 <div id="textContainer" contenteditable="true" style="margin-top: 10px; border: none; padding: 20px; min-height: 100px; max-height: 80vh; overflow-y: auto;">
 <!-- Uploaded text will appear here -->
@@ -345,14 +356,6 @@
 </div>
 
 
-<div class="message-box" style="display: flex; flex-wrap: wrap;">
-  <div style="flex: 0 0 calc(30% - 20px); margin: 10px;  font-size: 1.2em;" class="days-left" >HP: <font id="mainhp"></font> </div>
-  <div style="flex: 0 0 calc(30% - 20px); margin: 10px;  font-size: 1.2em;" class="days-left" >MP: <font id="mainmp"></font> </div>
-  <div style="flex: 0 0 calc(30% - 20px); margin: 10px;  font-size: 1.2em;" class="days-left" >ATK: <font id="mainatk"></font> </div>
-  <div style="flex: 0 0 calc(30% - 20px); margin: 10px;  font-size: 1.2em;" class="days-left" >DEF: <font id="maindef"></font> </div>
-  <div style="flex: 0 0 calc(30% - 20px); margin: 10px;  font-size: 1.2em;" class="days-left" >AIR: <font id="mainair"></font> </div>
-  <div style="flex: 0 0 calc(30% - 20px); margin: 10px;  font-size: 1.2em;" class="days-left" >SPD: <font id="mainspd"></font> </div>
-</div>
 
 
 <div class="message-box" style="display: flex; flex-wrap: wrap;">

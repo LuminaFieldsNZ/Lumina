@@ -51,7 +51,6 @@ function loadFile(event) {
             countEmojisAndUpdate();
             countEmotionKeywordsAndUpdate();
             countKeywordsForNationsAndUpdate();
-            scrollToBottom();
             shouldPlayNarrative = false;
 
             // Find and update the username
@@ -59,9 +58,13 @@ function loadFile(event) {
             const usernameMatch = usernameRegex.exec(fileContent);
             if (usernameMatch && usernameMatch[1]) {
                 userId = usernameMatch[1].trim(); // Update the global userId
+                chatWindow.innerHTML += '<br>Collective: ' + userId + ' <b>[save]</b> loaded.<br>';
             }
 
             checkAndPromptForUsername();
+            checkForQuesting();
+            scrollToBottom();
+
         };
         reader.readAsText(input.files[0]);
     }
@@ -109,9 +112,6 @@ function countEmojisAndUpdate() {
         const role = emojiToRoleMap[emoji];
         mainHeading[role] += count;
     }
-
-    console.log('Updated mainHeading:', mainHeading);
-    // You can also use mainHeading as needed
     return mainHeading;
 }
 
@@ -137,11 +137,6 @@ function countEmotionKeywordsAndUpdate() {
     depressedKeywords.forEach(keyword => {
         depressedCount += (text.match(new RegExp('\\b' + keyword + '\\b', 'g')) || []).length;
     });
-
-    console.log('Anger-related keywords count:', angerCount);
-    console.log('Happy keywords count:', happyCount);
-    console.log('Depressed keywords count:', depressedCount);
-    // You can also use these counts as needed
     return { angerCount, happyCount, depressedCount };
 }
 
@@ -181,8 +176,6 @@ function countKeywordsForNationsAndUpdate() {
             populations[nation] += (text.match(new RegExp('\\b' + keyword + '\\b', 'g')) || []).length;
         });
     }
-
-    console.log('Updated populations:', populations);
     return populations;
 }
 
@@ -190,22 +183,17 @@ function countKeywordsForNationsAndUpdate() {
 
 // Function to be called every 5 seconds
 function periodicUpdate() {
-    countEmojisAndUpdate();
-    countEmotionKeywordsAndUpdate();
-    countKeywordsForNationsAndUpdate();
-    checkAndPromptForUsername();
+  checkAndPromptForUsername();
 
-    if (shouldPlayNarrative) {
-            playNarrativeOnce();
-            shouldPlayNarrative = false; // Prevents playing again in future updates
-        }
-    scrollToBottom();
-    document.getElementById('hitPoints').innerHTML = hitpoints;
-    document.getElementById('potionAmountNum').innerHTML = potionAmountNum;
+   if (shouldPlayNarrative) {
+           playNarrativeOnce();
+           shouldPlayNarrative = false; // Prevents playing again in future updates
+       }
+
 }
 
 // Set up the interval
-setInterval(periodicUpdate, 19000); // 5000 milliseconds = 20 seconds
+setTimeout(periodicUpdate, 29000); // 5000 milliseconds = 20 seconds
 
 
 function checkAndPromptForUsername() {
@@ -219,9 +207,37 @@ function checkAndPromptForUsername() {
         if (username && username.trim()) {
             textContainer.textContent += `🐕Username:${username.trim()}🐕\n`;
                 userId = username.trim();
-                introduction();
         }
     }
 }
+
+function checkForQuesting() {
+    const textContainer2 = document.getElementById('textContainer');
+    const text2 = textContainer2.textContent || textContainer2.innerText;
+    const usernameRegex2 = /like the relentless ride of the tide/; // Regex to find the username line
+    const found2 = usernameRegex2.test(text2);
+
+    if (found2) {
+      questionStatus = {
+          PlayQuestion1: true,
+          PlayQuestion2: true,
+          PlayQuestion3: true,
+          PlayQuestion4: true,
+          PlayQuestion5: true
+      };
+
+      questStatus = {
+          quest1: true,
+          quest2: true,
+          quest3: true,
+          quest4: true,
+          quest5: true
+      };
+
+       hasCrycellaMessageRun = true;
+
+        }
+    }
+
 
 // Call this function at an appropriate time, e.g., after loading the file

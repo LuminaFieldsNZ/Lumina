@@ -8,7 +8,7 @@ let animationSpeed = 0.9;
 
 
 
-loader.load('https://luminafields.com/dragon2.glb', function (gltf) {
+loader.load('https://luminafields.com/red.glb', function (gltf) {
     dragon_boss = gltf.scene;
     scene.add(dragon_boss);
     dragon_boss.scale.set(2, 2, 2);
@@ -23,7 +23,7 @@ loader.load('https://luminafields.com/dragon2.glb', function (gltf) {
         action2.timeScale = animationSpeed; // Set the animation speed to half
         action2.play();
     } else {
-        console.error('No animations found in dragon2.glb');
+        console.error('No animations found in red.glb');
     }
 });
 

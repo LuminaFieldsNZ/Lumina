@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function checkPasscode() {
+
   document.getElementById('backpack').style.display = 'block';
   setTimeout(function() {
       document.getElementById('backpack').style.display = 'none';
@@ -39,21 +40,24 @@ function checkPasscode() {
     setTimeout(function() {
         document.getElementById('candle').style.display = 'none';
     }, 19500); // 500 milliseconds equals half a second
-}
-if(code === "knife") {
+  }
+
+  if(code === "knife") {
   document.getElementById('knife').style.display = 'block';
   setTimeout(function() {
       document.getElementById('knife').style.display = 'none';
   }, 19500); // 500 milliseconds equals half a second
-}
-if(code === "potion") {
+  }
+
+  if(code === "potion") {
   document.getElementById('potion').style.display = 'block';
   document.getElementById('potionAmount').style.display = 'block';
   setTimeout(function() {
       document.getElementById('potion').style.display = 'none';
       document.getElementById('potionAmount').style.display = 'none';
   }, 19500); // 500 milliseconds equals half a second
-}
+  }
+
   if(code === "candlelight" || code === "light the candle" || code === "candle light" || code === "light candle") {
     candlelight = true;
     questStatus.quest4 = true;
@@ -63,6 +67,20 @@ if(code === "potion") {
         }
     });
   }
+
+  if(code === "//settings") {
+    document.getElementById('editFile').style.display = 'block';
+  }
+
+  if(code === "//hide") {
+  document.getElementById('editFile').style.display = 'none';
+  }
+
+
+
+
+
+
 
 
 }
@@ -129,6 +147,12 @@ function updateStats() {
   document.getElementById('maindef').innerHTML = resilience;
   document.getElementById('mainair').innerHTML = airPoints;
   document.getElementById('mainspd').innerHTML = speedPoints;
-  scrollToBottom();
+  document.getElementById('hitPoints').innerHTML = hitpoints;
+  document.getElementById('potionAmountNum').innerHTML = potionAmountNum;
+
+   if (potionAmountNum === 1){document.getElementById('shroomButton').style.display = 'block';}
+   if (knifeCount === 1){document.getElementById('knifeButton').style.display = 'block';}
+   if (potionAmountNum === 0){document.getElementById('shroomButton').style.display = 'none';}
+   if (knifeCount === 0){document.getElementById('knifeButton').style.display = 'none';}
 
   }

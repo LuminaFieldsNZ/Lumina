@@ -284,6 +284,7 @@ if (anyaHand && Object.keys(anyaHand).length > 0) {
 
 
 function attachKnifeToAnya() {
+  knifeCount = 1;
     const anyaHand = anya.getObjectByName('LeftHand'); // Replace 'Hand' with the actual hand part name
     if (anyaHand) {
         anyaHand.add(knife);
@@ -295,6 +296,8 @@ function attachKnifeToAnya() {
 
 function throwKnife() {
     if (!knife || !anya) return;
+    if (knifeCount < 1) return;
+    knifeCount = 0;
 
     // Get Anya's hand position
     const anyaHand = anya.getObjectByName('LeftHand');
