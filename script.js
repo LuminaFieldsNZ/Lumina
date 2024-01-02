@@ -1,5 +1,5 @@
 // Global variables
-let scene, camera, renderer, controls;
+let scene, camera, renderer, controls, potion, gateway, anyaHand;
 let model, crycella, felix, mixer, anyaMixer, anyaAction, action2, action;
 let city, computers, newAction, delta, distanceArch;
 let felixMixer, animationIndex, animationIndex2, crycellaMixer, crycellaAction;
@@ -139,7 +139,7 @@ function checkDistanceAndTriggerActions() {
             isInCloseRangeCrycella = true;
             changeCrycellaAnimation(5); // Close collision animation for Crycella
             if (potionAmountNum < 2){
-              potionAmountNum += 1;
+              potionAmountNum = 1;
             }
             crycellaMessage();
             isInFarRangeCrycella = false; // Reset far collision state
@@ -213,7 +213,7 @@ function render() {
  if (isAnyaMoving) {
      updateAnyaMovement();
  }
-
+ document.getElementById('potionAmountNum').innerHTML = potionAmountNum;
 updateFelixBehavior();
 updateDragonBehavior();
 updateStats();

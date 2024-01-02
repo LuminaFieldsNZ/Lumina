@@ -165,8 +165,7 @@ loader.load('https://luminafields.com/knife.glb', function (gltf) {
 knife = gltf.scene;
 scene.add(knife);
 knife.scale.set(.02, .02, .02); // Adjust the 100 factor as needed
-knife.position.x += -6.2;
-knife.position.z += 0.9;
+knife.position.x += -8.7;
 
 // Perform any additional setup for the city model here
 });

@@ -190,7 +190,6 @@ if (potionAmountNum > 0) {
   scene.add(powercap);
   potionAmountNum -= 1;
   document.getElementById('superJump').style.display = 'block';
-
 }
 
         // Animate the powercap growing
@@ -258,7 +257,6 @@ function checkCollision() {
 
     if (distancePotion < collisionThreshold) {
 if (anyaHand && Object.keys(anyaHand).length > 0) {
-  attachPotionToAnya();
   chatWindow.innerHTML += '<p>Potion:<br><font style="color: lightgreen;">[ATK]</font> Will increase attack by 0<br><font style="color: lightgreen;">[DEF]</font> Will increase defense by 0<br><font style="color: lightblue;">[MP]</font> Will increase mana by 0<br><font style="color: lightblue;">[HP]</font> Will increase health by 0</p>';
     chatWindow.innerHTML += 'Type for Potion to examine';
   scrollToBottom();
@@ -294,6 +292,7 @@ function attachKnifeToAnya() {
     }
 }
 
+
 function throwKnife() {
     if (!knife || !anya) return;
 
@@ -313,23 +312,34 @@ function throwKnife() {
         // Create a timeline for the throw
         let tl = gsap.timeline();
 
-        // First part of the timeline: move the knife up
+        // First part of the timeline: move the knife up and start rotation
         tl.to(knife.position, {
-            y: handPosition.y + 1, // Adjust the height as needed
-            duration: 0.25,
-            ease: "power1.out"
-        });
-
-        // Second part of the timeline: move the knife forward and down
-        tl.to(knife.position, {
-            x: knife.position.x + throwDirection.x * 2.6, // Adjust distance as needed
-            y: 0.16, // Ground level
-            z: knife.position.z + throwDirection.z * 2.6, // Adjust distance as needed
+            x: knife.position.x + throwDirection.x * 2.6,
+            y: handPosition.y + 1.7,
+            z: knife.position.z + throwDirection.z * 2.6,
             duration: 0.25,
             ease: "power1.in"
-        });
+        }).to(knife.rotation, {
+            y: "+=10", // Rotate multiple times; adjust as necessary
+            duration: 0.25,
+            ease: "linear"
+        }, "-=0.25"); // This ensures rotation starts at the same time as the upward movement
+
+        // Second part of the timeline: move the knife forward, down, and slow rotation
+        tl.to(knife.position, {
+            x: knife.position.x + throwDirection.x * 6.6,
+            y: 0.03, // Ground level
+            z: knife.position.z + throwDirection.z * 6.6,
+            duration: 0.75,
+            ease: "power1.out"
+        }).to(knife.rotation, {
+            y: "+=2", // Slow down rotation; adjust as necessary
+            duration: 0.75,
+            ease: "power1.out"
+        }, "-=0.75"); // This ensures rotation slows down at the same time as the downward movement
     }
 }
+
 
 
 
