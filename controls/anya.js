@@ -189,6 +189,7 @@ if (potionAmountNum > 0) {
 
   scene.add(powercap);
   potionAmountNum -= 1;
+  document.getElementById('superJump').style.display = 'block';
 
 }
 
@@ -256,13 +257,13 @@ function checkCollision() {
 
 
     if (distancePotion < collisionThreshold) {
-
-      attachPotionToAnya();
-      chatWindow.innerHTML += '<p>Potion:<br><font style="color: lightgreen;">[ATK]</font> Will increase attack by 0<br><font style="color: lightgreen;">[DEF]</font> Will increase defense by 0<br><font style="color: lightblue;">[MP]</font> Will increase mana by 0<br><font style="color: lightblue;">[HP]</font> Will increase health by 0</p>';
-        chatWindow.innerHTML += 'Type for Potion to examine';
-      scrollToBottom();
-      mainJump2();
-        console.log('Collision detected between anya and potion');
+if (anyaHand && Object.keys(anyaHand).length > 0) {
+  attachPotionToAnya();
+  chatWindow.innerHTML += '<p>Potion:<br><font style="color: lightgreen;">[ATK]</font> Will increase attack by 0<br><font style="color: lightgreen;">[DEF]</font> Will increase defense by 0<br><font style="color: lightblue;">[MP]</font> Will increase mana by 0<br><font style="color: lightblue;">[HP]</font> Will increase health by 0</p>';
+    chatWindow.innerHTML += 'Type for Potion to examine';
+  scrollToBottom();
+    console.log('Collision detected between anya and potion');
+}
     }
 
 
@@ -421,11 +422,6 @@ function mainJump2() {
         return;
     }
 
-    if (!isAnyaLoaded || !anya || !anya.position) {
-        console.error('Anya model not loaded or undefined');
-        return;
-    }
-
     // Parameters for the jump
     const duration2 = Math.max(0.8, Math.min(airPoints / 2, 0.8)); // duration2 of the jump in seconds
     const jumpUpduration2 = duration2 / 1;
@@ -468,6 +464,8 @@ function mainJump2() {
        setTimeout(() => {
            isJumpOnCooldown = false;
        }, 2000); // 2000 milliseconds = 2 seconds
+
+document.getElementById('superJump').style.display = 'none';
 
 }
 
