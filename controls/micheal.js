@@ -32,7 +32,7 @@ function PlayQuestion1() {
 }
 
 function PlayQuestion2() {
-    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: Through the pathways of the Loa, let my speed be unmatched, as the serpent Damballah coils, let my agility be unattached. Now go and locate the Dragon. You will need to get their attention, as soon as you see your health drops you know you have their attention. Anytime you come back to me, I will refill your health.</b></font><hr><br>';
+    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: Through the pathways of the Loa, let my speed be unmatched, as the serpent Damballah coils, let my agility be unattached. Now go and locate the Demon. You will need to get their attention, as soon as you see your health drops you know you have their attention. Anytime you come back to me, I will refill your health.</b></font><hr><br>';
     scrollToBottom();
     questionStatus.PlayQuestion2 = true;
     checkAllQuestionsPlayed();

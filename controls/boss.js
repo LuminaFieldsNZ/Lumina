@@ -60,7 +60,7 @@ function updateDragonBehavior() {
 }
 
 function movedragon_bossTowardsMarker(marker) {
-    const dragon_bossSpeed = 0.04; // Adjust speed as necessary
+    const dragon_bossSpeed = 0.08; // Adjust speed as necessary
     const movementThreshold = 2; // Threshold to determine if dragon is moving or idle
 
     // Calculate direction to the marker
