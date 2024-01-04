@@ -5,13 +5,13 @@ loaderBoss2.load('https://luminafields.com/boss2.glb', function (gltf) {
     dragon_boss1 = gltf.scene;
     scene.add(dragon_boss1);
     dragon_boss1.scale.set(2.5, 2.5, 2.5);
-    dragon_boss1.position.z += 66.2;
+    dragon_boss1.position.z += 79.2;
 
     mixer3 = new THREE.AnimationMixer(dragon_boss1);
     dragonAnimations1 = gltf.animations;
 
     if (dragonAnimations1) {
-        action3 = mixer3.clipAction(dragonAnimations1[2]);
+        action3 = mixer3.clipAction(dragonAnimations1[0]);
         action3.play();
     } else {
         console.error('No animations found in boss2.glb');
@@ -46,7 +46,7 @@ function updateDragonBehavior1() {
 }
 
 function movedragon_bossTowardsMarker1(marker) {
-    const dragon_bossSpeed1 = 0.035;
+    const dragon_bossSpeed1 = 0.045;
     const movementThreshold1 = 2;
 
     const directionToMarker1 = marker.position.clone().sub(dragon_boss1.position);
@@ -60,40 +60,44 @@ function movedragon_bossTowardsMarker1(marker) {
 
         if (!dragon_boss1.isMoving) {
             action3.stop();
-            action3 = mixer3.clipAction(dragonAnimations1[3]);
+            action3 = mixer3.clipAction(dragonAnimations1[5]);
             action3.play();
             dragon_boss1.isMoving = true;
         }
     } else if (dragon_boss1.isMoving) {
         action3.stop();
-        action3 = mixer3.clipAction(dragonAnimations1[2]);
+        action3 = mixer3.clipAction(dragonAnimations1[0]);
         action3.play();
         dragon_boss1.isMoving = false;
     }
 }
 
+let isCollisionAnimationPlaying = false;
+
 function checkCollision3() {
+    if (isCollisionAnimationPlaying) {
+        return; // Skip collision check if an animation is playing
+    }
+
     const distance = dragon_boss1.position.distanceTo(anyaPosition);
-    const collisionThresholdClose1 = 2;
+    const collisionThresholdClose1 = 8;
 
     if (distance < collisionThresholdClose1) {
-        if (!isAnyaMoving){
-            anyaAction1.stop();
-            anyaAction1 = anyaMixer1.clipAction(anyaAnimations1[6]);
-            anyaAction1.setLoop(THREE.LoopOnce);
-            anyaAction1.play();
+        if (!isAnyaMoving) {
+            isCollisionAnimationPlaying = true;
 
             action3.stop();
-            action3 = mixer3.clipAction(dragonAnimations1[4]);
+            action3 = mixer3.clipAction(dragonAnimations1[3]);
             action3.setLoop(THREE.LoopOnce);
             action3.play();
+            action3.clampWhenFinished = true; // Ensure the animation stops when finished
 
             setTimeout(() => {
-                hitpoints -= 10;
-            }, 3000);
-
+                hitpoints -= 30;
+                isCollisionAnimationPlaying = false; // Reset flag after animation
+            }, 6000);
         }
     }
 }
 
-setInterval(checkCollision3, 1000);
+setInterval(checkCollision3, 500);
