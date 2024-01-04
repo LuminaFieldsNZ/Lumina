@@ -166,47 +166,40 @@ function checkDistanceAndTriggerActions() {
 
 
 
+function updateScene() {
+  checkDistanceAndTriggerActions();
+  updateHeadTracking();
+  checkCollision();
+  countEmojisAndUpdate();
+  countEmotionKeywordsAndUpdate();
+  countKeywordsForNationsAndUpdate();
+  updateFelixBehavior();
+  updateDragonBehavior();
+  updateStats();
+  updateDragonBehavior1();
 
+}
 
 function render() {
+    currentTime = Date.now(); // Update current time
+    delta = clock.getDelta();
 
-      currentTime = Date.now(); // Update current time
-      delta = clock.getDelta();
-      if (anya) {
-              anya.getWorldPosition(anyaPosition);
-     // Make the camera always look at Anya           camera.lookAt(anyaPosition);
-          }
-          if (mixer) {
-
-        mixer.update(delta);
-
-    }
-    // Update the anya mixer
-       if (anyaMixer) {
-           anyaMixer.update(delta);
-       }
-       if (felixMixer) {
-           felixMixer.update(delta);
-       }
-       if (crycellaMixer) {
-           crycellaMixer.update(delta);
-       }
-    if (mixer2) {
-        mixer2.update(delta); // Continue to update the mixer
+    // Update positions
+    if (anya) {
+        anya.getWorldPosition(anyaPosition);
     }
 
+    // Update all mixers
+    [mixer, anyaMixer, felixMixer, crycellaMixer, mixer2, mixer3].forEach(m => {
+        if (m) m.update(delta);
+    });
 
- checkDistanceAndTriggerActions();
- updateHeadTracking();
- checkCollision();
- countEmojisAndUpdate();
- countEmotionKeywordsAndUpdate();
- countKeywordsForNationsAndUpdate();
- updateFelixBehavior();
- updateDragonBehavior();
- updateStats();
+    // Scene updates
+    updateScene();
 
- if(isAnyaMoving){updateAnyaMovement();}
+    // Additional behavior updates
+    if (isAnyaMoving) updateAnyaMovement();
 
- renderer.render(scene, camera);
+    // Finally, render the scene
+    renderer.render(scene, camera);
 }

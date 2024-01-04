@@ -9,7 +9,7 @@ const anyaPosition = new THREE.Vector3();
 loader.load('https://luminafields.com/red.glb', function (gltf) {
     dragon_boss = gltf.scene;
     scene.add(dragon_boss);
-    dragon_boss.scale.set(3, 3, 3);
+    dragon_boss.scale.set(1.2, 1.2, 1.2);
     dragon_boss.position.z += -36.2;
 
     mixer2 = new THREE.AnimationMixer(dragon_boss);
@@ -52,15 +52,13 @@ function updateDragonBehavior() {
         markers = markers.filter(marker => marker !== closestMarker);
 
     } else {
-
-      document.getElementById('hitPoints').innerHTML = hitpoints;
         // Move dragon_boss towards the closest marker
         movedragon_bossTowardsMarker(closestMarker);
     }
 }
 
 function movedragon_bossTowardsMarker(marker) {
-    const dragon_bossSpeed = 0.08; // Adjust speed as necessary
+    const dragon_bossSpeed = 0.04; // Adjust speed as necessary
     const movementThreshold = 2; // Threshold to determine if dragon is moving or idle
 
     // Calculate direction to the marker
@@ -119,9 +117,9 @@ function checkCollision2() {
 
             // Deduct hitpoints after 3 seconds
             setTimeout(() => {
-                hitpoints -= 20;
+                hitpoints -= 10;
                 // Additional logic (if any) to execute after hitpoints are deducted
-            }, 5000);
+            }, 3000);
 
             questStatus.quest2 = true;
         }
@@ -138,10 +136,3 @@ function checkCollision2() {
 
 
 setInterval(checkCollision2, 1000); // Check collision every second
-
-function render() {
-    // Call updateDragonBehavior and other render logic
-    requestAnimationFrame(render);
-}
-
-render(); // Start the render loop
