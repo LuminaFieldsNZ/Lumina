@@ -4,8 +4,8 @@ let loaderBoss2 = new THREE.GLTFLoader();
 loaderBoss2.load('https://luminafields.com/red.glb', function (gltf) {
     dragon_boss1 = gltf.scene;
     scene.add(dragon_boss1);
-    dragon_boss1.scale.set(1.2, 1.2, 1.2);
-    dragon_boss1.position.z += 36.2;
+    dragon_boss1.scale.set(1.5, 1.5, 1.5);
+    dragon_boss1.position.z += 66.2;
 
     mixer3 = new THREE.AnimationMixer(dragon_boss1);
     dragonAnimations1 = gltf.animations;
@@ -46,7 +46,7 @@ function updateDragonBehavior1() {
 }
 
 function movedragon_bossTowardsMarker1(marker) {
-    const dragon_bossSpeed1 = 0.04;
+    const dragon_bossSpeed1 = 0.062;
     const movementThreshold1 = 2;
 
     const directionToMarker1 = marker.position.clone().sub(dragon_boss1.position);
