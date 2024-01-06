@@ -60,13 +60,13 @@ function movedragon_bossTowardsMarker1(marker) {
 
         if (!dragon_boss1.isMoving) {
             action3.stop();
-            action3 = mixer3.clipAction(dragonAnimations1[5]);
+            action3 = mixer3.clipAction(dragonAnimations1[2]);
             action3.play();
             dragon_boss1.isMoving = true;
         }
     } else if (dragon_boss1.isMoving) {
         action3.stop();
-        action3 = mixer3.clipAction(dragonAnimations1[0]);
+        action3 = mixer3.clipAction(dragonAnimations1[2]);
         action3.play();
         dragon_boss1.isMoving = false;
     }
@@ -87,10 +87,10 @@ function checkCollision3() {
             isCollisionAnimationPlaying = true;
 
             action3.stop();
-            action3 = mixer3.clipAction(dragonAnimations1[3]);
+            action3 = mixer3.clipAction(dragonAnimations1[2]);
             action3.setLoop(THREE.LoopOnce);
             action3.play();
-            action3.clampWhenFinished = true; // Ensure the animation stops when finished
+             // Ensure the animation stops when finished       action3.clampWhenFinished = true;
 
             setTimeout(() => {
                 hitpoints -= 30;
