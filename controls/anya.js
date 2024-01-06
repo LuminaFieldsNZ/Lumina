@@ -240,7 +240,7 @@ function checkCollision() {
     const distance = anyaPosition.distanceTo(knifePosition);
     const distanceArch = anyaPosition.distanceTo(gatewayPosition);
     const distancePotion = anyaPosition.distanceTo(potionPosition);
-    const collisionThreshold = .56; // Set your collision threshold
+    const collisionThreshold = .76; // Set your collision threshold
 
     if (distance < collisionThreshold) {
 
