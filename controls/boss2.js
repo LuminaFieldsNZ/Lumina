@@ -1,11 +1,13 @@
 let dragon_boss1, dragon_bossMixer1, mixer3, dragonFlight1, dragonAnimations1;
 let loaderBoss2 = new THREE.GLTFLoader();
+let dragon_bossSpeed1 = 0.035;
+
 
 loaderBoss2.load('https://luminafields.com/monster2.glb', function (gltf) {
     dragon_boss1 = gltf.scene;
     scene.add(dragon_boss1);
-    dragon_boss1.scale.set(1.5, 1.5, 1.5);
-    dragon_boss1.position.z += 79.2;
+    dragon_boss1.scale.set(1, 1, 1);
+    dragon_boss1.position.z += 29.2;
 
     mixer3 = new THREE.AnimationMixer(dragon_boss1);
     dragonAnimations1 = gltf.animations;
@@ -14,7 +16,7 @@ loaderBoss2.load('https://luminafields.com/monster2.glb', function (gltf) {
         action3 = mixer3.clipAction(dragonAnimations1[0]);
         action3.play();
     } else {
-        console.error('No animations found in boss2.glb');
+        console.error('No animations found in monster2.glb');
     }
 });
 
@@ -37,7 +39,7 @@ function updateDragonBehavior1() {
         }
     });
 
-    if (closestDistance1 < 0.5) {
+    if (closestDistance1 < 1.75) {
         scene.remove(closestMarker1);
         markers = markers.filter(marker => marker !== closestMarker1);
     } else {
@@ -46,8 +48,7 @@ function updateDragonBehavior1() {
 }
 
 function movedragon_bossTowardsMarker1(marker) {
-    const dragon_bossSpeed1 = 0.035;
-    const movementThreshold1 = 2;
+    const movementThreshold1 = .000025;
 
     const directionToMarker1 = marker.position.clone().sub(dragon_boss1.position);
     const distanceToMarker1 = directionToMarker1.length();
@@ -66,6 +67,7 @@ function movedragon_bossTowardsMarker1(marker) {
         }
     } else if (dragon_boss1.isMoving) {
         action3.stop();
+        dragon_bossSpeed1 = 0.035;
         action3 = mixer3.clipAction(dragonAnimations1[2]);
         action3.play();
         dragon_boss1.isMoving = false;
@@ -87,8 +89,10 @@ function checkCollision3() {
             isCollisionAnimationPlaying = true;
 
             action3.stop();
-            action3 = mixer3.clipAction(dragonAnimations1[2]);
+            dragon_bossSpeed1 = 0.0001;
+            action3 = mixer3.clipAction(dragonAnimations1[3]);
             action3.setLoop(THREE.LoopOnce);
+
             action3.play();
              // Ensure the animation stops when finished       action3.clampWhenFinished = true;
 
@@ -99,5 +103,3 @@ function checkCollision3() {
         }
     }
 }
-
-setInterval(checkCollision3, 500);

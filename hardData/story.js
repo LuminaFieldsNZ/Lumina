@@ -450,8 +450,6 @@ function allSend() {
                         const randomVariable = variables[Math.floor(Math.random() * variables.length)];
                         const message = {};
                         message[randomVariable.toLowerCase()] = 1; // Convert the variable name to lowercase to match your example
-
-                        window.parent.postMessage(message, '*');
                     }
 
                     let isResponseAnalyzed = false; // Flag to ensure analysis happens only once

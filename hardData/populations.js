@@ -170,27 +170,7 @@ function updateListener(event, dataObj) {
                             "sailor": ["Sailor"]
                           };
 
-
-                          const blobProperties = [
-                              { color: 0x2ebedb, speed: 35, spikes: 0.7, processing: 0.9 }, // Voyager
-                              { color: 0x42eba1, speed: 50, spikes: 0.2, processing: 0.2 }, // Captain
-                              { color: 0xbdba5e, speed: 50, spikes: 1.2, processing: 0.5 }, // Merchant
-                              { color: 0x694e2f, speed: 20, spikes: 1.5, processing: 0.7 },
-                              { color: 0x524e4a, speed: 27, spikes: 0.7, processing: 0.6 },
-                              { color: 0x31ebc6, speed: 60, spikes: 1.4, processing: 1.7 },
-                              { color: 0xe8d899, speed: 20, spikes: 0.5, processing: 1 },
-                              { color: 0xdbd7c8, speed: 70, spikes: 0.5, processing: 1.2 },
-                              { color: 0xe87c66, speed: 50, spikes: 2, processing: 0.8 }
-                          ];
-
-
-                          let result = '';
-                          var xaxis = 50;
-                          var yaxis = 50;
-                          var newRotation = 0;
                           let nextPho = 0;
-
-
 
                           function nextPhoto(){
                             if (nextPho != 9) {
@@ -202,13 +182,7 @@ function updateListener(event, dataObj) {
                             }
                             document.getElementById("descriptAll").innerHTML = descriptAll[nextPho];
                             document.getElementById("descriptAll2").innerHTML = descriptAll2[nextPho];
-
-                                // Update blob properties
-                                var soulFrame = document.getElementById('soulFrame');
-                                if (soulFrame) {
-                                    soulFrame.contentWindow.postMessage(blobProperties[nextPho], '*');
-                                }                          }
-
+                          }
 
                           function testData() {
     // Get all the span elements

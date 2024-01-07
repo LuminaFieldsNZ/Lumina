@@ -165,20 +165,23 @@ function checkDistanceAndTriggerActions() {
 
 
 
-
 function updateScene() {
-  checkDistanceAndTriggerActions();
-  updateHeadTracking();
-  checkCollision();
   countEmojisAndUpdate();
   countEmotionKeywordsAndUpdate();
   countKeywordsForNationsAndUpdate();
   updateFelixBehavior();
-  updateDragonBehavior();
   updateStats();
-  updateDragonBehavior1();
-
+  if (markers.length === 1) {
+  checkDistanceAndTriggerActions();
+  updateHeadTracking();
+  checkCollision();
+    updateDragonBehavior();
+    updateDragonBehavior1();
+    checkCollision2();
+    checkCollision3();
 }
+}
+
 
 function render() {
     currentTime = Date.now(); // Update current time

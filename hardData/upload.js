@@ -1,5 +1,4 @@
 
-
 let angerCount = 0, happyCount = 0, depressedCount = 0;
 
 

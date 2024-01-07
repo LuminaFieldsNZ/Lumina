@@ -93,15 +93,21 @@
 
     </div>
 </div>
-
+<div class="message-box">
+  <div>
+    <a id="descriptAll"></a>
+    <br>
+    <a id="descriptAll2"></a></div>
+</div>
 
 <div class="message-box">
+ 
               <!-- Upload Button -->
                <input type="file" id="fileInput" accept=".txt" style="display: none;" onchange="loadFile(event)">
                <button class="open-modal" onclick="document.getElementById('fileInput').click()">Load Save</button>
                <!-- Export Button -->
                <button class="open-modal" id="exportButton" onclick="exportToFile()">Save</button>
-               <button class="open-modal" onclick = "nextPhoto()">Next State</button>
+               <button class="open-modal" onclick = "nextPhoto()">Achievements</button>
 
                <div id="dragon-boss-animation-selector-container" style="position:absolute; right:10px; top: 20px;">
 
@@ -132,16 +138,13 @@
           <br>
           <font id="titleChange">Data</font>
       </header>
-      <a id="descriptAll"></a>
-      <br>
-      <a id="descriptAll2"></a>
       <div id="reflectionsContainer">
 <div class="chat-window" id="chatWindow">
             <a id="greeting"></a>'s fable:<a id="storyContainer"></a>
               </a>
                    </div>
       </div>
-
+      <button class="open-modal" onclick="scrollToBottom()">Scroll to bottom</button>
     </div>
 
     <div style="display: flex; justify-content: center; align-items: center;" class="message-box">
@@ -401,7 +404,6 @@
             </div>
             <!-- partial -->
               <script  src="hardData/home.js"></script>
-              <script src="hardData/collective.js"></script>
               <script  src="hardData/upload.js"></script>
               <script src="hardData/populations.js"></script>
   <script  src="hardData/story.js"></script>

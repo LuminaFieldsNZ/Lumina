@@ -1,8 +1,8 @@
-let dragon_boss, dragon_bossMixer, mixer2, dragonFlight, dragonAnimations;
+let dragon_boss, dragon_bossMixer, mixer2, dragonAnimations;
 let hitpoints = 100; // Initial hitpoints
 let loader = new THREE.GLTFLoader();
 const anyaPosition = new THREE.Vector3();
-
+let distanceBoss;
 
 
 
@@ -10,7 +10,7 @@ loader.load('https://luminafields.com/red.glb', function (gltf) {
     dragon_boss = gltf.scene;
     scene.add(dragon_boss);
     dragon_boss.scale.set(1.2, 1.2, 1.2);
-    dragon_boss.position.z += -36.2;
+    dragon_boss.position.z += -26.2;
 
     mixer2 = new THREE.AnimationMixer(dragon_boss);
     dragonAnimations = gltf.animations;
@@ -27,9 +27,9 @@ loader.load('https://luminafields.com/red.glb', function (gltf) {
 function updateDragonBehavior() {
     if (markers.length === 0) {
         // If there are no markers, make sure dragon_boss is in the idle state
-        if (dragonFlight) {
-            dragonFlight = false;
-        }
+        action2.stop();
+        action2 = mixer2.clipAction(dragonAnimations[2]);
+        action2.play();
         return;
     }
 
@@ -38,15 +38,15 @@ function updateDragonBehavior() {
 
     // Find the closest marker to dragon_boss
     markers.forEach((marker) => {
-        const distance = getDistance(dragon_boss, marker);
-        if (distance < closestDistance) {
-            closestDistance = distance;
+        distanceBoss = getDistance(dragon_boss, marker);
+        if (distanceBoss < closestDistance) {
+            closestDistance = distanceBoss;
             closestMarker = marker;
         }
     });
 
     // Check if dragon_boss is close enough to the marker
-    if (closestDistance < 0.5) { // Adjust the threshold as needed
+    if (closestDistance < 1.5) { // Adjust the threshold as needed
         // Remove the reached marker
         scene.remove(closestMarker);
         markers = markers.filter(marker => marker !== closestMarker);
@@ -59,7 +59,7 @@ function updateDragonBehavior() {
 
 function movedragon_bossTowardsMarker(marker) {
     const dragon_bossSpeed = 0.04; // Adjust speed as necessary
-    const movementThreshold = 2; // Threshold to determine if dragon is moving or idle
+    const movementThreshold = .25; // Threshold to determine if dragon is moving or idle
 
     // Calculate direction to the marker
     const directionToMarker = marker.position.clone().sub(dragon_boss.position);
@@ -97,12 +97,12 @@ function movedragon_bossTowardsMarker(marker) {
 
 
 function checkCollision2() {
-    const distance = dragon_boss.position.distanceTo(anyaPosition);
+    distanceBoss2 = dragon_boss.position.distanceTo(anyaPosition);
 
     // Adjust these thresholds based on the actual scale of your game objects and world
     const collisionThresholdClose = 2;
 
-    if (distance < collisionThresholdClose) {
+    if (distanceBoss2 < collisionThresholdClose) {
         if (!isAnyaMoving){
             anyaAction.stop();
             anyaAction = anyaMixer.clipAction(anyaAnimations[6]); // Assuming this is Anya's defensive animation
@@ -132,7 +132,3 @@ function checkCollision2() {
 }
 
 
-
-
-
-setInterval(checkCollision2, 1000); // Check collision every second
