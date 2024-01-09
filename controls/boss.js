@@ -80,6 +80,7 @@ if (currentTime - lastHitTime > 250) {
     lastHitTime = currentTime; // Update the last hit time
 }
             questStatus.quest2 = true;
+            alert('quest complete, go back to Micheal');
         }
     }
 }

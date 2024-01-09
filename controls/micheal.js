@@ -32,21 +32,21 @@ function PlayQuestion1() {
 }
 
 function PlayQuestion2() {
-    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: Through the pathways of the Loa, let my speed be unmatched, as the serpent Damballah coils, let my agility be unattached. Now go and locate the Demon. You will need to get their attention, as soon as you see your health drops you know you have their attention. Anytime you come back to me, I will refill your health.</b></font><hr><br>';
+    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: Through the pathways of the Loa, let my speed be unmatched, as the serpent Damballah coils, let my agility be unattached. Now go and get the RED Demons attention, as soon as you see your health drops come back to me, I will it.</b></font><hr><br>';
     scrollToBottom();
     questionStatus.PlayQuestion2 = true;
     checkAllQuestionsPlayed();
 }
 
 function PlayQuestion3() {
-    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: In the name of Papa Ghede, bearer of the eternal crossroad, grant me the velocity of the cheetah, light as the load of a hummingbird. Go speak to Crycella to find out more about your inventory, then come back if you ever need help.</b></font><hr><br>';
+    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: In the name of Papa Ghede, bearer of the eternal crossroad, grant me the velocity of the cheetah, light as the load of a hummingbird. Go speak to Crycella to find out more about your inventory, then come back if you ever need help with your questing.</b></font><hr><br>';
     scrollToBottom();
     questionStatus.PlayQuestion3 = true;
     checkAllQuestionsPlayed();
 }
 
 function PlayQuestion4() {
-    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: You now have all the items for the ritual, place the candle at the spirit altar, and await for a Lwa to offer a blessing or a curse based on your story.</b></font><hr><br>';
+    chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: You now have all the items for the ritual, place the candle at the spirit altar, and answer todays fable for a Lwa to offer a blessing or curse based on your response.</b></font><hr><br>';
     scrollToBottom();
     questionStatus.PlayQuestion4 = true;
     checkAllQuestionsPlayed();
