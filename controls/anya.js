@@ -1,4 +1,5 @@
 
+let redMarkers = []; // Array to hold the red markers
 
 let jumpHeight = airPoints; // The height of the jump
 
@@ -484,6 +485,34 @@ document.getElementById('superJump').style.display = 'none';
 
 
 
+function spawnMarkerAroundAnya() {
+    if (!anya || !anya.position) {
+        console.error('Anya is not defined or missing position');
+        return;
+    }
 
+    // Generate a random angle and distance
+    const angle = Math.random() * Math.PI * 2; // Random angle in radians
+    const distance = Math.random() * 4; // Random distance within 4 units
 
-//end
+    // Calculate the marker's position
+    const markerX = anya.position.x + distance * Math.cos(angle);
+    const markerY = anya.position.y; // Assuming markers are on the same height as Anya
+    const markerZ = anya.position.z + distance * Math.sin(angle);
+
+    // Create a new marker (assuming a simple sphere geometry for this example)
+    const geometry = new THREE.SphereGeometry(0.1, 16, 16);
+    const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    marker = new THREE.Mesh(geometry, material);
+
+    // Set the marker's position
+    marker.position.set(markerX, markerY, markerZ);
+
+    // Add the marker to the scene
+    scene.add(marker);
+    redMarkers.push(marker);
+
+}
+
+// Call spawnMarkerAroundAnya every second
+setInterval(spawnMarkerAroundAnya, 5000);

@@ -1,35 +1,72 @@
-let dragon_boss1, dragon_bossMixer1, mixer3, dragonFlight1, dragonAnimations1;
-let loaderBoss2 = new THREE.GLTFLoader();
-let dragon_bossSpeed1 = 0.035;
+let closestMarker1 = null;
+let closestDistance1 = Infinity;
 
+function transitionToState(newState) {
+    if (currentDragonState !== newState) {
+        // Stop any ongoing animation before transitioning to a new state
+        if (action3) {
+            action3.stop();
+        }
 
-loaderBoss2.load('https://luminafields.com/monster2.glb', function (gltf) {
-    dragon_boss1 = gltf.scene;
-    scene.add(dragon_boss1);
-    dragon_boss1.scale.set(1, 1, 1);
-    dragon_boss1.position.z += 29.2;
+        currentDragonState = newState;
+        switch (newState) {
+            case DragonState.IDLE:
+                handleIdleState();
+                break;
+            case DragonState.CHASING:
+                handleChasingState();
+                break;
+            case DragonState.COLLIDING:
+                handleCollisionState();
+                break;
+            // ... other states as needed ...
+        }
+    }
+}
 
-    mixer3 = new THREE.AnimationMixer(dragon_boss1);
-    dragonAnimations1 = gltf.animations;
+function handleDragonState() {
+    // This function is now streamlined as transitionToState already handles state changes
+    switch (currentDragonState) {
+        case DragonState.CHASING:
+            if (markers.length > 0) {
+                updateDragonBehavior1();
+            }
+            break;
+        case DragonState.COLLIDING:
+            handleCollisionState();
+            break;
+        // Other states as needed...
+    }
+}
 
+function handleIdleState() {
+    playDragonAnimation(1); // Assuming animation index 1 is idle
+}
+
+function handleChasingState() {
+    playDragonAnimation(2); // Assuming animation index 2 is chasing
+}
+
+function playDragonAnimation(animationIndex) {
     if (dragonAnimations1) {
-        action3 = mixer3.clipAction(dragonAnimations1[0]);
+        action3 = mixer3.clipAction(dragonAnimations1[animationIndex]);
+        action3.setLoop(THREE.LoopRepeat);
         action3.play();
     } else {
         console.error('No animations found in monster2.glb');
     }
-});
+}
+
+
 
 function updateDragonBehavior1() {
     if (markers.length === 0) {
-        if (dragonFlight1) {
-            dragonFlight1 = false;
-        }
+        transitionToState(DragonState.IDLE);
         return;
     }
 
-    let closestMarker1 = null;
-    let closestDistance1 = Infinity;
+    closestMarker1 = null;
+    closestDistance1 = Infinity;
 
     markers.forEach((marker) => {
         const distance = getDistance(dragon_boss1, marker);
@@ -39,67 +76,94 @@ function updateDragonBehavior1() {
         }
     });
 
-    if (closestDistance1 < 1.75) {
-        scene.remove(closestMarker1);
-        markers = markers.filter(marker => marker !== closestMarker1);
-    } else {
-        movedragon_bossTowardsMarker1(closestMarker1);
+    if (closestMarker1) {
+        if (closestDistance1 < 1.75) {
+            handleMarkerInteraction(closestMarker1);
+        } else {
+            movedragon_bossTowardsMarker1(closestMarker1);
+        }
     }
 }
 
+
 function movedragon_bossTowardsMarker1(marker) {
-    const movementThreshold1 = .000025;
+
+    if (currentDragonState === DragonState.COLLIDING) {
+        return;
+    }
+    const dragon_bossSpeed1 = 0.012; // Set the dragon's speed
 
     const directionToMarker1 = marker.position.clone().sub(dragon_boss1.position);
     const distanceToMarker1 = directionToMarker1.length();
 
-    if (distanceToMarker1 > movementThreshold1) {
+    if (distanceToMarker1 > 0.5) {
+        // Move towards the marker
         const normalizedDirection1 = directionToMarker1.normalize();
         const dragon_bossMovement1 = normalizedDirection1.multiplyScalar(dragon_bossSpeed1);
         dragon_boss1.position.add(dragon_bossMovement1);
+        
+        // Make the dragon look at the marker's position
         dragon_boss1.lookAt(marker.position);
-
-        if (!dragon_boss1.isMoving) {
-            action3.stop();
-            action3 = mixer3.clipAction(dragonAnimations1[2]);
-            action3.play();
-            dragon_boss1.isMoving = true;
-        }
-    } else if (dragon_boss1.isMoving) {
-        action3.stop();
-        dragon_bossSpeed1 = 0.035;
-        action3 = mixer3.clipAction(dragonAnimations1[2]);
-        action3.play();
-        dragon_boss1.isMoving = false;
     }
 }
 
-let isCollisionAnimationPlaying = false;
+
+function handleMarkerInteraction(marker) {
+    // Remove the marker and perform any additional logic needed upon reaching the marker
+    scene.remove(marker);
+    markers = markers.filter(m => m !== marker);
+}
+
+function handleCollisionState() {
+    const currentTime = Date.now();
+    if (currentDragonState !== DragonState.COLLIDING) {
+        lastHitTime = currentTime; // Initialize the last hit time
+    }
+    playDragonAnimation(3); // Assuming animation index 1 is for collision
+
+    if (currentTime - lastHitTime > 1000) {
+        hitpoints -= 5;
+        lastHitTime = currentTime;
+    }
+}
+
+
+let lastHitTime = 0; // Timestamp of the last hit
 
 function checkCollision3() {
-    if (isCollisionAnimationPlaying) {
-        return; // Skip collision check if an animation is playing
-    }
+    const distanceToAnya = dragon_boss1.position.distanceTo(anyaPosition);
+    const collisionThreshold = 5.2; // Adjust this threshold as necessary
 
-    const distance = dragon_boss1.position.distanceTo(anyaPosition);
-    const collisionThresholdClose1 = 8;
-
-    if (distance < collisionThresholdClose1) {
-        if (!isAnyaMoving) {
-            isCollisionAnimationPlaying = true;
-
-            action3.stop();
-            dragon_bossSpeed1 = 0.0001;
-            action3 = mixer3.clipAction(dragonAnimations1[3]);
-            action3.setLoop(THREE.LoopOnce);
-
-            action3.play();
-             // Ensure the animation stops when finished       action3.clampWhenFinished = true;
-
-            setTimeout(() => {
-                hitpoints -= 30;
-                isCollisionAnimationPlaying = false; // Reset flag after animation
-            }, 6000);
+    if (distanceToAnya < collisionThreshold) {
+        transitionToState(DragonState.COLLIDING);
+    } else {
+        // When not in collision range, always chase markers if they exist
+        if (markers.length > 0) {
+            transitionToState(DragonState.CHASING);
+        } else {
+            transitionToState(DragonState.IDLE);
         }
     }
 }
+
+
+
+function handleCollisionWithAnya() {
+    const currentTime = Date.now();
+
+    // Switch to COLLIDING state if not already colliding
+    if (currentDragonState !== DragonState.COLLIDING) {
+        transitionToState(DragonState.COLLIDING);
+        lastHitTime = currentTime; // Initialize the last hit time
+    }
+
+    // Deduct hitpoints if enough time has passed
+    if (currentTime - lastHitTime > 1800) {
+        hitpoints -= 5;
+        lastHitTime = currentTime; // Update the last hit time
+    }
+}
+
+
+
+

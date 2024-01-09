@@ -1,106 +1,63 @@
-let dragon_boss, dragon_bossMixer, mixer2, dragonAnimations;
-let hitpoints = 100; // Initial hitpoints
-let loader = new THREE.GLTFLoader();
-const anyaPosition = new THREE.Vector3();
-let distanceBoss;
 
 
+let randomDestination = null;
 
-loader.load('https://luminafields.com/red.glb', function (gltf) {
-    dragon_boss = gltf.scene;
-    scene.add(dragon_boss);
-    dragon_boss.scale.set(1.2, 1.2, 1.2);
-    dragon_boss.position.z += -26.2;
+function generateRandomDestination() {
+    // Define the boundaries of the area in which the dragon can move
+    const minX = -20; // adjust these values according to your scene
+    const maxX = 20;
+    const minZ = -20;
+    const maxZ = 20;
 
-    mixer2 = new THREE.AnimationMixer(dragon_boss);
-    dragonAnimations = gltf.animations;
+    const x = Math.random() * (maxX - minX) + minX;
+    const z = Math.random() * (maxZ - minZ) + minZ;
 
-    if (dragonAnimations) {
-        action2 = mixer2.clipAction(dragonAnimations[2]);
-        action2.play();
-    } else {
-        console.error('No animations found in red.glb');
-    }
-});
-
+    return new THREE.Vector3(x, dragon_boss.position.y, z); // assuming y is constant
+}
 
 function updateDragonBehavior() {
-    if (markers.length === 0) {
-        // If there are no markers, make sure dragon_boss is in the idle state
-        action2.stop();
-        action2 = mixer2.clipAction(dragonAnimations[2]);
-        action2.play();
+    if (!dragon_boss) {
         return;
     }
 
-    let closestMarker = null;
-    let closestDistance = Infinity;
-
-    // Find the closest marker to dragon_boss
-    markers.forEach((marker) => {
-        distanceBoss = getDistance(dragon_boss, marker);
-        if (distanceBoss < closestDistance) {
-            closestDistance = distanceBoss;
-            closestMarker = marker;
-        }
-    });
-
-    // Check if dragon_boss is close enough to the marker
-    if (closestDistance < 1.5) { // Adjust the threshold as needed
-        // Remove the reached marker
-        scene.remove(closestMarker);
-        markers = markers.filter(marker => marker !== closestMarker);
-
-    } else {
-        // Move dragon_boss towards the closest marker
-        movedragon_bossTowardsMarker(closestMarker);
-    }
-}
-
-function movedragon_bossTowardsMarker(marker) {
-    const dragon_bossSpeed = 0.04; // Adjust speed as necessary
-    const movementThreshold = .25; // Threshold to determine if dragon is moving or idle
-
-    // Calculate direction to the marker
-    const directionToMarker = marker.position.clone().sub(dragon_boss.position);
-    const distanceToMarker = directionToMarker.length();
-
-    if (distanceToMarker > movementThreshold) {
-        // Dragon is moving towards the marker
-        const normalizedDirection = directionToMarker.normalize();
-        const dragon_bossMovement = normalizedDirection.multiplyScalar(dragon_bossSpeed);
-        dragon_boss.position.add(dragon_bossMovement);
-        dragon_boss.lookAt(marker.position);
-
-        if (!dragon_boss.isMoving) {
-            // Switch to walking animation if not already moving
+    // Generate a random destination if not already set or if the dragon has reached its destination
+    if (!randomDestination || dragon_boss.position.distanceTo(randomDestination) < 1) {
+        randomDestination = generateRandomDestination();
+        if (dragon_boss.isMoving) {
             action2.stop();
-            action2 = mixer2.clipAction(dragonAnimations[3]); // Replace with the index of walking animation
+            action2 = mixer2.clipAction(dragonAnimations[2]); // Idle animation
             action2.play();
-            dragon_boss.isMoving = true;
+            dragon_boss.isMoving = false;
         }
-    } else if (dragon_boss.isMoving) {
-        // Dragon has reached the marker or is very close
-        // Switch to idle animation if currently moving
-        action2.stop();
-        action2 = mixer2.clipAction(dragonAnimations[2]); // Replace with the index of idle animation
-        action2.play();
-        dragon_boss.isMoving = false;
-
-        // Optionally, handle the last marker reached scenario
-        // e.g., remove the marker, disable it, or take other appropriate action
+    } else {
+        // Move dragon boss towards the random destination
+        movedragon_bossTowardsDestination(randomDestination);
     }
 }
 
+function movedragon_bossTowardsDestination(destination) {
+    const dragon_bossSpeed = 0.08; // Adjust speed as necessary
+    const directionToDestination = destination.clone().sub(dragon_boss.position).normalize();
+    const dragon_bossMovement = directionToDestination.multiplyScalar(dragon_bossSpeed);
+    dragon_boss.position.add(dragon_bossMovement);
+    dragon_boss.lookAt(destination);
 
+    if (!dragon_boss.isMoving) {
+        action2.stop();
+        action2 = mixer2.clipAction(dragonAnimations[3]); // Walking animation
+        action2.play();
+        dragon_boss.isMoving = true;
+    }
+}
 
 
 
 function checkCollision2() {
+    
     distanceBoss2 = dragon_boss.position.distanceTo(anyaPosition);
 
     // Adjust these thresholds based on the actual scale of your game objects and world
-    const collisionThresholdClose = 2;
+    const collisionThresholdClose = 1.25;
 
     if (distanceBoss2 < collisionThresholdClose) {
         if (!isAnyaMoving){
@@ -115,19 +72,15 @@ function checkCollision2() {
             action2.setLoop(THREE.LoopOnce);
             action2.play();
 
-            // Deduct hitpoints after 3 seconds
-            setTimeout(() => {
-                hitpoints -= 10;
-                // Additional logic (if any) to execute after hitpoints are deducted
-            }, 3000);
+                const currentTime = Date.now();
 
+// Deduct hitpoints if enough time has passed
+if (currentTime - lastHitTime > 250) {
+    hitpoints -= 2;
+    lastHitTime = currentTime; // Update the last hit time
+}
             questStatus.quest2 = true;
         }
-    }
-
-    if (hitpoints <= 0) {
-        alert("Game Over");
-        window.location.reload();
     }
 }
 

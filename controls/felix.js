@@ -12,8 +12,8 @@
 
 
 function updateFelixBehavior() {
-    if (markers.length === 0) {
-        // If there are no markers, make sure Felix is in the idle state
+    if (redMarkers.length === 0) {
+        // If there are no redMarkers, make sure Felix is in the idle state
         if (felixIsRunning) {
             felixIsRunning = false;
             switchToFelixAnimation(0); // Switch to idle animation
@@ -25,7 +25,7 @@ function updateFelixBehavior() {
     let closestDistance = Infinity;
 
     // Find the closest marker to Felix
-    markers.forEach((marker) => {
+    redMarkers.forEach((marker) => {
         const distance = getDistance(felix, marker);
         if (distance < closestDistance) {
             closestDistance = distance;
@@ -37,10 +37,10 @@ function updateFelixBehavior() {
     if (closestDistance < 0.5) { // Adjust the threshold as needed
         // Remove the reached marker
         scene.remove(closestMarker);
-        markers = markers.filter(marker => marker !== closestMarker);
+        redMarkers = redMarkers.filter(marker => marker !== closestMarker);
 
-        // If there are no more markers, set Felix to idle
-        if (markers.length === 0) {
+        // If there are no more redMarkers, set Felix to idle
+        if (redMarkers.length === 0) {
             felixIsRunning = false;
             switchToFelixAnimation(0); // Switch to idle animation
         }

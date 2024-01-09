@@ -24,6 +24,56 @@ let animationDuration2 = 3; // Default duration
 let isWalking = false;
 let knifeCount = 0;
 
+let dragon_boss1, mixer3, dragonAnimations1;
+let loaderBoss2 = new THREE.GLTFLoader();
+let dragon_bossSpeed1 = 0.025;
+let currentDragonState = "idle";
+
+const DragonState = {
+    IDLE: 'idle',
+    CHASING: 'chasing',
+    COLLIDING: 'colliding'
+};
+
+let dragon_boss, dragon_bossMixer, mixer2, dragonAnimations;
+let hitpoints = 100; // Initial hitpoints
+let loader = new THREE.GLTFLoader();
+const anyaPosition = new THREE.Vector3();
+let distanceBoss;
+
+
+
+loader.load('https://luminafields.com/red.glb', function (gltf) {
+    dragon_boss = gltf.scene;
+    scene.add(dragon_boss);
+    dragon_boss.scale.set(1.2, 1.2, 1.2);
+    dragon_boss.position.z += -6.2;
+    dragon_boss.position.x += 6.2;
+
+    mixer2 = new THREE.AnimationMixer(dragon_boss);
+    dragonAnimations = gltf.animations;
+
+    if (dragonAnimations) {
+        action2 = mixer2.clipAction(dragonAnimations[2]);
+        action2.play();
+    } else {
+        console.error('No animations found in red.glb');
+    }
+});
+
+
+loaderBoss2.load('https://luminafields.com/monster2.glb', function (gltf) {
+    dragon_boss1 = gltf.scene;
+    scene.add(dragon_boss1);
+    dragon_boss1.scale.set(1, 1, 1);
+    dragon_boss1.position.z += 9.2;
+
+    mixer3 = new THREE.AnimationMixer(dragon_boss1);
+    dragonAnimations1 = gltf.animations;
+    action3 = mixer3.clipAction(dragonAnimations1[1]);
+    action3.play();
+
+});
 
 
 
@@ -171,14 +221,19 @@ function updateScene() {
   countKeywordsForNationsAndUpdate();
   updateFelixBehavior();
   updateStats();
-  if (markers.length === 1) {
   checkDistanceAndTriggerActions();
   updateHeadTracking();
   checkCollision();
-    updateDragonBehavior();
-    updateDragonBehavior1();
-    checkCollision2();
-    checkCollision3();
+  updateDragonBehavior();
+  updateDragonBehavior1();
+  checkCollision2();
+  checkCollision3(); // Check for collisions if not chasing
+  handleDragonState(); // Handle the current state of the dragon
+
+
+  if (hitpoints <= 0) {
+    alert("Game Over");
+    window.location.reload();
 }
 }
 
