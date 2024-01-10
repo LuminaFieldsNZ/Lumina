@@ -1,3 +1,7 @@
+// Global variables for circle detection
+let startPosition = null;
+let checkpointClockwise = 0;
+let checkpointCounterClockwise = 0;
 
 
 // Function to create a green dot marker
@@ -64,7 +68,41 @@ function changeCrycellaAnimation(selectedAnimation) {
       pos4 = e.clientY;
       elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
       elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+trackCircleMovement(e.clientX, e.clientY);
   }
+
+
+  
+  let totalAngleChange = 0;
+  let lastTriggerTime = 0;
+  const triggerThreshold = 4 * Math.PI; // Increase for more deliberate movement
+  const debounceTime = 1000; // Cooldown time in milliseconds
+  
+  function trackCircleMovement(currentX, currentY) {
+      if (!startPosition) {
+          startPosition = { x: currentX, y: currentY };
+          return;
+      }
+  
+      let angle = Math.atan2(currentY - startPosition.y, currentX - startPosition.x);
+      totalAngleChange += angle;
+  
+      let currentTime = new Date().getTime();
+      if (Math.abs(totalAngleChange) >= triggerThreshold && currentTime - lastTriggerTime > debounceTime) {
+          if (totalAngleChange > 0) {
+              spellOne(); // Clockwise
+          } else {
+              spellTwo(); // Counterclockwise
+          }
+  
+          // Reset for next detection
+          totalAngleChange = 0;
+          startPosition = null;
+          lastTriggerTime = currentTime;
+      }
+  }
+  
+
 
   function updateAnyaPosition(screenX, screenY) {
       worldPosition = screenToWorld(screenX, screenY, camera, plane);
@@ -134,6 +172,7 @@ function dragStart(e) {
         var touch = e.touches[0]; // Get the information for finger #1
         pos3 = touch.pageX;
         pos4 = touch.pageY;
+        trackCircleMovement(touch.pageX, touch.pageY);
     }
 }
 
@@ -189,3 +228,12 @@ function dragEnd(e) {
 }
 
 })();
+
+
+function spellOne() {
+    console.log("Spell One Activated!");
+}
+
+function spellTwo() {
+    console.log("Spell Two Activated!");
+}
