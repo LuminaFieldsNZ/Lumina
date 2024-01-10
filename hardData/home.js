@@ -36,7 +36,8 @@ function checkPasscode() {
 
   if(code === "candle") {
     questStatus.quest3 = true;
-    alert('quest complete, go back to Micheal');
+    document.getElementById('QuestThree').style.textDecoration = 'line-through';
+    document.getElementById('QuestThreeTask').style.display = 'block';
     document.getElementById('candle').style.display = 'block';
     setTimeout(function() {
         document.getElementById('candle').style.display = 'none';
@@ -62,7 +63,8 @@ function checkPasscode() {
   if(code === "candlelight" || code === "light the candle" || code === "candle light" || code === "light candle") {
     candlelight = true;
     questStatus.quest4 = true;
-    alert('quest complete, go back to Micheal');
+    document.getElementById('QuestFour').style.textDecoration = 'line-through';
+    document.getElementById('QuestFourTask').style.display = 'block';
     candles.traverse((object) => {
         if (object.isMesh) {
             object.material.opacity = 1;

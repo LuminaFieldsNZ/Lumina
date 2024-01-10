@@ -24,7 +24,9 @@ function checkAllQuestionsPlayed() {
 }
 
 function PlayQuestion1() {
-  questStatus.quest1 = true;
+    questStatus.quest1 = true;
+    document.getElementById('QuestOne').style.textDecoration = 'line-through';
+    document.getElementById('QuestOneTask').style.display = 'block';
     chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: Let us talk about movespeed, I will give you the first enchantment to allow you to move around the map better. Find the Tomb and come back! By the swift winds of Legba, and the mighty force of Shango, I summon the rapid currents of Oya, to quicken my flow.</b></font><hr><br>';
     scrollToBottom();
     questionStatus.PlayQuestion1 = true;
@@ -56,6 +58,8 @@ function PlayQuestion5() {
     chatWindow.innerHTML += '<br><hr><font style="font-weight:900; color: blue;"><b>Micheal: You have somehow made it this far soulcrafter. Share my final blessing... With the blessing of the ancestors, and the spirits that guide, may my movements be a blur, like the relentless ride of the tide.</b></font><hr><br>';
     scrollToBottom();
     questStatus.quest5 = true;
+    document.getElementById('QuestFive').style.textDecoration = 'line-through';
+    document.getElementById('QuestFiveTask').style.display = 'block';
     questionStatus.PlayQuestion5 = true;
     checkAllQuestionsPlayed();
 }
@@ -95,7 +99,4 @@ function periodicUpdate2() {
             PlayQuestion4();
         }
     }
-
-    hitpoints = healthPoints;
-    document.getElementById('hitPoints').innerHTML = hitpoints;
 }

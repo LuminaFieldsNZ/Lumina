@@ -43,11 +43,24 @@
 
 
 <div id="energyAudit" class="project-boxes" style="display: block; margin: 10px;">
+
+
+  <div style="position:absolute; top: 20px; left: 20px; height:80px; font-size: .8em; color:white; overflow: scroll; background-color: rgba(0, 0, 0, 0.5);">
+    <p id="QuestOne">Quest 1: [Speak] to Micheal<font style="color:green; display: none;" id="QuestOneTask"> - Completed</font></p>
+    <p id="QuestTwo">Quest 2: [Follow] RED Demon<font style="color:green; display: none;" id="QuestTwoTask"> - Completed</font></p>
+    <p id="QuestThree">Quest 3: [Speak] to Crycella<font style="color:green; display: none;" id="QuestThreeTask"> - Completed</font></p>
+    <p id="QuestFour">Quest 4: Find the Tomb and [Light] the Candle<font style="color:green; display: none;" id="QuestFourTask"> - Completed</font></p>
+    <p id="QuestFive">Quest 5: [Speak] to Micheal<font style="color:green; display: none;" id="QuestFiveTask"> - Completed</font></p>
+    </div>
+
   <div id="dropdown-container">
       <div id="drag-handle" style="width: 40px; height: 40px; background-color: red; border-radius: 50%;">
         <span id="hitPoints" style="color:black; font-weight:900; line-height:40px; margin-left:6px;">100</span>
 </div>
 </div>
+
+
+
 <button id="mainJump" class="open-modal" style="position:absolute; bottom: 10px; left: 10px;">Jump</button>
 <button id="shroomButton" onclick="throwPotion()" class="open-modal" style="position:absolute; bottom: 10px; left: 100px; display: none;">Shroom</button>
 <button id="knifeButton" onclick="throwKnife()" class="open-modal" style="position:absolute; bottom: 50px; left: 10px; display: none;">Yeet</button>
@@ -60,6 +73,10 @@
 
  <iframe id="potion" style="display:block; position:absolute; bottom: 50px; left: 10px;" src="controls/potion.html" width="200" height="200"></iframe>
 <div id="potionAmount" style="display:none; position:absolute; bottom: 50px; left: 20px;"><font id="potionAmountNum" style="font-weight:900; font-size: 3em; color: lightblue; z-index: 999999999999;"></font></div>
+
+
+
+
 
   <div id="app"></div>
 

@@ -515,4 +515,4 @@ function spawnMarkerAroundAnya() {
 }
 
 // Call spawnMarkerAroundAnya every second
-setInterval(spawnMarkerAroundAnya, 5000);
+setInterval(spawnMarkerAroundAnya, 10000);
