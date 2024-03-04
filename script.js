@@ -1,98 +1,272 @@
-// Global variables
-let scene, camera, renderer, controls, potion, gateway, anyaHand;
-let model, crycella, felix, mixer, anyaMixer, anyaAction, action2, action;
-let city, computers, newAction, delta, distanceArch;
-let felixMixer, animationIndex, animationIndex2, crycellaMixer, crycellaAction;
+let checkLogin = false;
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Automatically load player0.json on page load
+    loadPlayerJson();
+});
+
+
+function loadPlayerJson() {
+    setTimeout(function() {
+        const chatWindow = document.getElementById('chatWindow');
+        const importMessage = '<font style="color:lightgreen;">Please import a file to continue.</font><br>';
+        chatWindow.innerHTML += importMessage;
+
+        // Initial message from Ofmicheal
+        var time = new Date().getHours();
+        var greeting, joke;
+
+        if (time < 12) {
+            greeting = "Good morning";
+        } else if (time < 18) {
+            greeting = "Good afternoon";
+        } else {
+            greeting = "Good evening";
+        }
+
+        var messages = {
+            "default": [
+                "Welcome to the dark web of our website! Explore, if you dare.",
+                "Enjoy your experience, and remember: not all bugs are unintentional.",
+                "Why did the hacker cross the road? To exploit the vulnerability on the other side.",
+                "How do hackers stay cool? They open Windows.",
+                "I'm writing a book on hacking passwords. It's a real page-turner, especially for IT security.",
+                "Why did the hacker get thrown out of the restaurant? He kept trying to steal the server.",
+                "I told my computer I needed a break. Now it won't stop sending ransom notes.",
+            ],
+            "mobile": [
+                "I've optimized your mobile experience, but remember, even mobile phones can't escape hacks.",
+                "Discover our mobile-friendly features, but beware of the hidden exploits.",
+                "Why did the smartphone break up with its owner? It found a better connection.",
+                "What do you call a phone that hacks other phones? A phreaking smartphone.",
+                "I told my phone to stop eavesdropping on me. Now it just gives me the silent treatment.",
+                "I'm reading a book on mobile security. It's an eye-opener, literally.",
+                "I'm reading a book on the dark side of app development. It's a suspenseful thriller.",
+            ],
+            "Apple": [
+                "Ah, an Apple device! Prepare for a byte of a different kind.",
+                "Did you hear about the Apple device that went rogue? It became a bad apple.",
+                "I told my wife she should embrace her programming mistakes. She gave me a kernel panic.",
+                "Why don't Apple devices make good spies? They can't keep things under iCloud.",
+                "I'm reading a book on hacking Apple IDs. It's password-protected, though.",
+                "I'm reading a book on the secrets of the Apple ecosystem. It's a forbidden fruit.",
+                "I'm reading a book on Apple's privacy policies. It's more fiction than science.",
+            ],
+            "Windows": [
+                "Using Windows? Have you considered encrypting your life?",
+                "Why not make your life easier? Try Linux today, before Windows tries to update again.",
+                "I told my wife she should embrace her coding mistakes. She gave me a blue screen of silence.",
+                "Why did the computer go to therapy? It had too many unresolved issues.",
+                "I'm reading a book on breaking through Windows firewalls. It's a real smash hit.",
+                "I'm reading a book on the secret life of Windows updates. It's a horror story.",
+                "I'm reading a book on hacking with Windows. It's a maze of vulnerabilities.",
+            ]
+        };
+
+
+        var deviceType = getDeviceType(); // Replace with actual device detection logic
+        var randomMessage = messages[deviceType] || messages["default"];
+        var message = randomMessage[Math.floor(Math.random() * randomMessage.length)];
+
+        const initialMessage = '<p>Ofmicheal: ' + greeting + ' ' + userId + '. ' + message + '</p>';
+        chatWindow.innerHTML += initialMessage;
+        scrollToBottom();
+    }, 2300);
+}
+
+
+
+    let scene, camera, renderer, controls, model, mixer, action, delta;
 let clock = new THREE.Clock();
-let animations, crycellaAnimations, felixAction, currentAnimation = 0;
-let spine, neck, powercap, anya, knife, knifePosition;
+let animations, currentAnimationIndex = 0;
+let spine, neck;
+let spine2, neck2;
+let mouse = new THREE.Vector2();
 let targetRotation = new THREE.Vector3();
-let dropdown = document.getElementById('animation-selector');
-let lastRestartTime = 0;
-const closeCollisionThreshold = 0.96;
-const farCollisionThreshold = 4.86;
-let currentTime = Date.now();
-let markers = []; // Array to store green dot markers
-let felixIsRunning = false;
-let anyaAnimations;
-let isAnyaLoaded = false;
-let isKnifeLoaded = false;
-let walkAnimationIndex; // The index of the walk animation in the gltf.animations array
-let moveDestination = new THREE.Vector3();
-let isAnyaMoving = false;
-let animationDuration2 = 3; // Default duration
-let isWalking = false;
-let knifeCount = 0;
+let allowHeadTracking = true;
 
-let dragon_boss1, mixer3, dragonAnimations1;
-let loaderBoss2 = new THREE.GLTFLoader();
-let dragon_bossSpeed1 = 0.025;
-let currentDragonState = "idle";
+function render() {
+  delta = clock.getDelta();
+  if (mixer) {
+    mixer.update(delta);
+  }
+  if (spine && neck && allowHeadTracking) {
+    spine.rotation.y += 0.3 * (targetRotation.y - spine.rotation.y);
+    neck.rotation.y += 0.3 * (targetRotation.y - neck.rotation.y);
+    spine.rotation.x += 0.3 * (targetRotation.x - spine.rotation.x);
+    neck.rotation.x += 0.3 * (targetRotation.x - neck.rotation.x);
+  }
+  renderer.render(scene, camera);
+}
 
-const DragonState = {
-    IDLE: 'idle',
-    CHASING: 'chasing',
-    COLLIDING: 'colliding'
-};
-
-let dragon_boss, dragon_bossMixer, mixer2, dragonAnimations;
-let hitpoints = 100; // Initial hitpoints
-let loader = new THREE.GLTFLoader();
-const anyaPosition = new THREE.Vector3();
-let distanceBoss;
-
-
-
-loader.load('https://luminafields.com/red.glb', function (gltf) {
-    dragon_boss = gltf.scene;
-    scene.add(dragon_boss);
-    dragon_boss.scale.set(1.2, 1.2, 1.2);
-    dragon_boss.position.z += -6.2;
-    dragon_boss.position.x += 6.2;
-
-    mixer2 = new THREE.AnimationMixer(dragon_boss);
-    dragonAnimations = gltf.animations;
-
-    if (dragonAnimations) {
-        action2 = mixer2.clipAction(dragonAnimations[2]);
-        action2.play();
-    } else {
-        console.error('No animations found in red.glb');
-    }
-});
-
-
-loaderBoss2.load('https://luminafields.com/monster2.glb', function (gltf) {
-    dragon_boss1 = gltf.scene;
-    scene.add(dragon_boss1);
-    dragon_boss1.scale.set(1, 1, 1);
-    dragon_boss1.position.z += 9.2;
-
-    mixer3 = new THREE.AnimationMixer(dragon_boss1);
-    dragonAnimations1 = gltf.animations;
-    action3 = mixer3.clipAction(dragonAnimations1[1]);
-    action3.play();
-
-});
-
-
-
-
-gsap.ticker.add(render);
 
 document.addEventListener('DOMContentLoaded', (event) => {
   init();
+});
 
-  dropdown.addEventListener('change', function() {
-    let selectedValue = parseInt(this.value);
 
-    if (anyaMixer) {
-        anyaAction.stop();
-        anyaAction = anyaMixer.clipAction(anyaAnimations[selectedValue]);
-        anyaAction.play();
+document.addEventListener('click', function () {
+  // Stop the current animation
+  action.stop();
+
+  // Set the current animation to index 6 (animation 7)
+  currentAnimationIndex = 6;
+  action = mixer.clipAction(animations[currentAnimationIndex]);
+
+  // Set the animation to play once and play it
+  action.setLoop(THREE.LoopOnce);
+  action.reset();
+  action.play();
+
+  // Disable head tracking during the new animation
+  allowHeadTracking = false;
+
+  // Set a timeout to restart the entire animation (including idle) after the click event
+  setTimeout(() => {
+    // Allow head tracking to resume after the click event
+    allowHeadTracking = true;
+
+    // Revert to the idle animation
+    action = mixer.clipAction(animations[0]); // Assuming the idle animation is at index 0
+    action.setLoop(THREE.LoopRepeat);
+    action.play();
+  }, action._clip.duration * 1000); // Assuming action._clip.duration gives the duration of the current animation in seconds
+});
+
+let lastAnimationTime = 0;
+
+document.addEventListener('keydown', function (event) {
+  // Check if the pressed key is a vowel
+  var vowelRegex = /[aeiou]/i; // Case-insensitive vowel regex
+  if (vowelRegex.test(event.key)) {
+    // Get the current timestamp
+    const currentTime = Date.now();
+
+    // Check if enough time has passed since the last animation
+    if (currentTime - lastAnimationTime > 30000) {
+      // Stop the current animation
+      action.stop();
+
+      // Set the current animation to index 5 (animation 6)
+      currentAnimationIndex = 5;
+      action = mixer.clipAction(animations[currentAnimationIndex]);
+
+      // Set the animation to play once and play it
+      action.setLoop(THREE.LoopOnce);
+      action.reset();
+      action.play();
+
+      // Disable head tracking during the new animation
+      allowHeadTracking = false;
+
+      // Set a timeout to allow head tracking to resume after the key event
+      setTimeout(() => {
+        // Allow head tracking to resume after the key event
+        allowHeadTracking = true;
+
+        // Revert to the idle animation
+        action = mixer.clipAction(animations[0]); // Assuming the idle animation is at index 0
+        action.setLoop(THREE.LoopRepeat);
+        action.play();
+      }, action._clip.duration * 1000); // Assuming action._clip.duration gives the duration of the current animation in seconds
+
+      // Update the last animation time
+      lastAnimationTime = currentTime;
     }
+  }
+});
 
+  
+  document.addEventListener('mousemove', function (event) {
+    // Only update targetRotation if head tracking is allowed
+    if (allowHeadTracking) {
+      mouse.x = (event.clientX / window.innerWidth);
+      mouse.y = (event.clientY / window.innerHeight);
+      targetRotation.x = (mouse.y);
+      targetRotation.y = (mouse.x);
+    }
   });
+  
+
+
+
+function init() {
+  scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x000000, 0, 16);
+  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0.7, 1, 5);
+
+  let ambient = new THREE.AmbientLight(0xffffff, 1);
+  scene.add(ambient);
+  let pointLight = new THREE.PointLight(0xffffff, 0.5);
+  pointLight.position.z = 2500;
+  scene.add(pointLight);
+
+  let loader = new THREE.GLTFLoader();
+  loader.load('https://luminafields.com/micheal.glb', function (gltf) {
+    model = gltf.scene;
+    scene.add(model);
+    model.position.set(-0.5, 0, 0); // Adjust x-coordinate for positioning
+
+    mixer = new THREE.AnimationMixer(model);
+    animations = gltf.animations;
+    action = mixer.clipAction(animations[currentAnimationIndex]);
+    action.setLoop(THREE.LoopRepeat);
+    action.play();
+
+    spine = model.getObjectByName('Spine'); // Replace 'Spine' with the actual name of the spine bone/mesh
+    neck = model.getObjectByName('Neck'); // Replace 'Neck' with the actual name of the neck bone/mesh
+  });
+
+
+// Load additional .glb models
+let loader2 = new THREE.GLTFLoader();
+loader2.load('https://luminafields.com/crycella.glb', function (gltf) {
+    let model2 = gltf.scene;
+    scene.add(model2);
+    model2.position.set(0, 0, 0); // Adjust x-coordinate for positioning
+
+    mixer2 = new THREE.AnimationMixer(model);
+
+      // Retrieve idle animation from micheal.glb and apply it to model2
+      let idleAction = mixer2.clipAction(animations[0]); // Assuming idle animation is at index 0
+      idleAction.setLoop(THREE.LoopRepeat);
+      idleAction.play();
+
+});
+
+
+// Load additional .glb models
+let loader3 = new THREE.GLTFLoader();
+loader3.load('https://mfglife.github.io/zach.glb', function (gltf) {
+    let model3 = gltf.scene;
+    scene.add(model3);
+    model3.position.set(0.5, 0, 0); // Adjust x-coordinate for positioning
+});
+
+// Load additional .glb models
+let loader4 = new THREE.GLTFLoader();
+loader4.load('https://mfglife.github.io/kate.glb', function (gltf) {
+    let model4 = gltf.scene;
+    scene.add(model4);
+    model4.position.set(1, 0, 0); // Adjust x-coordinate for positioning
+});
+
+
+// Load additional .glb models
+let loader5 = new THREE.GLTFLoader();
+loader5.load('https://mfglife.github.io/wakeena.glb', function (gltf) {
+    let model5 = gltf.scene;
+    scene.add(model5);
+    model5.position.set(-1, 0, 0); // Adjust x-coordinate for positioning
+});
+
+// Load additional .glb models
+let loader6 = new THREE.GLTFLoader();
+loader6.load('https://mfglife.github.io/romeo.glb', function (gltf) {
+    let model6 = gltf.scene;
+    scene.add(model6);
+    model6.position.set(-1.5, 0, 0); // Adjust x-coordinate for positioning
 });
 
 
@@ -101,163 +275,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-function updateHeadTracking() {
 
-  if (!anya || !felix || !crycella) {
-       return; // Exit if any models are undefined
-   }
-    // Anya's world position
-    const anyaWorldPos = new THREE.Vector3();
-    anya.getWorldPosition(anyaWorldPos);
-
-    // Update tracking for each character
-    updateCharacterTracking(model, anyaWorldPos, new THREE.Vector3(0, 0, 1)); // Assuming model faces along positive Z-axis initially
-    updateCharacterTracking(felix, anyaWorldPos, new THREE.Vector3(0, 0, 0)); // Adjust initial facing direction if different
-    updateCharacterTracking(crycella, anyaWorldPos, new THREE.Vector3(0, 0, 0)); // Adjust initial facing direction if different
-}
-
-function updateCharacterTracking(character, targetPosition, initialFacingDirection) {
-    if (!character) {
-        return;
-    }
-
-    // Getting spine and neck bones
-    const spine = character.getObjectByName('Spine');
-    const neck = character.getObjectByName('Neck');
-
-    if (!spine || !neck) {
-        return;
-    }
-
-    // Calculate direction to target from character's head
-    const headWorldPos = new THREE.Vector3();
-    neck.getWorldPosition(headWorldPos);
-    const directionToTarget = targetPosition.clone().sub(headWorldPos).normalize();
-
-    // Adjust for initial facing direction
-    const adjustedDirectionToTarget = directionToTarget.clone().applyQuaternion(
-        new THREE.Quaternion().setFromUnitVectors(initialFacingDirection, new THREE.Vector3(0, 0, 1))
-    );
-
-    // Determine rotations based on adjusted direction
-    const targetYRotation = Math.atan2(adjustedDirectionToTarget.x, adjustedDirectionToTarget.z);
-    const targetXRotation = -Math.asin(adjustedDirectionToTarget.y);
-
-    // Apply rotation with smoothing
-    spine.rotation.y += 0.3 * (targetYRotation - spine.rotation.y);
-    neck.rotation.y += 0.3 * (targetYRotation - neck.rotation.y);
-    spine.rotation.x += 0.3 * (targetXRotation - spine.rotation.x);
-    neck.rotation.x += 0.3 * (targetXRotation - neck.rotation.x);
-}
+  renderer = new THREE.WebGLRenderer({ alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+  renderer.shadowMap.enabled = true;
+  renderer.setPixelRatio(window.devicePixelRatio);
+  document.getElementById("app").appendChild(renderer.domElement);
 
 
+  gsap.ticker.add(render);
 
-let isInCloseRangeMainModel = false;
-let isInFarRangeMainModel = false;
-let isInCloseRangeCrycella = false;
-let isInFarRangeCrycella = false;
-
-function checkDistanceAndTriggerActions() {
-    const distanceToMainModel = getDistance(anya, model);
-    const distanceToCrycella = getDistance(anya, crycella);
-
-
-    // Collision logic for the main model
-    if (distanceToMainModel < closeCollisionThreshold) {
-        if (!isInCloseRangeMainModel) {
-            isInCloseRangeMainModel = true;
-            changeAnimation(4); // Close collision animation
-            periodicUpdate2();
-            isInFarRangeMainModel = false; // Reset far collision state
-        }
-    } else if (distanceToMainModel < farCollisionThreshold) {
-        if (!isInFarRangeMainModel && !isInCloseRangeMainModel) {
-            isInFarRangeMainModel = true;
-            changeAnimation(6); // Far collision animation
-        }
-    } else {
-        if (isInCloseRangeMainModel || isInFarRangeMainModel) {
-            isInCloseRangeMainModel = false;
-            isInFarRangeMainModel = false;
-            changeAnimation(0); // No collision animation
-        }
-    }
-
-    // Collision logic for Crycella
-    if (distanceToCrycella < closeCollisionThreshold) {
-        if (!isInCloseRangeCrycella) {
-            isInCloseRangeCrycella = true;
-            changeCrycellaAnimation(5); // Close collision animation for Crycella
-            if (potionAmountNum < 2){
-              potionAmountNum = 1;
-            }
-            crycellaMessage();
-            crycellaMessage2();
-            isInFarRangeCrycella = false; // Reset far collision state
-        }
-    } else if (distanceToCrycella < farCollisionThreshold) {
-        if (!isInFarRangeCrycella && !isInCloseRangeCrycella) {
-            isInFarRangeCrycella = true;
-            changeCrycellaAnimation(6); // Far collision animation for Crycella
-        }
-    } else {
-        if (isInCloseRangeCrycella || isInFarRangeCrycella) {
-            isInCloseRangeCrycella = false;
-            isInFarRangeCrycella = false;
-            changeCrycellaAnimation(0); // No collision animation for Crycella
-        }
-    }
-}
-
-
-
-
-
-
-
-function updateScene() {
-  countEmojisAndUpdate();
-  countEmotionKeywordsAndUpdate();
-  countKeywordsForNationsAndUpdate();
-  updateFelixBehavior();
-  updateStats();
-  checkDistanceAndTriggerActions();
-  updateHeadTracking();
-  checkCollision();
-  updateDragonBehavior();
-  updateDragonBehavior1();
-  checkCollision2();
-  checkCollision3(); // Check for collisions if not chasing
-  handleDragonState(); // Handle the current state of the dragon
-
-
-  if (hitpoints <= 0) {
-    alert("Game Over");
-    window.location.reload();
-}
-}
-
-
-function render() {
-    currentTime = Date.now(); // Update current time
-    delta = clock.getDelta();
-
-    // Update positions
-    if (anya) {
-        anya.getWorldPosition(anyaPosition);
-    }
-
-    // Update all mixers
-    [mixer, anyaMixer, felixMixer, crycellaMixer, mixer2, mixer3].forEach(m => {
-        if (m) m.update(delta);
-    });
-
-    // Scene updates
-    updateScene();
-
-    // Additional behavior updates
-    if (isAnyaMoving) updateAnyaMovement();
-
-    // Finally, render the scene
-    renderer.render(scene, camera);
 }

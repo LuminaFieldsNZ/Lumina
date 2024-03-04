@@ -5,6 +5,11 @@
 }
 
 
+#app {
+  width: 100vw;
+  height: 100vh;
+}
+
 
 /* For Webkit browsers like Chrome, Safari */
 ::-webkit-scrollbar {
@@ -21,10 +26,44 @@ html {
 body {
     -ms-overflow-style: none;
 }
+#personSVG {
+    width: 95%;
+    position: relative;
+    height: 300px; /* Assuming a height, can be adjusted */
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+#personSVG img {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%; /* Centering vertically */
+    transform: translateY(-50%); /* Centering vertically */
+    z-index: 1;
+}
+
+#personSVG .top {
+    z-index: 2;
+    left: 50%; /* Centering the top SVG */
+    transform: translateX(-50%) translateY(-50%); /* Centering the top SVG */
+}
+
+#personSVG .second {
+    z-index: 1;
+    left: calc(50% + 20px); /* Positioning the second SVG to the right, slightly overlapped by 20% */
+    transform: translateY(-50%); /* Centering vertically */
+}
+
+#personSVG .worst {
+    z-index: 1;
+    opacity: 0.5;
+    left: calc(50% - 220px); /* Positioning the worst SVG to the left, slightly overlapped by 20% */
+    transform: translateY(-50%); /* Centering vertically */
+}
 
 
-
-        .chat-window {
+        .chat-window, .json-editor {
             width: 100%;
             height: 400px;
             overflow-y: scroll;
@@ -33,6 +72,23 @@ body {
             margin: 10px 10px 10px 10px;
             white-space: pre-wrap;
         }
+        @keyframes ellipsis {
+      0% { content: "(๑ > ᴗ < ๑)"; }
+      10% { content: ".(๑ > ᴗ < ๑)"; }
+      20% { content: "૮₍  ˶•⤙•˶ ₎ა"; }
+      30% { content: ".૮₍  ˶•⤙•˶ ₎ა"; }
+      40% { content: "(づ ᴗ _ᴗ)づ"; }
+      50% { content: ".(づ ᴗ _ᴗ)づ"; }
+      60% { content: "৻(  •̀ ᗜ •́  ৻)"; }
+      70% { content: ".৻(  •̀ ᗜ •́  ৻)"; }
+      80% { content: ".(づ ᴗ _ᴗ)づ"; }
+      90% { content: "(づ ᴗ _ᴗ)づ"; }
+      100% { content: "(๑ > ᴗ < ๑)"; }
+  }
+  .thinking::after {
+      content: "...";
+      animation: ellipsis 2.3s infinite;
+  }
 
 :root {
   --app-container: #f3f6fd;
@@ -101,15 +157,16 @@ button, a {
   height: 100%;
   background-color: var(--app-container);
   transition: 0.2s;
+  max-width: 1800px;
 }
-.app-container button, .app-container input, .app-container optgroup, .app-container select {
+.app-container button, .app-container input, .app-container optgroup, .app-container select, .app-container textarea {
   font-family: "DM Sans", sans-serif;
 }
 .app-content {
   display: flex;
   height: 100%;
   overflow: hidden;
-  padding: 0px 4px 4px 0px;
+  padding: 16px 24px 24px 0;
 }
 .app-header {
   display: flex;
@@ -484,7 +541,7 @@ button, a {
   width: 33.3%;
 }
 .project-boxes.jsListView .project-box-wrapper {
-  width: 99.3%;
+  width: 95.3%;
 }
 .project-boxes.jsListView .project-box {
   display: flex;
@@ -508,14 +565,18 @@ button, a {
   flex-direction: column;
   justify-content: flex-start;
 }
+.project-boxes.jsListView .project-box-footer:after {
+  display: none;
+}
 .project-boxes.jsListView .participants {
   margin-bottom: 8px;
   display: none;
 }
 .project-boxes.jsListView .project-box-content-header p {
   text-align: left;
+  overflow: hidden;
   white-space: nowrap;
-  text-overflow: inherit;
+  text-overflow: ellipsis;
 }
 .project-boxes.jsListView .project-box-header > span {
   position: absolute;
@@ -531,7 +592,7 @@ button, a {
 .project-box {
   --main-color-card: #dbf6fd;
   border-radius: 30px;
-  padding: 6px;
+  padding: 16px;
   background-color: var(--main-color-card);
 }
 .project-box-header {
@@ -616,17 +677,17 @@ button, a {
   margin: 8px 0;
 }
 .box-progress-header {
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 1px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
   margin: 0;
 }
 .box-progress-percentage {
-  text-align: left;
+  text-align: right;
   margin: 0;
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 1px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
 }
 
 .project-box-footer {
@@ -692,6 +753,7 @@ button, a {
   position: absolute;
   right: 0;
   bottom: 48px;
+  height: 60px;
   background-color: var(--message-btn);
   border: none;
   color: var(--main-color);
@@ -700,9 +762,13 @@ button, a {
   align-items: center;
   padding: 4px;
   display: none;
+  z-index: 99999999999999999999999999999999999999999;
 }
 
-@media screen and (max-width: 0px) {
+@media screen and (max-width: 980px) {
+  .project-boxes.jsGridView .project-box-wrapper {
+    width: 50%;
+  }
 
   .status-number, .status-type {
     font-size: 14px;
@@ -716,7 +782,7 @@ button, a {
   .item-status {
     margin-right: 0;
   }
-}@media screen and (max-width: 5650px) {
+}@media screen and (max-width: 880px) {
   .messages-section {
     display: none; /* Initially set to none */
     position: absolute;
@@ -739,7 +805,7 @@ button, a {
   }
 }
 
-@media screen and (max-width: 0px) {
+@media screen and (max-width: 720px) {
 
 
   .add-btn, .notification-btn {
@@ -755,13 +821,13 @@ button, a {
     margin-left: 4px;
   }
 }
-@media screen and (max-width: 0px) {
+@media screen and (max-width: 520px) {
   .projects-section {
     overflow: auto;
   }
 
   .project-boxes {
-    overflow: visible;
+    overflow-y: visible;
   }
 
 
@@ -847,10 +913,18 @@ button, a {
 
   .days-left {
     font-size: 8px;
-    padding: 2px;
+    padding: 6px 6px;
     text-align: center;
   }
 
+  .project-boxes.jsListView .project-box > * {
+    margin-right: 10px;
+  }
+
+  .project-boxes.jsListView .more-wrapper {
+    right: 2px;
+    top: 10px;
+  }
 }
 
 
@@ -957,3 +1031,145 @@ color: var(--main-color);
     }
 
   }
+
+
+  .CSSgal {
+    position: relative;
+    height: 100%; /* Or set a fixed height */
+  }
+  
+  /* SLIDER */
+  
+  .CSSgal .slider {
+    height: 95vh;
+    white-space: nowrap;
+    font-size: 0;
+    transition: 0.8s;
+  }
+  
+  /* SLIDES */
+  
+  .CSSgal .slider > * {
+    font-size: 1rem;
+    display: inline-block;
+    white-space: normal;
+    vertical-align: top;
+    height: 95vh;
+    width: 100%;
+    background: none 50% repeat;
+    background-size: cover;
+    overflow: scroll;
+
+  }
+  
+  /* PREV/NEXT, CONTAINERS & ANCHORS */
+  
+  .CSSgal .prevNext {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    width: 100%;
+    height: 0;
+  }
+  
+  .CSSgal .prevNext > div+div {
+    visibility: hidden; /* Hide all but first P/N container */
+  }
+  
+  .CSSgal .prevNext a {
+    background: #fff;
+    position: absolute;
+    width:       60px;
+    height:      60px;
+    line-height: 60px; /* If you want to place numbers */
+    text-align: center;
+    opacity: 0.7;
+    -webkit-transition: 0.3s;
+            transition: 0.3s;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    left: 0;
+  }
+  .CSSgal .prevNext a:hover {
+    opacity: 1;
+  }
+  .CSSgal .prevNext a+a {
+    left: auto;
+    right: 0;
+  }
+  
+  /* NAVIGATION */
+  
+  .CSSgal .bullets {
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+    padding: 10px 0;
+    width: 100%;
+    text-align: center;
+  }
+  .CSSgal .bullets > a {
+    display: inline-block;
+    width:       30px;
+    height:      30px;
+    line-height: 30px;
+    text-decoration: none;
+    text-align: center;
+    background: rgba(255, 255, 255, 1);
+    -webkit-transition: 0.3s;
+            transition: 0.3s;
+  }
+  .CSSgal .bullets > a+a {
+    background: rgba(255, 255, 255, 0.5); /* Dim all but first */
+  }
+  .CSSgal .bullets > a:hover {
+    background: rgba(255, 255, 255, 0.7) !important;
+  }
+  
+  /* NAVIGATION BUTTONS */
+  /* ALL: */
+  .CSSgal >s:target ~ .bullets >* {      background: rgba(255, 255, 255, 0.5);}
+  /* ACTIVE */
+  #s1:target ~ .bullets >*:nth-child(1) {background: rgba(255, 255, 255,   1);}
+  #s2:target ~ .bullets >*:nth-child(2) {background: rgba(255, 255, 255,   1);}
+  #s3:target ~ .bullets >*:nth-child(3) {background: rgba(255, 255, 255,   1);}
+  #s4:target ~ .bullets >*:nth-child(4) {background: rgba(255, 255, 255,   1);}
+  /* More slides? Add here more rules */
+  
+  /* PREV/NEXT CONTAINERS VISIBILITY */
+  /* ALL: */
+  .CSSgal >s:target ~ .prevNext >* {      visibility: hidden;}
+  /* ACTIVE: */
+  #s1:target ~ .prevNext >*:nth-child(1) {visibility: visible;}
+  #s2:target ~ .prevNext >*:nth-child(2) {visibility: visible;}
+  #s3:target ~ .prevNext >*:nth-child(3) {visibility: visible;}
+  #s4:target ~ .prevNext >*:nth-child(4) {visibility: visible;}
+  /* More slides? Add here more rules */
+  
+  /* SLIDER ANIMATION POSITIONS */
+  
+  #s1:target ~ .slider {transform: translateX(   0%); -webkit-transform: translateX(   0%);}
+  #s2:target ~ .slider {transform: translateX(-100%); -webkit-transform: translateX(-100%);}
+  #s3:target ~ .slider {transform: translateX(-200%); -webkit-transform: translateX(-200%);}
+  #s4:target ~ .slider {transform: translateX(-300%); -webkit-transform: translateX(-300%);}
+  /* More slides? Add here more rules */
+  
+  
+  
+  .CSSgal{
+    color: #fff;	
+    text-align: center;
+  }
+  .CSSgal .slider h2 {
+    font-weight: 200;
+    letter-spacing: -0.06em;
+    word-spacing: 0.2em;
+    font-size: 3em;
+  }
+  .CSSgal a {
+    border-radius: 50%;
+    margin: 0 3px;
+    color: rgba(0,0,0,0.8);
+    text-decoration: none;
+  }
+
