@@ -68,7 +68,7 @@ function loadPlayerJson() {
         var randomMessage = messages[deviceType] || messages["default"];
         var message = randomMessage[Math.floor(Math.random() * randomMessage.length)];
 
-        const initialMessage = '<p>Ofmicheal: ' + greeting + ' ' + userId + '. ' + message + '</p>';
+        const initialMessage = '<p>Ofmicheal: ' + greeting + ' and welcome to LuminaFields ' + userId + '. ' + message + '</p>';
         chatWindow.innerHTML += initialMessage;
         scrollToBottom();
     }, 2300);
@@ -76,11 +76,10 @@ function loadPlayerJson() {
 
 
 
-    let scene, camera, renderer, controls, model, mixer, action, delta;
+let scene, camera, renderer, controls, model, mixer, action, delta;
 let clock = new THREE.Clock();
 let animations, currentAnimationIndex = 0;
 let spine, neck;
-let spine2, neck2;
 let mouse = new THREE.Vector2();
 let targetRotation = new THREE.Vector3();
 let allowHeadTracking = true;
@@ -175,7 +174,6 @@ document.addEventListener('keydown', function (event) {
     }
   }
 });
-
   
   document.addEventListener('mousemove', function (event) {
     // Only update targetRotation if head tracking is allowed
@@ -186,15 +184,12 @@ document.addEventListener('keydown', function (event) {
       targetRotation.y = (mouse.x);
     }
   });
-  
-
-
 
 function init() {
   scene = new THREE.Scene();
   scene.fog = new THREE.Fog(0x000000, 0, 16);
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0.7, 1, 5);
+  camera.position.set(0, 1, 3);
 
   let ambient = new THREE.AmbientLight(0xffffff, 1);
   scene.add(ambient);
@@ -218,72 +213,11 @@ function init() {
     neck = model.getObjectByName('Neck'); // Replace 'Neck' with the actual name of the neck bone/mesh
   });
 
-
-// Load additional .glb models
-let loader2 = new THREE.GLTFLoader();
-loader2.load('https://luminafields.com/crycella.glb', function (gltf) {
-    let model2 = gltf.scene;
-    scene.add(model2);
-    model2.position.set(0, 0, 0); // Adjust x-coordinate for positioning
-
-    mixer2 = new THREE.AnimationMixer(model);
-
-      // Retrieve idle animation from micheal.glb and apply it to model2
-      let idleAction = mixer2.clipAction(animations[0]); // Assuming idle animation is at index 0
-      idleAction.setLoop(THREE.LoopRepeat);
-      idleAction.play();
-
-});
-
-
-// Load additional .glb models
-let loader3 = new THREE.GLTFLoader();
-loader3.load('https://mfglife.github.io/zach.glb', function (gltf) {
-    let model3 = gltf.scene;
-    scene.add(model3);
-    model3.position.set(0.5, 0, 0); // Adjust x-coordinate for positioning
-});
-
-// Load additional .glb models
-let loader4 = new THREE.GLTFLoader();
-loader4.load('https://mfglife.github.io/kate.glb', function (gltf) {
-    let model4 = gltf.scene;
-    scene.add(model4);
-    model4.position.set(1, 0, 0); // Adjust x-coordinate for positioning
-});
-
-
-// Load additional .glb models
-let loader5 = new THREE.GLTFLoader();
-loader5.load('https://mfglife.github.io/wakeena.glb', function (gltf) {
-    let model5 = gltf.scene;
-    scene.add(model5);
-    model5.position.set(-1, 0, 0); // Adjust x-coordinate for positioning
-});
-
-// Load additional .glb models
-let loader6 = new THREE.GLTFLoader();
-loader6.load('https://mfglife.github.io/romeo.glb', function (gltf) {
-    let model6 = gltf.scene;
-    scene.add(model6);
-    model6.position.set(-1.5, 0, 0); // Adjust x-coordinate for positioning
-});
-
-
-
-
-
-
-
-
   renderer = new THREE.WebGLRenderer({ alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
   renderer.shadowMap.enabled = true;
   renderer.setPixelRatio(window.devicePixelRatio);
   document.getElementById("app").appendChild(renderer.domElement);
-
-
   gsap.ticker.add(render);
-
 }

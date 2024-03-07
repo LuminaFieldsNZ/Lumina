@@ -1,296 +1,223 @@
 let checkLogin = false;
-let inventory;
-document.getElementById("backstory").innerHTML = `
-  <h2>Ash Gramb</h2>
-  <p>Ingredient Botanist<br>
-    An employee with a deep understanding of the therapeutic botanicals used in making distilled water products, responsible for sourcing and selecting the finest plant varieties for the distillery's products
-    <br>
-    <b>Backstory:</b> Ash Grambs, the Ingredient Botanist, developed a deep passion for botanicals at a young age while exploring the forests with their botanist parents. Their fascination with the therapeutic properties of plants led them to pursue a career in botany and eventually join Bramble Twist Botanicals. Ash is known for their exceptional ability to identify and source the finest botanicals, which has been crucial to the distillery's success.
-    <br><br>
-    <b>Personality: </b><br>
-    <b>Passionate:</b> Driven by a deep love for plants and their properties.<br>
-    <b>Meticulous: </b>Takes great care in sourcing and selecting the finest botanicals.<br>
-    <b>Independent: </b>Prefers to work alone but collaborates effectively when needed.<br>
-    <b>Reserved: </b>Keeps their emotions hidden, making them hard to read.<br>
-    <b>Protective: </b>Feels fiercely loyal to the quality of the products and might resort to drastic measures to maintain it.<br><br>
-    <b>Day-to-Day Glimpse:</b> Ash spends their days meticulously inspecting and cataloging the various botanicals used in the distillation process. They often venture into the surrounding areas to hand-forage specific plants, ensuring that only the highest quality ingredients are used in the production of the distilled waters.
-    <br><br>
-    <b>Relationships:</b> Ash has a romantic but unofficial relationship with Alex, the Sensory Specialist, bonding over their shared appreciation for the subtle nuances of botanicals and distilled waters. They also share a productive coworking relationship with Remy Hawthorne, the Master Blender, collaborating on specimen acquisition to achieve specific blends.
-    <br><br>
-    <b>Motivation to Poison a Batch:</b> Ash's motivation to poison a batch could stem from a desire to sabotage the distillery due to feeling unappreciated or overlooked in their role. This could be fueled by a perceived lack of recognition for the importance of their work in the distillation process.
-    <br><br>
-    <b>Secret Connection Hint:</b> A subtle hint to Ash's secret connection could be the presence of a rare, locally foraged botanical in the poisoned batch, linking it to a specific area that holds personal significance to Ash
-  </p>
-`;
 
-  
-    document.addEventListener('DOMContentLoaded', function() {
-        // Automatically load player1.json on page load
-        loadPlayerJson();
-    });
+document.addEventListener('DOMContentLoaded', function() {
+    // Automatically load player0.json on page load
+    loadPlayerJson();
+});
 
 
-    function loadPlayerJson() {
-        fetch('players/player1.json') // Replace with the actual path to player1.json on your server
-            .then(response => response.json())
-            .then(playerData => {
-                // Handle the loaded player data as needed
-                handlePlayerData(playerData);
-                updateAppWithData(playerData);
+function loadPlayerJson() {
+    setTimeout(function() {
+        const chatWindow = document.getElementById('chatWindow');
+        const importMessage = '<font style="color:lightgreen;">Please import a file to continue.</font><br>';
+        chatWindow.innerHTML += importMessage;
 
-            checkLogin = true;
-            if (checkLogin === true){
-                const chatWindow = document.getElementById('chatWindow');
-                chatWindow.innerHTML += '<font style="color:lightgreen;">' + userId + ' is logged in.</font><br>';
+        // Initial message from Ofcrycella
+        var time = new Date().getHours();
+        var greeting, joke;
+
+        if (time < 12) {
+            greeting = "Good morning";
+        } else if (time < 18) {
+            greeting = "Good afternoon";
+        } else {
+            greeting = "Good evening";
+        }
+
+        var messages = {
+            "default": [
+                "Welcome to the dark web of our website! Explore, if you dare.",
+                "Enjoy your experience, and remember: not all bugs are unintentional.",
+                "Why did the hacker cross the road? To exploit the vulnerability on the other side.",
+                "How do hackers stay cool? They open Windows.",
+                "I'm writing a book on hacking passwords. It's a real page-turner, especially for IT security.",
+                "Why did the hacker get thrown out of the restaurant? He kept trying to steal the server.",
+                "I told my computer I needed a break. Now it won't stop sending ransom notes.",
+            ],
+            "mobile": [
+                "I've optimized your mobile experience, but remember, even mobile phones can't escape hacks.",
+                "Discover our mobile-friendly features, but beware of the hidden exploits.",
+                "Why did the smartphone break up with its owner? It found a better connection.",
+                "What do you call a phone that hacks other phones? A phreaking smartphone.",
+                "I told my phone to stop eavesdropping on me. Now it just gives me the silent treatment.",
+                "I'm reading a book on mobile security. It's an eye-opener, literally.",
+                "I'm reading a book on the dark side of app development. It's a suspenseful thriller.",
+            ],
+            "Apple": [
+                "Ah, an Apple device! Prepare for a byte of a different kind.",
+                "Did you hear about the Apple device that went rogue? It became a bad apple.",
+                "I told my wife she should embrace her programming mistakes. She gave me a kernel panic.",
+                "Why don't Apple devices make good spies? They can't keep things under iCloud.",
+                "I'm reading a book on hacking Apple IDs. It's password-protected, though.",
+                "I'm reading a book on the secrets of the Apple ecosystem. It's a forbidden fruit.",
+                "I'm reading a book on Apple's privacy policies. It's more fiction than science.",
+            ],
+            "Windows": [
+                "Using Windows? Have you considered encrypting your life?",
+                "Why not make your life easier? Try Linux today, before Windows tries to update again.",
+                "I told my wife she should embrace her coding mistakes. She gave me a blue screen of silence.",
+                "Why did the computer go to therapy? It had too many unresolved issues.",
+                "I'm reading a book on breaking through Windows firewalls. It's a real smash hit.",
+                "I'm reading a book on the secret life of Windows updates. It's a horror story.",
+                "I'm reading a book on hacking with Windows. It's a maze of vulnerabilities.",
+            ]
+        };
 
 
-// Initial message from Profane
-setTimeout(function() {
+        var deviceType = getDeviceType(); // Replace with actual device detection logic
+        var randomMessage = messages[deviceType] || messages["default"];
+        var message = randomMessage[Math.floor(Math.random() * randomMessage.length)];
 
-    
-    var time = new Date().getHours();
-    var greeting, joke;
-    
-    if (time < 12) {
-        greeting = "Good morning";
-    } else if (time < 18) {
-        greeting = "Good afternoon";
-    } else {
-        greeting = "Good evening";
-    }
-    
-    var messages = {
-        "default": [
-          "Welcome to the dark web of our website! Explore, if you dare.",
-          "Enjoy your experience, and remember: not all bugs are unintentional.",
-          "Why did the hacker cross the road? To exploit the vulnerability on the other side.",
-          "How do hackers stay cool? They open Windows.",
-          "I'm writing a book on hacking passwords. It's a real page-turner, especially for IT security.",
-          "Why did the hacker get thrown out of the restaurant? He kept trying to steal the server.",
-          "I told my computer I needed a break. Now it won't stop sending ransom notes.",
-        ],
-        "mobile": [
-          "I've optimized your mobile experience, but remember, even mobile phones can't escape hacks.",
-          "Discover our mobile-friendly features, but beware of the hidden exploits.",
-          "Why did the smartphone break up with its owner? It found a better connection.",
-          "What do you call a phone that hacks other phones? A phreaking smartphone.",
-          "I told my phone to stop eavesdropping on me. Now it just gives me the silent treatment.",
-          "I'm reading a book on mobile security. It's an eye-opener, literally.",
-          "I'm reading a book on the dark side of app development. It's a suspenseful thriller.",
-        ],
-        "Apple": [
-          "Ah, an Apple device! Prepare for a byte of a different kind.",
-          "Did you hear about the Apple device that went rogue? It became a bad apple.",
-          "I told my wife she should embrace her programming mistakes. She gave me a kernel panic.",
-          "Why don't Apple devices make good spies? They can't keep things under iCloud.",
-          "I'm reading a book on hacking Apple IDs. It's password-protected, though.",
-          "I'm reading a book on the secrets of the Apple ecosystem. It's a forbidden fruit.",
-          "I'm reading a book on Apple's privacy policies. It's more fiction than science.",
-        ],
-        "Windows": [
-          "Using Windows? Have you considered encrypting your life?",
-          "Why not make your life easier? Try Linux today, before Windows tries to update again.",
-          "I told my wife she should embrace her coding mistakes. She gave me a blue screen of silence.",
-          "Why did the computer go to therapy? It had too many unresolved issues.",
-          "I'm reading a book on breaking through Windows firewalls. It's a real smash hit.",
-          "I'm reading a book on the secret life of Windows updates. It's a horror story.",
-          "I'm reading a book on hacking with Windows. It's a maze of vulnerabilities.",
-        ]
-      };
-      
-    
-      var deviceType = getDeviceType(); // Replace with actual device detection logic
-      var randomMessage = messages[deviceType] || messages["default"];
-      var message = randomMessage[Math.floor(Math.random() * randomMessage.length)];
-    
-        const initialMessage = '<p>Profane: ' + greeting + ' ' + userId + '. ' + message + '</p>';
+        const initialMessage = '<p>Ofcrycella: ' + greeting + ' and welcome to LuminaFields ' + userId + '. ' + message + '</p>';
         chatWindow.innerHTML += initialMessage;
         scrollToBottom();
     }, 2300);
+}
 
-            }
-            })
-            .catch(error => {
-                console.error('Error loading player1.json:', error);
-            });
+
+
+let scene, camera, renderer, controls, model, mixer, action, delta;
+let clock = new THREE.Clock();
+let animations, currentAnimationIndex = 0;
+let spine, neck;
+let mouse = new THREE.Vector2();
+let targetRotation = new THREE.Vector3();
+let allowHeadTracking = true;
+
+function render() {
+  delta = clock.getDelta();
+  if (mixer) {
+    mixer.update(delta);
+  }
+  if (spine && neck && allowHeadTracking) {
+    spine.rotation.y += 0.3 * (targetRotation.y - spine.rotation.y);
+    neck.rotation.y += 0.3 * (targetRotation.y - neck.rotation.y);
+    spine.rotation.x += 0.3 * (targetRotation.x - spine.rotation.x);
+    neck.rotation.x += 0.3 * (targetRotation.x - neck.rotation.x);
+  }
+  renderer.render(scene, camera);
+}
+
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  init();
+});
+
+
+document.addEventListener('click', function () {
+  // Stop the current animation
+  action.stop();
+
+  // Set the current animation to index 6 (animation 7)
+  currentAnimationIndex = 6;
+  action = mixer.clipAction(animations[currentAnimationIndex]);
+
+  // Set the animation to play once and play it
+  action.setLoop(THREE.LoopOnce);
+  action.reset();
+  action.play();
+
+  // Disable head tracking during the new animation
+  allowHeadTracking = false;
+
+  // Set a timeout to restart the entire animation (including idle) after the click event
+  setTimeout(() => {
+    // Allow head tracking to resume after the click event
+    allowHeadTracking = true;
+
+    // Revert to the idle animation
+    action = mixer.clipAction(animations[0]); // Assuming the idle animation is at index 0
+    action.setLoop(THREE.LoopRepeat);
+    action.play();
+  }, action._clip.duration * 1000); // Assuming action._clip.duration gives the duration of the current animation in seconds
+});
+
+let lastAnimationTime = 0;
+
+document.addEventListener('keydown', function (event) {
+  // Check if the pressed key is a vowel
+  var vowelRegex = /[aeiou]/i; // Case-insensitive vowel regex
+  if (vowelRegex.test(event.key)) {
+    // Get the current timestamp
+    const currentTime = Date.now();
+
+    // Check if enough time has passed since the last animation
+    if (currentTime - lastAnimationTime > 30000) {
+      // Stop the current animation
+      action.stop();
+
+      // Set the current animation to index 5 (animation 6)
+      currentAnimationIndex = 5;
+      action = mixer.clipAction(animations[currentAnimationIndex]);
+
+      // Set the animation to play once and play it
+      action.setLoop(THREE.LoopOnce);
+      action.reset();
+      action.play();
+
+      // Disable head tracking during the new animation
+      allowHeadTracking = false;
+
+      // Set a timeout to allow head tracking to resume after the key event
+      setTimeout(() => {
+        // Allow head tracking to resume after the key event
+        allowHeadTracking = true;
+
+        // Revert to the idle animation
+        action = mixer.clipAction(animations[0]); // Assuming the idle animation is at index 0
+        action.setLoop(THREE.LoopRepeat);
+        action.play();
+      }, action._clip.duration * 1000); // Assuming action._clip.duration gives the duration of the current animation in seconds
+
+      // Update the last animation time
+      lastAnimationTime = currentTime;
     }
-
-    function handlePlayerData(playerData) {
-        // Implement your logic to handle the player data here
-        console.log('Loaded Player Data:', playerData);
-        // For example, update the userData and display
-        updateUserData(playerData.userData);
-        updateJSONDisplay();
+  }
+});
+  
+  document.addEventListener('mousemove', function (event) {
+    // Only update targetRotation if head tracking is allowed
+    if (allowHeadTracking) {
+      mouse.x = (event.clientX / window.innerWidth);
+      mouse.y = (event.clientY / window.innerHeight);
+      targetRotation.x = (mouse.y);
+      targetRotation.y = (mouse.x);
     }
-// Slide 2
-let scene2, camera2, renderer2, controls2, model2;
+  });
 
-initSlide2();
-animate2();
+function init() {
+  scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x000000, 0, 16);
+  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 1, 3);
 
-function initSlide2() {
-    scene2 = new THREE.Scene();
+  let ambient = new THREE.AmbientLight(0xffffff, 1);
+  scene.add(ambient);
+  let pointLight = new THREE.PointLight(0xffffff, 0.5);
+  pointLight.position.z = 2500;
+  scene.add(pointLight);
 
-    camera2 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera2.position.z = 0.5;
+  let loader = new THREE.GLTFLoader();
+  loader.load('https://luminafields.com/crycella.glb', function (gltf) {
+    model = gltf.scene;
+    scene.add(model);
+    model.position.set(-0.5, 0, 0); // Adjust x-coordinate for positioning
 
-    renderer2 = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer2.setSize(window.innerWidth, window.innerHeight);
+    mixer = new THREE.AnimationMixer(model);
+    animations = gltf.animations;
+    action = mixer.clipAction(animations[currentAnimationIndex]);
+    action.setLoop(THREE.LoopRepeat);
+    action.play();
 
-    const canvasContainer2 = document.getElementById('carousel-slide-2');
-    const canvasElement2 = renderer2.domElement;
-    canvasContainer2.appendChild(canvasElement2);
+    spine = model.getObjectByName('Spine'); // Replace 'Spine' with the actual name of the spine bone/mesh
+    neck = model.getObjectByName('Neck'); // Replace 'Neck' with the actual name of the neck bone/mesh
+  });
 
-    let ambientLight2 = new THREE.AmbientLight(0xffffff, 3.5);
-    scene2.add(ambientLight2);
-
-    let directionalLight2 = new THREE.DirectionalLight(0xffffff, 3.8);
-    directionalLight2.position.set(50, 100, 50);
-    scene2.add(directionalLight2);
-
-    let spotlight2 = new THREE.SpotLight(0xffffff, 1, 10000, Math.PI / 4, 0.5, 2);
-    spotlight2.position.set(0, 100, 0);
-    let spotlightTarget2 = new THREE.Object3D();
-    spotlightTarget2.position.set(0, 0, 0);
-    scene2.add(spotlightTarget2);
-    spotlight2.target = spotlightTarget2;
-    scene2.add(spotlight2);
-
-    let inventory2 = 'https://luminafields.com/candles.glb';
-
-    const loader2 = new THREE.GLTFLoader();
-    loader2.load(inventory2, function (gltf) {
-        model2 = gltf.scene;
-        scene2.add(model2);
-    });
-
-    controls2 = new THREE.OrbitControls(camera2, canvasElement2);
+  renderer = new THREE.WebGLRenderer({ alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+  renderer.shadowMap.enabled = true;
+  renderer.setPixelRatio(window.devicePixelRatio);
+  document.getElementById("app").appendChild(renderer.domElement);
+  gsap.ticker.add(render);
 }
-
-function animate2() {
-    requestAnimationFrame(animate2);
-    controls2.update();
-    renderer2.render(scene2, camera2);
-}
-
-window.addEventListener('resize', function () {
-    camera2.aspect = window.innerWidth / window.innerHeight;
-    camera2.updateProjectionMatrix();
-    renderer2.setSize(window.innerWidth, window.innerHeight);
-});
-
-// Slide 3
-let scene3, camera3, renderer3, controls3, model3;
-
-initSlide3();
-animate3();
-
-function initSlide3() {
-    scene3 = new THREE.Scene();
-
-    camera3 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera3.position.z = 0.5;
-
-    renderer3 = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer3.setSize(window.innerWidth, window.innerHeight);
-
-    const canvasContainer3 = document.getElementById('carousel-slide-3');
-    const canvasElement3 = renderer3.domElement;
-    canvasContainer3.appendChild(canvasElement3);
-
-    let ambientLight3 = new THREE.AmbientLight(0xffffff, 3.5);
-    scene3.add(ambientLight3);
-
-    let directionalLight3 = new THREE.DirectionalLight(0xffffff, 3.8);
-    directionalLight3.position.set(50, 100, 50);
-    scene3.add(directionalLight3);
-
-    let spotlight3 = new THREE.SpotLight(0xffffff, 1, 10000, Math.PI / 4, 0.5, 2);
-    spotlight3.position.set(0, 100, 0);
-    let spotlightTarget3 = new THREE.Object3D();
-    spotlightTarget3.position.set(0, 0, 0);
-    scene3.add(spotlightTarget3);
-    spotlight3.target = spotlightTarget3;
-    scene3.add(spotlight3);
-
-    let inventory3 = 'https://luminafields.com/altar.glb';
-
-    const loader3 = new THREE.GLTFLoader();
-    loader3.load(inventory3, function (gltf) {
-        model3 = gltf.scene;
-        model3.position.x -= 0.2; // Move the model to the left by 0.2 units for slide 3
-        scene3.add(model3);
-    });
-
-    controls3 = new THREE.OrbitControls(camera3, canvasElement3);
-}
-
-function animate3() {
-    requestAnimationFrame(animate3);
-    controls3.update();
-    renderer3.render(scene3, camera3);
-}
-
-window.addEventListener('resize', function () {
-    camera3.aspect = window.innerWidth / window.innerHeight;
-    camera3.updateProjectionMatrix();
-    renderer3.setSize(window.innerWidth, window.innerHeight);
-});
-
-// Slide 4
-let scene4, camera4, renderer4, controls4, model4;
-
-initSlide4();
-animate4();
-
-function initSlide4() {
-    scene4 = new THREE.Scene();
-
-    camera4 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera4.position.z = 0.5;
-
-    renderer4 = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer4.setSize(window.innerWidth, window.innerHeight);
-
-    const canvasContainer4 = document.getElementById('carousel-slide-4');
-    const canvasElement4 = renderer4.domElement;
-    canvasContainer4.appendChild(canvasElement4);
-
-    let ambientLight4 = new THREE.AmbientLight(0xffffff, 3.5);
-    scene4.add(ambientLight4);
-
-    let directionalLight4 = new THREE.DirectionalLight(0xffffff, 3.8);
-    directionalLight4.position.set(50, 100, 50);
-    scene4.add(directionalLight4);
-
-    let spotlight4 = new THREE.SpotLight(0xffffff, 1, 10000, Math.PI / 4, 0.5, 2);
-    spotlight4.position.set(0, 100, 0);
-    let spotlightTarget4 = new THREE.Object3D();
-    spotlightTarget4.position.set(0, 0, 0);
-    scene4.add(spotlightTarget4);
-    spotlight4.target = spotlightTarget4;
-    scene4.add(spotlight4);
-
-    let inventory4 = 'https://luminafields.com/gateway.glb';
-
-    const loader4 = new THREE.GLTFLoader();
-    loader4.load(inventory4, function (gltf) {
-        model4 = gltf.scene;
-        model4.position.x -= 0.2; // Move the model to the left by 0.2 units for slide 4
-        scene4.add(model4);
-    });
-
-    controls4 = new THREE.OrbitControls(camera4, canvasElement4);
-}
-
-function animate4() {
-    requestAnimationFrame(animate4);
-    controls4.update();
-    renderer4.render(scene4, camera4);
-}
-
-window.addEventListener('resize', function () {
-    camera4.aspect = window.innerWidth / window.innerHeight;
-    camera4.updateProjectionMatrix();
-    renderer4.setSize(window.innerWidth, window.innerHeight);
-});

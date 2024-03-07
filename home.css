@@ -1,9 +1,5 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
-* {
-  box-sizing: border-box;
-}
-
 
 #app {
   width: 100vw;
@@ -430,7 +426,7 @@ button, a {
 }
 .messages-section .messages-close {
   position: absolute;
-  bottom: 12px;
+  bottom: 42px;
   right: 12px;
   z-index: 3;
   border: none;
@@ -970,6 +966,52 @@ color: var(--main-color);
       box-shadow:none;
       }
       }
+
+
+      .open-modal2 {
+        text-align: center;
+        display: block;
+       border: 2px solid black;
+       background: #D95952;
+color: var(--main-color);
+       text-transform: uppercase;
+       letter-spacing: 4px;
+       font-size: 14px;
+       padding: .5em 1em;
+       font-weight: bold;
+       -webkit-transition: background 0.3s;
+       transition: background 0.3s;
+       animation: pulse 8s infinite;
+
+     }
+
+     .open-modal2:hover {
+       background: #666262;
+     }
+
+
+     @keyframes pulse {
+     0% {
+     opacity:1;
+     }
+
+     40% {
+     opacity:0.8;
+     box-shadow:0px 0px 5px 0px $color;
+     }
+
+     60% {
+     opacity:0.7;
+     box-shadow:0px 0px 5px 0px $color;
+     }
+
+     100%{
+     opacity:1;
+     box-shadow:none;
+     }
+     }
+
+
 
          .row {
   display: flex;

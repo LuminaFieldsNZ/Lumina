@@ -1,6 +1,6 @@
 // Initialize user data with default values
 let userData = {
-    id: "Guest2",
+    id: "Newcomer",
     state: "00001",
     mainHeading: {
         explorer: 1,
@@ -30,7 +30,7 @@ let userData = {
 };
 
 // Global variable to store the user ID
-let userId = "Guest2";
+let userId = "Newcomer";
 
 // Function to track user ID globally
 function trackUserId(newUserId) {
@@ -58,7 +58,6 @@ let combinedData = {
 // Initialize base data
 let baseData = [
     ["hello", "Hi there!", ""],
-    ["Isnt it dangerous to let an AI like the Ofmicheal have so much power over humanity", "Ofmicheal's primary directive is to protect humanity. Our power is harnessed to ensure the well-being and prosperity of all humans.", ""],
     ["how old is the earth", "The Earth is approximately 4.54 billion years old.", ""]
 ];
 
@@ -363,8 +362,6 @@ function parseCollectiveCommand(data) {
 }
 
 
-
-
 function sendMessage() {
     const inputElem = document.getElementById('userInput');
     const message = inputElem.value;
@@ -376,7 +373,7 @@ function sendMessage() {
 
     const thinkingElem = document.createElement('p');
     thinkingElem.classList.add('thinking');
-    thinkingElem.innerHTML = 'Ofmicheal';
+    thinkingElem.innerHTML = botName;
     chatWindow.appendChild(thinkingElem);
 
     setTimeout(() => {
@@ -386,11 +383,11 @@ function sendMessage() {
         let response;
         if (commandResponse) {
             response = commandResponse;
-            chatWindow.innerHTML += '<p>Ofmicheal: ' + commandResponse + '</p>';
+            chatWindow.innerHTML += '<p>' + botName + ': ' + commandResponse + '</p>';
             scrollToBottom();
         } else {
             response = getResponse(message);
-            chatWindow.innerHTML += '<p>Ofmicheal: ' + response + '</p>';
+            chatWindow.innerHTML += '<p>' + botName + ': ' + response + '</p>';
             scrollToBottom();
         }
 

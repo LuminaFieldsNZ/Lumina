@@ -15,7 +15,6 @@
               <link rel="mask-icon" href="pics/wm.png" color="#fff">
               <link rel="shortcut icon" href="pics/wm.png">
 
-              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
             <link rel="stylesheet" href="./home.css">
             <link rel="stylesheet" href="./loader.css">
             <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
@@ -27,6 +26,14 @@
 
             </head>
             <body>
+
+<div style="position: absolute; z-index: 999999999; top: 20px; left: 5px;">
+  <button class="open-modal" onclick="window.open('player2.html')">Mechanics</button>
+  <button class="open-modal" onclick="window.open('player1.html')">Horticulture</button>
+</div>
+
+
+
             <!-- partial:index.partial.html -->
             <div class="app-container" style="z-index:999;">
 
@@ -525,7 +532,7 @@
               <div class="messages">
 <div class="message-box">
     <div class="search-wrapper">
-      <input class="search-input" placeholder="Search" type="text" id="passcode" oninput="checkPasscode();">
+      <input class="search-input" placeholder="Command Terminal" type="text" id="passcode" oninput="checkPasscode();">
 
       <div class="loader">
         <div class="square" ></div>
