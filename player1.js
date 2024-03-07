@@ -12,7 +12,6 @@ function loadPlayerJson() {
         const importMessage = '<font style="color:lightgreen;">Please import a file to continue.</font><br>';
         chatWindow.innerHTML += importMessage;
 
-        // Initial message from Ofcrycella
         var time = new Date().getHours();
         var greeting, joke;
 
@@ -68,7 +67,7 @@ function loadPlayerJson() {
         var randomMessage = messages[deviceType] || messages["default"];
         var message = randomMessage[Math.floor(Math.random() * randomMessage.length)];
 
-        const initialMessage = '<p>Ofcrycella: ' + greeting + ' and welcome to LuminaFields ' + userId + '. ' + message + '</p>';
+        const initialMessage = '<p>' + botname + ': ' + greeting + ' and welcome to LuminaFields ' + userId + '. ' + message + '</p>';
         chatWindow.innerHTML += initialMessage;
         scrollToBottom();
     }, 2300);
