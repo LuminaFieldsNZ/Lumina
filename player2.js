@@ -108,8 +108,7 @@ document.addEventListener('click', function () {
   action.stop();
 
   // Set the current animation to index 6 (animation 7)
-  currentAnimationIndex = 2;
-  action = mixer.clipAction(animations[currentAnimationIndex]);
+  action = mixer.clipAction(animations[1]);
 
   // Set the animation to play once and play it
   action.setLoop(THREE.LoopOnce);
@@ -146,7 +145,7 @@ document.addEventListener('keydown', function (event) {
       action.stop();
 
       // Set the current animation to index 5 (animation 6)
-      currentAnimationIndex = 1;
+      currentAnimationIndex = 2;
       action = mixer.clipAction(animations[currentAnimationIndex]);
 
       // Set the animation to play once and play it
