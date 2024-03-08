@@ -313,7 +313,7 @@ baseData.push (
 ["Were dogwoods used for anything in wartime?", "Dogwood was used to manufacture products like mallets for explosives during World Wars due to its excellent shock resistance from the dense wood grain.", ""],
 ["Do any famous buildings incorporate dogwood motifs?", "Yes, architectural details on buildings like the National Cathedral in Washington D.C. and the Missouri State Capitol feature stylized dogwood imagery.", ""],
 ["Have dogwoods played roles in any myths or legends?", "Various Native folklore tales depict dogwoods as former tall trees that were transformed or cursed into their modern shorter stature as signs of humility.", ""],
-["What naming traditions are linked to dogwoods?", "Common names like "whitehart" and "boxwood" emerged from the wood's color and density, while some species are named after their origins like the "Pacific dogwood".", ""],
+["What naming traditions are linked to dogwoods?", "Common names like whitehart and boxwood emerged from the wood's color and density, while some species are named after their origins like the Pacific dogwood.", ""],
 ["Are dogwoods considered national emblems anywhere?", "While not an official national symbol, the flowering dogwood is regarded as an unofficial emblem representing the spirit and culture of the United States.", ""],
 
 
