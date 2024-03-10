@@ -67,7 +67,7 @@ function loadPlayerJson() {
         var randomMessage = messages[deviceType] || messages["default"];
         var message = randomMessage[Math.floor(Math.random() * randomMessage.length)];
 
-        const initialMessage = '<p>Ofzach: ' + greeting + ' and welcome to LuminaFields ' + userId + '. ' + message + '</p>';
+        const initialMessage = '<p>Ofzach: ' + greeting + ' and welcome to the Science Department ' + userId + '. ' + message + '</p>';
         chatWindow.innerHTML += initialMessage;
         scrollToBottom();
     }, 2300);
