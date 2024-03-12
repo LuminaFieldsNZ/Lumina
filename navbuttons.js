@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     secretActive();
     document.getElementById("load1").style.color = "lightgreen";
     document.getElementById("load1").innerHTML = "Online";
-  }, 2900); // 5000 milliseconds = 5 seconds
+  }, 500); // 5000 milliseconds = 5 seconds
 });
 
 
