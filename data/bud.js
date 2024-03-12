@@ -1,5 +1,5 @@
 baseData.push (
-
+// History
 ["When did marijuana start to gain popularity as a recreational drug?", "Marijuana started to gain popularity as a recreational drug in the 20th century, particularly during the 1960s and 1970s counterculture movement.", ""],
 ["What was the significance of the Shafer Commission's report in relation to marijuana?", "The Shafer Commission's report, commissioned by President Richard Nixon in 1970, recommended the decriminalization of marijuana for personal use, but Nixon rejected its findings.", ""],
 ["When was the first medical marijuana program established in the United States?", "The first medical marijuana program in the United States was established in California in 1996 with the passage of Proposition 215.", ""],
@@ -30,7 +30,17 @@ baseData.push (
 ["When did the modern era of marijuana legalization begin?","The modern era of marijuana legalization gained momentum in the late 20th and early 21st centuries, with several states and countries legalizing marijuana for medicinal and recreational use.",""],
 ["What role did marijuana play in ancient Chinese medicine?", "In ancient China, marijuana was used for medicinal purposes such as pain relief and as an anesthetic during surgeries.", ""],
 ["Who introduced marijuana to the Western world?", "Marijuana was introduced to the Western world by explorers and travelers who encountered it during their journeys to other continents.", ""],
-
+// Cultivation
+["What is the difference between growing marijuana from seeds and clones?", "Growing marijuana from seeds involves germinating seeds obtained from a mature plant, while growing from clones involves taking cuttings from a mature plant and rooting them to produce genetically identical offspring.", ""],
+["What are the advantages of growing marijuana from clones?", "Growing marijuana from clones allows for the preservation of desirable traits, such as potency and flavor, and can result in faster harvest times compared to growing from seeds.", ""],
+["How do you maintain proper humidity levels during marijuana cultivation?", "Proper humidity levels during marijuana cultivation can be maintained by using humidifiers or dehumidifiers as needed, depending on environmental conditions and plant growth stages.", ""],
+["What are some common mistakes to avoid during marijuana cultivation?", "Common mistakes to avoid during marijuana cultivation include overwatering, underwatering, nutrient imbalances, inadequate lighting, poor air circulation, and improper pH levels.", ""],
+["What are some popular training techniques used in marijuana cultivation?", "Popular training techniques in marijuana cultivation include topping, pruning, low-stress training (LST), high-stress training (HST), and screen of green (SCROG), which can help maximize yields and manage plant growth.", ""],
+["How do you determine the optimal lighting for indoor marijuana cultivation?", "The optimal lighting for indoor marijuana cultivation depends on factors such as the size of the grow space, the number of plants, and the stage of growth. Common options include fluorescent, HID (high-intensity discharge), LED (light-emitting diode), and CMH (ceramic metal halide) lights.", ""],
+["What role do nutrients play in marijuana cultivation?", "Nutrients are essential for marijuana cultivation as they provide essential elements needed for plant growth and development. Common nutrients include nitrogen, phosphorus, potassium, calcium, magnesium, and micronutrients.", ""],
+["How do you prevent and manage nutrient deficiencies in marijuana plants?", "Preventing and managing nutrient deficiencies in marijuana plants involves maintaining proper pH levels, monitoring nutrient levels in the growing medium, and adjusting nutrient formulations as needed. Visual cues such as leaf discoloration and stunted growth can also indicate nutrient deficiencies.", ""],
+["What is the best way to store marijuana seeds for future cultivation?", "To store marijuana seeds for future cultivation, place them in an airtight container such as a glass jar or a sealed plastic bag and store them in a cool, dark, and dry place away from moisture and direct sunlight.", ""],
+["How do you ensure proper ventilation in indoor marijuana cultivation?", "Proper ventilation in indoor marijuana cultivation can be achieved by using exhaust fans to remove stale air and odors, intake fans to bring in fresh air, and oscillating fans to promote air circulation within the grow space.", ""],
 
 ["", "", ""]
 
