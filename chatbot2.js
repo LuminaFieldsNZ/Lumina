@@ -209,7 +209,11 @@ function sendMessage() {
     }, 1000);
 }
 
-
+function handleKeyPress(event) {
+    if (event.keyCode === 13) { // Check if Enter key is pressed
+        sendMessage();
+    }
+}
 
 
 

@@ -1,0 +1,37 @@
+baseData.push (
+
+["When did marijuana start to gain popularity as a recreational drug?", "Marijuana started to gain popularity as a recreational drug in the 20th century, particularly during the 1960s and 1970s counterculture movement.", ""],
+["What was the significance of the Shafer Commission's report in relation to marijuana?", "The Shafer Commission's report, commissioned by President Richard Nixon in 1970, recommended the decriminalization of marijuana for personal use, but Nixon rejected its findings.", ""],
+["When was the first medical marijuana program established in the United States?", "The first medical marijuana program in the United States was established in California in 1996 with the passage of Proposition 215.", ""],
+["What role did marijuana play in ancient Indian culture?", "In ancient India, marijuana was considered a sacred plant and was used in religious ceremonies and rituals.", ""],
+["When did marijuana prohibition in the United States officially begin?", "Marijuana prohibition in the United States officially began with the passage of the Marihuana Tax Act in 1937.", ""],
+["What was the impact of the Controlled Substances Act of 1970 on marijuana?", "The Controlled Substances Act of 1970 classified marijuana as a Schedule I controlled substance, making it illegal at the federal level in the United States.", ""],
+["When did the United Nations Single Convention on Narcotic Drugs classify marijuana as a controlled substance?", "The United Nations Single Convention on Narcotic Drugs classified marijuana as a controlled substance in 1961, leading to international restrictions on its use and distribution.", ""],
+["What role did racism play in the criminalization of marijuana?", "Racism played a significant role in the criminalization of marijuana, with anti-marijuana propaganda often targeting minority communities and associating marijuana use with racial stereotypes.", ""],
+["What are the basic requirements for growing marijuana?", "Marijuana plants require suitable lighting, water, nutrients, air circulation, and temperature control to thrive.", ""],
+["What is the typical lifespan of a marijuana plant?", "The lifespan of a marijuana plant varies depending on the strain and growing conditions, but most plants go through vegetative and flowering stages and can be harvested within 2 to 4 months.", ""],
+["What is the difference between indoor and outdoor marijuana cultivation?", "Indoor cultivation involves growing marijuana plants indoors under controlled conditions, while outdoor cultivation involves growing them outdoors in natural sunlight. Each method has its advantages and challenges.", ""],
+["What are the different stages of marijuana plant growth?", "The different stages of marijuana plant growth include germination, seedling stage, vegetative stage, flowering stage, and harvesting.", ""],
+["How do you germinate marijuana seeds?", "Marijuana seeds can be germinated by placing them in a moist and warm environment until they sprout roots and leaves.", ""],
+["What factors influence marijuana plant yields?", "Factors such as genetics, lighting, nutrients, water, temperature, humidity, and pruning techniques can influence marijuana plant yields.", ""],
+["What are some common pests and diseases that affect marijuana plants?", "Common pests and diseases that affect marijuana plants include spider mites, aphids, powdery mildew, mold, and bud rot. Proper hygiene and preventive measures can help mitigate these issues.", ""],
+["What are the different methods of cultivating marijuana?", "Marijuana can be cultivated using various methods, including soil-based cultivation, hydroponics, aeroponics, and aquaponics, each offering different advantages and challenges.", ""],
+["How do you determine when to harvest marijuana plants?", "Marijuana plants are typically harvested when the trichomes on the buds have reached their desired level of maturity, indicated by changes in color and texture.", ""],
+["What are some tips for successful marijuana cultivation?", "Some tips for successful marijuana cultivation include selecting high-quality genetics, maintaining proper environmental conditions, monitoring plant health, and staying informed about best practices and techniques.", ""],
+["When was marijuana first used?","Marijuana has been used for thousands of years, with evidence of its use dating back to ancient civilizations.",""],
+["Which ancient civilization is known to have used marijuana?","Ancient civilizations such as the Chinese, Indians, and Egyptians are known to have used marijuana for various purposes.",""],
+["What were some of the uses of marijuana in ancient times?","In ancient times, marijuana was used for medicinal, religious, and recreational purposes.",""],
+["When did marijuana first become prohibited?","Marijuana prohibition started in the early 20th century, primarily driven by social and political factors.",""],
+["What led to the criminalization of marijuana in the United States?","In the United States, marijuana criminalization was influenced by various factors, including racism, xenophobia, and political agendas.",""],
+["When was the first wave of marijuana legalization movements?","The first wave of marijuana legalization movements began in the 1960s, driven by countercultural movements and changing attitudes towards marijuana.",""],
+["What was the significance of the Marihuana Tax Act of 1937?","The Marihuana Tax Act of 1937 was the first federal law to criminalize marijuana, imposing strict regulations and taxes on its production and distribution.",""],
+["When was marijuana classified as a Schedule I drug?","Marijuana was classified as a Schedule I drug in the United States under the Controlled Substances Act of 1970, deeming it as having a high potential for abuse and no accepted medical use.",""],
+["What role did the War on Drugs play in marijuana prohibition?","The War on Drugs, initiated in the 1970s, intensified efforts to criminalize marijuana and enforce strict penalties for its possession and distribution.",""],
+["When did the modern era of marijuana legalization begin?","The modern era of marijuana legalization gained momentum in the late 20th and early 21st centuries, with several states and countries legalizing marijuana for medicinal and recreational use.",""],
+["What role did marijuana play in ancient Chinese medicine?", "In ancient China, marijuana was used for medicinal purposes such as pain relief and as an anesthetic during surgeries.", ""],
+["Who introduced marijuana to the Western world?", "Marijuana was introduced to the Western world by explorers and travelers who encountered it during their journeys to other continents.", ""],
+
+
+["", "", ""]
+
+);

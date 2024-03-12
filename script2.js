@@ -211,3 +211,10 @@ function init() {
   document.getElementById("app").appendChild(renderer.domElement);
   gsap.ticker.add(render);
 }
+
+
+
+// Adjust the display of buttons to be in a row
+document.querySelectorAll('.neumorphic').forEach(button => {
+    button.style.display = 'inline-block';
+});
