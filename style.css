@@ -1,5 +1,21 @@
 @import url('https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css');
 
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+
+.overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+}
+
+
+
 button.neumorphic {
   container-type: inline-size;
   aspect-ratio: 4/1; /* Adjust aspect ratio for a more rectangular shape */
@@ -12,6 +28,9 @@ button.neumorphic {
   align-items: center; /* Center items vertically */
   justify-content: center; /* Center items horizontally */
   gap: 1rem;
+
+  /* Add padding to the button to ensure space around the content */
+  padding: 0.5rem 1rem; /* Adjust padding as needed */
   
   --shadow: 
     -.5rem -.5rem 1rem hsl(0 0% 100% / .75),
@@ -48,7 +67,7 @@ h1 {
   font-size: 3rem;
 }
 .buttons {
-  display: flex; /* Use flexbox layout */
+  display: flex;
   width: min(75rem, 100%);
   margin-inline: auto;
   gap: 2rem;

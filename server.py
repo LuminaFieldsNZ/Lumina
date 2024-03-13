@@ -2,7 +2,7 @@
 import http.server
 import socketserver
 
-PORT = 7016
+PORT = 7001
 
 handler = http.server.SimpleHTTPRequestHandler
 

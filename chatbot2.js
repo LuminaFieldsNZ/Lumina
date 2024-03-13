@@ -131,7 +131,7 @@ function exportData() {
     // Create a download anchor element
     const downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", "playerData.json");
+    downloadAnchorNode.setAttribute("download", "lumina.json");
 
     // Append the anchor element to the document body and trigger the download
     document.body.appendChild(downloadAnchorNode);
