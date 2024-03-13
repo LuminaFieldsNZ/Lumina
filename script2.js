@@ -1,4 +1,5 @@
 let checkLogin = false;
+let botName;
 
 
 // Select the #app element
@@ -10,6 +11,7 @@ appElement.addEventListener('wheel', function(event) {
 }, { passive: false }); // Ensure that preventDefault() is not passive
 
 function loadPlayerJson() {
+
     setTimeout(function() {
         const chatWindow = document.getElementById('chatWindow');
         const importMessage = '<font style="color:lightgreen;">Please upload lumina file.</font><br>';
@@ -55,8 +57,9 @@ function loadPlayerJson() {
 
         var randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
 
-        const initialMessage = '<p>ofMicheal: ' + greeting + ' and welcome to LuminaFields! ' + randomJoke + '</p>';
+        const initialMessage = '<p>ofMicheal: ' + greeting + ' and welcome to LuminaFields! ' + randomJoke + ' Or speak with <button class="neumorphic" onclick="runCrycella()"  id="crycella">Crycella</button><button class="neumorphic" onclick="runZach()" id="zach">Zach</button>.</p>';
         chatWindow.innerHTML += initialMessage;
+        botName = "ofMicheal";
         scrollToBottom();
     }, 2300);
 }
@@ -64,6 +67,7 @@ function loadPlayerJson() {
 
 
 let scene, camera, renderer, controls, model, mixer, action, delta;
+let loader = new THREE.GLTFLoader();
 let clock = new THREE.Clock();
 let animations, currentAnimationIndex = 0;
 let spine, neck;
@@ -183,7 +187,6 @@ function init() {
   pointLight.position.z = 2500;
   scene.add(pointLight);
 
-  let loader = new THREE.GLTFLoader();
   loader.load('https://luminafields.com/micheal.glb', function (gltf) {
     model = gltf.scene;
     scene.add(model);
@@ -214,3 +217,97 @@ function init() {
 document.querySelectorAll('.neumorphic').forEach(button => {
     button.style.display = 'inline-block';
 });
+
+
+  // Add event listener to the button with id 'zach'
+  function runZach() {
+
+    botName = "ofZach";    
+
+    loader.load('https://luminafields.com/zach.glb', function (gltf) {
+      // Remove the current model from the scene
+      scene.remove(model);
+      // Dispose the current model's resources
+      model.traverse(function (object) {
+        if (object.isMesh) {
+          object.geometry.dispose();
+          object.material.dispose();
+        }
+      });
+      // Assign the new model and add it to the scene
+      model = gltf.scene;
+      scene.add(model);
+      model.position.set(-0.5, 0, 0); // Adjust x-coordinate for positioning
+
+      mixer = new THREE.AnimationMixer(model);
+      animations = gltf.animations;
+      action = mixer.clipAction(animations[currentAnimationIndex]);
+      action.setLoop(THREE.LoopRepeat);
+      action.play();
+
+      spine = model.getObjectByName('Spine'); // Replace 'Spine' with the actual name of the spine bone/mesh
+      neck = model.getObjectByName('Neck'); // Replace 'Neck' with the actual name of the neck bone/mesh
+    });
+  }
+
+    // Add event listener to the button with id 'zach'
+    function runCrycella() {
+
+      botName = "ofCrycella";
+
+      loader.load('https://luminafields.com/crycella.glb', function (gltf) {
+        // Remove the current model from the scene
+        scene.remove(model);
+        // Dispose the current model's resources
+        model.traverse(function (object) {
+          if (object.isMesh) {
+            object.geometry.dispose();
+            object.material.dispose();
+          }
+        });
+        // Assign the new model and add it to the scene
+        model = gltf.scene;
+        scene.add(model);
+        model.position.set(-0.5, 0, 0); // Adjust x-coordinate for positioning
+  
+        mixer = new THREE.AnimationMixer(model);
+        animations = gltf.animations;
+        action = mixer.clipAction(animations[currentAnimationIndex]);
+        action.setLoop(THREE.LoopRepeat);
+        action.play();
+  
+        spine = model.getObjectByName('Spine'); // Replace 'Spine' with the actual name of the spine bone/mesh
+        neck = model.getObjectByName('Neck'); // Replace 'Neck' with the actual name of the neck bone/mesh
+      });
+    }
+  
+        // Add event listener to the button with id 'zach'
+        function runMicheal() {
+
+          botName = "ofMicheal";
+    
+          loader.load('https://luminafields.com/micheal.glb', function (gltf) {
+            // Remove the current model from the scene
+            scene.remove(model);
+            // Dispose the current model's resources
+            model.traverse(function (object) {
+              if (object.isMesh) {
+                object.geometry.dispose();
+                object.material.dispose();
+              }
+            });
+            // Assign the new model and add it to the scene
+            model = gltf.scene;
+            scene.add(model);
+            model.position.set(-0.5, 0, 0); // Adjust x-coordinate for positioning
+      
+            mixer = new THREE.AnimationMixer(model);
+            animations = gltf.animations;
+            action = mixer.clipAction(animations[currentAnimationIndex]);
+            action.setLoop(THREE.LoopRepeat);
+            action.play();
+      
+            spine = model.getObjectByName('Spine'); // Replace 'Spine' with the actual name of the spine bone/mesh
+            neck = model.getObjectByName('Neck'); // Replace 'Neck' with the actual name of the neck bone/mesh
+          });
+        }
