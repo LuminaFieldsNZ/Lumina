@@ -57,9 +57,9 @@ function loadPlayerJson() {
 
         var randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
 
-        const initialMessage = '<p>ofMicheal: ' + greeting + ' and welcome to LuminaFields! ' + randomJoke;
+        const initialMessage = '<p>Bud: ' + greeting + ' and welcome to LuminaFields! ' + randomJoke;
         chatWindow.innerHTML += initialMessage;
-        botName = "ofMicheal";
+        botName = "Bud";
         scrollToBottom();
     }, 2300);
 }
@@ -70,21 +70,11 @@ let scene, camera, renderer, controls, model, mixer, action, delta;
 let loader = new THREE.GLTFLoader();
 let clock = new THREE.Clock();
 let animations, currentAnimationIndex = 0;
-let spine, neck;
-let mouse = new THREE.Vector2();
-let targetRotation = new THREE.Vector3();
-let allowHeadTracking = true;
 
 function render() {
   delta = clock.getDelta();
   if (mixer) {
     mixer.update(delta);
-  }
-  if (spine && neck && allowHeadTracking) {
-    spine.rotation.y += 0.3 * (targetRotation.y - spine.rotation.y);
-    neck.rotation.y += 0.8 * (targetRotation.y - neck.rotation.y);
-    spine.rotation.x += 0.5 * (targetRotation.x - spine.rotation.x);
-    neck.rotation.x += 0.8 * (targetRotation.x - neck.rotation.x);
   }
   renderer.render(scene, camera);
 }
@@ -99,81 +89,24 @@ document.addEventListener('click', function () {
   // Stop the current animation
   action.stop();
 
-  // Set the current animation to index 6 (animation 7)
-  currentAnimationIndex = 6;
-  action = mixer.clipAction(animations[currentAnimationIndex]);
+  // Increment the current animation index
+  currentAnimationIndex++;
 
-  // Set the animation to play once and play it
-  action.setLoop(THREE.LoopOnce);
-  action.reset();
-  action.play();
-
-  // Disable head tracking during the new animation
-  allowHeadTracking = false;
-
-  // Set a timeout to restart the entire animation (including idle) after the click event
-  setTimeout(() => {
-    // Allow head tracking to resume after the click event
-    allowHeadTracking = true;
-
-    // Revert to the idle animation
-    action = mixer.clipAction(animations[0]); // Assuming the idle animation is at index 0
-    action.setLoop(THREE.LoopRepeat);
-    action.play();
-  }, action._clip.duration * 1000); // Assuming action._clip.duration gives the duration of the current animation in seconds
-});
-
-let lastAnimationTime = 0;
-
-document.addEventListener('keydown', function (event) {
-  // Check if the pressed key is a vowel
-  var vowelRegex = /[aeiou]/i; // Case-insensitive vowel regex
-  if (vowelRegex.test(event.key)) {
-    // Get the current timestamp
-    const currentTime = Date.now();
-
-    // Check if enough time has passed since the last animation
-    if (currentTime - lastAnimationTime > 30000) {
-      // Stop the current animation
-      action.stop();
-
-      currentAnimationIndex = 2;
-      action = mixer.clipAction(animations[currentAnimationIndex]);
-
-      // Set the animation to play once and play it
-      action.setLoop(THREE.LoopOnce);
-      action.reset();
-      action.play();
-
-      // Disable head tracking during the new animation
-      allowHeadTracking = false;
-
-      // Set a timeout to allow head tracking to resume after the key event
-      setTimeout(() => {
-        // Allow head tracking to resume after the key event
-        allowHeadTracking = true;
-
-        // Revert to the idle animation
-        action = mixer.clipAction(animations[0]); // Assuming the idle animation is at index 0
-        action.setLoop(THREE.LoopRepeat);
-        action.play();
-      }, action._clip.duration * 1000); // Assuming action._clip.duration gives the duration of the current animation in seconds
-
-      // Update the last animation time
-      lastAnimationTime = currentTime;
-    }
+  // If the index exceeds 3, reset it to 0
+  if (currentAnimationIndex > 3) {
+    currentAnimationIndex = 0;
   }
+
+  // Get the new animation action
+  const newAction = mixer.clipAction(animations[currentAnimationIndex]);
+
+  // Play the new animation
+  newAction.play();
 });
-  
-  document.addEventListener('mousemove', function (event) {
-    // Only update targetRotation if head tracking is allowed
-    if (allowHeadTracking) {
-      mouse.x = (event.clientX / window.innerWidth);
-      mouse.y = (event.clientY / window.innerHeight);
-      targetRotation.x = (mouse.y);
-      targetRotation.y = (mouse.x);
-    }
-  });
+
+
+
+
 
 function init() {
   scene = new THREE.Scene();
@@ -187,7 +120,7 @@ function init() {
   pointLight.position.z = 2500;
   scene.add(pointLight);
 
-  loader.load('https://luminafields.com/micheal.glb', function (gltf) {
+  loader.load('https://brambletwist.com/bud/bud.glb', function (gltf) {
     model = gltf.scene;
     scene.add(model);
     model.position.set(-0.5, 0, 0); // Adjust x-coordinate for positioning
@@ -198,8 +131,6 @@ function init() {
     action.setLoop(THREE.LoopRepeat);
     action.play();
 
-    spine = model.getObjectByName('Spine'); // Replace 'Spine' with the actual name of the spine bone/mesh
-    neck = model.getObjectByName('Neck'); // Replace 'Neck' with the actual name of the neck bone/mesh
   });
 
   renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -219,66 +150,3 @@ document.querySelectorAll('.neumorphic').forEach(button => {
 });
 
 
-  // Add event listener to the button with id 'zach'
-  function runZach() {
-
-    botName = "ofZach";    
-
-    loader.load('https://luminafields.com/zach.glb', function (gltf) {
-      // Remove the current model from the scene
-      scene.remove(model);
-      // Dispose the current model's resources
-      model.traverse(function (object) {
-        if (object.isMesh) {
-          object.geometry.dispose();
-          object.material.dispose();
-        }
-      });
-      // Assign the new model and add it to the scene
-      model = gltf.scene;
-      scene.add(model);
-      model.position.set(-0.5, 0, 0); // Adjust x-coordinate for positioning
-
-      mixer = new THREE.AnimationMixer(model);
-      animations = gltf.animations;
-      action = mixer.clipAction(animations[currentAnimationIndex]);
-      action.setLoop(THREE.LoopRepeat);
-      action.play();
-
-      spine = model.getObjectByName('Spine'); // Replace 'Spine' with the actual name of the spine bone/mesh
-      neck = model.getObjectByName('Neck'); // Replace 'Neck' with the actual name of the neck bone/mesh
-    });
-  }
-
-
-  
-        // Add event listener to the button with id 'zach'
-        function runMicheal() {
-
-          botName = "ofMicheal";
-    
-          loader.load('https://luminafields.com/micheal.glb', function (gltf) {
-            // Remove the current model from the scene
-            scene.remove(model);
-            // Dispose the current model's resources
-            model.traverse(function (object) {
-              if (object.isMesh) {
-                object.geometry.dispose();
-                object.material.dispose();
-              }
-            });
-            // Assign the new model and add it to the scene
-            model = gltf.scene;
-            scene.add(model);
-            model.position.set(-0.5, 0, 0); // Adjust x-coordinate for positioning
-      
-            mixer = new THREE.AnimationMixer(model);
-            animations = gltf.animations;
-            action = mixer.clipAction(animations[currentAnimationIndex]);
-            action.setLoop(THREE.LoopRepeat);
-            action.play();
-      
-            spine = model.getObjectByName('Spine'); // Replace 'Spine' with the actual name of the spine bone/mesh
-            neck = model.getObjectByName('Neck'); // Replace 'Neck' with the actual name of the neck bone/mesh
-          });
-        }
