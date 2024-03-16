@@ -14,7 +14,7 @@ function loadPlayerJson() {
 
     setTimeout(function() {
         const chatWindow = document.getElementById('chatWindow');
-        const importMessage = '<font style="color:lightgreen;">Please upload lumina file.</font><br>';
+        const importMessage = '<font style="color:lightgreen; font-size: 24;">Please upload lumina file.</font><br>';
         chatWindow.innerHTML += importMessage;
 
         // Initial message from Bud
@@ -57,7 +57,7 @@ function loadPlayerJson() {
 
         var randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
 
-        const initialMessage = '<p>ofMicheal: ' + greeting + ' and welcome to LuminaFields! ' + randomJoke + ' Or speak with <button class="neumorphic" onclick="runCrycella()"  id="crycella">Crycella</button><button class="neumorphic" onclick="runZach()" id="zach">Zach</button>.</p>';
+        const initialMessage = '<p>ofMicheal: ' + greeting + ' and welcome to LuminaFields! ' + randomJoke;
         chatWindow.innerHTML += initialMessage;
         botName = "ofMicheal";
         scrollToBottom();
@@ -250,36 +250,7 @@ document.querySelectorAll('.neumorphic').forEach(button => {
     });
   }
 
-    // Add event listener to the button with id 'zach'
-    function runCrycella() {
 
-      botName = "ofCrycella";
-
-      loader.load('https://luminafields.com/crycella.glb', function (gltf) {
-        // Remove the current model from the scene
-        scene.remove(model);
-        // Dispose the current model's resources
-        model.traverse(function (object) {
-          if (object.isMesh) {
-            object.geometry.dispose();
-            object.material.dispose();
-          }
-        });
-        // Assign the new model and add it to the scene
-        model = gltf.scene;
-        scene.add(model);
-        model.position.set(-0.5, 0, 0); // Adjust x-coordinate for positioning
-  
-        mixer = new THREE.AnimationMixer(model);
-        animations = gltf.animations;
-        action = mixer.clipAction(animations[currentAnimationIndex]);
-        action.setLoop(THREE.LoopRepeat);
-        action.play();
-  
-        spine = model.getObjectByName('Spine'); // Replace 'Spine' with the actual name of the spine bone/mesh
-        neck = model.getObjectByName('Neck'); // Replace 'Neck' with the actual name of the neck bone/mesh
-      });
-    }
   
         // Add event listener to the button with id 'zach'
         function runMicheal() {

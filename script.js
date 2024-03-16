@@ -7,7 +7,16 @@
                     if (code === "Zach" || code === "zach") {
                       runZach();
                     }
-                    if (code === "Crycella" || code === "crycella") {
-                        runCrycella();
-                      }
+                    if (code === "[tools]") {
+                      document.getElementById("toolMenu").style.display = "block";
+                    }
+                    if (code === "[demo]") {
+                      window.open('ar/index.html');
+                    }
                   }
+
+
+                  function runAbout() {
+                    window.open('data/whitepaper.pdf', '_blank');
+                }
+                

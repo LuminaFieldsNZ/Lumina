@@ -29,7 +29,8 @@
             
               <div class="overlay">
                 <div class="chat-window" id="chatWindow" style="background-color: rgba(255, 255, 255, 0.5);">
-                  <font id="load2" style="color:lightblue;"></font>
+                  <font id="load2"></font>
+                  <button class="neumorphic" onclick="runAbout()">Whitepaper</button>
                 </div>
             
                 <input class="neumorphic" type="text" id="userInput" placeholder="Type message..." oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
@@ -41,21 +42,10 @@
                   <textarea class="json-editor" id="jsonEditor" placeholder="JSON Editor Format: [question, answer, liveChange]"></textarea>
                 </a>
               </div>
-            
-              <script>
-            
-                function checkPasscode() {
-                  const code = document.getElementById("userInput").value;
-                  if (code === "[tools]") {
-                    document.getElementById("toolMenu").style.display = "block";
-                  }
-                }
-              </script>
-            
+          
               <script src="chatbot2.js"></script>
               <script src="basedata.js"></script>
               <script src="script2.js"></script>
-              <script src="data/bud.js"></script>
               <script src="script.js"></script>
               <script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>
               <script src='https://unpkg.com/gsap@3/dist/EasePack.min.js'></script>
