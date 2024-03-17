@@ -6,7 +6,10 @@
                       document.getElementById("toolMenu").style.display = "block";
                     }
                     if (code === "[demo]") {
-                      window.open('ar/index.html');
+                      window.open('https://mfglife.github.io/demo/index.html', '_blank');
+                    }
+                    if (code === "[about]") {
+                      runAbout();
                     }
                   }
 
@@ -14,4 +17,8 @@
                   function runAbout() {
                     window.open('data/whitepaper.pdf', '_blank');
                 }
+
+                function runDemo() {
+                  window.open('https://mfglife.github.io/demo/index.html', '_blank');
+              }
                 
