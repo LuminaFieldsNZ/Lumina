@@ -1,0 +1,53 @@
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>LuminaFields</title>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <META NAME="KEYWORDS" CONTENT="Lumina, AI, luminafields, luminafields.com, LLM, linear learning model, agi, data engineering, live action, rpg, role playing, role playing game, Data, Data School, DataSchool, DataSchools, Data Schools, School, Education, AI, Artificial Intelligence, Politics, Democrat, Republican, Conservative, Progressive">
+      <META NAME="ROBOTS" CONTENT="ALL,FOLLOW">
+          <meta name="description" content="Next World Learning Lounge">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="apple-touch-icon" sizes="180x180" href="../pics/wm.png">
+              <link rel="icon" type="image/png" href="../pics/wm.png" sizes="32x32">
+              <link rel="icon" type="image/png" href="../pics/wm.png" sizes="16x16">
+              <link rel="mask-icon" href="../pics/wm.png" color="#fff">
+              <link rel="shortcut icon" href="../pics/wm.png">
+              <link rel="stylesheet" href="./style.css">
+
+            <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/loaders/GLTFLoader.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/controls/OrbitControls.js"></script>
+        
+
+
+
+            </head>
+            <body>
+              <div id="app"></div>
+            
+              <div class="overlay">
+                <div class="chat-window" id="chatWindow" style="background-color: rgba(255, 255, 255, 0.5);">
+                  <font id="load2"></font>
+                  <button class="neumorphic" onclick="runDemo()">Demo</button>
+                </div>
+            
+                <input class="neumorphic" type="text" id="userInput" placeholder="Type message..." oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
+                
+                <input class="neumorphic" type="file" id="baseDataSet" onchange="importBaseDataSet(event)" placeholder="Import Base Data Set" style="border: none;">
+                <button class="neumorphic" onclick="exportData()">Download</button>
+                
+                <a id="toolMenu" style="display: none;">
+                  <textarea class="json-editor" id="jsonEditor" placeholder="JSON Editor Format: [question, answer, liveChange]"></textarea>
+                </a>
+              </div>
+          
+              <script src="chatbot2.js"></script>
+              <script src="basedata.js"></script>
+              <script src="script2.js"></script>
+              <script src="script.js"></script>
+              <script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>
+              <script src='https://unpkg.com/gsap@3/dist/EasePack.min.js'></script>
+            </body>
+            
