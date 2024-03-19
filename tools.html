@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Capture</title>
+</head>
+<body>
+    <h1>Photo Capture</h1>
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    <button onclick="startCapture()">Start Capture</button>
+    <br>
+    <video id="videoElement" width="640" height="480" autoplay></video>
+    <canvas id="canvasElement" width="640" height="480" style="display:none;"></canvas>
+    <script>
+        let imageCount = 200; // Number of images to capture
+        let name = "";
+        let permissionGranted = false;
+
+        function startCapture() {
+            name = document.getElementById("nameInput").value.trim();
+            if (!name) {
+                alert("Please enter your name.");
+                return;
+            }
+
+            if (!permissionGranted) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    let video = document.getElementById("videoElement");
+                    video.srcObject = stream;
+                    video.play();
+                    permissionGranted = true;
+
+                    // Start capturing images
+                    captureImages(stream);
+                })
+                .catch(function(err) {
+                    console.log("An error occurred: " + err);
+                });
+            } else {
+                // Permission already granted, start capturing images directly
+                let videoStream = document.getElementById("videoElement").srcObject;
+                captureImages(videoStream);
+            }
+        }
+
+        function captureImages(stream) {
+            let video = document.getElementById("videoElement");
+            let canvas = document.getElementById("canvasElement");
+            let context = canvas.getContext("2d");
+
+            let count = 0;
+            let filename = 0;
+
+            let interval = setInterval(function() {
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                let imageData = canvas.toDataURL("image/jpeg", 0.1); // Compress image to 10%
+
+                filename++;
+                count++;
+
+                // Create an anchor element to trigger file download
+                let anchor = document.createElement("a");
+                anchor.href = imageData;
+                anchor.download = `${name}/image_${filename}.jpg`;
+                anchor.click();
+
+                if (count >= imageCount) {
+                    clearInterval(interval);
+                    stream.getTracks().forEach(track => track.stop()); // Stop the camera stream
+                }
+            }, 100); // Capture image every 100 milliseconds
+        }
+    </script>
+</body>
+</html>
