@@ -18,6 +18,8 @@
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/tiny-slider.css'>
 <link rel="stylesheet" href="./style.css">
 
+
+
 </head>
 <body>
 <!-- partial:index.partial.html -->
@@ -25,28 +27,13 @@
     <section class="home">
       <div class="description">
         <h1 class="title">
-          <span class="gradient-text">Lumina Fields</span> is AI Education through Nature
+          <span class="gradient-text">Bud</span> is an artificially intelligent <span class="gradient-text">mentor</span> trained by you!
         </h1>
-        <p class="paragraph">
-          In a world filled with opportunities, having an <span class="gradient-text">Artificial</span> mentor can make all the
-          difference. Explore why people turn to this invaluable resource to
-          unlock their potential.
-        </p>
-        <form id="form" autocomplete="off" action="mailto:luminafieldsnz@email.com" method="post" enctype="text/plain">
-          <input
-            type="email"
-            id="email-id"
-            name="email_address"
-            aria-label="email address"
-            placeholder=""
-            required
-            oninput="checkEmpty()" />
-          <button type="submit" class="btn" aria-label="submit">
-            <span>Subscribe</span>
-            <ion-icon name="arrow-forward-outline"></ion-icon>
-          </button>
-      </form>
+        <div class="chat-window" id="chatWindow">
+        </div>
       
+        <input class="input" type="text" id="userInput" placeholder="Type message..." oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
+       
       </div>
 
       <div class="users-color-container">
@@ -78,9 +65,69 @@
         <img class="item" src="pics/green.jpg" style="--i: 6" alt="" />
       </div>
     </section>
+            
 
     <section class="card-container" id="card-container">
+
+<div class="overlay">
+<p>
+
+Bud works completely offline, and only remembers when you want! To start your relationship with Bud, just download your lumina file <i>(which is a lumina.json file)</i>.
+You can edit your lumina.json file below, try changing your name then downloading your lumina file.<br><br>
+ 
+<b>conversationData:</b> This is Buds local offline memory, where hard coded actions make the automation possible.<br>
+<ul>
+<li>Field 1: User Name</li>
+<li>Field 2: User Question</li>
+<li>Field 3: Bud Response</li>
+</ul>
+<br><br>
+<b>userData:</b> This is how bud recognizes you, with your information privately local there isn't a need for authentication.<br>
+<ul>
+  <li><b>id:</b> User Name <span class="gradient-text">(Your name goes here)</span></li>
+  <li><b>state:</b> Your reference to our user database.</li>
+  <li><b>mainHeading:</b> Your political heading</li>
+  <li><b>populations:</b> Your ideology</li>
+  <li><b>completedProjects:</b> Badges and micro-credentials earned</li>
+  </ul>
+  <br><br>
+
+
+</p>
+<a id="toolMenu" style="width: 350px; height: 200px;">
+  <textarea class="json-editor" id="jsonEditor" placeholder="JSON Editor Format: [question, answer, liveChange]"></textarea>
+</a>
+
+<button class="btn" onclick="exportData()">Download Lumina File</button>
+<br><br>
+<p>
+
+  When you're ready, just upload your lumina file and Bud will remember everything. The data in the lumina.json file is structured to add on top of the base dataset.
+  Bud reads from the base data set, and <span class="gradient-text">every</span> uploaded lumina.json data set.
+
+</p>
+<input type="file" id="baseDataSet" onchange="importBaseDataSet(event)">
+
+</div>
+
       <div class="slider">
+
+        <div class="card" data-tilt>
+          <div class="content">
+            <img src="pics/bud.jpg" alt="Camp Lumina" />
+            <h1>Connect via Email</h1>
+            <p>
+              In a world filled with opportunities, having an Artificial mentor can make all the
+              difference. Explore why people turn to this invaluable resource to
+              unlock their potential.
+                        </p>
+                        <button class="btn" onclick="sendEmail();">
+                          <span>Subscribe</span>
+                          <ion-icon name="arrow-forward-outline"></ion-icon>
+                        </button>     
+          </div>
+        </div>
+
         <div class="card" data-tilt>
           <div class="content">
             <img src="pics/swordfit1.jpg" alt="Camp Lumina" />
@@ -88,22 +135,8 @@
             <p>
               Camp Lumina offers an immersive summer program blending outdoor adventures and educational experiences for all ages.
             </p>
-            <button class="btn btn-grad" onclick="window.open('camp/index.html');">
+            <button class="btn" onclick="window.open('camp/index.html');">
               <span>Learn More</span>
-              <ion-icon name="arrow-forward-outline"></ion-icon>
-            </button>
-          </div>
-        </div>
-
-        <div class="card" data-tilt>
-          <div class="content">
-            <img src="pics/bud.jpg" alt="Bud AI" />
-            <h1>AI Learning</h1>
-            <p>
-              Bud, the AI Chatbot, serves as a digital guide and mentor growing trust in our everyday activities.
-            </p>
-            <button class="btn btn-grad" onclick="window.open('bud/index.html');">
-              <span>Meet Bud</span>
               <ion-icon name="arrow-forward-outline"></ion-icon>
             </button>
           </div>
@@ -116,7 +149,7 @@
             <p>
               Learn about every byte of what we do, connect with us or join us in development.
             </p>
-            <button class="btn btn-grad" onclick="window.open('docs.html');">
+            <button class="btn" onclick="window.open('docs.html');">
               <span>Dive in</span>
               <ion-icon name="arrow-forward-outline"></ion-icon>
             </button>
@@ -130,7 +163,7 @@
             <p>
               Bud's facial and object recognition features add specialized focus and extrinsic data opportunities.
             </p>
-            <button class="btn btn-grad" onclick="window.open('https://mfglife.github.io/demo/index.html');">
+            <button class="btn" onclick="window.open('https://mfglife.github.io/demo/index.html');">
               <span>Test software</span>
               <ion-icon name="arrow-forward-outline"></ion-icon>
             </button>
@@ -144,7 +177,7 @@
             <p>
               The BrambleTwist.com storefront complements the experience with curated approaches to gardening, foraging and resources.
             </p>
-            <button class="btn btn-grad" onclick="window.open('https://brambletwist.com/');">
+            <button class="btn" onclick="window.open('https://brambletwist.com/');">
             <span>Visit Site</span>
               <ion-icon name="arrow-forward-outline"></ion-icon>
             </button>
@@ -158,7 +191,7 @@
             <p>
               Micheal L Salmon, has a vision of merging nature, technology, and education through a playful LARP experience guided by Bud.
             </p>
-            <button class="btn btn-grad" onclick="window.open('https://linkedin.com/in/woodandmortar');">
+            <button class="btn" onclick="window.open('https://linkedin.com/in/woodandmortar');">
               <span>Get Linkedin</span>
               <ion-icon name="arrow-forward-outline"></ion-icon>
             </button>
@@ -176,11 +209,18 @@
       </ul>
     </section>
   </body>
-<!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js'></script>
-<script src='https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js'></script>
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js'></script>
 <script src='https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js'></script>
-<script src='https://unpkg.com/scrollreveal'></script><script  src="./script.js"></script>
+<script src='https://unpkg.com/scrollreveal'></script>
+<script  src="./script.js"></script>
+
+<script src="./chatbot2.js"></script>
+<script src="./bud/basedata.js"></script>
+<script src="./script2.js"></script>
+<script src="./bud/data/plants.js"></script>
+
 
 </body>
 </html>

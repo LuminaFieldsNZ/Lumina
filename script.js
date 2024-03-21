@@ -32,76 +32,16 @@ ScrollReveal().reveal("#form", {
   origin: "bottom",
 });
 
-// Form
-
-const emailId = document.getElementById("email-id");
-const error = document.getElementById("error");
-const mailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-
-//! get the cursor position in the input
-emailId.addEventListener("keyup", (e) => {
-  console.log("Caret at: ", e.target.selectionStart);
-});
-
-//! show whether the email address is valid or not with an outline
-emailId.addEventListener("input", (e) => {
-  const emailInputValue = e.currentTarget.value;
-  if (
-    /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(emailInputValue) !=
-    true
-  ) {
-    emailId.style.outline = "2px dotted rgb(117, 152, 242)";
-  } else {
-    emailId.style.outline = "2px dotted rgb(118, 167, 63)";
-  }
-});
-
-//! if email address is empty, remove the outline from the input
-function checkEmpty() {
-  if (emailId.value == "") {
-    emailId.style.outline = "none";
-  }
-}
-
-form.addEventListener("submit", (e) => {
-  const emailId = document.getElementById("email-id");
-  const mailRegex = /^\S+@\S+\.\S+$/;
-  const emailAddress = emailId.value.trim();
+function sendEmail() {
+  var emailAddress = 'luminafieldsnz@gmail.com';
+  var subject = 'Sign me up to your newsletter';
+  var body = 'Welcome to LuminaFields.com - Our newsletter will keep you up to date on everything artificial, from Camp Lumina, to what\'s new in the field. Paid members get access to private tutoring, daily mentorship, and code assistance.';
   
-  if (emailAddress.match(mailRegex)) {
-    e.preventDefault();
-    const subject = "Subscription Request";
-    const body = `Please subscribe ${emailAddress}`;
-    const mailtoLink = `mailto:luminafieldsnz@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailtoLink;
-    
-    form.innerHTML = `<p style="font-size: 2rem; font-weight: 500; color: rgb(118, 167, 63);">Subscribed! 🎉</p>`;
-    setTimeout(() => { 
-      window.location.href = "#card-container";
-    }, 1700);
-  } else {
-    e.preventDefault();
-    alert("Oops! Please check your email");
-  }
-});
-
-
-//! typing animation for the placeholder
-let i = 0;
-let placeholder = "";
-const txt = "example@domain.com";
-const speed = 150;
-
-setTimeout(() => {
-  type();
-}, 1600);
-
-function type() {
-  placeholder += txt.charAt(i);
-  emailId.setAttribute("placeholder", placeholder);
-  i++;
-  setTimeout(type, speed);
+  var mailtoLink = 'mailto:' + encodeURIComponent(emailAddress) + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  
+  window.location.href = mailtoLink;
 }
+
 
 // Vanilla-Tilt JS
 

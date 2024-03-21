@@ -115,11 +115,6 @@ function getDeviceType() {
 
 
 
-// Create a "thinking" element
-const thinkingElem = document.createElement('p');
-
-
-
 // Function to export data as JSON
 function exportData() {
     // Get the JSON data from the jsonEditor value
@@ -188,15 +183,10 @@ function sendMessage() {
     chatWindow.innerHTML += '<p>' + userData.id + ': ' + message + '</p>'; // Display userData.id in the chat window
     scrollToBottom();
 
-    const thinkingElem = document.createElement('p');
-    thinkingElem.classList.add('thinking');
-    thinkingElem.innerHTML = botName;
-    chatWindow.appendChild(thinkingElem);
 
     setTimeout(() => {
-        chatWindow.removeChild(thinkingElem);
         response = getResponse(message);
-        chatWindow.innerHTML += '<p>' + botName + ': ' + response + '</p>';
+        chatWindow.innerHTML += '<span class="gradient-text">' + botName + '</span>: ' + response + '</p>';
         scrollToBottom();
 
         // Update conversationData with the new message

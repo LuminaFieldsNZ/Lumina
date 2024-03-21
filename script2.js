@@ -2,20 +2,10 @@ let checkLogin = false;
 let botName;
 
 
-// Select the #app element
-const appElement = document.getElementById('app');
-
-// Disable scrolling within the #app element
-appElement.addEventListener('wheel', function(event) {
-  event.preventDefault();
-}, { passive: false }); // Ensure that preventDefault() is not passive
-
 function loadPlayerJson() {
 
     setTimeout(function() {
         const chatWindow = document.getElementById('chatWindow');
-        const importMessage = '<font style="color:lightgreen; font-size: 24;">Please upload lumina file.</font><br>';
-        chatWindow.innerHTML += importMessage;
 
         // Initial message from Bud
         var time = new Date().getHours();
@@ -57,96 +47,33 @@ function loadPlayerJson() {
 
         var randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
 
-        const initialMessage = '<p>Bud: ' + greeting + ' and welcome to LuminaFields! ' + randomJoke;
+        const initialMessage = '<p><span class="gradient-text">Bud</span>: ' + greeting + ' and welcome to LuminaFields! ' + randomJoke;
         chatWindow.innerHTML += initialMessage;
         botName = "Bud";
         scrollToBottom();
     }, 2300);
 }
 
+     
+function checkPasscode() {
+    const code = document.getElementById("userInput").value;
 
-
-let scene, camera, renderer, controls, model, mixer, action, delta;
-let loader = new THREE.GLTFLoader();
-let clock = new THREE.Clock();
-let animations, currentAnimationIndex = 0;
-
-function render() {
-  delta = clock.getDelta();
-  if (mixer) {
-    mixer.update(delta);
-  }
-  renderer.render(scene, camera);
-}
-
-
-document.addEventListener('DOMContentLoaded', (event) => {
-  init();
-});
-
-
-document.addEventListener('click', function () {
-  // Stop the current animation
-  action.stop();
-
-  // Increment the current animation index
-  currentAnimationIndex++;
-
-  // If the index exceeds 3, reset it to 0
-  if (currentAnimationIndex > 3) {
-    currentAnimationIndex = 0;
+    if (code === "[tools]") {
+      document.getElementById("toolMenu").style.display = "block";
+    }
+    if (code === "[demo]") {
+      window.open('https://mfglife.github.io/demo/index.html', '_blank');
+    }
+    if (code === "[about]") {
+      runAbout();
+    }
   }
 
-  // Get the new animation action
-  const newAction = mixer.clipAction(animations[currentAnimationIndex]);
 
-  // Play the new animation
-  newAction.play();
-});
-
-
-
-
-
-function init() {
-  scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0x000000, 0, 16);
-  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(-0.4, 0.9, 2.5);
-
-  let ambient = new THREE.AmbientLight(0xffffff, 1);
-  scene.add(ambient);
-  let pointLight = new THREE.PointLight(0xffffff, 0.5);
-  pointLight.position.z = 2500;
-  scene.add(pointLight);
-
-  loader.load('https://brambletwist.com/bud/bud.glb', function (gltf) {
-    model = gltf.scene;
-    scene.add(model);
-    model.position.set(-0.5, 0, 0); // Adjust x-coordinate for positioning
-
-    mixer = new THREE.AnimationMixer(model);
-    animations = gltf.animations;
-    action = mixer.clipAction(animations[currentAnimationIndex]);
-    action.setLoop(THREE.LoopRepeat);
-    action.play();
-
-  });
-
-  renderer = new THREE.WebGLRenderer({ alpha: true });
-  renderer.setSize(window.innerWidth * 0.9, window.innerHeight * 0.9);
-  document.body.appendChild(renderer.domElement);
-  renderer.shadowMap.enabled = true;
-  renderer.setPixelRatio(window.devicePixelRatio);
-  document.getElementById("app").appendChild(renderer.domElement);
-  gsap.ticker.add(render);
+  function runAbout() {
+    window.open('data/whitepaper.pdf', '_blank');
 }
 
-
-
-// Adjust the display of buttons to be in a row
-document.querySelectorAll('.neumorphic').forEach(button => {
-    button.style.display = 'inline-block';
-});
-
-
+function runDemo() {
+  window.open('https://mfglife.github.io/demo/index.html', '_blank');
+}
