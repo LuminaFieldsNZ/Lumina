@@ -31,9 +31,12 @@
         </h1>
         <div class="chat-window" id="chatWindow">
         </div>
-      
-        <input class="input" type="submit" id="userInput" placeholder="Type message..." oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
-       
+
+        <form>
+        <input class="input" type="text" id="userInput" placeholder="Type message..." oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
+        <button style="display:none;">submit</button>
+        </form>
+        
       </div>
 
       <div class="users-color-container">
