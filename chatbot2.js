@@ -61,41 +61,6 @@ let baseData = [
     ["how old is the earth", "The Earth is approximately 4.54 billion years old.", ""]
 ];
 
-window.onload = function() {
-    loadPlayerJson();
-
-    clearStorage();
-};
-
-
-
-
-function clearStorage() {
-    document.cookie.split(";").forEach(cookie => {
-        const name = cookie.split("=")[0];
-        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
-    });
-    localStorage.clear();
-    sessionStorage.clear();
-}
-
-
-
-
-function updateAppWithData(playerData) {
-    // Implement your logic to update the entire app with the player data here
-    console.log('Updating app with Player Data:', playerData);
-
-    // Ensure the playerData structure is as expected
-    if (playerData.userData && playerData.userData.populations) {
-        // Update populations data
-        updateUserData(playerData.userData);
-        console.log('App updated successfully.');
-    } else {
-        console.error('Invalid Player Data structure. Check the player1.json format.');
-    }
-}
-
 
 
 
@@ -180,8 +145,7 @@ function sendMessage() {
     inputElem.value = '';
 
     const chatWindow = document.getElementById('chatWindow');
-    chatWindow.innerHTML += '<p>' + userData.id + ': ' + message + '</p>'; // Display userData.id in the chat window
-    scrollToBottom();
+    chatWindow.innerHTML += '<p>' + userData.id + ': ' + message + '</p>';
 
 
     setTimeout(() => {
