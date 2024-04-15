@@ -1,3 +1,9 @@
+
+window.onload = function() {
+    loadPlayerJson();
+};
+
+
 // Initialize user data with default values
 let userData = {
     id: "Newcomer",
