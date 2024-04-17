@@ -199,6 +199,7 @@ function sendMessage() {
 
 function handleKeyPress(event) {
     if (event.keyCode === 13) { // Check if Enter key is pressed
+        event.preventDefault();
         sendMessage();
     }
 }
