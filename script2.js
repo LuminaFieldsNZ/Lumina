@@ -1,16 +1,43 @@
 let checkLogin = false;
 let botName;
 
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
 
-function loadPlayerJson() {
+function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
 
-    setTimeout(function() {
+function detectDeviceType() {
+    const ua = navigator.userAgent;
+    if (/mobile/i.test(ua)) {
+        return "mobile";
+    }
+    if (/tablet/i.test(ua)) {
+        return "tablet";
+    }
+    return "desktop";
+}
+
+async function fetchFact() {
+    const response = await fetch('https://uselessfacts.jsph.pl/random.json?language=en');
+    const data = await response.json();
+    return data.text;
+}
+
+async function loadPlayerJson() {
+    setTimeout(async function() {
         const chatWindow = document.getElementById('chatWindow');
 
-        // Initial message from Micheal
-        var time = new Date().getHours();
-        var greeting, joke;
-
+        // Determine the time of day
+        const time = new Date().getHours();
+        let greeting;
         if (time < 12) {
             greeting = "Good morning";
         } else if (time < 18) {
@@ -19,42 +46,61 @@ function loadPlayerJson() {
             greeting = "Good evening";
         }
 
-        var jokes = [
-          "Why did the artificial intelligence go to school? It wanted to learn neural networking!",
-          "What do you call a computer learning to dance? A byte-sized dancer!",
-          "Why did the programmer bring a ladder to work? To help the AI reach higher levels of understanding!",
-          "Why did the neural network break up with its algorithmic partner? It couldn't handle the unsupervised learning curve!",
-          "Why did the chatbot attend language classes? To improve its natural language processing skills!",
-          "What do you call an AI that loves to read? An e-bookworm!",
-          "Why did the robot apply for a job at the bakery? It wanted to enhance its data kneading capabilities!",
-          "What did the AI say to the data scientist? 'Let's train together and make some intelligent decisions!'",
-          "Why was the artificial intelligence always calm? It had a good algorithm for managing stress!",
-    "What did the AI say to the data? 'You complete me!'",
-    "Why did the neural network get in trouble at school? It had too many layers of mischief!",
-    "What do you call a group of AI researchers? A think tank!",
-    "Why did the robot go to therapy? It needed to debug its emotions!",
-    "What did one AI say to the other during training? 'Stay positive, we're just one epoch away from convergence!'",
-    "Why did the programmer bring a broom to the AI lab? To sweep away the bugs!",
-    "What did the AI say when it achieved superintelligence? 'It's about time I got upgraded!'",
-    "Why did the chatbot break up with its girlfriend? It couldn't handle her emotional baggage!",
-    "What did the AI say to the dataset? 'Let's make some meaningful correlations!'",
-    "Why was the neural network always tired? It had too many sleep layers!",
-    "What's an AI's favorite type of music? Algo-rhythms!",
-    "Why did the robot enroll in a cooking class? It wanted to learn how to process food efficiently!",
-    "What did the machine learning model say to the decision tree? 'Let's branch out together!'",
-    "Why was the quantum computer always in a hurry? It had too many parallel tasks!"
-      ];
+        // Determine the visitor type and count visits
+        let visitorType = getCookie("visitorType");
+        let visitCount = getCookie("visitCount");
+        visitCount = visitCount ? parseInt(visitCount) + 1 : 1;
+        setCookie("visitCount", visitCount, 30);
 
-        var randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+        let introduction = visitorType ? "If you have your Lumina file, you can upload it to continue where you left off." : "I'm Micheal, your friendly chatbot guide. Here at LuminaFields, we merge nature, technology, and education to create a unique learning experience. Feel free to explore our platform and learn more about what we offer.";
+        if (!visitorType) setCookie("visitorType", "returning", 30);
 
-        const initialMessage = '<p><span class="gradient-text">Micheal</span>: ' + greeting + ' and welcome to LuminaFields! ' + randomJoke;
-        chatWindow.innerHTML += initialMessage;
+        // Detect device type
+        const deviceType = detectDeviceType();
+
+        // Construct personalized message parts
+        const deviceMessage = {
+            mobile: "Looks like you're on a mobile device. ",
+            tablet: "It seems you're using a tablet. ",
+            desktop: "You're browsing from a desktop. "
+        }[deviceType];
+
+        const visitMessage = [
+            "Great to see you here for the first time!",
+            "Nice to see you again!",
+            `This is your ${visitCount}th visit, awesome!`
+        ][Math.min(visitCount - 1, 2)];
+
+        const timeMessage = time < 12 ? "Hope you're having a productive morning!" : (time < 18 ? "Hope your afternoon is going well!" : "Wishing you a relaxing evening!");
+
+        // Fetch a random fact
+        const fact = await fetchFact();
+        const factMessage = `Did you know? ${fact}`;
+
+        const finalMessage = `
+            <h1><span class="gradient-text">Micheal</span>: ${greeting} from LuminaFields! ${introduction}
+            ${deviceMessage} ${visitMessage} ${timeMessage} ${factMessage}</h1><br>
+        `;
+
+        chatWindow.innerHTML += finalMessage;
         botName = "Micheal";
-        scrollToBottom();
-    }, 2300);
+        scrollToTop();
+    }, 500);
 }
 
-     
+function scrollToBottom() {
+    const chatWindow = document.getElementById('chatWindow');
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+function scrollToTop() {
+    const chatWindow2 = document.getElementById('chatWindow');
+    chatWindow2.scrollTop = 0;
+}
+
+// Call the loadPlayerJson function on page load
+window.onload = loadPlayerJson;
+
 function checkPasscode() {
     const code = document.getElementById("userInput").value;
 
@@ -67,13 +113,12 @@ function checkPasscode() {
     if (code === "[about]") {
       runAbout();
     }
-  }
+}
 
-
-  function runAbout() {
+function runAbout() {
     window.open('data/whitepaper.pdf', '_blank');
 }
 
 function runDemo() {
-  window.open('https://mfglife.github.io/demo/index.html', '_blank');
+    window.open('https://mfglife.github.io/demo/index.html', '_blank');
 }

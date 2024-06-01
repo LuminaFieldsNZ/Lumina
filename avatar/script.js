@@ -1,4 +1,4 @@
-let scene, camera, renderer, controls, model, mixer, action, delta;
+let scene, camera, renderer, model, mixer, action, delta;
 let clock = new THREE.Clock();
 let animations, currentAnimationIndex = 0;
 let spine, neck;
@@ -105,8 +105,6 @@ function init() {
   renderer.shadowMap.enabled = true;
   renderer.setPixelRatio(window.devicePixelRatio);
   document.getElementById("app").appendChild(renderer.domElement);
-
-  controls = new THREE.OrbitControls(camera, renderer.domElement);
 
   gsap.ticker.add(render);
 

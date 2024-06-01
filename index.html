@@ -17,55 +17,24 @@
 <link rel="shortcut icon" href="pics/wm.png">
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/tiny-slider.css'>
 <link rel="stylesheet" href="./style.css">
-
+<script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/controls/OrbitControls.js"></script>
 
 
 </head>
 
+
+
+
 <body>
     <section class="home">
-      <div class="description">
-        <h1 class="title">
-          <span class="gradient-text">Micheal</span> is an artificially intelligent <span class="gradient-text">mentor</span> trained by you!
-        </h1>
-        <div class="chat-window" id="chatWindow">
+        <div style="color:white;" class="chat-window" id="chatWindow">
         </div>
-
         <form>
-        <input style="color:white;" class="input" type="text" id="userInput" placeholder="Type message..." oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
-        <button style="display:none;">submit</button>
-        </form>
-        
-      </div>
-
-      <div class="users-color-container">
-        <span class="item" style="--i: 1"></span>
-        <img
-          class="item"
-          src="pics/yellow.jpg"
-          style="--i: 2"
-          alt="" />
-        <span class="item" style="--i: 3"></span>
-        <img
-          class="item"
-          src="pics/purple.jpg"
-          style="--i: 4"
-          alt="" />
-
-        <img
-          class="item"
-          src="pics/orange.jpg"
-          style="--i: 10"
-          alt="" />
-        <span class="item" style="--i: 11"></span>
-        <img class="item" src="pics/blue.jpg" style="--i: 12" alt="" />
-        <span class="item" style="--i: 5"></span>
-
-        <span class="item" style="--i: 9"></span>
-        <img class="item" src="pics/pink.jpg" style="--i: 8" alt="" />
-        <span class="item" style="--i: 7"></span>
-        <img class="item" src="pics/green.jpg" style="--i: 6" alt="" />
-      </div>
+          <input style="color:white;" class="input" type="text" id="userInput" placeholder="Type message..." oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
+          <button style="display:none;">submit</button>
+          </form>
     </section>
             
 
@@ -201,6 +170,7 @@ try changing your name then downloading your lumina file. <i>(which is just a .j
     </section>
   </body>
 
+  <div id="app"></div>
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js'></script>
 <script src='https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js'></script>
@@ -212,6 +182,7 @@ try changing your name then downloading your lumina file. <i>(which is just a .j
 <script src="./script2.js"></script>
 <script src="./bud/data/plants.js"></script>
 
-
+<script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>
+<script src='https://unpkg.com/gsap@3/dist/EasePack.min.js'></script>
 </body>
 </html>
