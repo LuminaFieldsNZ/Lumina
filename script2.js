@@ -7,7 +7,7 @@ function loadPlayerJson() {
     setTimeout(function() {
         const chatWindow = document.getElementById('chatWindow');
 
-        // Initial message from Bud
+        // Initial message from Micheal
         var time = new Date().getHours();
         var greeting, joke;
 
@@ -47,9 +47,9 @@ function loadPlayerJson() {
 
         var randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
 
-        const initialMessage = '<p><span class="gradient-text">Bud</span>: ' + greeting + ' and welcome to LuminaFields! ' + randomJoke;
+        const initialMessage = '<p><span class="gradient-text">Micheal</span>: ' + greeting + ' and welcome to LuminaFields! ' + randomJoke;
         chatWindow.innerHTML += initialMessage;
-        botName = "Bud";
+        botName = "Micheal";
         scrollToBottom();
     }, 2300);
 }
