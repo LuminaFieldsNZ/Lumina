@@ -500,3 +500,14 @@ input[type="email"]:focus {
   pointer-events: none;
   opacity: .2;
 }
+
+
+
+.slider-container {
+  margin: 20px 0;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}

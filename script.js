@@ -711,3 +711,88 @@ function init() {
   gsap.ticker.add(render);
 
 }
+
+
+
+const mainHeadings = [
+  "Explorer",
+  "Voyager",
+  "Captain",
+  "Merchant",
+  "Shipwright",
+  "Fisherman",
+  "Smuggler",
+  "Arbiter",
+  "Sailor"
+];
+
+const populations = [
+  "Progressive",
+  "Socialist",
+  "Idealist",
+  "Globalist",
+  "Conservative",
+  "Economist",
+  "Realist",
+  "Nationalist",
+  "Populist"
+];
+
+const mainHeadingsStatements = [
+  "Always seeks new horizons and is driven by curiosity and adventure.",
+  "Embarks on long journeys, embracing the unknown and the vast sea.",
+  "Leads with confidence and ensures the crew stays on course.",
+  "Navigates the waters of trade, always looking for prosperous exchanges.",
+  "Builds and repairs ships, ensuring they are seaworthy and strong.",
+  "Patiently casts nets, understanding the rhythms of the sea.",
+  "Operates in the shadows, finding ways to bypass the rules.",
+  "Resolves conflicts and ensures fairness among the crew.",
+  "Knows the ship intimately, performing essential tasks to keep it afloat."
+];
+
+const populationsStatements = [
+  "Embraces change and innovation, constantly pushing for societal advancement.",
+  "Believes in collective ownership and a society structured around equality.",
+  "Guided by high ideals and visions of a better world.",
+  "Sees the world as interconnected and values international cooperation.",
+  "Values tradition and seeks to preserve established practices.",
+  "Focused on economic efficiency and market-based solutions.",
+  "Grounded in practical considerations and the reality of situations.",
+  "Prioritizes the interests and culture of their own nation.",
+  "Champions the common people against the elite."
+];
+
+document.getElementById('mainHeading').addEventListener('input', updateMainHeadingValue);
+document.getElementById('populations').addEventListener('input', updatePopulationsValue);
+
+function updateMainHeadingValue() {
+  const mainHeadingIndex = document.getElementById('mainHeading').value;
+  document.getElementById('mainHeadingValue').innerText = mainHeadings[mainHeadingIndex];
+  updateDescription();
+}
+
+function updatePopulationsValue() {
+  const populationsIndex = document.getElementById('populations').value;
+  document.getElementById('populationsValue').innerText = populations[populationsIndex];
+  updateDescription();
+}
+
+function updateDescription() {
+  const mainHeadingIndex = document.getElementById('mainHeading').value;
+  const populationsIndex = document.getElementById('populations').value;
+  
+  const mainHeading = mainHeadings[mainHeadingIndex];
+  const population = populations[populationsIndex];
+  
+  const mainHeadingStatement = mainHeadingsStatements[mainHeadingIndex];
+  const populationStatement = populationsStatements[populationsIndex];
+  
+  const description = `The ${mainHeading} ${mainHeadingStatement} This represents the ${population} population: ${populationStatement}`;
+  
+  document.getElementById('descriptionText').innerText = description;
+}
+
+// Initialize values on load
+updateMainHeadingValue();
+updatePopulationsValue();
+updateDescription();

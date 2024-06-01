@@ -79,6 +79,29 @@ try changing your name then downloading your lumina file. <i>(which is just a .j
 </p>
 <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)">
 
+
+
+<div class="container">
+  <br>
+  <h1>Glossary</h1>
+  <div class="slider-container">
+      <label for="mainHeading">Main Heading:</label>
+      <input type="range" id="mainHeading" min="0" max="8" value="0" oninput="updateDescription()">
+      <span id="mainHeadingValue"></span>
+  </div>
+  <div class="slider-container">
+      <label for="populations">Populations:</label>
+      <input type="range" id="populations" min="0" max="8" value="0" oninput="updateDescription()">
+      <span id="populationsValue"></span>
+  </div>
+  <div class="description">
+      <p id="descriptionText"></p>
+  </div>
+</div>
+
+
+
+
 </div>
 
       <div class="slider">
