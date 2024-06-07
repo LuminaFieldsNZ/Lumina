@@ -28,14 +28,25 @@
 
 
 <body>
-    <section class="home">
-        <div style="color:white;" class="chat-window" id="chatWindow">
-        </div>
-        <form>
-          <input style="color:white;" class="input" type="text" id="userInput" placeholder="Type message..." oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
-          <button style="display:none;">submit</button>
-          </form>
-    </section>
+  <section class="home">
+    <div style="color:white;" class="chat-window" id="chatWindow">
+    </div>
+    <form id="draggableForm">
+
+      <div id="dragHandle" style="
+      width: 20px;
+      height: 20px;
+      background: yellow;
+      cursor: grab;
+      opacity: 0.4;
+      left: -20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.7);"></div>
+  
+
+      <input style="color:white;" class="input" type="text" id="userInput" placeholder="Moveable chat input field" oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
+        <button style="display:none;">submit</button>
+    </form>
+</section>
             
 
     <section class="card-container" id="card-container">
@@ -203,6 +214,7 @@ try changing your name then downloading your lumina file. <i>(which is just a .j
 <script src="./chatbot2.js"></script>
 <script src="./bud/basedata.js"></script>
 <script src="./script2.js"></script>
+<script src="./avatar.js"></script>
 <script src="./bud/data/plants.js"></script>
 
 <script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>

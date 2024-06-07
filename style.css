@@ -511,3 +511,16 @@ label {
   display: block;
   margin-bottom: 10px;
 }
+
+#draggableForm {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  z-index: 10;
+}
+
+#dragHandle {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
