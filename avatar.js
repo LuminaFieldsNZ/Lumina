@@ -30,6 +30,7 @@ let draggableForm = document.getElementById('draggableForm');
 let isDragging = false;
 let offsetX, offsetY;
 
+// Mouse events
 dragHandle.addEventListener('mousedown', function (e) {
     isDragging = true;
     offsetX = e.clientX - draggableForm.offsetLeft;
@@ -58,6 +59,35 @@ document.addEventListener('mouseup', function () {
     dragHandle.style.cursor = 'grab';
 });
 
+// Touch events
+dragHandle.addEventListener('touchstart', function (e) {
+    isDragging = true;
+    offsetX = e.touches[0].clientX - draggableForm.offsetLeft;
+    offsetY = e.touches[0].clientY - draggableForm.offsetTop;
+    dragHandle.style.cursor = 'grabbing';
+});
+
+document.addEventListener('touchmove', function (e) {
+    if (isDragging) {
+        let newX = e.touches[0].clientX - offsetX;
+        let newY = e.touches[0].clientY - offsetY;
+
+        // Boundaries to prevent dragging off-screen
+        newX = Math.max(0, Math.min(window.innerWidth - draggableForm.offsetWidth, newX));
+        newY = Math.max(0, Math.min(window.innerHeight - draggableForm.offsetHeight, newY));
+
+        draggableForm.style.left = newX + 'px';
+        draggableForm.style.top = newY + 'px';
+        dragPosition.x = newX;
+        dragPosition.y = newY;
+    }
+});
+
+document.addEventListener('touchend', function () {
+    isDragging = false;
+    dragHandle.style.cursor = 'grab';
+});
+
 // Update model tracking
 function updateModelTracking() {
     let formCenterX = dragPosition.x + draggableForm.offsetWidth / 2;
@@ -68,7 +98,7 @@ function updateModelTracking() {
     let y = (formCenterY / window.innerHeight) * 2 - 1;
 
     // Combine scroll and drag inputs for rotations
-    let combinedRotationX = (y * Math.PI * 0.12)-50;
+    let combinedRotationX = (y * Math.PI * 0.12) - 50;
     let combinedRotationY = x * Math.PI * 0.12;
 
     // Apply rotations to model bones based on combined input
