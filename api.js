@@ -26,7 +26,8 @@ function detectDeviceType() {
 }
 
 function fetchWeather(callback) {
-    const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY'; // Replace with your API key
+    const apiKey = '00a61fe396a84971dddfb0b2e51a1229'; // Replace with your API key 
+
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Branson,us&units=imperial&appid=${apiKey}`;
     fetch(apiUrl)
         .then(response => response.json())
@@ -109,8 +110,8 @@ function loadPlayerJson() {
             const weatherMessage = `Currently, in Branson, it's ${temp}°F with ${weatherDescription}. ${outfitRecommendation} ${thermostatSetting}`;
 
             const finalMessage = `
-                <h1 style="color: white;"><span class="gradient-text">Micheal</span>: ${greeting} and welcome to LuminaFields! ${introduction}
-                ${deviceMessages[deviceType]} ${visitMessages[Math.min(visitCount - 1, 2)]} ${timeMessage} ${weatherMessage}</h1>
+                <span class="gradient-text">Micheal</span>: ${greeting} and welcome to LuminaFields! ${introduction}
+                ${deviceMessages[deviceType]} ${visitMessages[Math.min(visitCount - 1, 2)]} ${timeMessage} ${weatherMessage}
             `;
 
             chatWindow.innerHTML += finalMessage;

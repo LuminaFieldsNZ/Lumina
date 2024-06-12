@@ -15,11 +15,7 @@
 <link rel="icon" type="image/png" href="pics/wm.png" sizes="16x16">
 <link rel="mask-icon" href="pics/wm.png" color="#fff">
 <link rel="shortcut icon" href="pics/wm.png">
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/tiny-slider.css'>
 <link rel="stylesheet" href="./style.css">
-<script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/loaders/GLTFLoader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/controls/OrbitControls.js"></script>
 
 
 </head>
@@ -31,196 +27,106 @@
   <section class="home">
     <div style="color:white;" class="chat-window" id="chatWindow">
     </div>
-    <form id="draggableForm">
-
-      <div id="dragHandle" style="
-      width: 15px;
-      height: 15px;
-      background: yellow;
-      cursor: grab;
-      opacity: 0.7;
-      left: -20px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.7);"></div>
-  
-
-      <input style="color:white;" class="input" type="text" id="userInput" placeholder="Moveable chat input field" oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
+    <form>
+      <input style="color:white; font-size: 1.3em;" class="input" type="text" id="userInput" placeholder="Type here..." oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
         <button style="display:none;">submit</button>
     </form>
+    <button id="lField" onclick="startInspection()" class="btn">Start Inspection</button>
 </section>
             
 
-    <section class="card-container" id="card-container">
+<section class="home2">
 
 <div class="overlay">
-<p>
 
-Micheal works completely offline and only remembers when you want! To start your relationship with Micheal, 
-try changing your name then downloading your lumina file. <i>(which is just a .json file)</i><br><br>
- 
-<b>conversationData:</b> This is Micheals local offline memory, where hard coded actions make the automation possible.<br>
-<ul>
-<li>Field 1: User Name</li>
-<li>Field 2: User Question</li>
-<li>Field 3: Micheal Response</li>
-</ul>
-<br><br>
-<b>userData:</b> This is how Micheal recognizes you, with your information privately local there isn't a need for authentication.<br>
-<ul>
-  <li><b>id:</b> User Name <span class="gradient-text">(Your name goes here)</span></li>
-  <li><b>state:</b> Your reference to our user database.</li>
-  <li><b>mainHeading:</b> Your political heading</li>
-  <li><b>populations:</b> Your ideology</li>
-  <li><b>completedProjects:</b> Badges and micro-credentials earned</li>
-  </ul>
-  <br><br>
-
-
-</p>
-<a id="toolMenu" style="width: 350px; height: 200px;">
-  <textarea class="json-editor" id="jsonEditor" placeholder="JSON Editor Format: [question, answer, liveChange]"></textarea>
-</a>
+  <textarea class="json-editor" id="jsonEditor" style="width: 80vw; height: 600px;" placeholder="Lumina Field Editor"></textarea>
 
 <button class="btn" onclick="exportData()">Download Lumina File</button>
 <br><br>
-<p>
-
-  When you're ready, just upload your lumina file and Micheal will remember everything. The data in the lumina.json file is structured to add on top of the base dataset.
-  Micheal reads from the base data set, and <span class="gradient-text">every</span> uploaded lumina.json data set.
-
-</p>
 <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)">
 
 
 
-<div class="container">
-  <br>
-  <h1>Glossary</h1>
-  <div class="slider-container">
-      <label for="mainHeading">Main Heading:</label>
-      <input type="range" id="mainHeading" min="0" max="8" value="0" oninput="updateDescription()">
-      <span id="mainHeadingValue"></span>
-  </div>
-  <div class="slider-container">
-      <label for="populations">Populations:</label>
-      <input type="range" id="populations" min="0" max="8" value="0" oninput="updateDescription()">
-      <span id="populationsValue"></span>
-  </div>
-  <div class="description">
-      <p id="descriptionText"></p>
-  </div>
-</div>
-
-
-
-
-</div>
-
-      <div class="slider">
-
-        <div class="card" data-tilt>
-          <div class="content">
-            <img src="pics/blocks.jpg" alt="Connect via email" />
-            <h1>Connect via Email</h1>
-            <p>
-              In a world filled with opportunities, having an Artificial mentor can make all the
-              difference. Explore why people turn to this invaluable resource to
-              unlock their potential.
-                        </p>
-                        <button class="btn" onclick="sendEmail();">
-                          <span>Subscribe</span>
-                          <ion-icon name="arrow-forward-outline"></ion-icon>
-                        </button>     
-          </div>
-        </div>
-
-        
-
-        <div class="card" data-tilt>
-          <div class="content">
-            <img src="pics/ball3.jpg" alt="About Luminafields" />
-            <h1>About the Brand</h1>
-            <p>
-              Learn about every byte of what we do, connect with us or join us in development.
-            </p>
-            <button class="btn" onclick="window.open('docs.html');">
-              <span>Dive in</span>
-              <ion-icon name="arrow-forward-outline"></ion-icon>
-            </button>
-          </div>
-        </div>
-
-        <div class="card" data-tilt>
-          <div class="content">
-            <img src="pics/web1.jpg" alt="Anya" />
-            <h1>Plant/Emotion Recognition</h1>
-            <p>
-              Micheal's facial and object recognition features add specialized focus and extrinsic data opportunities.
-            </p>
-            <button class="btn" onclick="window.open('https://mfglife.github.io/demo/index.html');">
-              <span>Test software</span>
-              <ion-icon name="arrow-forward-outline"></ion-icon>
-            </button>
-          </div>
-        </div>
-
-        <div class="card" data-tilt>
-          <div class="content">
-            <img src="pics/ball4.jpg" alt="Anya" />
-            <h1>Image Capture Tool</h1>
-            <p>
-              Just name you file and capture 500 compressed photos at a time for optimized visual training.
-            </p>
-            <button class="btn" onclick="window.open('tools.html')">
-              <span>Camera Tool</span>
-              <ion-icon name="arrow-forward-outline"></ion-icon>
-            </button>
-          </div>
-        </div>
-        
-
-        <div class="card" data-tilt>
-          <div class="content">
-            <img src="pics/micheal1.jpg" alt="Micheal Salmon" />
-            <h1>Meet the founder</h1>
-            <p>
-              Micheal L Salmon, has a vision of merging nature, technology, and education through a playful LARP experience guided by Micheal.
-            </p>
-            <button class="btn" onclick="window.open('https://linkedin.com/in/woodandmortar');">
-              <span>Get Linkedin</span>
-              <ion-icon name="arrow-forward-outline"></ion-icon>
-            </button>
-          </div>
-        </div>
+  <form id="inspectionForm" class="hidden" style="display: none;">
+      <div class="form-row">
+          <label for="location">Location:</label>
+          <input type="text" id="location" name="location" required>
       </div>
 
-      <ul class="control" id="custom-control">
-        <li class="prev">
-          <ion-icon class="arrow" name="caret-back-outline"></ion-icon>
-        </li>
-        <li class="next">
-          <ion-icon class="arrow" name="caret-forward-outline"></ion-icon>
-        </li>
-      </ul>
-    </section>
+      <div class="form-row">
+          <label for="roomNumber">Room Number:</label>
+          <input type="text" id="roomNumber" name="roomNumber" required>
+      </div>
+
+      <div class="task">
+          <label for="wallsAndCeiling">Condition of walls and ceiling:</label>
+          <textarea id="wallsAndCeiling" name="wallsAndCeiling" required></textarea>
+          <div class="button-group">
+              <button type="button" onclick="fillInput('wallsAndCeiling', 'Green')">Green</button>
+              <button type="button" onclick="fillInput('wallsAndCeiling', 'Yellow')">Yellow</button>
+              <button type="button" onclick="fillInput('wallsAndCeiling', 'Red')">Red</button>
+          </div>
+      </div>
+
+      <div class="task">
+          <label for="plumbing">Condition of plumbing:</label>
+          <textarea id="plumbing" name="plumbing" required></textarea>
+          <div class="button-group">
+              <button type="button" onclick="fillInput('plumbing', 'Green')">Green</button>
+              <button type="button" onclick="fillInput('plumbing', 'Yellow')">Yellow</button>
+              <button type="button" onclick="fillInput('plumbing', 'Red')">Red</button>
+          </div>
+      </div>
+
+      <div class="task">
+          <label for="appliances">Condition of appliances:</label>
+          <textarea id="appliances" name="appliances" required></textarea>
+          <div class="button-group">
+              <button type="button" onclick="fillInput('appliances', 'Green')">Green</button>
+              <button type="button" onclick="fillInput('appliances', 'Yellow')">Yellow</button>
+              <button type="button" onclick="fillInput('appliances', 'Red')">Red</button>
+          </div>
+      </div>
+
+      <div class="task">
+          <label for="flooring">Condition of flooring:</label>
+          <textarea id="flooring" name="flooring" required></textarea>
+          <div class="button-group">
+              <button type="button" onclick="fillInput('flooring', 'Green')">Green</button>
+              <button type="button" onclick="fillInput('flooring', 'Yellow')">Yellow</button>
+              <button type="button" onclick="fillInput('flooring', 'Red')">Red</button>
+          </div>
+      </div>
+
+      <div class="task">
+          <label for="urgency">Urgency (Green, Yellow, Black, Red):</label>
+          <input type="text" id="urgency" name="urgency" required>
+          <div class="button-group">
+              <button type="button" onclick="fillInput('urgency', 'Green')">Green</button>
+              <button type="button" onclick="fillInput('urgency', 'Yellow')">Yellow</button>
+              <button type="button" onclick="fillInput('urgency', 'Black')">Black</button>
+              <button type="button" onclick="fillInput('urgency', 'Red')">Red</button>
+          </div>
+      </div>
+
+      <button type="submit">Submit Inspection</button>
+  </form>
+
+
+
+</div></section>
+
   </body>
 
-  <div id="app"></div>
 
-<script src='https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js'></script>
-<script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>
-<script src='https://unpkg.com/gsap@3/dist/EasePack.min.js'></script>
-<script src='https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js'></script>
-<script src='https://unpkg.com/scrollreveal'></script>
-
-<script  src="./script.js"></script>
 <script src="./chatbot2.js"></script>
 
 <script src="./bud/basedata.js"></script>
 <script src="./bud/collective.js"></script>
 <script src="./bud/data/plants.js"></script>
 
-<script src="./script2.js"></script>
-<script src="./avatar.js"></script>
+<script src="./api.js"></script>
+<script src="./inspection.js"></script>
 
 </body>
 </html>
