@@ -24,6 +24,10 @@
 
 
 <body>
+
+<button style="position:absolute; z-index: 99999999999999999999999; top: 15px; left: 15px;" id="lField" onclick="runCommands()" class="btn">Lumina[fields]</button>
+
+
   <section class="home">
     <div style="color:white;" class="chat-window" id="chatWindow">
     </div>
@@ -31,7 +35,6 @@
       <input style="color:white; font-size: 1.3em;" class="input" type="text" id="userInput" placeholder="Type here..." oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
         <button style="display:none;">submit</button>
     </form>
-    <button id="lField" onclick="startInspection()" class="btn">Start Inspection</button>
 </section>
             
 
@@ -39,7 +42,7 @@
 
 <div class="overlay">
 
-  <textarea class="json-editor" id="jsonEditor" style="width: 80vw; height: 600px;" placeholder="Lumina Field Editor"></textarea>
+  <textarea class="json-editor" id="jsonEditor" style="margin: 25px; width: 65vw; height: 600px;" placeholder="Lumina Field Editor"></textarea>
 
 <button class="btn" onclick="exportData()">Download Lumina File</button>
 <br><br>

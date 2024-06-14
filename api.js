@@ -90,34 +90,46 @@ function loadPlayerJson() {
 
         const timeMessage = time < 12 ? timeMessages.morning : (time < 18 ? timeMessages.afternoon : timeMessages.evening);
 
-        // Fetch weather data and construct the final message
-        fetchWeather(function(weatherData) {
-            const temp = weatherData.main.temp;
-            const weatherDescription = weatherData.weather[0].description;
-            let outfitRecommendation, thermostatSetting;
+ 
+ // Fetch weather data and construct the final message
+fetchWeather(function(weatherData) {
+    const temp = weatherData.main.temp;
+    const weatherDescription = weatherData.weather[0].description;
+    const precipitationChance = weatherData.rain ? weatherData.rain["1h"] || 0 : 0;
 
-            if (temp < 50) {
-                outfitRecommendation = "It's quite cold outside. Wear a warm coat and maybe a hat and gloves.";
-                thermostatSetting = "You might want to set your thermostat to around 72°F to stay cozy.";
-            } else if (temp < 70) {
-                outfitRecommendation = "It's a bit chilly. A light jacket should be enough.";
-                thermostatSetting = "A comfortable thermostat setting would be around 68°F.";
-            } else {
-                outfitRecommendation = "The weather is warm. Light clothing should be perfect.";
-                thermostatSetting = "Keep your thermostat around 75°F to stay cool.";
-            }
+    let outfitRecommendation, thermostatSetting;
 
-            const weatherMessage = `Currently, in Branson, it's ${temp}°F with ${weatherDescription}. ${outfitRecommendation} ${thermostatSetting}`;
+    // Dynamic thermostat adjustment
+    if (temp < 50) {
+        outfitRecommendation = "It's quite cold outside. Wear a warm coat and maybe a hat and gloves.";
+        thermostatSetting = 80;  // Setting higher to compensate for heat loss
+    } else if (temp < 70) {
+        outfitRecommendation = "It's a bit chilly. A light jacket should be enough.";
+        thermostatSetting = 78;  // Setting slightly higher for mild heat loss
+    } else if (temp < 80) {
+        outfitRecommendation = "The weather is warm. Light clothing should be perfect.";
+        thermostatSetting = 76;  // Target temperature
+    } else {
+        outfitRecommendation = "It's hot outside. Stay cool with light clothing.";
+        thermostatSetting = 74;  // Setting lower to compensate for heat gain
+    }
 
-            const finalMessage = `
-                <span class="gradient-text">Micheal</span>: ${greeting} and welcome to LuminaFields! ${introduction}
-                ${deviceMessages[deviceType]} ${visitMessages[Math.min(visitCount - 1, 2)]} ${timeMessage} ${weatherMessage}
-            `;
+    const weatherMessage = `Currently, in Branson, it's ${temp}°F with ${weatherDescription}. 
+                            Chance of precipitation within 24hrs is ${precipitationChance * 100}%. 
+                            ${outfitRecommendation} Set your thermostat to ${thermostatSetting}°F to stay comfortable.`;
 
-            chatWindow.innerHTML += finalMessage;
-            botName = "Micheal";
-            scrollToBottom();
-        });
+    const finalMessage = `
+        <span class="gradient-text">Micheal</span>: ${greeting} and welcome to LuminaFields! ${introduction}
+        ${deviceMessages[deviceType]} ${visitMessages[Math.min(visitCount - 1, 2)]} ${timeMessage} ${weatherMessage}
+    `;
+
+    chatWindow.innerHTML += finalMessage;
+    botName = "Micheal";
+    scrollToBottom();
+});
+       
+
+
     }, 2300);
 }
 
@@ -141,13 +153,69 @@ function checkPasscode() {
     if (code === "[about]") {
       runAbout();
     }
+    if (code === "[inspe") {
+        startInspection();
+      }
   }
 
 
+  
+
+
   function runAbout() {
-    window.open('data/whitepaper.pdf', '_blank');
+
+    const chatWindow2 = document.getElementById('chatWindow');
+
+    const aboutMessage = `<br>
+    <span class="gradient-text">Learn More</span>:  
+    <button class="btn" onclick="window.open('./bud/data/deck.pdf')">
+          <span>Download Pitch</span>
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </button><br>
+        <button class="btn" onclick="window.open('./bud/data/whitepaper.pdf')">
+          <span>Download Whitepaper</span>
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </button><br>
+        <button class="btn" onclick="window.open('./bud/data/franchise.pdf')">
+          <span>Let's Franchise</span>
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </button>
+`;
+
+chatWindow2.innerHTML += aboutMessage;
+
 }
 
 function runDemo() {
   window.open('https://mfglife.github.io/demo/index.html', '_blank');
+}
+
+
+function runCommands() {
+
+    const chatWindow3 = document.getElementById('chatWindow');
+
+    const commandMessage = `<br>
+    <span class="gradient-text">[commands]</span>:  
+    <button class="btn" onclick="runAbout()">
+          <span>[about]</span>
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </button><br>
+        <button class="btn" onclick="startInspection()">
+          <span>[inspection]</span>
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </button><br>
+        <button class="btn" onclick="runDemo()">
+          <span>[demo]</span>
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </button><br>
+        <button class="btn" onclick="runPrint">
+          <span>[print]</span>
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </button>
+`;
+
+chatWindow3.innerHTML += commandMessage;
+document.getElementById('lField').style.display = 'none';
+
 }
