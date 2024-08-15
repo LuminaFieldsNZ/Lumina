@@ -1,390 +1,384 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Tilt+Neon&display=swap");
+:root {
+  --background-rgb: 29 30 34;
 
-@property --gradient-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
+  --blue-rgb: 33 150 243;
+  --primary-rgb: var(--blue-rgb);
+
+  --blob-color-1: rgb(var(--blue-rgb));
+  --blob-color-2: dodgerblue;
 }
 
 * {
-  padding: 0;
-  margin: 0;
-  font-family: "Nunito", sans-serif;
+  box-sizing: border-box;
 }
-
-html {
-  scroll-behavior: smooth;
-}
-
-img {
-  width: 100%;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* SECTION - HOME */
-
-.home {
+body {
+  height: 100vh;
   display: grid;
-  grid-template-columns: 45% 50%;
   place-items: center;
-  gap: 50px;
-  background: rgb(35, 36, 57);
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), /* This is the black overlay */
+    url('./pics/ironcoast.png');
+  background-size: cover; /* This will cover the entire viewport */
+  background-repeat: no-repeat; /* This will prevent the image from repeating */
+  background-position: center; /* This will center the image */
+  background-color: rgb(var(--background-rgb)); /* This will be visible if the image doesn't cover the entire body or if it's transparent */
+  margin: 0rem;
   overflow: hidden;
-  padding: 130px 80px;
 }
 
-.home2 {
-  color: #fff;
+
+
+#canvas {
+  position:absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+
+/* For Webkit browsers like Chrome, Safari */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* For Firefox */
+html {
+    scrollbar-width: none;
+    overflow: -moz-scrollbars-none;
+}
+
+/* For IE and Edge */
+body {
+    -ms-overflow-style: none;
+}
+
+
+.button-wrapper {
+    position: absolute; /* This will position the div relative to the .container */
+    top: 20px; /* This will keep it at the bottom */
+    left: 50%; /* Centering technique part 1 */
+    transform: translateX(-50%); /* Centering technique part 2 */
+    width: 95%; /* Set the width to 95% of the .container */
+    justify-content: space-between; /* This will distribute the buttons evenly */
+    z-index: 6;
+}
+
+.button-wrapper .select button {
+    flex: 1; /* This will make each button take equal space */
+    margin: 0 5px; /* Optional: for spacing between buttons */
+}
+
+
+      .open-modal {
+         text-align: center;
+        border: 2px solid white;
+        background: transparent;
+color: white;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 18px;
+        padding: .4em .6em;
+        font-weight: bold;
+        -webkit-transition: background 0.3s;
+        transition: background 0.3s;
+        animation: pulse 8s infinite;
+
+      }
+
+      .open-modal:hover {
+        background: #D95952;
+      }
+
+
+      @keyframes pulse {
+      0% {
+      opacity:1;
+      }
+
+      40% {
+      opacity:0.8;
+      box-shadow:0px 0px 5px 0px $color;
+      }
+
+      60% {
+      opacity:0.7;
+      box-shadow:0px 0px 5px 0px $color;
+      }
+
+      100%{
+      opacity:1;
+      box-shadow:none;
+      }
+      }
+
+
+.screen {
+  width: 250px;
+  height: 300px;
   display: flex;
-  background: rgb(35, 36, 57);
-}
-
-.description {
-  color: #fff;
-  padding: 0 50px;
-}
-
-.description > h1 {
-  font-family: "Tilt Neon", sans-serif;
-  font-size: clamp(2.3rem, 5vw, 4rem);
-  line-height: 1.1;
-  margin-bottom: 30px;
-}
-
-.gradient-text {
-  font-family: "Tilt Neon", sans-serif;
-  background-image: linear-gradient(
-    90deg,
-    rgb(118, 167, 63) 0%,
-    rgb(51, 143, 118) 40%,
-    rgb(55, 141, 167) 50%,
-    rgb(117, 152, 242) 70%,
-    rgb(144, 118, 236) 100%
-  );
-  color: transparent;
-  background-size: contain;
-  background-clip: text;
-  -webkit-background-clip: text;
-}
-
-.description > p {
-  font-family: "Nunito", sans-serif;
-  font-size: 1.2rem;
-  line-height: 1.5;
-  margin-bottom: 30px;
-}
-
-.overlay {
+  color: white;
+  border: 3px solid rgb(var(--primary-rgb) / 80%);
+  aspect-ratio: 10 / 16;
+  border-radius: 1rem;
+  font-size: 1.3em;
+  background-color: rgb(var(--primary-rgb) / 15%);
+  overflow: scroll;
+  margin-top: 20px;
   position: relative;
-  background: none;
-  font-size: 16px;
-  margin: 25px;
+  z-index: 10;
 }
 
-#form {
+.screen:after,
+.screen:before {
+  content: "";
+  height: 5px;
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  translate: -50% 0%;
+  background-color: white;
+}
+
+.screen:before {
+  width: 15%;
+  top: 0rem;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.screen:after {
+  width: 25%;
+  bottom: 0rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.screen2 {
+  width: 400px;
+  height: 300px;
+  display: flex;
+  color: white;
+  font-size: 1.3em;
+  background-color: rgb(var(--primary-rgb) / 85%);
+  overflow: scroll;
+  margin-top: 10px;
   position: relative;
+  z-index: 10;
+}
+
+.screen2:after,
+.screen2:before {
+  content: "";
+  height: 5px;
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  translate: -50% 0%;
+  background-color: white;
+}
+
+.screen2:before {
+  width: 15%;
+  top: 0rem;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.screen2:after {
+  width: 25%;
+  bottom: 0rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+@keyframes pan-overlay {
+  from {
+    background-position: 0% 0%;
+  }
+
+  to {
+    background-position: 0% -100%;
+  }
+}
+
+
+@keyframes pan-image {
+  0% {
+    background-position: 36% 42%;
+    background-size: 200%;
+  }
+
+  20% {
+    background-position: 30% 35%;
+    background-size: 200%;
+  }
+
+  20.0001% { /* -- View 2 -- */
+    background-position: 60% 85%;
+    background-size: 500%;
+  }
+
+  40% {
+    background-position: 49% 81%;
+    background-size: 500%;
+  }
+
+  40.0001% { /* -- View 3 -- */
+    background-position: 80% 42%;
+    background-size: 300%;
+  }
+
+  60% {
+    background-position: 84% 33%;
+    background-size: 300%;
+  }
+
+  60.0001% { /* -- View 4 -- */
+    background-position: 0% 0%;
+    background-size: 300%;
+  }
+
+  80% {
+    background-position: 15% 4%;
+    background-size: 300%;
+  }
+
+  80.0001% { /* -- View 5 -- */
+    background-position: 80% 10%;
+    background-size: 300%;
+  }
+
+  100% {
+    background-position: 72% 14%;
+    background-size: 300%;
+  }
+}
+
+.screen > .screen-image {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), /* This is the black overlay */
+    url('./pics/trantum.png');
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+  left: 0px;
+  top: 0px;
+  background-size: 300%;
+  background-position: 0% 0%;
+  filter: sepia(70%) hue-rotate(160deg);
+  opacity: 0.4;
+  animation: pan-image 15s linear infinite;
+}
+
+.screen > .screen-content {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-}
-
-input {
-  padding-inline-end: 10px;
-  padding-inline-start: 10px;
-  background-color: transparent;
-  outline: transparent;
-  border: 0;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-  margin-right: 10px;
-  transition: all 0.3s ease-in;
-  -webkit-transition: all 0.3s ease-in;
-}
-
-input::placeholder {
-  color: rgb(117, 152, 242);
-  opacity: 0.5;
-  font-weight: 500;
-}
-
-input[type="email"] {
-  color: rgba(255, 255, 255, 0.7);
-  font-weight: 500;
-  font-size: 1rem;
-}
-
-input[type="email"]:focus {
-  border: transparent;
-  outline: 2px dotted rgb(117, 152, 242);
-  outline-offset: -3px;
-}
-
-.btn {
-  display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 3px;
-  max-width: max-content;
-  background: linear-gradient(
-    90deg,
-    rgb(118, 167, 63) 0%,
-    rgb(51, 143, 118) 40%,
-    rgb(55, 141, 167) 50%,
-    rgb(117, 152, 242) 70%,
-    rgb(144, 118, 236) 100%
-  );
-  background-size: 200%;
-  background-position: left;
-  color: #fff;
-  font-size: 1.2rem;
-  font-weight: 500;
-  border: 0;
-  padding: 12px 16px;
-  border-radius: 5px;
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5),
-    inset 0px 2px 2px rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  transition: all 0.3s ease-in;
+  flex-grow: 1;
+  gap: 1rem;
+  position: relative;
+  z-index: 3;
+  margin: 1rem;
+  padding-bottom: 6rem;
+  border: 1px solid rgb(var(--primary-rgb) / 50%);
+  border-radius: 0.6rem;
 }
 
-.btn:is(:hover, :focus-visible) {
-  background-position: right;
+.screen > .screen-content > .screen-icon {
+  color: white;
+  font-size: 4rem;
+  text-shadow: 0px 0px 0.5rem white;
 }
 
-.users-color-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 20px;
+.screen > .screen-content > .screen-user{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
 }
 
-.btn-grad {
-  background-image: linear-gradient(
-    to right,
-    #ece9e6 0%,
-    #ffffff 51%,
-    #ece9e6 100%
-  );
-  padding: 10px 16px;
-  color: #000;
-  box-shadow: 0 0 5px #eee;
-  outline: 0;
-  font-size: 1rem;
+.screen > .screen-content > .screen-user:before,
+.screen > .screen-content > .screen-user:after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  background-color: rgb(var(--primary-rgb));
+  border-radius: 1rem;
+  box-shadow: 0px 0px 8px 3px rgb(var(--primary-rgb) / 60%);
+}
+
+.screen > .screen-content > .screen-user:before {
+  height: 2px;
+  width: 50px;
+  translate: -20px -1rem;
+  opacity: 0.75;
+}
+
+.screen > .screen-content > .screen-user:after {
+  height: 3px;
+  width: 30px;
+  translate: 26px calc(-1rem - 0.5px);
+}
+
+.screen > .screen-content > .screen-user > :is(.name, .link) {
+  font-family: "Source Code Pro", monospace;
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.screen > .screen-content > .screen-user > .name {
+  position: relative;
+  font-size: 4.25rem;
   font-weight: 400;
-  grid-row: 9 / 10;
-  cursor: pointer;
-  transition: all 0.5s ease-in;
 }
 
-.btn-grad:is(:hover, :focus-visible) {
+.screen > .screen-content > .screen-user > .name:before,
+.screen > .screen-content > .screen-user > .name:after {
+  content: "";
+  height: 4px;
+  width: 4px;
+  position: absolute;
+  border: 2px solid white;
+  border-radius: 2px;
+}
+
+.screen > .screen-content > .screen-user > .name:before {
+  top: 55%;
+  right: -1.5rem;
+}
+
+.screen > .screen-content > .screen-user > .name:after {
+  top: 45%;
+  left: -1.5rem;
+}
+
+.screen > .screen-content > .screen-user > .link {
+  opacity: 0.8;
+  font-size: 1.5rem;
+  text-shadow: 0px 0px 0.5rem white;
+  font-weight: 400;
+  letter-spacing: 0.3rem;
   text-decoration: none;
 }
 
-.control {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  list-style: none;
-  gap: 14px;
+
+.image-container {
+    position: absolute;
+    width: 250px;
+    border: 0px;
+    height: 250px;
+    z-index: 100000000000000000000000000000000000000000000000000000000; /* Optional: To ensure it's above other elements */
 }
 
-.control li {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(to bottom, #559b9a, #3b3d8a);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5),
-    inset 0px 4px 4px rgba(255, 255, 255, 0.2);
-  padding: 16px;
-  border-radius: 50%;
-  cursor: pointer;
-  transform: scale(1);
-}
 
-.control li::before {
-  position: absolute;
-  content: "";
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: linear-gradient(to right, #559b9a, #3b3d8a);
-  border-radius: 50%;
-  z-index: -1;
-  transition: all 0.5s ease-in;
-  opacity: 0;
-}
-
-.control li:hover::before {
-  opacity: 1;
-}
-
-.arrow {
-  font-size: 1.5rem;
-  color: #fff;
-}
-
-@media (max-width: 1215px) {
-  .description > p {
-    font-size: 1rem;
+  .layer {
+    position: absolute;
+    border: 0px;
+    width: 100%;
+       height: 100%;
+       z-index: 0; /* Ensure the image is below the donut border */
+       object-fit: cover;
   }
-
-  .btn {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 1015px) {
-  .home {
-    grid-template-columns: 45% 50%;
-    gap: 50px;
-    padding: 140px 50px;
-  }
-  
-  .description > p {
-    font-size: 1rem;
-  }
-
-  .btn {
-    padding: 8px 12px;
-  }
-
-  .btn-grad {
-    padding: 8px 12px;
-  }
-}
-
-@media (max-width: 865px) {
-  .home {
-    grid-template-columns: 45% 50%;
-    gap: 60px;
-    padding: 130px 70px;
-  }
-}
-
-@media (max-width: 815px) {
-  .home {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas:
-      "userscolorcontainer"
-      "description";
-    gap: 30px;
-    padding: 90px 80px 70px;
-  }
-
-  .users-color-container {
-    grid-area: userscolorcontainer;
-  }
-
-  .description {
-    grid-area: description;
-    padding: 0;
-    text-align: center;
-  }
-
-  .description > p {
-    font-size: 1.1rem;
-  }
-
-  #form {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 815px) {
-  .description > p {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 460px) {
-   .home {
-    gap: 0;
-    padding: 30px 40px;
-  }
-  
-  #form {
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    margin-top: 20px;
-  }
-  
-  input[type="email"]:focus {
-    outline-offset: 6px;
-  }
-
-}
-
-
-
-.hidden {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: white;
-  padding: 120px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 100vw;
-  height: 100vh;
-  box-sizing: border-box;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: auto;
-}
-
-
-.form-row {
-  margin-bottom: 20px;
-}
-
-.task {
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  color: black;
-}
-
-textarea, input[type="text"] {
-  width: calc(100% - 22px);
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  display: block;
-}
-
-.button-group {
-  margin-top: 10px;
-}
-
-.button-group button {
-  margin-right: 5px;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.button-group button:hover {
-  background-color: #ddd;
-}
-
-@media (max-width: 600px) {
-  #inspectionForm {
-      padding: 20px;
-  }
-
-  .form-container {
-      padding: 10px;
-  }
-}

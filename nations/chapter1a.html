@@ -1,0 +1,122 @@
+<link rel="stylesheet" href="book.css">
+<div id="wrapper">
+    <div id="container">
+
+        <section class="open-book">
+            <header>
+                <h1>Chapter 1</h1>
+                <h6>2531 AD</h6>
+            </header>
+            <article>
+                <p>
+                  “You’re not dead, which is great of course. You’ve been unconscious here for two days. I think the people that dropped you off reported they’d found you that same day so I’m guessing two to four days you’ve been out. You came through with one of the more severe concussions I’ve seen. There was nothing permanently debilitating but you had been banged up in what looked like a pretty intentional way and were so dehydrated I was surprised you turned out to not be dead.” He paused again to let you absorb the information. “You want to tell me what you were doing drying out on a skimmer alone without adequate supplies a thousand miles away from anything at all?”
+</p>
+<p>
+  A thousand miles away from anything on an aquaSkim? A flash of memory teased you with its brevity. You had stared at the sky, cloudless, endless, and so blue. Your skimmer’s battery had long drained so it rocked with the calm sea beneath it. You would never make it back alive, not with how much water you had left. Thirst sat beside you mocking you for ever having taken water for granted in the past. Easier to just take a nap, save your last sip, and drink it when you wake up. That was the best way to avoid drinking it any sooner. Sleep as long as you can during the heat of the day. Close your eyes. Let the ocean sway you to sleep for now. Rest knowing you would taste the last drop of water you would ever drink when you woke up next and, in all likelihood, die soon after.
+</p>
+<p>
+  Then there was just swaying as you faded into unconsciousness. Only darkness until you woke up here. You tried to retrieve before that moment, there had to be some kind of effort or last resort or reason for being this far gone. No matter how you reached into your memories, they were blank.
+</p>
+
+<br><br>
+                  <center>  <dt><strong>You think to yourself:</strong></dt> </center>
+
+                        <em>-Action step</em><br>
+
+
+                <dl id="option1a" onclick="run1a();">I should tell this nobody to mind his own business and stop asking me questions I don’t have the answer to </dl>
+                <dl id="option2a" onclick="run2a();">I should tell him what I remember. Maybe if I walk him through what I’ve remembered so far, it will trigger more memories. </dl>
+                  <dl id="option3a" onclick="run3a();">I don’t know if I can trust this stranger yet. I might tell him later but for now, I’m going to say nothing and just see what I can learn.</dl>
+                  <dl id="option4a" onclick="run4a();">I doubt this guy can help me. I keep to myself until I can find who is really in charge and talk only to them.</dl>
+
+<script>
+
+
+
+function run1a(){
+  document.getElementById('2ndDiv').style.display = "block";
+  const conservativeValue = 15; // Or any value you want to add to conservative
+  window.parent.postMessage({ conservative: conservativeValue }, 'luminafields.com');
+  const nationalistValue = 15; // Or any value you want to add to Progressive
+  window.parent.postMessage({ nationalist: nationalistValue }, 'luminafields.com');
+  const option1a = document.getElementById('option1a');
+  document.getElementById('option1a').disabled = true;
+  document.getElementById('option1a').style.pointerEvents = 'none';
+  document.getElementById('option2a').style.display = "none";
+  document.getElementById('option4a').style.display = "none";
+  document.getElementById('option3a').style.display = "none";
+  document.getElementById('nextButton').style.display = "block";
+  document.getElementById('backButton').style.opacity = "0";
+  document.getElementById('backButton').style.display = "block";
+}
+function run2a(){
+    document.getElementById('2ndDiv').style.display = "block";
+  const idealistValue = 15; // Or any value you want to add to idealist
+  window.parent.postMessage({ idealist: idealistValue }, 'luminafields.com');
+  const socialistValue = 15; // Or any value you want to add to Progressive
+  window.parent.postMessage({ socialist: socialistValue }, 'luminafields.com');
+  const option2a = document.getElementById('option2a');
+  document.getElementById('option2a').disabled = true;
+  document.getElementById('option2a').style.pointerEvents = 'none';
+  document.getElementById('option1a').style.display = "none";
+  document.getElementById('option4a').style.display = "none";
+  document.getElementById('option3a').style.display = "none";
+  document.getElementById('nextButton').style.display = "block";
+  document.getElementById('backButton').style.opacity = "0";
+  document.getElementById('backButton').style.display = "block";
+}
+function run3a(){
+    document.getElementById('2ndDiv').style.display = "block";
+  const progressiveValue = 15; // Or any value you want to add to progressive
+  window.parent.postMessage({ progressive: progressiveValue }, 'luminafields.com');
+  const populistValue = 15; // Or any value you want to add to Progressive
+  window.parent.postMessage({ populist: populistValue }, 'luminafields.com');
+  const globalistValue = 15; // Or any value you want to add to globalist
+  window.parent.postMessage({ globalist: globalistValue }, 'luminafields.com');
+  const option3a = document.getElementById('option3a');
+  document.getElementById('option3a').disabled = true;
+  document.getElementById('option3a').style.pointerEvents = 'none';
+  document.getElementById('option2a').style.display = "none";
+  document.getElementById('option1a').style.display = "none";
+  document.getElementById('option4a').style.display = "none";
+  document.getElementById('nextButton').style.display = "block";
+  document.getElementById('backButton').style.opacity = "0";
+  document.getElementById('backButton').style.display = "block";
+}
+function run4a(){
+    document.getElementById('2ndDiv').style.display = "block";
+  const economistValue = 15; // Or any value you want to add to economist
+  window.parent.postMessage({ economist: economistValue }, 'luminafields.com');
+  const realistValue = 15; // Or any value you want to add to Progressive
+  window.parent.postMessage({ realist: realistValue }, 'luminafields.com');
+  const option4a = document.getElementById('option3a');
+  document.getElementById('option4a').disabled = true;
+  document.getElementById('option4a').style.pointerEvents = 'none';
+  document.getElementById('option3a').style.display = "none";
+  document.getElementById('option2a').style.display = "none";
+  document.getElementById('option1a').style.display = "none";
+  document.getElementById('nextButton').style.display = "block";
+  document.getElementById('backButton').style.opacity = "0";
+  document.getElementById('backButton').style.display = "block";
+}
+  </script>
+
+<div id="2ndDiv" style="display:none;">
+<p>
+               “It doesn’t matter either way,” he dismisses the line of questioning with a lazy wave. “You’re awake now and that’s what matters. I can give you a full evaluation now that you’re conscious. Based on your injuries, there’s no reason you don’t get out of here today.” He paused again to allow you to process what he had just said. “I can set you up with some local resources and reach out to any family -”
+</p>
+<p>
+               The door flies open with a deafening crack and an explosive flash. Smoke rolls in from the hallway like a tsunami filling your lungs and intensifying the burning in your nose and throat. You can’t hear anything but ringing. All thoughts evade you except, What? You cling to your senses to keep you grounded. The acrid smoke stings your eyes which have just pricked to start watering. Through the liquid blurring, you spot the doctor crumpled on the floor where he just stood. A pool of blood leaks out from underneath him. You spot a large piece of anonymous metal shrapnel protruding from his chest. The metallic shine juxtaposed against his earthy green sweater. The warmth had left his face and his black eyes stared endlessly at the ceiling behind your head.
+</p>
+<p>
+               You have to move. You didn’t know his name but his lifeless eyes sparked action. Your thoughts and vision cleared almost immediately the haze lifting with the need to do. I have to get out of here. I can’t be inside. I need to find out what’s going on.
+</p>
+<p>
+               You immediately drop to the floor to crawl beneath the smoke and avoid more flying shrapnel. You can feel your body trying to scream at you through your adrenaline. You ignore it, you have to ignore it or you die. The greasy smog is thinner on the floor. It isn’t clear but at least you can breathe without wheezing and see down the hall. You move quickly into the hall keeping your face as low as you can while still keeping as many of your limbs underneath your body as possible. Belly crawling your way out of here would take too long. It wasn’t hard to follow the emergency exit signs even through the flashing white lights strobing through the smoke billows. The exits glowed a vicious red more like a warning than salvation, but salvation they were, so that’s where you headed.
+</p></div>
+
+<dl id="nextButton" style="display:none;" onclick="location.replace('chapter1b.html')">- Next Page -</dl>
+            </article>
+        </section>
+    </div>
+</div>
