@@ -39,7 +39,7 @@ let conversationData = [];
 
 setTimeout(function() {
 
-    chatWindow.innerHTML += '<p>Collective: Hello, I\'m your AI assistant... use the field below to chat or type commands such as: <font style="color: lightblue;">cmd [all]</font> to view a complete list.</p>';
+    chatWindow.innerHTML += '<p>Collective: Hello, I\'m your <font style="color: lightblue;">AI</font> assistant...  here to listen and support you. Feel free to share what\'s on your mind in the field below</p>';
     scrollToBottom();
 }, 4300);
 
@@ -499,5 +499,5 @@ function updateIframes() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-chatWindow.innerHTML += '<p>Current Topic: Toxic Validation</p>';
+chatWindow.innerHTML += '<p>Current Topic: Toxic Validation <button class="open-modal" onclick="startQuest()">Quiz Me</button></p> ';
 });

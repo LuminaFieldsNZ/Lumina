@@ -75,3 +75,44 @@ function getProgressBarColor(percentage) {
     return 'green';
 }
 
+function updateDataFromJSONEditor() {
+    // Step 1: Get the JSON editor content
+    const jsonEditorContent = document.getElementById('jsonEditor').value;
+    
+    // Step 2: Parse the JSON content
+    let parsedData;
+    try {
+        parsedData = JSON.parse(jsonEditorContent);
+    } catch (error) {
+        console.error('Invalid JSON format');
+        return;
+    }
+    
+    // Step 3: Extract and distribute values to populations and mainHeading
+    if (parsedData && parsedData.userData) {
+        const userData = parsedData.userData;
+
+        // Distribute values to populations (as an example, let's assume an equal distribution)
+        const totalPopulation = 1000; // Example total value to distribute
+        const numPopulations = Object.keys(populations).length;
+        const populationValue = Math.floor(totalPopulation / numPopulations);
+
+        for (let key in populations) {
+            populations[key] = populationValue;
+        }
+
+        // Distribute values to mainHeading based on some criteria or extracted data
+        if (userData.mainHeading) {
+            for (let key in mainHeading) {
+                mainHeading[key] = userData.mainHeading[key] || 0;
+            }
+        }
+    }
+
+    // Step 4: Update the UI based on the new values
+    updateData(populations, 'totalPopulations', 'avgPopulations');
+    updateData(mainHeading, 'totalMainHeading', 'avgMainHeading');
+}
+
+// Example: Call this function when the JSON editor content changes or after data is loaded
+document.getElementById('jsonEditor').addEventListener('input', updateDataFromJSONEditor);
