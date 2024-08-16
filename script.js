@@ -280,43 +280,51 @@ function render() {
   ctx.restore();
 }
 
-
 function openSettings() {
-parent.postMessage({ action: 'openSettings', value: 'openSettings' }, 'https://luminafields.com/');
+  // Directly handle the opening of settings within the same context
+  const settingsElement = document.getElementById('settingsModal'); // Assuming you have a settings modal or similar element
+  if (settingsElement) {
+    settingsElement.style.display = 'block'; // Show the settings modal
+  } else {
+    console.log('Settings element not found.');
+  }
 }
 
-const peepContent = document.documentElement.outerHTML;
+document.addEventListener('DOMContentLoaded', function() {
+  const peepContent = document.documentElement.outerHTML;
+  // Instead of sending this to a parent, you can use it locally as needed
+  console.log('Page content loaded:', peepContent);
+  // You could store it, display it, or use it within your application
+});
 
-
-   document.addEventListener('DOMContentLoaded', function() {
-     const peepContent = document.documentElement.outerHTML;
-         const message = {
-           action: 'peepContent',
-           peepContent: peepContent
-         };
-         window.parent.postMessage(message, '*');
-   });
-
-
-
-    window.addEventListener('message', function(event) {
-        if (event.data.action === 'hair') {
-            document.getElementById('hairLayer').src = event.data.value;
-        }
-        if (event.data.action === 'glasses') {
-            document.getElementById('glassesLayer').src = event.data.value;
-        }
-        if (event.data.action === 'body') {
-            document.getElementById('bodyLayer').src = event.data.value;
-        }
-        if (event.data.action === 'outer') {
-            document.getElementById('outerLayer').src = event.data.value;
-        }
-    if (event.data.state) {
-        state = event.data.state;
-        document.getElementById('hairLayer').src = state.hair;
-        document.getElementById('glassesLayer').src = state.glasses;
-        document.getElementById('bodyLayer').src = state.body;
-        document.getElementById('outerLayer').src = state.outer;
+function updateLayer(action, value) {
+  const elementMap = {
+    hair: 'hairLayer',
+    glasses: 'glassesLayer',
+    body: 'bodyLayer',
+    outer: 'outerLayer'
+  };
+  
+  const elementId = elementMap[action];
+  if (elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.src = value;
     }
-    }, false);
+  }
+}
+
+window.addEventListener('message', function(event) {
+  if (event.data.action) {
+    updateLayer(event.data.action, event.data.value);
+  }
+  
+  if (event.data.state) {
+    const { hair, glasses, body, outer } = event.data.state;
+    updateLayer('hair', hair);
+    updateLayer('glasses', glasses);
+    updateLayer('body', body);
+    updateLayer('outer', outer);
+  }
+}, false);
+

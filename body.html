@@ -38,26 +38,24 @@
     <div id="bodyContainer"></div>
   </div>
 
-    <script>
-
-        function createImageTiles(images, containerId, action) {
-            const container = document.getElementById(containerId);
-            for (let imgSrc of images) {
-                const img = document.createElement('img');
-                img.src = imgSrc;
-                img.className = 'image-tile';
-                img.onclick = function() {
-                  parent.postMessage({ action: action, value: imgSrc }, '*');
-                    parent.parent.postMessage({ action: action, value: imgSrc }, '*');
-                };
-                container.appendChild(img);
-            }
+  <script>
+    function createImageTiles(images, containerId, action) {
+        const container = document.getElementById(containerId);
+        for (let imgSrc of images) {
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.className = 'image-tile';
+            img.onclick = function() {
+                parent.postMessage({ action: action, value: imgSrc }, '*');
+                parent.parent.postMessage({ action: action, value: imgSrc }, '*');
+            };
+            container.appendChild(img);
         }
+    }
 
-        // Body
-        const bodyImages = Array.from({ length: 29 }, (_, i) => `./body/body${i}.png`);
-        createImageTiles(bodyImages, 'bodyContainer', 'body');
-
-    </script>
+    // Body
+    const bodyImages = Array.from({ length: 29 }, (_, i) => `./body/body${i}.png`);
+    createImageTiles(bodyImages, 'bodyContainer', 'body');
+  </script>
 </body>
 </html>

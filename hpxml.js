@@ -121,3 +121,14 @@
     document.getElementById("titleChange").style.display = 'none';
     document.getElementById("titleChange2").innerHTML = pHeading;
   }
+
+// Listen for a custom event called 'updateIframeSrc'
+window.addEventListener('updateIframeSrc', function(event) {
+  changeIframeSrc(event.detail.newSrc);
+});
+
+// Example of how to trigger the custom event (This would be done from another part of your application)
+function pushIframeSrc(newSrc) {
+  const event = new CustomEvent('updateIframeSrc', { detail: { newSrc: newSrc } });
+  window.dispatchEvent(event);
+}

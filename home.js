@@ -52,4 +52,4 @@ const bookFrame4 = document.getElementById('bookFrame4');
 bookFrame4.src = 'loader/index.html';
 
 const bookFrame1 = document.getElementById('bookFrame1');
-bookFrame1.src = 'tabs/index.html';
+bookFrame1.src = 'https://calendar.google.com/calendar/embed?src=90ed83300d99aaddf4776c4e2de80a3c7ccb9a7ef34c26b3b402cb3075263274%40group.calendar.google.com&ctz=America%2FChicago';

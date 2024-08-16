@@ -1,7 +1,6 @@
 
 window.onload = function() {
     clearStorage();
-    startUpdating();
 };
 
 function clearStorage() {
@@ -37,55 +36,8 @@ mainHeading = {
   sailor: 0
 };
 
-function getSVGFilename(trait, score) {
-  if (score > 0) {
-    return `svg/${trait}P.svg`;
-  } else {
-    return `svg/${trait}N.svg`;
-  }
-}
-
-function selectSVGs(mainHeading) {
-  // Convert the object to an array of [key, value] pairs
-  let traitsArray = Object.entries(mainHeading);
-
-  // Sort the array based on the values (scores)
-  traitsArray.sort((a, b) => b[1] - a[1]);
-
-  // Get the top two highest traits and the lowest trait
-  let top1 = traitsArray[0];
-  let top2 = traitsArray[1];
-  let lowest = traitsArray[traitsArray.length - 1];
-
-  // Determine the SVG filenames using the modular function
-  let top1SVG = getSVGFilename(top1[0], top1[1]);
-  let top2SVG = getSVGFilename(top2[0], top2[1]);
-  let lowestSVG = getSVGFilename(lowest[0], lowest[1]);
-
-  return [top1SVG, top2SVG, lowestSVG];
-}
-
-function updateSVGs() {
-  let [topSVG, secondSVG, worstSVG] = selectSVGs(mainHeading);
-  document.getElementById('topTrait').src = topSVG;
-  document.getElementById('secondTrait').src = secondSVG;
-  document.getElementById('worstTrait').src = worstSVG;
-}
-
-// Call this function whenever you want to update the SVGs
-updateSVGs();
 
 
-
-
-
-function updatePopulations() {
-    updateData(populations, 'population', 'average');
-}
-
-function updateMainHeadings() {
-    updateData(mainHeading, 'mainHeadingTotal', 'mainHeadingAverage');
-}
 
 function updateData(dataObj, totalElemId, avgElemId) {
     let total = 0;
@@ -123,27 +75,3 @@ function getProgressBarColor(percentage) {
     return 'green';
 }
 
-function startUpdating() {
-    setInterval(() => {
-        updatePopulations();
-        updateSVGs();
-        testData();
-        updateMainHeadings();  // Ensure this is called to update magicType progress bars
-    }, 1000);
-}
-
-window.addEventListener('message', function(event) {
-    updateListener(event, populations);
-});
-
-window.addEventListener('message', function(event) {
-    updateListener(event, mainHeading);
-});
-
-function updateListener(event, dataObj) {
-    for (let key in dataObj) {
-        if (event.data[key]) {
-            dataObj[key] += event.data[key];
-        }
-    }
-}

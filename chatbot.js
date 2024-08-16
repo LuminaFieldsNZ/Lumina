@@ -476,94 +476,28 @@ function sendFaxiumMessage(message, sender) {
 
 
 
-
-
 let htmlContent;
 const rawHtmlTextarea = document.getElementById('popupIframe');
 const bookFrame5 = document.getElementById('bookFrame5');
 
-// Create a new XMLHttpRequest
-const xhr = new XMLHttpRequest();
-
-// Define the file URL you want to read
-let url = './peep.html';
+// Define the file URL you want to read (assuming you need this for some other part of your code)
+const url = './peep.html';
 
 // Function to update iframes with HTML content
 function updateIframes() {
   // Get the HTML content from the textarea
   htmlContent = rawHtmlTextarea.value;
-  homePage = htmlContent;
-  // Set the srcdoc property of bookFrame5 if it's an iframe
-  if (bookFrame5) {
+  
+  // Update the srcdoc property of bookFrame5 if it exists and is an iframe
+  if (bookFrame5 && bookFrame5.tagName.toLowerCase() === 'iframe') {
     bookFrame5.srcdoc = htmlContent;
   }
 
-  // Update the JSON editor
+  // Update the JSON editor or any other necessary parts of your application
   updateJSONDisplay();
 }
 
 
-// Set up the callback function when the request is completed
-xhr.onload = function () {
-  if (xhr.status === 200) {
-    // Successfully loaded the content
-    htmlContent = xhr.responseText;
-
-    // Set the value of the textarea with the raw HTML content
-    rawHtmlTextarea.value = htmlContent;
-
-    // Update iframes with the initial HTML content
-    updateIframes();
-  } else {
-    console.error('Error loading HTML content:', xhr.statusText);
-  }
-};
-
-// Handle network errors
-xhr.onerror = function () {
-  console.error('Network error occurred while loading HTML content.');
-};
-
-// Open the GET request to fetch the file content
-xhr.open('GET', url, true);
-
-// Send the request
-xhr.send();
-
-// Add an event listener to the textarea for changes
-rawHtmlTextarea.addEventListener('input', function () {
-    // Update the iframes
-    updateIframes();
-
-});
-
-
-
-
-
-
-
-
-// List of questions 'faxium' will ask
-const faxiumQuestions = [
-  'What is the pulse network?',
-  'Interesting. Tell me, how many are you in this collective? Whats your strength in numbers?'
-];
-
-let currentQuestionIndex = 0;
-let intervalId;
-
-function askChatbot() {
-    if (currentQuestionIndex < faxiumQuestions.length) {
-        // Display the question in the chat window
-        chatWindow.innerHTML += '<p>Faxium: ' + faxiumQuestions[currentQuestionIndex] + '</p>';
-        // Send the current question to the chatbot as 'faxium'
-        sendFaxiumMessage(faxiumQuestions[currentQuestionIndex], 'Faxium');
-        // Move to the next question
-        currentQuestionIndex++;
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function() {
-chatWindow.innerHTML += '<p>Faxium: Online</p>';
+chatWindow.innerHTML += '<p>Current Topic: Toxic Validation</p>';
 });
