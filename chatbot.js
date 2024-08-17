@@ -190,60 +190,96 @@ function parseCollectiveCommand(data) {
 }
 
 
-
+// Function to send a message and handle conversation data
 function sendMessage() {
     const inputElem = document.getElementById('userInput');
     const message = inputElem.value;
     inputElem.value = '';
 
     const chatWindow = document.getElementById('chatWindow');
-    chatWindow.innerHTML += '<p>' + userId + ': ' + message + '</p>';
+    chatWindow.innerHTML += `<p>${userId}: ${message}</p>`;
     scrollToBottom();
 
-    // Check if the message starts with '@faxium'
     if (message.trim().toLowerCase().startsWith('@faxium')) {
         sendFaxiumMessage(message, 'User');
         return; // Return early to prevent further processing
     }
 
     setTimeout(() => {
-        if (message.trim().toLowerCase().startsWith('<frame>')) {
-            sendHTMLMessage(message, 'User');
+        const commandResponse = parseCollectiveCommand(message);
+        let response;
+        if (commandResponse) {
+            response = commandResponse;
+            chatWindow.innerHTML += `<p>Collective: ${commandResponse}</p>`;
+            scrollToBottom();
         } else {
-            const commandResponse = parseCollectiveCommand(message);
-            let response;
-            if (commandResponse) {
-                response = commandResponse;
-                chatWindow.innerHTML += '<p>Collective: ' + commandResponse + '</p>';
-                scrollToBottom();
-            } else {
-                response = getResponse(message);
-                chatWindow.innerHTML += '<p>Collective: ' + response + '</p>';
-                scrollToBottom();
-            }
+            response = getResponse(message);
+            chatWindow.innerHTML += `<p>Collective: ${response}</p>`;
+            scrollToBottom();
         }
 
         const timestamp = new Date().toISOString();
-        let response = getResponse(message);
-        if (!isRedundant(message)) {
-            // Append the variables to the response string
-            response += `
-{
-  userId: "${userId}",
-  state: ${JSON.stringify(state)},
-  populations: ${JSON.stringify(populations)},
-  mainHeading: ${JSON.stringify(mainHeading)},
-  completedProjects: ${JSON.stringify(completedProjects)},
-  homePage: ${JSON.stringify(homePage)},
-  userCompletedProjects: ${JSON.stringify(userCompletedProjects)},
-  conversationData: ${JSON.stringify(conversationData)}
-}`;
-            conversationData.push([message, response, timestamp]);
+
+        // Prepare updated conversation data
+        const newEntry = [message, formatResponse(userId, state, populations, mainHeading, completedProjects, homePage, userCompletedProjects), timestamp];
+
+        // Append new entry to existing conversationData
+        if (!conversationData) {
+            conversationData = []; // Initialize if it doesn't exist
         }
+        conversationData.push(newEntry);
+
+        const jsonResponse = {
+            userId: userId,
+            state: state,
+            populations: populations,
+            mainHeading: mainHeading,
+            completedProjects: completedProjects,
+            homePage: homePage,
+            userCompletedProjects: userCompletedProjects,
+            conversationData: conversationData
+        };
+
+        const jsonString = JSON.stringify(jsonResponse, null, 2);
+        const formattedResponse = `${escapeHtml(jsonString)}`;
 
         updateJSONDisplay();
     }, 1000);
 }
+
+// Helper function to format the response
+function formatResponse(userId, state, populations, mainHeading, completedProjects, homePage, userCompletedProjects) {
+    return JSON.stringify({
+        userId: userId,
+        state: state,
+        populations: populations,
+        mainHeading: mainHeading,
+        completedProjects: completedProjects,
+        homePage: homePage,
+        userCompletedProjects: userCompletedProjects,
+        conversationData: [] // Omitting nested conversationData for simplicity
+    }, null, 2);
+}
+
+
+
+
+// Utility function to escape HTML special characters
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, '')
+        .replace(/</g, '')
+        .replace(/>/g, '')
+        .replace(/"/g, '')
+        .replace(/pre/g, '')
+        .replace(/\n/g, '')
+        .replace(/'/g, '');
+
+}
+
+
+
+
 
 
 
@@ -352,7 +388,6 @@ function importBaseDataSet(event) {
                 updateJSONDisplay(); // Update the JSON editor with the latest data
                 parent.postMessage({ action: 'openHome', value: 'openHome' }, 'https://luminafields.com/');
                 document.getElementById('loginPlace').style.display = 'none';
-                document.getElementById('popupIframe').value = homePage;
                 chatWindow.innerHTML += '<font style="color:lightgreen;">' + userId + ' is logged in.</font><br>';
 
             } else {
@@ -477,7 +512,6 @@ function sendFaxiumMessage(message, sender) {
 
 
 let htmlContent;
-const rawHtmlTextarea = document.getElementById('popupIframe');
 const bookFrame5 = document.getElementById('bookFrame5');
 
 // Define the file URL you want to read (assuming you need this for some other part of your code)
