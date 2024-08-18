@@ -1,14 +1,14 @@
 // Global variables for populations and mainHeading
  populations = {
-    progressive: 100,
-    socialist: 100,
-    idealist: 100,
-    globalist: 100,
-    conservative: 100,
-    economist: 100,
-    realist: 1000,
-    nationalist: 100,
-    populist: 100
+    progressive: 0,
+    socialist: 1,
+    idealist: 0,
+    globalist: 0,
+    conservative: 0,
+    economist: 0,
+    realist: 0,
+    nationalist: 0,
+    populist: 0
 };
 
  mainHeading = {
@@ -124,49 +124,48 @@ function updateHeadingsBasedOnEmotions(emotionScores) {
 
 
 
-// Function to calculate and update progress bars
 function updateProgressBars(populations) {
-    // Calculate the total population
     const totalPopulation = Object.values(populations).reduce((total, num) => total + num, 0);
+    console.log('Total Population:', totalPopulation);
 
-    // Update progress bars and percentages
-    for (const [category, population] of Object.entries(populations)) {
-        // Calculate the percentage
-        const percentage = totalPopulation > 0 ? (population / totalPopulation) * 100 : 0;
+    if (totalPopulation > 0) {
+        for (const [category, population] of Object.entries(populations)) {
+            const percentage = (population / totalPopulation) * 100;
+            console.log(`${category} Population: ${population}, Percentage: ${percentage}`);
 
-        // Update progress bar width
-        const progressBar = document.querySelector(`.${category}-progress`);
-        if (progressBar) {
-            progressBar.style.width = `${percentage}%`;
-            progressBar.style.backgroundColor = getProgressBarColor(percentage);
-        } else {
-            console.warn(`Progress bar with class ${category}-progress not found.`);
+            // Update the population number
+            const populationElem = document.getElementById(category);
+            if (populationElem) {
+                populationElem.textContent = Math.round(population);
+            } else {
+                console.warn(`Element with ID ${category} not found.`);
+            }
+
+            // Update progress bar width
+            const progressBar = document.querySelector(`.${category}-progress`);
+            if (progressBar) {
+                progressBar.style.width = `${percentage}%`;
+            } else {
+                console.warn(`Progress bar with class ${category}-progress not found.`);
+            }
+
+            // Update percentage text
+            const percentageElem = document.getElementById(`${category}bp`);
+            if (percentageElem) {
+                percentageElem.textContent = `${Math.round(percentage)}%`;
+            } else {
+                console.warn(`Element with ID ${category}bp not found.`);
+            }
         }
-
-        // Update percentage text
-        const percentageElem = document.getElementById(`${category}bp`);
-        if (percentageElem) {
-            percentageElem.textContent = `${Math.round(percentage)}%`;
-        } else {
-            console.warn(`Element with ID ${category}bp not found.`);
-        }
-
-        // Update population text
-        const populationElem = document.getElementById(category);
-        if (populationElem) {
-            populationElem.textContent = Math.round(population);
-        } else {
-            console.warn(`Element with ID ${category} not found.`);
-        }
+    } else {
+        console.warn('Total population is 0 or less.');
     }
 }
 
-// Example usage
-updateProgressBars(populations);
 
-// Function to update data from JSON editor content
 function updateDataFromJSONEditor() {
     const jsonEditorContent = document.getElementById('jsonEditor').value;
+    console.log('JSON Editor Content:', jsonEditorContent); // Log JSON content
 
     let parsedData;
     try {
@@ -176,14 +175,16 @@ function updateDataFromJSONEditor() {
         return;
     }
 
+    console.log('Parsed Data:', parsedData); // Log parsed data
+
     if (parsedData && parsedData.userData) {
         const userData = parsedData.userData;
 
         // Update populations based on JSON data
         if (userData.emotionScores) {
             const emotionScores = userData.emotionScores;
+            console.log('Emotion Scores:', emotionScores); // Log emotion scores
 
-            // Example logic for updating populations
             for (const key in populations) {
                 populations[key] = emotionScores[key] || 0;
             }

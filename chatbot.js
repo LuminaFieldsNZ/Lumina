@@ -30,8 +30,8 @@ let state = {
      body: './body/body0.png',
      outer: './outer/outer0.png'
  };
-let populations = {};
-let mainHeading = {};
+ populations = {};
+ mainHeading = {};
 let completedProjects = [];
 let homePage = "";
 let userCompletedProjects = [];
@@ -190,7 +190,6 @@ function parseCollectiveCommand(data) {
 }
 
 
-// Function to send a message and handle conversation data
 function sendMessage() {
     const inputElem = document.getElementById('userInput');
     const message = inputElem.value;
@@ -245,6 +244,10 @@ function sendMessage() {
 
         updateJSONDisplay();
         scanForEmotionWords();
+        
+        // Update the UI with the new population data
+        updateData(populations, 'totalPopulations', 'avgPopulations');
+        updateProgressBars(populations);
 
     }, 1000);
 }
