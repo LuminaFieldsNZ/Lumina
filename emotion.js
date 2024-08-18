@@ -232,11 +232,24 @@ function levenshtein(a, b) {
     sortedEmotions.forEach(([emotion, score]) => {
       if (score > 0) {
         for (const [heading, value] of Object.entries(emotionToHeading[emotion])) {
-          mainHeading[heading] += value * score;
+          // Multiply by 100 before adding to mainHeading
+          mainHeading[heading] += value * score * 100;
         }
       }
     });
+  
+    // Update populations based on mainHeading
+    updatePopulationsBasedOnHeadings();
   }
+  
+  function updatePopulationsBasedOnHeadings() {
+    for (const [heading, value] of Object.entries(mainHeading)) {
+      if (populations.hasOwnProperty(heading)) {
+        populations[heading] = value;
+      }
+    }
+  }
+  
   
   function scanForEmotionWords() {
     // Get the content of the textarea
@@ -285,6 +298,7 @@ function levenshtein(a, b) {
   }
   
 
+  
   function updatePoliticalHeadingsBasedOnKeywords() {
     // Reset political scores
     for (const key in populations) {
@@ -293,24 +307,33 @@ function levenshtein(a, b) {
       }
     }
   
-    // Scan for political keywords
+    // Get the content of the textarea
     const content = document.getElementById('jsonEditor').value.toLowerCase();
     const contentWords = content.split(/\s+/).map(word => word.replace(/[^\w\s]/g, ''));
   
+    // Set a threshold for similarity (this needs to be defined or passed in)
+    const similarityThreshold = 2; // Adjust if needed
+  
+    // Scan for political keywords
     for (const [political, keywords] of Object.entries(politicalKeywords)) {
       for (const [keyword, weight] of Object.entries(keywords)) {
         for (const contentWord of contentWords) {
+          // Calculate the Levenshtein distance
           const distance = levenshtein(keyword, contentWord);
           console.log(`Comparing '${keyword}' with '${contentWord}': Distance = ${distance}`);
+  
           if (distance <= similarityThreshold) {
-            populations[political] += weight;
-            console.log(`Match found: ${keyword}, Adding weight: ${weight}`);
+            // Ensure the political heading exists in the populations object
+            if (populations.hasOwnProperty(political)) {
+              populations[political] += weight;
+              console.log(`Match found: ${keyword}, Adding weight: ${weight}`);
+            }
           }
         }
       }
     }
   
+    // Log the updated political scores
     console.log('Updated Political Scores:', populations);
   }
-  
   

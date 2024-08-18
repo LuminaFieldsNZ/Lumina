@@ -66,9 +66,6 @@ function updatePercentages(avg, dataObj) {
         return;
     }
 
-    console.log('Average:', avg);
-    console.log('Data Object:', dataObj);
-
     for (const key in dataObj) {
         const value = Number(dataObj[key]); // Ensure the value is a number
         if (isNaN(value)) {
@@ -77,8 +74,6 @@ function updatePercentages(avg, dataObj) {
         }
 
         const percentage = avg > 0 ? (value / avg) * 100 : 0;
-        console.log(`Key: ${key}, Value: ${value}, Percentage: ${percentage}`);
-
         const percentageElem = document.getElementById(`${key}bp`);
         if (percentageElem) {
             percentageElem.textContent = `${Math.round(percentage)}%`;
@@ -127,7 +122,58 @@ function updateHeadingsBasedOnEmotions(emotionScores) {
     updateData(mainHeading, 'totalMainHeading', 'avgMainHeading');
 }
 
-// Update data from JSON editor
+function updateProgressBars(populations) {
+    // Get the maximum value from populations to set as total for percentage calculations
+    const maxScore = Math.max(...Object.values(populations));
+
+    // Update progress bars and percentages
+    for (const [category, score] of Object.entries(populations)) {
+        const percentage = maxScore > 0 ? (score / maxScore) * 100 : 0;
+
+        // Update progress bar width
+        const progressBar = document.querySelector(`.${category}-progress`);
+        if (progressBar) {
+            progressBar.style.width = `${percentage}%`;
+            progressBar.style.backgroundColor = getProgressBarColor(percentage); // optional: adjust color based on percentage
+        } else {
+            console.warn(`Progress bar with class ${category}-progress not found.`);
+        }
+
+        // Update percentage text
+        const percentageElem = document.getElementById(`${category}bp`);
+        if (percentageElem) {
+            percentageElem.textContent = `${Math.round(percentage)}%`;
+        } else {
+            console.warn(`Element with ID ${category}bp not found.`);
+        }
+
+        // Update population text
+        const populationElem = document.getElementById(category);
+        if (populationElem) {
+            populationElem.textContent = Math.round(score);
+        } else {
+            console.warn(`Element with ID ${category} not found.`);
+        }
+    }
+}
+
+// Example usage with the data you provided
+const politicalScores = {
+    progressive: 0,
+    socialist: 0,
+    idealist: 0,
+    globalist: 10,
+    conservative: 20,
+    economist: 10,
+    realist: 15,
+    nationalist: 0,
+    populist: 0
+};
+
+// Call the update function with the data
+updateProgressBars(politicalScores);
+
+
 function updateDataFromJSONEditor() {
     const jsonEditorContent = document.getElementById('jsonEditor').value;
 
@@ -142,20 +188,11 @@ function updateDataFromJSONEditor() {
     if (parsedData && parsedData.userData) {
         const userData = parsedData.userData;
 
-        // Distribute values to populations (if applicable)
-        const totalPopulation = 1000; // Adjust if needed
-        const numPopulations = Object.keys(populations).length;
-        const populationValue = Math.floor(totalPopulation / numPopulations);
-
-        for (const key in populations) {
-            populations[key] = populationValue;
-        }
-
-        // Handle emotion scores
+        // Update populations based on JSON data
         if (userData.emotionScores) {
             const emotionScores = userData.emotionScores;
 
-            // Example logic for updating populations (adjust as needed)
+            // Example logic for updating populations
             for (const key in populations) {
                 populations[key] = emotionScores[key] || 0;
             }
@@ -174,8 +211,8 @@ function updateDataFromJSONEditor() {
         // Update the UI based on the new values
         updateData(populations, 'totalPopulations', 'avgPopulations');
         updateData(mainHeading, 'totalMainHeading', 'avgMainHeading');
+        
+        // Update progress bars and percentages
+        updateProgressBars();
     }
 }
-
-// Event listener for JSON editor changes
-document.getElementById('jsonEditor').addEventListener('input', updateDataFromJSONEditor);
