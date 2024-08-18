@@ -244,6 +244,7 @@ function sendMessage() {
 
         updateJSONDisplay();
         scanForEmotionWords();
+        testData();
         
         // Update the UI with the new population data
         updateData(populations, 'totalPopulations', 'avgPopulations');

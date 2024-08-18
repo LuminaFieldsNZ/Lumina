@@ -38,22 +38,10 @@ function updateData(dataObj, totalElemId, avgElemId) {
         }
     }
 
-    // Update total
-    const totalElem = document.getElementById(totalElemId);
-    if (totalElem) {
-        totalElem.textContent = Math.round(total);
-    } else {
-        console.warn(`Element with ID ${totalElemId} not found.`);
-    }
-
+  
     // Calculate and update average
     const avg = Object.keys(dataObj).length ? total / Object.keys(dataObj).length : 0;
-    const avgElem = document.getElementById(avgElemId);
-    if (avgElem) {
-        avgElem.textContent = Math.round(avg);
-    } else {
-        console.warn(`Element with ID ${avgElemId} not found.`);
-    }
+   document.getElementById('mainHeadingAverage').innerHTML = Math.round(avg);
 
     // Update percentages
     updatePercentages(avg, dataObj);
@@ -131,7 +119,6 @@ function updateProgressBars(populations) {
     if (totalPopulation > 0) {
         for (const [category, population] of Object.entries(populations)) {
             const percentage = (population / totalPopulation) * 100;
-            console.log(`${category} Population: ${population}, Percentage: ${percentage}`);
 
             // Update the population number
             const populationElem = document.getElementById(category);
@@ -199,10 +186,6 @@ function updateDataFromJSONEditor() {
                 mainHeading[key] = userData.mainHeading[key] || 0;
             }
         }
-
-        // Update the UI based on the new values
-        updateData(populations, 'totalPopulations', 'avgPopulations');
-        updateData(mainHeading, 'totalMainHeading', 'avgMainHeading');
         
         // Update progress bars and percentages
         updateProgressBars(populations);

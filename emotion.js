@@ -320,20 +320,16 @@ function levenshtein(a, b) {
         for (const contentWord of contentWords) {
           // Calculate the Levenshtein distance
           const distance = levenshtein(keyword, contentWord);
-          console.log(`Comparing '${keyword}' with '${contentWord}': Distance = ${distance}`);
   
           if (distance <= similarityThreshold) {
             // Ensure the political heading exists in the populations object
             if (populations.hasOwnProperty(political)) {
               populations[political] += weight;
-              console.log(`Match found: ${keyword}, Adding weight: ${weight}`);
             }
           }
         }
       }
     }
   
-    // Log the updated political scores
-    console.log('Updated Political Scores:', populations);
   }
   
