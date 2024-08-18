@@ -244,6 +244,8 @@ function sendMessage() {
         const formattedResponse = `${escapeHtml(jsonString)}`;
 
         updateJSONDisplay();
+        scanForEmotionWords();
+
     }, 1000);
 }
 
@@ -533,5 +535,5 @@ function updateIframes() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-chatWindow.innerHTML += '<p>Current Topic: Toxic Validation <button class="open-modal" onclick="startQuest()">Quiz Me</button></p> ';
+chatWindow.innerHTML += '<p>Current Topic: Toxic Validation <button class="open-modal" onclick="startQuest();scrollToBottom();">Quiz Me</button></p> ';
 });

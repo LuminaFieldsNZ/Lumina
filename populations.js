@@ -122,19 +122,23 @@ function updateHeadingsBasedOnEmotions(emotionScores) {
     updateData(mainHeading, 'totalMainHeading', 'avgMainHeading');
 }
 
+
+
+// Function to calculate and update progress bars
 function updateProgressBars(populations) {
-    // Get the maximum value from populations to set as total for percentage calculations
-    const maxScore = Math.max(...Object.values(populations));
+    // Calculate the total population
+    const totalPopulation = Object.values(populations).reduce((total, num) => total + num, 0);
 
     // Update progress bars and percentages
-    for (const [category, score] of Object.entries(populations)) {
-        const percentage = maxScore > 0 ? (score / maxScore) * 100 : 0;
+    for (const [category, population] of Object.entries(populations)) {
+        // Calculate the percentage
+        const percentage = totalPopulation > 0 ? (population / totalPopulation) * 100 : 0;
 
         // Update progress bar width
         const progressBar = document.querySelector(`.${category}-progress`);
         if (progressBar) {
             progressBar.style.width = `${percentage}%`;
-            progressBar.style.backgroundColor = getProgressBarColor(percentage); // optional: adjust color based on percentage
+            progressBar.style.backgroundColor = getProgressBarColor(percentage);
         } else {
             console.warn(`Progress bar with class ${category}-progress not found.`);
         }
@@ -150,30 +154,17 @@ function updateProgressBars(populations) {
         // Update population text
         const populationElem = document.getElementById(category);
         if (populationElem) {
-            populationElem.textContent = Math.round(score);
+            populationElem.textContent = Math.round(population);
         } else {
             console.warn(`Element with ID ${category} not found.`);
         }
     }
 }
 
-// Example usage with the data you provided
-const politicalScores = {
-    progressive: 0,
-    socialist: 0,
-    idealist: 0,
-    globalist: 10,
-    conservative: 20,
-    economist: 10,
-    realist: 15,
-    nationalist: 0,
-    populist: 0
-};
+// Example usage
+updateProgressBars(populations);
 
-// Call the update function with the data
-updateProgressBars(politicalScores);
-
-
+// Function to update data from JSON editor content
 function updateDataFromJSONEditor() {
     const jsonEditorContent = document.getElementById('jsonEditor').value;
 
@@ -213,6 +204,6 @@ function updateDataFromJSONEditor() {
         updateData(mainHeading, 'totalMainHeading', 'avgMainHeading');
         
         // Update progress bars and percentages
-        updateProgressBars();
+        updateProgressBars(populations);
     }
 }
