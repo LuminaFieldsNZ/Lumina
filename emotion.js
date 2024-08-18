@@ -1,28 +1,31 @@
-// Updated emotion.js
+
+const similarityThreshold = 2; // Adjust this threshold as needed
+
 
 function levenshtein(a, b) {
-  let tmp;
-  let i, j, alen = a.length, blen = b.length;
-  const arr = [];
-
-  if (alen === 0) { return blen; }
-  if (blen === 0) { return alen; }
-
-  for (i = 0; i <= blen; i++) { arr[i] = [i]; }
-  for (j = 0; j <= alen; j++) { arr[0][j] = j; }
-
-  for (i = 1; i <= blen; i++) {
+    let tmp;
+    let i, j, alen = a.length, blen = b.length;
+    const arr = [];
+  
+    if (alen === 0) return blen;
+    if (blen === 0) return alen;
+  
+    for (i = 0; i <= blen; i++) arr[i] = [i];
+    for (j = 0; j <= alen; j++) arr[0][j] = j;
+  
+    for (i = 1; i <= blen; i++) {
       for (j = 1; j <= alen; j++) {
-          tmp = a[j - 1] === b[i - 1] ? 0 : 1;
-          arr[i][j] = Math.min(arr[i - 1][j] + 1, Math.min(arr[i][j - 1] + 1, arr[i - 1][j - 1] + tmp));
+        tmp = a[j - 1] === b[i - 1] ? 0 : 1;
+        arr[i][j] = Math.min(arr[i - 1][j] + 1, Math.min(arr[i][j - 1] + 1, arr[i - 1][j - 1] + tmp));
       }
+    }
+  
+    return arr[blen][alen];
   }
-
-  return arr[blen][alen];
-}
-
-const emotionWords = {
-  happiness: {
+  
+  
+  const emotionWords = {
+    happiness: {
       "ecstasy": 4,
       "delight": 4,
       "cheerful": 3,
@@ -32,8 +35,8 @@ const emotionWords = {
       "blissful": 5,
       "jubilant": 5,
       "excited": 4
-  },
-  sadness: {
+    },
+    sadness: {
       "sorrow": 5,
       "grief": 5,
       "depressed": 4,
@@ -44,8 +47,8 @@ const emotionWords = {
       "desolate": 4,
       "dismal": 3,
       "gloomy": 3
-  },
-  anger: {
+    },
+    anger: {
       "furious": 5,
       "angry": 4,
       "enraged": 5,
@@ -56,8 +59,8 @@ const emotionWords = {
       "outraged": 5,
       "hostile": 4,
       "agitated": 3
-  },
-  fear: {
+    },
+    fear: {
       "terrified": 5,
       "scared": 4,
       "frightened": 4,
@@ -68,8 +71,8 @@ const emotionWords = {
       "alarmed": 4,
       "worried": 3,
       "fearful": 5
-  },
-  surprise: {
+    },
+    surprise: {
       "amazed": 5,
       "astonished": 5,
       "shocked": 4,
@@ -80,19 +83,19 @@ const emotionWords = {
       "stunned": 5,
       "astounded": 5,
       "flabbergasted": 5
-  }
-};
-
-let emotionScores = {
-  happiness: 0,
-  sadness: 0,
-  anger: 0,
-  fear: 0,
-  surprise: 0
-};
-
-const emotionToHeading = {
-  happiness: {
+    }
+  };
+  
+  let emotionScores = {
+    happiness: 0,
+    sadness: 0,
+    anger: 0,
+    fear: 0,
+    surprise: 0
+  };
+  
+  const emotionToHeading = {
+    happiness: {
       explorer: 1,
       voyager: 0,
       captain: 0,
@@ -102,8 +105,8 @@ const emotionToHeading = {
       smuggler: 0,
       arbiter: 0,
       sailor: 0
-  },
-  sadness: {
+    },
+    sadness: {
       explorer: 0,
       voyager: 1,
       captain: 0,
@@ -113,8 +116,8 @@ const emotionToHeading = {
       smuggler: 0,
       arbiter: 0,
       sailor: 0
-  },
-  anger: {
+    },
+    anger: {
       explorer: 0,
       voyager: 0,
       captain: 1,
@@ -124,8 +127,8 @@ const emotionToHeading = {
       smuggler: 0,
       arbiter: 0,
       sailor: 0
-  },
-  fear: {
+    },
+    fear: {
       explorer: 0,
       voyager: 0,
       captain: 0,
@@ -135,8 +138,8 @@ const emotionToHeading = {
       smuggler: 0,
       arbiter: 0,
       sailor: 0
-  },
-  surprise: {
+    },
+    surprise: {
       explorer: 0,
       voyager: 0,
       captain: 0,
@@ -146,69 +149,168 @@ const emotionToHeading = {
       smuggler: 0,
       arbiter: 0,
       sailor: 0
-  }
-};
-
-function updateHeadingsBasedOnEmotions(emotionScores) {
-  // Reset headings
-  for (const key in mainHeading) {
+    }
+  };
+  
+  // Political keywords with weighted values
+  const politicalKeywords = {
+    progressive: {
+      "equality": 5,
+      "socialJustice": 4,
+      "reform": 4,
+      "inclusivity": 3,
+      "liberal": 3
+    },
+    socialist: {
+      "collectivism": 5,
+      "redistribution": 4,
+      "equality": 4,
+      "welfare": 3,
+      "workers": 4
+    },
+    idealist: {
+      "utopian": 5,
+      "dreamer": 4,
+      "visionary": 4,
+      "hopeful": 3,
+      "ideal": 3
+    },
+    globalist: {
+      "international": 5,
+      "global": 5,
+      "cooperation": 4,
+      "integration": 4,
+      "world": 4
+    },
+    conservative: {
+      "tradition": 5,
+      "stability": 4,
+      "order": 4,
+      "authority": 3,
+      "preservation": 4
+    },
+    economist: {
+      "capitalism": 5,
+      "market": 5,
+      "freeTrade": 4,
+      "efficiency": 4,
+      "investment": 3
+    },
+    realist: {
+      "pragmatic": 5,
+      "practical": 4,
+      "realistic": 5,
+      "downToEarth": 4,
+      "rational": 4
+    },
+    nationalist: {
+      "patriotism": 5,
+      "sovereignty": 5,
+      "national": 4,
+      "identity": 4,
+      "independence": 4
+    },
+    populist: {
+      "antiEstablishment": 5,
+      "peoplePower": 4,
+      "commonMan": 4,
+      "grassroots": 4,
+      "revolt": 3
+    }
+  };
+  
+  function updateHeadingsBasedOnEmotions(emotionScores) {
+    // Reset headings
+    for (const key in mainHeading) {
       mainHeading[key] = 0;
-  }
-
-  // Determine the highest emotion score
-  const sortedEmotions = Object.entries(emotionScores).sort((a, b) => b[1] - a[1]);
-
-  // Allocate emotions to headings based on the highest scores
-  sortedEmotions.forEach(([emotion, score]) => {
+    }
+  
+    // Determine the highest emotion score
+    const sortedEmotions = Object.entries(emotionScores).sort((a, b) => b[1] - a[1]);
+  
+    // Allocate emotions to headings based on the highest scores
+    sortedEmotions.forEach(([emotion, score]) => {
       if (score > 0) {
-          for (const [heading, value] of Object.entries(emotionToHeading[emotion])) {
-              mainHeading[heading] += value * score;
-          }
+        for (const [heading, value] of Object.entries(emotionToHeading[emotion])) {
+          mainHeading[heading] += value * score;
+        }
       }
-  });
-
-}
-
-function scanForEmotionWords() {
-  // Get the content of the textarea
-  const content = document.getElementById('jsonEditor').value.toLowerCase();
-
-  // Reset scores
-  for (const key in emotionScores) {
+    });
+  }
+  
+  function scanForEmotionWords() {
+    // Get the content of the textarea
+    const content = document.getElementById('jsonEditor').value.toLowerCase();
+  
+    // Reset scores
+    for (const key in emotionScores) {
       if (emotionScores.hasOwnProperty(key)) {
-          emotionScores[key] = 0;
+        emotionScores[key] = 0;
       }
-  }
-
-  // Split content into words for comparison
-  const contentWords = content.split(/\s+/).map(word => word.replace(/[^\w\s]/g, ''));
-
-  // Set a threshold for similarity
-  const similarityThreshold = 2; // You can adjust this threshold
-
-  // Scan for emotion words
-  for (const [emotion, words] of Object.entries(emotionWords)) {
+    }
+  
+    // Split content into words for comparison
+    const contentWords = content.split(/\s+/).map(word => word.replace(/[^\w\s]/g, ''));
+  
+    // Set a threshold for similarity
+    const similarityThreshold = 2; // You can adjust this threshold
+  
+    // Scan for emotion words
+    for (const [emotion, words] of Object.entries(emotionWords)) {
       for (const [word, weight] of Object.entries(words)) {
-          for (const contentWord of contentWords) {
-              // Calculate the Levenshtein distance
-              if (levenshtein(word, contentWord) <= similarityThreshold) {
-                  emotionScores[emotion] += weight;
-              }
+        for (const contentWord of contentWords) {
+          // Calculate the Levenshtein distance
+          if (levenshtein(word, contentWord) <= similarityThreshold) {
+            emotionScores[emotion] += weight;
           }
+        }
       }
+    }
+  
+    // Update the headings based on detected emotions
+    updateHeadingsBasedOnEmotions(emotionScores);
+  
+    // Update the political system based on detected keywords
+    updatePoliticalHeadingsBasedOnKeywords();
+  
+    // Log the result to the console
+    console.log('Emotion Scores:', emotionScores);
+    console.log('Political Scores:', populations);
+  
+    // Display the result in a div
+    const resultDiv = document.getElementById('result');
+    if (resultDiv) {
+      resultDiv.innerText = `Emotion Scores: ${JSON.stringify(emotionScores, null, 2)}\nPolitical Scores: ${JSON.stringify(populations, null, 2)}`;
+    }
   }
+  
 
-  // Update the headings based on detected emotions
-  updateHeadingsBasedOnEmotions(emotionScores);
-
-  // Log the result to the console
-  console.log('Emotion Scores:', emotionScores);
-
-  // Display the result in a div
-  const resultDiv = document.getElementById('result');
-  if (resultDiv) {
-      resultDiv.innerText = `Emotion Scores: ${JSON.stringify(emotionScores, null, 2)}`;
+  function updatePoliticalHeadingsBasedOnKeywords() {
+    // Reset political scores
+    for (const key in populations) {
+      if (populations.hasOwnProperty(key)) {
+        populations[key] = 0;
+      }
+    }
+  
+    // Scan for political keywords
+    const content = document.getElementById('jsonEditor').value.toLowerCase();
+    const contentWords = content.split(/\s+/).map(word => word.replace(/[^\w\s]/g, ''));
+  
+    for (const [political, keywords] of Object.entries(politicalKeywords)) {
+      for (const [keyword, weight] of Object.entries(keywords)) {
+        for (const contentWord of contentWords) {
+          const distance = levenshtein(keyword, contentWord);
+          console.log(`Comparing '${keyword}' with '${contentWord}': Distance = ${distance}`);
+          if (distance <= similarityThreshold) {
+            populations[political] += weight;
+            console.log(`Match found: ${keyword}, Adding weight: ${weight}`);
+          }
+        }
+      }
+    }
+  
+    console.log('Updated Political Scores:', populations);
   }
-
-  return emotionScores;
-}
+  
+  

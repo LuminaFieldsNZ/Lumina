@@ -292,9 +292,6 @@ function openSettings() {
 
 document.addEventListener('DOMContentLoaded', function() {
   const peepContent = document.documentElement.outerHTML;
-  // Instead of sending this to a parent, you can use it locally as needed
-  console.log('Page content loaded:', peepContent);
-  // You could store it, display it, or use it within your application
 });
 
 function updateLayer(action, value) {
