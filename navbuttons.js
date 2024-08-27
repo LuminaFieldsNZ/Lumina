@@ -30,6 +30,9 @@ function checkPasscode() {
   if (code === "100") {
     iframe.src = '100/index.html';
   }
+  if (code === "ae49dr23@%") {
+    iframe.src = 'nations/16122042361017147.html';
+  }
   if (code === "587112349") {
     iframe.src = 'nations/book.html';
   }
