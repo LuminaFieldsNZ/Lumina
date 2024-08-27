@@ -539,5 +539,5 @@ function updateIframes() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-chatWindow.innerHTML += '<p>Current Topic: Toxic Validation <button class="open-modal" onclick="startQuest();scrollToBottom();">Quiz Me</button></p> ';
+chatWindow.innerHTML += '<button class="open-modal" onclick="startQuest();scrollToBottom();">Nudge</button>';
 });
