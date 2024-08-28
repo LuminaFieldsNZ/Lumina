@@ -3,7 +3,56 @@ document.addEventListener('DOMContentLoaded', () => {
     const gallery = document.getElementById('gallery');
     
     // Gallery data
-    const galleryData = [
+    let galleryData = [
+
+
+// Kings
+
+{
+  tags: ["King", "Leader", "GrassRoots"],
+  href: "https://www.tiktok.com/@luminafields",
+  name: "@luminafields",
+  uniqueId: "luminafields"
+},
+{
+  tags: ["King", "Leader", "Cookout"],
+  href: "https://www.tiktok.com/@infinite.vibrations",
+  name: "@infinite.vibrations",
+  uniqueId: "infinite.vibrations"
+},
+{
+  tags: ["King", "Support", "GrassRoots"],
+  href: "https://www.tiktok.com/@jprospering",
+  name: "@jprospering",
+  uniqueId: "jprospering"
+},
+
+// Queens
+
+{
+  tags: ["Queen", "Music", "GrassRoots"],
+  href: "https://www.tiktok.com/@wisdom.202",
+  name: "@wisdom.202",
+  uniqueId: "wisdom.202"
+},
+
+{
+  tags: ["Queen", "Gaming", "Mixed"],
+  href: "https://www.tiktok.com/@cinnabrit",
+  name: "@cinnabrit",
+  uniqueId: "cinnabrit"
+},
+
+{
+  tags: ["Queen", "Support", "Cookout"],
+  href: "https://www.tiktok.com/@twshbackup",
+  name: "@twshbackup",
+  uniqueId: "twshbackup"
+},
+
+// The Bad
+
+
       {
         tags: ["Misandry", "Echo Chamber", "Sponsoring"],
         href: "https://www.tiktok.com/@thedatingcoach.podcast",
@@ -40,6 +89,14 @@ document.addEventListener('DOMContentLoaded', () => {
         name: "@emilydeschane",
         uniqueId: "emilydeschane"
       },
+      {
+        tags: ["Misandry", "Echo Chamber", "Sponsoring"],
+        href: "https://www.tiktok.com/@ali_diff3r3nt",
+        name: "@ali_diff3r3nt",
+        uniqueId: "ali_diff3r3nt"
+      },
+
+
       {
         tags: ["Misogyny", "Echo Chamber", "Sponsoring"],
         href: "https://www.tiktok.com/@coleandersonj",

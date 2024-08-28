@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     splashActive();
     document.getElementById("load1").style.color = "lightgreen";
     document.getElementById("load1").innerHTML = "Online";
-  }, 1900); // 5000 milliseconds = 5 seconds
+  }, 3210); // 5000 milliseconds = 5 seconds
 });
 
 
