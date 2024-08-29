@@ -33,7 +33,6 @@ let state = {
  populations = {};
  mainHeading = {};
 let completedProjects = [];
-let homePage = "";
 let userCompletedProjects = [];
 let conversationData = [];
 
@@ -146,48 +145,6 @@ function handleAction(action, value, category) {
 }
 
 
-function parseCollectiveCommand(data) {
-
-
-  if (data.trim().toLowerCase() === 'cmd [all]') {
-          showCommands();
-          return "Commands " + data + " accepted"; // You can customize this response message
-      }
-
-
-    const matches = data.match(/\[(\w+|\d+)\]/g);
-
-    if (!matches || matches.length !== 3) {
-        return null;
-    }
-
-    let action, value, categoryInput;
-
-    for (const match of matches) {
-        const content = match.slice(1, -1);
-        if (["add", "subtract", "set"].includes(content.toLowerCase())) {
-            action = content;
-        } else if (!isNaN(content)) {
-            value = parseInt(content, 10);
-        } else {
-            categoryInput = content;
-        }
-    }
-
-    if (!action || !value || !categoryInput) {
-        return null;
-    }
-
-    const category = getClosestCategory(categoryInput.toLowerCase());
-
-    if (!category) {
-        return "Invalid category: " + categoryInput;
-    }
-
-    handleAction(action, value, category);
-
-    return "Command accepted: " + action + " " + value + " points in " + category;
-}
 
 
 function sendMessage() {
@@ -205,22 +162,16 @@ function sendMessage() {
     }
 
     setTimeout(() => {
-        const commandResponse = parseCollectiveCommand(message);
         let response;
-        if (commandResponse) {
-            response = commandResponse;
-            chatWindow.innerHTML += `<p>Collective: ${commandResponse}</p>`;
-            scrollToBottom();
-        } else {
             response = getResponse(message);
             chatWindow.innerHTML += `<p>Collective: ${response}</p>`;
             scrollToBottom();
-        }
+        
 
         const timestamp = new Date().toISOString();
 
         // Prepare updated conversation data
-        const newEntry = [message, formatResponse(userId, state, populations, mainHeading, completedProjects, homePage, userCompletedProjects), timestamp];
+        const newEntry = [message, formatResponse(userId, state, populations, mainHeading, completedProjects, userCompletedProjects), timestamp];
 
         // Append new entry to existing conversationData
         if (!conversationData) {
@@ -234,7 +185,6 @@ function sendMessage() {
             populations: populations,
             mainHeading: mainHeading,
             completedProjects: completedProjects,
-            homePage: homePage,
             userCompletedProjects: userCompletedProjects,
             conversationData: conversationData
         };
@@ -254,14 +204,13 @@ function sendMessage() {
 }
 
 // Helper function to format the response
-function formatResponse(userId, state, populations, mainHeading, completedProjects, homePage, userCompletedProjects) {
+function formatResponse(userId, state, populations, mainHeading, completedProjects, userCompletedProjects) {
     return JSON.stringify({
         userId: userId,
         state: state,
         populations: populations,
         mainHeading: mainHeading,
         completedProjects: completedProjects,
-        homePage: homePage,
         userCompletedProjects: userCompletedProjects,
         conversationData: [] // Omitting nested conversationData for simplicity
     }, null, 2);
@@ -323,7 +272,6 @@ function updateJSONDisplay() {
       mainHeading: mainHeading,
       populations: populations,
       completedProjects: userCompletedProjects,
-      homePage: homePage
     }
   };
   jsonEditor.value = JSON.stringify(combinedData, null, 2);
@@ -339,7 +287,7 @@ function isValidDataFormat(data) {
             return false;
         }
     }
-    if (!data.userData || typeof data.userData.id !== 'string' || typeof data.userData.state !== 'object' || typeof data.userData.mainHeading !== 'object' || typeof data.userData.populations !== 'object' || typeof data.userData.homePage !== 'string' || !Array.isArray(data.userData.completedProjects)) {
+    if (!data.userData || typeof data.userData.id !== 'string' || typeof data.userData.state !== 'object' || typeof data.userData.mainHeading !== 'object' || typeof data.userData.populations !== 'object' || !Array.isArray(data.userData.completedProjects)) {
         return false;
     }
     return true;
@@ -374,7 +322,6 @@ function importBaseDataSet(event) {
                 mainHeading = data.userData.mainHeading;
                 populations = data.userData.populations;
                 completedProjects = data.userData.completedProjects;
-                homePage = data.userData.homePage;
 
                     const messageUpdate = {
                         conversationData: data.conversationData,
@@ -383,7 +330,6 @@ function importBaseDataSet(event) {
                         mainHeading: data.userData.mainHeading,
                         populations: data.userData.populations,
                         completedProjects: data.userData.completedProjects,
-                        homePage: data.userData.homePage,
                     };
 
                     postMessageToAllFrames(window.top, messageUpdate); // Start from the top-level window

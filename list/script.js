@@ -26,6 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
   name: "@jprospering",
   uniqueId: "jprospering"
 },
+{
+  tags: ["King", "Leader", "Sponsor"],
+  href: "https://www.tiktok.com/@chaskestevens3",
+  name: "@chaskestevens3",
+  uniqueId: "chaskestevens3"
+},
 
 // Queens
 
