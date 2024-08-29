@@ -93,7 +93,7 @@ function settingsActive(){
 // Function to start the quest and display a random toxic validation question
 function startQuest() {
   // Filter questions that contain the word "toxic"
-  const toxicQuestions = baseData.filter(item => item[0].toLowerCase().includes('god'));
+  const toxicQuestions = baseData.filter(item => item[0].toLowerCase().includes('black'));
 
   // Randomly select one question from the filtered list
   const randomIndex = Math.floor(Math.random() * toxicQuestions.length);

@@ -2971,10 +2971,3 @@
     box-sizing: border-box;
   }
 }
-a.labs-follow-me {
-  left: 2rem;
-  right: 2rem;
-  bottom: 1rem;
-  top: unset;
-  text-align: center;
-}

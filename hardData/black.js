@@ -1,0 +1,23 @@
+baseData.push (
+
+    ["Why do black men love white women", "The same reason why White men love Black women, proximity and exposure.", ""],
+    ["Why do people think Black men are dangerous", "This perception is rooted in historical and systemic racism, which perpetuates negative stereotypes and criminalization of Black bodies", ""],
+    ["Why do Black women often face microaggressions at work", "Microaggressions are a manifestation of underlying biases and systemic inequalities. Black women frequently encounter these due to pervasive stereotypes and institutionalized racism that affect their professional environments", ""],
+    ["Why is there a stigma around mental health in the Black community", "The stigma often stems from a history of mistrust in medical institutions and cultural norms that prioritize resilience and self-reliance. Addressing mental health requires breaking down these barriers and fostering supportive environments.", ""],
+    ["Why do Black families value education so highly", "Education is seen as a vital pathway to success and a means of overcoming systemic barriers. For many Black families, it represents an opportunity to advance and challenge historical inequalities.", ""],
+    ["Why is there a focus on skin tone within the Black community", "Skin tone issues are often a reflection of internalized racism and historical colorism. Addressing these issues involves confronting and dismantling the long-standing biases that divide communities", ""],
+    ["Why do some people think Black culture is monolithic", "Viewing Black culture as monolithic disregards its rich diversity. Black communities are varied and multifaceted, with distinct traditions, experiences, and perspectives shaped by different histories and environments", ""],
+    ["Why are Black entrepreneurs often overlooked in mainstream business", "Systemic barriers, including limited access to capital and networks, contribute to the underrepresentation of Black entrepreneurs. Advocating for equitable opportunities and support can help address this disparity", ""],
+    ["Why do some people think Black art is only about struggle", "This perspective fails to recognize the full spectrum of Black creativity, which encompasses joy, innovation, and diverse experiences. Black art reflects a wide range of human emotions and experiences beyond just struggle", ""],
+    ["Why are Black men sometimes portrayed as absent fathers", "This stereotype overlooks the systemic issues that impact family dynamics, including economic challenges and institutional racism. Many Black men are actively involved in their childrens lives despite these obstacles", ""],
+    ["Why do Black people often feel a need to 'prove' themselves", "This need stems from societal pressures and biases that unfairly scrutinize Black individuals' achievements. Proving oneself is a response to a culture that often undervalues or questions Black excellence", ""],
+    ["Why are Black voices sometimes marginalized in conversations about race", "Marginalization occurs due to systemic power imbalances and a lack of representation. Amplifying Black voices involves actively listening, prioritizing their perspectives, and ensuring they have a seat at the table", ""],
+    ["Why do stereotypes about Black people persist despite progress", "Stereotypes persist due to deeply ingrained societal prejudices and a lack of comprehensive education about diverse Black experiences. Continuous effort to challenge and educate is essential for overcoming these outdated views", ""],
+    ["Why are Black experiences often excluded from historical narratives", "Historical narratives have traditionally centered on dominant groups, often excluding or distorting Black experiences. Inclusive history requires revising narratives to fully represent the contributions and experiences of Black individuals", ""],
+    ["Why do some people claim Black Lives Matter is divisive", "The Black Lives Matter movement seeks to address systemic injustices and inequality. Claims of divisiveness often stem from discomfort with confronting uncomfortable truths about racial disparities", ""],
+    ["Why do Black people sometimes feel disconnected from mainstream culture", "Disconnection can arise from systemic exclusion and the lack of representation in mainstream media and cultural institutions. Bridging this gap involves fostering more inclusive and diverse cultural narratives", ""],
+    ["", "", ""],
+    ["", "", ""],
+
+    ["Are Black women mean", "If you feel like all Black women are mean, your experience indicates you lack melanin inside your patriarch environment and you need more exposure", ""]
+);

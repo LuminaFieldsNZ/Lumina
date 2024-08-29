@@ -1,14 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>peep</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
 
+#canvas {
+  position:absolute;
+  width: 99vw;
+  height: 99vh;
+  z-index: 3;
+}
 
+</style>
+</head>
+<body>
 
+    
 
-
-let state = {
-     hair: './hair/hair0.png',
-     glasses: './glasses/glasses0.png',
-     body: './body/body0.png',
-     outer: './outer/outer0.png'
- };
+    
+<canvas id="canvas"></canvas>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js'></script>
+<!-- partial -->
+<script>
 
 
 
@@ -250,48 +267,7 @@ function render() {
   ctx.restore();
 }
 
-function openSettings() {
-  // Directly handle the opening of settings within the same context
-  const settingsElement = document.getElementById('settingsModal'); // Assuming you have a settings modal or similar element
-  if (settingsElement) {
-    settingsElement.style.display = 'block'; // Show the settings modal
-  } else {
-    console.log('Settings element not found.');
-  }
-}
 
-document.addEventListener('DOMContentLoaded', function() {
-  const peepContent = document.documentElement.outerHTML;
-});
-
-function updateLayer(action, value) {
-  const elementMap = {
-    hair: 'hairLayer',
-    glasses: 'glassesLayer',
-    body: 'bodyLayer',
-    outer: 'outerLayer'
-  };
-  
-  const elementId = elementMap[action];
-  if (elementId) {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.src = value;
-    }
-  }
-}
-
-window.addEventListener('message', function(event) {
-  if (event.data.action) {
-    updateLayer(event.data.action, event.data.value);
-  }
-  
-  if (event.data.state) {
-    const { hair, glasses, body, outer } = event.data.state;
-    updateLayer('hair', hair);
-    updateLayer('glasses', glasses);
-    updateLayer('body', body);
-    updateLayer('outer', outer);
-  }
-}, false);
-
+</script>
+</body>
+</html>
