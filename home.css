@@ -8,10 +8,12 @@
 
 .image-container {
     position: absolute;
-    width: 40px;
-    height: 40px;
-    right: 10px;
+    width: 70px;
+    height: 70px;
+    left: 290px;
+    top: 90px;
     z-index: 100000000000000000000000000000000000000000000000000000000; /* Optional: To ensure it's above other elements */
+    border-style: none;
 }
 
 
@@ -146,9 +148,21 @@ button, a {
   cursor: pointer;
 }
 
+.navbar {
+  width: 50px;
+  display: flex;
+margin-left: 5px;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--app-container);
+  transition: 0.2s;
+
+}
+
 .app-container {
   width: 100%;
   display: flex;
+  left: 60px;
   flex-direction: column;
   height: 100%;
   background-color: var(--app-container);
@@ -201,38 +215,7 @@ button, a {
   align-items: center;
 }
 
-.search-wrapper {
-  border-radius: 20px;
-  background-color: var(--search-area-bg);
-  padding-right: 12px;
-  height: 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 480px;
-  color: var(--light-font);
-  box-shadow: 0 2px 6px 0 rgba(136, 148, 171, 0.2), 0 24px 20px -24px rgba(71, 82, 107, 0.1);
-  overflow: hidden;
-}
-.dark .search-wrapper {
-  box-shadow: none;
-}
 
-.search-input {
-  border: none;
-  flex: 1;
-  outline: none;
-  height: 100%;
-  padding: 0 20px;
-  font-size: 16px;
-  background-color: var(--search-area-bg);
-  color: var(--main-color);
-}
-.search-input:placeholder {
-  color: var(--main-color);
-  opacity: 0.6;
-}
 
 .add-btn {
   color: #fff;
@@ -296,7 +279,7 @@ button, a {
 .app-sidebar-link {
   color: var(--main-color);
   color: var(--link-color);
-  margin: 16px 0;
+  margin: 6px 0;
   transition: 0.2s;
   border-radius: 50%;
   flex-shrink: 0;
@@ -412,81 +395,8 @@ button, a {
   color: var(--link-color-active);
 }
 
-.messages-section {
-  flex-shrink: 0;
-  padding-bottom: 32px;
-  background-color: var(--projects-section);
-  margin-left: 24px;
-  flex: 1;
-  width: 100%;
-  border-radius: 30px;
-  position: relative;
-  overflow: auto;
-  transition: all 300ms cubic-bezier(0.19, 1, 0.56, 1);
-}
-.messages-section .messages-close {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  z-index: 3;
-  border: none;
-  background-color: transparent;
-  color: var(--main-color);
-  display: none;
-}
-.messages-section.show {
-  transform: translateX(0);
-  opacity: 1;
-  margin-left: 0;
-}
-.messages-section .projects-section-header {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  padding: 32px 24px 0 24px;
-  background-color: var(--projects-section);
-}
 
-.message-box {
-  border-top: 1px solid var(--message-box-border);
-  padding: 16px;
-  display: flex;
-  align-items: flex-start;
-  width: 100%;
-}
-.message-box:hover {
-  background-color: var(--message-box-hover);
-  border-top-color: var(--link-color-hover);
-}
-.message-box:hover + .message-box {
-  border-top-color: var(--link-color-hover);
-}
-.message-box img {
-  border-radius: 50%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  width: 40px;
-  height: 40px;
-}
 
-.message-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-.message-header .name {
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 700;
-  color: var(--main-color);
-  margin: 0;
-}
-
-.message-content {
-  padding-left: 16px;
-  width: 100%;
-}
 
 .star-checkbox input {
   opacity: 0;
@@ -744,20 +654,6 @@ button, a {
   fill: var(--main-color);
 }
 
-.messages-btn {
-  border-radius: 4px 0 0 4px;
-  position: absolute;
-  right: 0;
-  bottom: 48px;
-  background-color: var(--message-btn);
-  border: none;
-  color: var(--main-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 4px;
-  display: none;
-}
 
 @media screen and (max-width: 980px) {
   .project-boxes.jsGridView .project-box-wrapper {
@@ -776,28 +672,8 @@ button, a {
   .item-status {
     margin-right: 0;
   }
-}@media screen and (max-width: 880px) {
-  .messages-section {
-    display: none; /* Initially set to none */
-    position: absolute;
-    opacity: 1;
-    top: 0;
-    z-index: 2;
-    right: 0;
-    height: 100%;
-    width: 83%;
-  }
-  .messages-section.active { /* Add a class to toggle display */
-    display: block;
-  }
-  .messages-section .messages-close {
-    display: block;
-  }
-
-  .messages-btn {
-    display: flex;
-  }
 }
+
 
 @media screen and (max-width: 720px) {
 
@@ -877,10 +753,6 @@ button, a {
 
   .search-input {
     font-size: 14px;
-  }
-
-  .messages-btn {
-    bottom: 48px;
   }
 
   .box-content-header {

@@ -1,7 +1,9 @@
 
 document.addEventListener('DOMContentLoaded', function () {
   setTimeout(function() {
-    document.getElementById('bookFrame5').src = 'peep.html';
+    document.getElementById('bookFrame5').src = 'peepBasic.html';
+    document.getElementById('bookFrame6').src = 'peep.html';
+    document.getElementById('bookFrame7').src = 'gifs/index.html';
     splashActive();
     document.getElementById("load1").style.color = "lightgreen";
     document.getElementById("load1").innerHTML = "Online";
@@ -39,28 +41,71 @@ function checkPasscode() {
 }
 
 
+function peepMake(){
+  document.getElementById("peeps").style.display = "block";
+  document.getElementById("schedule").style.display = "none";
+  document.getElementById("energyAudit").style.display = "none";
+  document.getElementById("splash").style.display = "none";
+  document.getElementById("settingsMain").style.display = "none";
+  document.getElementById("loader1").style.display = "none";
+  navLumi.classList.add("active");
+  navMess.classList.remove("active");
+  navHome.classList.remove("active");
+  navSchedule.classList.remove("active");
+  navAudit.classList.remove("active");
+  navSettings.classList.remove("active");
+
+}
+
+function messBot(){
+  document.getElementById('bookFrame5').src = 'peepBasic.html';
+  document.getElementById("schedule").style.display = "block";
+  document.getElementById("peeps").style.display = "none";
+  document.getElementById("energyAudit").style.display = "none";
+  document.getElementById("splash").style.display = "none";
+  document.getElementById("settingsMain").style.display = "none";
+  document.getElementById("loader1").style.display = "none";
+  navMess.classList.add("active");
+  navLumi.classList.remove("active");
+  navHome.classList.remove("active");
+  navSchedule.classList.remove("active");
+  navAudit.classList.remove("active");
+  navSettings.classList.remove("active");
+
+}
+
 
 
 function energyAuditActive(){
   document.getElementById("energyAudit").style.display = "block";
+  navLumi.classList.remove("active");
+  document.getElementById("peeps").style.display = "none";
   document.getElementById("splash").style.display = "none";
   document.getElementById("settingsMain").style.display = "none";
   document.getElementById("loader1").style.display = "none";
   document.getElementById("schedule").style.display = "none";
+  document.getElementById("hugs").style.display = "none";
+
   navAudit.classList.add("active");
   navHome.classList.remove("active");
+  navMess.classList.remove("active");
   navSchedule.classList.remove("active");
   navSettings.classList.remove("active");
 }
 
 function scheduleActive(){
-  document.getElementById("schedule").style.display = "block";
+  document.getElementById("hugs").style.display = "block";
+  document.getElementById("schedule").style.display = "none";
+  document.getElementById("peeps").style.display = "none";
   document.getElementById("energyAudit").style.display = "none";
   document.getElementById("splash").style.display = "none";
   document.getElementById("settingsMain").style.display = "none";
   document.getElementById("loader1").style.display = "none";
+
   navHome.classList.remove("active");
   navSchedule.classList.add("active");
+  navLumi.classList.remove("active");
+  navMess.classList.remove("active");
   navAudit.classList.remove("active");
   navSettings.classList.remove("active");
 }
@@ -68,10 +113,15 @@ function scheduleActive(){
 function splashActive(){
   document.getElementById("energyAudit").style.display = "none";
   document.getElementById("splash").style.display = "block";
+  navLumi.classList.remove("active");
+  document.getElementById("peeps").style.display = "none";
   document.getElementById("settingsMain").style.display = "none";
   document.getElementById("schedule").style.display = "none";
   document.getElementById("loader1").style.display = "none";
+  document.getElementById("hugs").style.display = "none";
+
   navHome.classList.add("active");
+  navMess.classList.remove("active");
   navAudit.classList.remove("active");
   navSchedule.classList.remove("active");
   navSettings.classList.remove("active");
@@ -80,12 +130,17 @@ function splashActive(){
 function settingsActive(){
   document.getElementById("energyAudit").style.display = "none";
   document.getElementById("splash").style.display = "none";
+  navLumi.classList.remove("active");
+  document.getElementById("peeps").style.display = "none";
   document.getElementById("settingsMain").style.display = "block";
   document.getElementById("schedule").style.display = "none";
   document.getElementById("loader1").style.display = "none";
+  document.getElementById("hugs").style.display = "none";
+
   navSettings.classList.add("active");
   navHome.classList.remove("active");
   navAudit.classList.remove("active");
+  navMess.classList.remove("active");
   navSchedule.classList.remove("active");
 }
 
