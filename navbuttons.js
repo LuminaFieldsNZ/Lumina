@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
   setTimeout(function() {
     document.getElementById('bookFrame5').src = 'peepBasic.html';
     document.getElementById('bookFrame6').src = 'peep.html';
-    document.getElementById('bookFrame7').src = 'gifs/index.html';
+    document.getElementById('bookFrame7').src = 'icons/index.html';
     splashActive();
     document.getElementById("load1").style.color = "lightgreen";
     document.getElementById("load1").innerHTML = "Online";
@@ -94,6 +94,7 @@ function energyAuditActive(){
 }
 
 function scheduleActive(){
+  document.getElementById('bookFrame7').src = 'icons/index.html';
   document.getElementById("hugs").style.display = "block";
   document.getElementById("schedule").style.display = "none";
   document.getElementById("peeps").style.display = "none";
