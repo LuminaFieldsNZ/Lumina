@@ -1,26 +1,26 @@
 // Global variables for populations and mainHeading
  populations = {
-    progressive: 0,
-    socialist: 1,
-    idealist: 0,
-    globalist: 0,
-    conservative: 0,
-    economist: 0,
-    realist: 0,
-    nationalist: 0,
-    populist: 0
+    progressive: 100,
+    socialist: 100,
+    idealist: 10,
+    globalist: 10,
+    conservative: 10,
+    economist: 10,
+    realist: 10,
+    nationalist: 10,
+    populist: 100
 };
 
  mainHeading = {
     explorer: 1,
-    voyager: 0,
-    captain: 0,
-    merchant: 0,
-    shipwright: 0,
-    fisherman: 0,
-    smuggler: 0,
-    arbiter: 0,
-    sailor: 0
+    voyager: 1,
+    captain: 1,
+    merchant: 1,
+    shipwright: 1,
+    fisherman: 1,
+    smuggler: 1,
+    arbiter: 1,
+    sailor: 1
 };
 
 // Update data display and percentages
@@ -47,7 +47,6 @@ function updateData(dataObj, totalElemId, avgElemId) {
     updatePercentages(avg, dataObj);
 }
 
-// Function to update percentages
 function updatePercentages(avg, dataObj) {
     if (isNaN(avg) || avg <= 0) {
         console.error('Invalid average value:', avg);
@@ -61,23 +60,32 @@ function updatePercentages(avg, dataObj) {
             continue;
         }
 
-        const percentage = avg > 0 ? (value / avg) * 100 : 0;
+        const percentage = (value / avg) * 100;
+        const roundedPercentage = Math.round(percentage);
+        
+        // Ensure the percentage is within expected bounds
+        if (percentage < 0 || percentage > 100) {
+            console.warn(`Percentage for ${key} is out of bounds: ${percentage}%`);
+            continue;
+        }
+
         const percentageElem = document.getElementById(`${key}bp`);
         if (percentageElem) {
-            percentageElem.textContent = `${Math.round(percentage)}%`;
+            percentageElem.textContent = `${roundedPercentage}%`;
         } else {
             console.warn(`Element with ID ${key + 'bp'} not found.`);
         }
 
         const progressBar = document.querySelector(`.${key}-progress`);
         if (progressBar) {
-            progressBar.style.width = `${Math.round(percentage)}%`;
-            progressBar.style.backgroundColor = getProgressBarColor(percentage);
+            progressBar.style.width = `${roundedPercentage}%`;
+            progressBar.style.backgroundColor = getProgressBarColor(roundedPercentage);
         } else {
             console.warn(`Progress bar with class ${key}-progress not found.`);
         }
     }
 }
+
 
 // Function to get progress bar color based on percentage
 function getProgressBarColor(percentage) {

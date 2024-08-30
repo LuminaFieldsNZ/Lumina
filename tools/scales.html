@@ -77,6 +77,43 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
+        .copy-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative; /* Ensure the popup is positioned relative to this button */
+        }
+
+        .copy-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Popup style */
+        .popup {
+            position: absolute;
+            bottom: 100%; /* Position above the button */
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px) rotate(-5deg); /* Center and angle the popup */
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            white-space: nowrap;
+            z-index: 1000; /* Ensure it's above other content */
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .popup.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-20px) rotate(-5deg); /* Slight upward movement */
+        }
     </style>
 </head>
 <body>
@@ -109,6 +146,11 @@
         </div>
     </div>
 
+    <button class="copy-button" onclick="copyText()">
+        Copy Prompt
+        <div class="popup" id="popup">Copied!</div>
+    </button>
+
     <div class="slider-container">
         <div id="slider-description" class="slider-description">Use the slider to determine the position on the spectrum:</div>
         <input type="range" min="1" max="5" value="3" id="spectrum-slider">
@@ -133,6 +175,44 @@
         slider.oninput = function() {
             output.textContent = Object.keys(descriptionMap)[this.value - 1];
             descriptionText.textContent = descriptionMap[this.value];
+        }
+
+        function copyText() {
+            const text = `
+                Using the misandry-misogyny spectrum defined as ranging from 'Extreme Misandry' to 'Extreme Misogyny,' analyze the provided conversation. Evaluate the language, tone, context, and intention to determine its position on the spectrum. Specifically:
+
+                Language and Tone
+                Identify any hostile, generalizing, or harmful language. What does the choice of words suggest about the underlying attitudes toward men or women?
+
+                Contextual Indicators
+                Consider the broader context of the conversation. Are historical or political references being used to justify bias? What is the primary target of criticism, and how is it framed?
+
+                Intention and Impact
+                Assess the conversation's purpose and potential impact. Is it intended to provoke, educate, or harm? How might different audiences react to this conversation?
+
+                Based on these criteria, place the conversation on the spectrum from 1 (Extreme Misandry) to 5 (Extreme Misogyny) and provide a brief rationale for your decision. Reference specific language, tone, and context elements that informed your analysis.
+            `;
+            
+            // Create a temporary textarea to copy the text from
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = text;
+            document.body.appendChild(tempTextArea);
+            
+            // Select and copy the text
+            tempTextArea.select();
+            document.execCommand('copy');
+            
+            // Remove the temporary textarea
+            document.body.removeChild(tempTextArea);
+            
+            // Show the popup
+            const popup = document.getElementById('popup');
+            popup.classList.add('show');
+            
+            // Hide the popup after 1 second
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 1000);
         }
     </script>
 

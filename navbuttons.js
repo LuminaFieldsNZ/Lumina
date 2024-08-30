@@ -5,8 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('bookFrame6').src = 'peep.html';
     document.getElementById('bookFrame7').src = 'icons/index.html';
     splashActive();
-    document.getElementById("load1").style.color = "lightgreen";
-    document.getElementById("load1").innerHTML = "Online";
   }, 3210); // 5000 milliseconds = 5 seconds
 });
 

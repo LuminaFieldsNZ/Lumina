@@ -794,26 +794,40 @@ margin-left: 5px;
 }
 
 
-      .open-modal {
-         text-align: center;
-         display: block;
-        border: 2px solid black;
-        background: transparent;
-color: var(--main-color);
-        text-transform: uppercase;
-        letter-spacing: 4px;
-        font-size: 14px;
-        padding: .5em 1em;
-        font-weight: bold;
-        -webkit-transition: background 0.3s;
-        transition: background 0.3s;
-        animation: pulse 8s infinite;
+/* Container for the buttons */
+.button-container {
+  display: flex;
+  justify-content: flex-start; /* Aligns buttons to the right */
+  flex-wrap: wrap; /* Allows wrapping if buttons exceed container width */
+  gap: 10px; /* Adds 10px margin between buttons */
+  margin-top: 10px; /* Optional: Adds margin above the button container */
+}
 
-      }
+/* Style for individual buttons */
+.open-modal {
+  text-align: center;
+  border: 2px solid black;
+  background: transparent;
+  color: var(--main-color);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 14px;
+  padding: .5em 1em;
+  font-weight: bold;
+  -webkit-transition: background 0.3s;
+  transition: background 0.3s;
+  animation: pulse 8s infinite;
+  margin-right: 10px; /* Adds 10px margin on the right side */
+}
 
-      .open-modal:hover {
-        background: #D95952;
-      }
+/* Removes right margin on the first button */
+.button-container .open-modal:first-of-type {
+  margin-right: 0;
+}
+
+.open-modal:hover {
+  background: #D95952;
+}
 
 
       @keyframes pulse {
