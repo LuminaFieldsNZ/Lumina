@@ -162,8 +162,9 @@ function sendMessage() {
     const detectedFallacies = checkForFallacies(tokens);
     if (detectedFallacies.length > 0) {
         alert ("found");
-        let fallacyMessages = detectedFallacies.map(f => `${f.fallacy}:${f.description} ex. ${f.name}: "${f.example}"`).join('<br>');
-        chatWindow.innerHTML += `<p>Faxium: Possible fallacies detected: <br>${fallacyMessages}</p>`;
+        let fallacyMessages = detectedFallacies.map(f => `${f.fallacy}:<br>${f.description} ex. "${f.example}"`).join('<br>');
+        let fallacyName = detectedFallacies.map(f => `${f.name}`).join('');
+        chatWindow.innerHTML += `<p>${fallacyName}: Possible fallacies detected: <br>${fallacyMessages}</p>`;
         scrollToBottom();
     }
 
@@ -559,5 +560,5 @@ function sendFaxiumMessage(message, sender) {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    chatWindow.innerHTML += 'Place Holder';
+    chatWindow.innerHTML += '<font style="font-size: 12px;">v3.1 copyright 2024</font>';
     });
