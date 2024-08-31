@@ -16,41 +16,21 @@ body {
   background-color: #f8f8f9;
 }
 
-.checkbox-group {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px; /* Space between items */
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 600px;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
 
 #checkbox-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* Space between items */
   justify-content: center;
 }
 
 .checkbox-tile {
-  display: flex;
+  display: relative;
+  z-index: -1; /* Ensure the label is above the checkbox */
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 7rem;
-  min-height: 7rem;
-  border-radius: 0.5rem;
-  border: 2px solid #b5bfd9;
-  background-color: #fff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  transition: 0.15s ease;
-  cursor: pointer;
+  left: 70px;
+  top: 301px;
   position: relative;
 }
 
@@ -64,6 +44,7 @@ body {
 
 .checkbox-group > * {
   margin: 0;
+
 }
 
 .checkbox-group-legend {
@@ -76,96 +57,64 @@ body {
 }
 
 .checkbox-input {
-  clip: rect(0 0 0 0);
-  -webkit-clip-path: inset(100%);
-          clip-path: inset(100%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-}
 
-.checkbox-input:checked + .checkbox-tile {
-  border-color: #2260ff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  color: #2260ff;
-}
-
-.checkbox-input:checked + .checkbox-tile:before {
-  transform: scale(1);
-  opacity: 1;
-  background-color: #2260ff;
-  border-color: #2260ff;
-}
-
-.checkbox-input:checked + .checkbox-tile .checkbox-icon, 
-.checkbox-input:checked + .checkbox-tile .checkbox-label {
-  color: #2260ff;
-}
-
-.checkbox-input:focus + .checkbox-tile {
-  border-color: #2260ff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), 0 0 0 4px #b5c9fc;
-}
-
-.checkbox-input:focus + .checkbox-tile:before {
-  transform: scale(1);
-  opacity: 1;
+  display: none;
 }
 
 
-.checkbox-tile:before {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 1.25rem;
-  height: 1.25rem;
-  border: 2px solid #b5bfd9;
-  background-color: #fff;
-  border-radius: 50%;
-  top: 0.25rem;
-  left: 0.25rem;
-  opacity: 0;
-  transform: scale(0);
-  transition: 0.25s ease;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='192' fill='%23FFFFFF' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' fill='none'%3E%3C/rect%3E%3Cpolyline points='216 72.005 104 184 48 128.005' fill='none' stroke='%23FFFFFF' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'%3E%3C/polyline%3E%3C/svg%3E");
-  background-size: 12px;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-}
-
-.checkbox-tile:hover {
-  border-color: #2260ff;
-}
-
-.checkbox-tile:hover:before {
-  transform: scale(1);
-  opacity: 1;
-}
-
-.checkbox-icon {
-  transition: 0.375s ease;
-  color: #494949;
-}
-
-.checkbox-icon svg {
-  width: 3rem;
-  height: 3rem;
-}
 
 .checkbox-label {
-  color: #707070;
-  transition: 0.375s ease;
+  position: relative; /* Changed from display: relative */
+  z-index: 99999; /* Ensure this element is on top */
   text-align: center;
+  border: 2px solid black;
+  background: transparent;
+  color: black;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 14px;
+  padding: .5em 1em;
+  font-weight: bold;
+  -webkit-transition: background 0.3s;
+  transition: background 0.3s;
+  animation: pulse 8s infinite;
+  margin-right: 10px; /* Adds 10px margin on the right side */
 }
 
+.checkbox-label:hover {
+  background: #D95952; /* Hover state background color */
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  40% {
+    opacity: 0.8;
+    box-shadow: 0px 0px 5px 0px white;
+  }
+
+  60% {
+    opacity: 0.7;
+    box-shadow: 0px 0px 5px 0px white;
+  }
+
+  100% {
+    opacity: 1;
+    box-shadow: none;
+  }
+}
+
+
 .checkbox-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: auto; /* Allow width to be determined by content and flex settings */
-  margin: 0;
+  position: relative; /* Required for z-index to work */
+  display: none;
+  width: 250px; /* Adjust size as needed */
+  height: 250px; /* Adjust size as needed */
+  background-size: cover; /* Ensure background image scales properly */
+  
+  /* Other styling as needed */
 }
 
 
@@ -174,4 +123,9 @@ body {
   .checkbox-group {
     flex-direction: row;
   }
+}
+
+
+.scale-up-50 {
+  transform: scale(2);
 }

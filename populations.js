@@ -23,7 +23,6 @@
     sailor: 1
 };
 
-// Update data display and percentages
 function updateData(dataObj, totalElemId, avgElemId) {
     let total = 0;
 
@@ -38,18 +37,17 @@ function updateData(dataObj, totalElemId, avgElemId) {
         }
     }
 
-  
     // Calculate and update average
     const avg = Object.keys(dataObj).length ? total / Object.keys(dataObj).length : 0;
-   document.getElementById('mainHeadingAverage').innerHTML = Math.round(avg);
 
-    // Update percentages
-    updatePercentages(avg, dataObj);
+    // Update percentages based on total
+    updatePercentages(total, dataObj);
 }
 
-function updatePercentages(avg, dataObj) {
-    if (isNaN(avg) || avg <= 0) {
-        console.error('Invalid average value:', avg);
+
+function updatePercentages(total, dataObj) {
+    if (total <= 0) {
+        console.error('Total value is 0 or less:', total);
         return;
     }
 
@@ -60,9 +58,9 @@ function updatePercentages(avg, dataObj) {
             continue;
         }
 
-        const percentage = (value / avg) * 100;
+        const percentage = (value / total) * 100;
         const roundedPercentage = Math.round(percentage);
-        
+
         // Ensure the percentage is within expected bounds
         if (percentage < 0 || percentage > 100) {
             console.warn(`Percentage for ${key} is out of bounds: ${percentage}%`);
@@ -85,6 +83,7 @@ function updatePercentages(avg, dataObj) {
         }
     }
 }
+
 
 
 // Function to get progress bar color based on percentage
@@ -156,6 +155,7 @@ function updateProgressBars(populations) {
         console.warn('Total population is 0 or less.');
     }
 }
+
 
 
 function updateDataFromJSONEditor() {

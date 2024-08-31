@@ -1,26 +1,16 @@
 
 document.addEventListener('DOMContentLoaded', function () {
-  setTimeout(function() {
-    document.getElementById('bookFrame5').src = 'peepBasic.html';
-    document.getElementById('bookFrame6').src = 'peep.html';
-    document.getElementById('bookFrame7').src = 'icons/index.html';
-    splashActive();
-  }, 3210); // 5000 milliseconds = 5 seconds
+  splashActive();
+  document.getElementById('bookFrame5').src = 'peepBasic.html';
+  document.getElementById('bookFrame6').src = 'peep.html';
+  document.getElementById('bookFrame7').src = 'icons/index.html';
 });
 
 
 
-window.addEventListener('message', function(event) {
-  const data = event.data;
-  if (data.section) {eval(data.section);}
-  if (event.data.action === 'openSettings') {
-      settingsActive();
-  }
-  if (event.data.action === 'openHome') {
-      splashActive();
-  }
-});
-
+const bookFrame1 = document.getElementById('bookFrame1');
+bookFrame1.src = 'splash/index.html';
+ 
 
 
 function checkPasscode() {
@@ -45,7 +35,6 @@ function peepMake(){
   document.getElementById("energyAudit").style.display = "none";
   document.getElementById("splash").style.display = "none";
   document.getElementById("settingsMain").style.display = "none";
-  document.getElementById("loader1").style.display = "none";
   navLumi.classList.add("active");
   navMess.classList.remove("active");
   navHome.classList.remove("active");
@@ -62,7 +51,6 @@ function messBot(){
   document.getElementById("energyAudit").style.display = "none";
   document.getElementById("splash").style.display = "none";
   document.getElementById("settingsMain").style.display = "none";
-  document.getElementById("loader1").style.display = "none";
   navMess.classList.add("active");
   navLumi.classList.remove("active");
   navHome.classList.remove("active");
@@ -80,7 +68,6 @@ function energyAuditActive(){
   document.getElementById("peeps").style.display = "none";
   document.getElementById("splash").style.display = "none";
   document.getElementById("settingsMain").style.display = "none";
-  document.getElementById("loader1").style.display = "none";
   document.getElementById("schedule").style.display = "none";
   document.getElementById("hugs").style.display = "none";
 
@@ -99,7 +86,6 @@ function scheduleActive(){
   document.getElementById("energyAudit").style.display = "none";
   document.getElementById("splash").style.display = "none";
   document.getElementById("settingsMain").style.display = "none";
-  document.getElementById("loader1").style.display = "none";
 
   navHome.classList.remove("active");
   navSchedule.classList.add("active");
@@ -116,7 +102,6 @@ function splashActive(){
   document.getElementById("peeps").style.display = "none";
   document.getElementById("settingsMain").style.display = "none";
   document.getElementById("schedule").style.display = "none";
-  document.getElementById("loader1").style.display = "none";
   document.getElementById("hugs").style.display = "none";
 
   navHome.classList.add("active");
@@ -133,7 +118,6 @@ function settingsActive(){
   document.getElementById("peeps").style.display = "none";
   document.getElementById("settingsMain").style.display = "block";
   document.getElementById("schedule").style.display = "none";
-  document.getElementById("loader1").style.display = "none";
   document.getElementById("hugs").style.display = "none";
 
   navSettings.classList.add("active");

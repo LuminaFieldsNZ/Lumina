@@ -1,0 +1,249 @@
+@import url("https://fonts.googleapis.com/css2?family=Kalam:wght@400&display=swap");
+:root {
+	--adjust-size: 0px; 
+}
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+
+main {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 99vw;
+	height: 99vh;
+	overflow-x: scroll;
+}
+p {
+	line-height: 1;
+}
+a {
+	color: crimson;
+	text-decoration: none;
+}
+img {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	pointer-events: none;
+}
+#gallery {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Adjusted for minimum width */
+    gap: 20px; /* Gap between items */
+    max-width: 100vw; /* Ensure the gallery does not exceed viewport width */
+    padding: 20px; /* Padding around the gallery */
+    box-sizing: border-box; /* Include padding in the width calculation */
+}
+#gallery figure:nth-child(7n) {
+	--duration: 1s;
+	--pin-color: crimson;
+}
+#gallery figure:nth-child(7n + 1) {
+	--duration: 1.8s;
+	--pin-color: hotpink;
+}
+#gallery figure:nth-child(7n + 2) {
+	--duration: 1.3s;
+	--pin-color: magenta;
+}
+#gallery figure:nth-child(7n + 3) {
+	--duration: 1.5s;
+	--pin-color: orangered;
+}
+#gallery figure:nth-child(7n + 4) {
+	--duration: 1.1s;
+	--pin-color: darkorchid;
+}
+#gallery figure:nth-child(7n + 5) {
+	--duration: 1.6s;
+	--pin-color: deeppink;
+}
+#gallery figure:nth-child(7n + 6) {
+	--duration: 1.2s;
+	--pin-color: mediumvioletred;
+}
+#gallery figure:nth-child(3n) {
+	--angle: 3deg;
+}
+#gallery figure:nth-child(3n + 1) {
+	--angle: -3.3deg;
+}
+#gallery figure:nth-child(3n + 2) {
+	--angle: 2.4deg;
+}
+#gallery figure:nth-child(odd) {
+	--direction: alternate;
+}
+#gallery figure:nth-child(even) {
+	--direction: alternate-reverse;
+}
+#gallery figure {
+    --angle: 3deg;
+    --count: 5;
+    --duration: 1s;
+    --delay: calc(-0.5 * var(--duration));
+    --direction: alternate;
+    --pin-color: red;
+
+    position: relative;
+    margin: 0; /* Remove margin to avoid double spacing */
+    padding: 0.5rem;
+    border-radius: 5px;
+    box-shadow: 0 7px 8px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    min-width: 300px;
+    height: 500px;
+    text-align: center;
+    background-color: ghostwhite;
+    background-image: url("https://images.unsplash.com/photo-1629968417850-3505f5180761?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTMzMjQ3ODJ8&ixlib=rb-4.0.3&q=80&w=500");
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+
+    transform-origin: center 0.22rem;
+    will-change: transform;
+    break-inside: avoid;
+    outline: 1px solid transparent;
+}
+
+#gallery.active figure {
+	animation-duration: var(--duration), 1.5s;
+	animation-delay: var(--delay),
+		calc(var(--delay) + var(--duration) * var(--count));
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: var(--count), 1;
+	animation-direction: var(--direction), normal;
+	animation-fill-mode: both;
+	animation-name: swing, swingEnd;
+}
+#gallery figure:after {
+	position: absolute;
+	top: 0.22rem;
+	left: 50%;
+	width: 0.7rem;
+	height: 0.7rem;
+	content: "";
+	background: var(--pin-color);
+	border-radius: 50%;
+	box-shadow: -0.5rem -0.5rem 0.9rem 0.1rem rgba(0, 0, 0, 0.5) inset;
+	filter: drop-shadow(0.3rem 0.15rem 0.2rem rgba(0, 0, 0, 0.5));
+	transform: translateZ(0);
+	z-index: 2;
+}
+figure img {
+	aspect-ratio: 1 /1;
+	width: 100%;
+	object-fit: cover;
+	display: block;
+	border-radius: 9px;
+	margin-bottom: 10px;
+	z-index: 1;
+}
+figure figcaption {
+	font-size: 14px;
+	font-weight: 400;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	z-index: 1;
+}
+figure h2 {
+	color: crimson;
+	font-size: 22px;
+}
+figure p {
+	font-size: 17px;
+}
+figure small {
+	font-size: 12px;
+}
+figure > div {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+@keyframes swing {
+	0% {
+		transform: rotate3d(0, 0, 1, calc(-1 * var(--angle)));
+	}
+	100% {
+		transform: rotate3d(0, 0, 1, var(--angle));
+	}
+}
+@keyframes swingEnd {
+	to {
+		transform: rotate3d(0, 0, 1, 0deg);
+	}
+}
+
+#info {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 1;
+}
+
+#info a {
+	font-size: 1.1rem;
+}
+
+
+
+.open-modal {
+	text-align: center;
+	flex: 1 1 auto; /* Allows buttons to grow and shrink as needed */
+   border: 2px solid black;
+   background: transparent;
+color: black;
+   text-transform: uppercase;
+   letter-spacing: 2px;
+   font-size: 10px;
+   padding: .2em .3em;
+   margin-right: .12em;
+ }
+
+ .open-modal:hover {
+   background: #D95952;
+ }
+
+ .header {
+	display: flex;
+	flex-wrap: wrap; /* Allows buttons to wrap onto the next line if needed */
+	gap: 10px; /* Optional: Adds space between buttons */
+	padding: 10px; /* Optional: Adds padding around the header */
+	box-sizing: border-box; /* Ensures padding and border are included in total width/height */
+  }
+
+.header input {
+    margin-right: 20px; /* Right margin on the input */
+}
+
+
+
+/* For Webkit browsers like Chrome, Safari */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* For Firefox */
+html {
+    scrollbar-width: none;
+    overflow: -moz-scrollbars-none;
+}
+
+/* For IE and Edge */
+body {
+    -ms-overflow-style: none;
+}

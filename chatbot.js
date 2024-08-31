@@ -161,7 +161,6 @@ function sendMessage() {
     // Check for fallacies in the user message
     const detectedFallacies = checkForFallacies(tokens);
     if (detectedFallacies.length > 0) {
-        alert ("found");
         let fallacyMessages = detectedFallacies.map(f => `${f.fallacy}:<br>${f.description} ex. "${f.example}"`).join('<br>');
         let fallacyName = detectedFallacies.map(f => `${f.name}`).join('');
         chatWindow.innerHTML += `<p>${fallacyName}: Possible fallacies detected: <br>${fallacyMessages}</p>`;
@@ -281,10 +280,6 @@ function detectPattern(tokens, fallacyType) {
     }
 
     const text = tokens.join(' ');
-    console.log(`Checking for fallacy type: ${fallacyType}`);
-    console.log(`Tokens: ${tokens}`);
-    console.log(`Text: ${text}`);
-    console.log(`Pattern: ${pattern}`);
 
     return pattern.test(text);
 }
@@ -394,7 +389,7 @@ function isValidDataFormat(data) {
 function postMessageToAllFrames(win, message) {
     // Iterate through all iframes in the current window/frame and post the message recursively
     for (let i = 0; i < win.frames.length; i++) {
-        win.frames[i].postMessage(message, 'https://luminafields.com/');
+        win.frames[i].postMessage(message, '*');
         postMessageToAllFrames(win.frames[i], message); // Recursive call for nested iframes
     }
 }
@@ -435,7 +430,7 @@ function importBaseDataSet(event) {
                 // Update UI elements
                 updateCharacterFromState(); // Update character appearance based on the state
                 updateJSONDisplay(); // Update the JSON editor with the latest data
-                parent.postMessage({ action: 'openHome', value: 'openHome' }, 'https://luminafields.com/');
+                parent.postMessage({ action: 'openHome', value: 'openHome' }, '*');
                 document.getElementById('loginPlace').style.display = 'none';
                 chatWindow.innerHTML += '<font style="color:lightgreen;">' + userId + ' is logged in.</font><br>';
 
@@ -460,7 +455,7 @@ function scrollToBottom() {
   function postMessageToParent(value, category) {
     const message = {};
     message[category] = value;
-    window.parent.postMessage(message, 'https://luminafields.com/');
+    window.parent.postMessage(message, '*');
   }
 
 
