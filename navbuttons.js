@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 const bookFrame1 = document.getElementById('bookFrame1');
-bookFrame1.src = 'splash/index.html';
+bookFrame1.src = 'peep2.html';
  
 
 
