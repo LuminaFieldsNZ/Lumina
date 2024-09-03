@@ -1,0 +1,108 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+        "mindar-face-three":"https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-face-three.prod.js"
+      }
+    }
+    </script>
+    <script type="module">
+      import * as THREE from 'three';
+      import { MindARThree } from 'mindar-face-three';
+
+      const mindarThree = new MindARThree({
+        container: document.querySelector("#container"),
+      });
+
+      const { renderer, scene, camera } = mindarThree;
+
+      // Set the background color of the scene to white
+      scene.background = new THREE.Color(0xffffff);
+
+      const light = new THREE.HemisphereLight(0xffffff, 0xaaaaaa, 1);
+      scene.add(light);
+
+      const faceMesh = mindarThree.addFaceMesh();
+      const textureUrls = [
+        'https://luminafieldsnz.github.io/Lumina/face0.png',
+        'https://luminafieldsnz.github.io/Lumina/faceblack.png',
+        'https://luminafieldsnz.github.io/Lumina/facered.png',
+        'https://luminafieldsnz.github.io/Lumina/facegreen.png'
+      ];
+      let currentTextureIndex = 0;
+
+      const loadTexture = (url) => {
+        const textureLoader = new THREE.TextureLoader();
+        return new Promise((resolve) => {
+          textureLoader.load(url, resolve);
+        });
+      };
+
+      const updateTexture = async () => {
+  const texture = await loadTexture(textureUrls[currentTextureIndex]);
+  faceMesh.material.map = texture;
+  faceMesh.material.needsUpdate = true;
+
+  // Make the face mesh background transparent
+  faceMesh.material.transparent = true;
+  faceMesh.material.opacity = 1;  // Fully opaque texture
+  faceMesh.material.blending = THREE.NormalBlending;  // Ensures correct blending
+};
+
+      const changeTexture = () => {
+        currentTextureIndex = (currentTextureIndex + 1) % textureUrls.length;
+        updateTexture();
+      };
+
+      // Set initial texture
+      updateTexture();
+
+      scene.add(faceMesh);
+
+      const start = async() => {
+        await mindarThree.start();
+        renderer.setAnimationLoop(() => {
+          renderer.render(scene, camera);
+        });
+      }
+
+      start();
+
+      // Add button for changing texture
+      document.getElementById('changeTextureButton').addEventListener('click', changeTexture);
+    </script>
+    <style>
+      body {
+        margin: 0;
+      }
+      #container {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+      }
+      #changeTextureButton {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <button style="z-index: 999;" id="changeTextureButton">Change Texture</button>
+
+    <div id="container">
+    </div>
+  </body>
+</html>
