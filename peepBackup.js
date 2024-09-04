@@ -347,9 +347,9 @@ function doubleSpeed() {
 }
 
 function spawnCrowd() {
-  const numPeeps = 12;
-  const numFromLeft = 6;
-  const numFromRight = 6;
+  const numPeeps = 20;
+  const numFromLeft = 10;
+  const numFromRight = 10;
   const spawnHeight = stage.height * 0.3; // Bottom 30% of screen height
   const offScreenBuffer = 50; // Buffer space off-screen to start and end
 
@@ -371,15 +371,15 @@ function spawnCrowd() {
     peep.walk = gsap.timeline({ repeat: -1 });
     if (isFromLeft) {
       peep.walk
-        .to(peep, { x: stage.width + offScreenBuffer, duration: 6, ease: 'none' }) // Walk to the end
+        .to(peep, { x: stage.width + offScreenBuffer, duration: 3, ease: 'none' }) // Walk to the end
         .call(() => peep.scaleX = -1) // Flip horizontally
-        .to(peep, { x: -peep.width - offScreenBuffer, duration: 6, ease: 'none' }) // Walk back to the start
+        .to(peep, { x: -peep.width - offScreenBuffer, duration: 3, ease: 'none' }) // Walk back to the start
         .call(() => peep.scaleX = 1); // Flip back to normal
     } else {
       peep.walk
-        .to(peep, { x: -peep.width - offScreenBuffer, duration: 6, ease: 'none' }) // Walk to the end
+        .to(peep, { x: -peep.width - offScreenBuffer, duration: 3, ease: 'none' }) // Walk to the end
         .call(() => peep.scaleX = 1) // Flip horizontally
-        .to(peep, { x: stage.width + offScreenBuffer, duration: 6, ease: 'none' }) // Walk back to the start
+        .to(peep, { x: stage.width + offScreenBuffer, duration: 3, ease: 'none' }) // Walk back to the start
         .call(() => peep.scaleX = -1); // Flip back to normal
     }
 
@@ -391,11 +391,11 @@ function spawnCrowd() {
   }
 
   for (let i = 0; i < numFromLeft; i++) {
-    setTimeout(() => spawnPeep(true), randomRange(0, 3000)); // Stagger entry times over 1 second for peeps from the left
+    setTimeout(() => spawnPeep(true), randomRange(0, 1000)); // Stagger entry times over 1 second for peeps from the left
   }
 
   for (let i = 0; i < numFromRight; i++) {
-    setTimeout(() => spawnPeep(false), randomRange(0, 3000)); // Stagger entry times over 1 second for peeps from the right
+    setTimeout(() => spawnPeep(false), randomRange(0, 1000)); // Stagger entry times over 1 second for peeps from the right
   }
 }
 
