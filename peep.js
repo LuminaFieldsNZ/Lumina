@@ -30,8 +30,8 @@ class Peep {
     this.scaleX = 1;
     this.animation = null;
     this.bounceSize = 0;
-    this.bounceDirection = 1; // 1 for up, -1 for down
-    this.bounceSpeed = 2; // Adjust speed of bouncing
+    this.bounceDirection = 1;
+    this.bounceSpeed = 2;
     this.isBeingDragged = false;
   }
 
@@ -55,7 +55,6 @@ class Peep {
   }
 
   animateBounce() {
-    // Bounce animation logic
     this.y += this.bounceSpeed * this.bounceDirection;
     if (this.y > this.initialY + this.bounceSize || this.y < this.initialY - this.bounceSize) {
       this.bounceDirection *= -1;
@@ -64,9 +63,9 @@ class Peep {
 
   startBouncing(size) {
     this.bounceSize = size;
-    this.initialY = this.y; // Set the initial y position
+    this.initialY = this.y;
     this.bounceDirection = 1;
-    this.bounceSpeed = 2; // Adjust speed if needed
+    this.bounceSpeed = 2;
   }
 
   stopAnimation() {
@@ -77,7 +76,6 @@ class Peep {
   }
 
   startAnimation() {
-    // Example animation for flipping and moving
     const tl = gsap.timeline({ repeat: -1 });
     tl.to(this, { x: this.x + 200, duration: 8 })
       .to(this, { scaleX: -1, duration: 0 })
@@ -112,6 +110,9 @@ function init() {
   gsap.ticker.add(render);
   window.addEventListener('resize', resize);
   canvas.addEventListener('click', onCanvasClick);
+  canvas.addEventListener('touchstart', onCanvasTouchStart);
+  canvas.addEventListener('touchmove', onCanvasTouchMove);
+  canvas.addEventListener('touchend', onCanvasTouchEnd);
 }
 
 function createPeeps() {
@@ -153,7 +154,7 @@ function addPeepToCrowd(peep = removeRandomFromArray(availablePeeps)) {
   peep.stopAnimation();
   crowd.push(peep);
   crowd.sort((a, b) => a.anchorY - b.anchorY);
-  makePeepDraggable(peep); // Make sure new peep is draggable
+  makePeepDraggable(peep);
   return peep;
 }
 
@@ -161,10 +162,9 @@ function createPeep(x, y) {
   const peep = addPeepToCrowd();
   peep.x = x;
   peep.y = y;
-  activePeeps.push(peep); // Ensure new peep is added to activePeeps
+  activePeeps.push(peep);
   return peep;
 }
-
 
 function removePeepFromCrowd(peep) {
   removeItemFromArray(crowd, peep);
@@ -172,7 +172,7 @@ function removePeepFromCrowd(peep) {
 }
 
 function render() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.save();
   ctx.scale(devicePixelRatio, devicePixelRatio);
 
@@ -186,11 +186,37 @@ function render() {
   ctx.restore();
 }
 
-
-
 function onCanvasClick(event) {
-  const mouseX = event.clientX - canvas.getBoundingClientRect().left;
-  const mouseY = event.clientY - canvas.getBoundingClientRect().top;
+  handlePeepInteraction(event.clientX, event.clientY);
+}
+
+function onCanvasTouchStart(event) {
+  event.preventDefault();
+  const touch = event.touches[0];
+  handlePeepInteraction(touch.clientX, touch.clientY);
+}
+
+function onCanvasTouchMove(event) {
+  event.preventDefault();
+  const touch = event.touches[0];
+  if (currentDraggedPeep) {
+    currentDraggedPeep.x = touch.clientX - canvas.getBoundingClientRect().left - offsetX;
+    currentDraggedPeep.y = touch.clientY - canvas.getBoundingClientRect().top - offsetY;
+    render();
+  }
+}
+
+function onCanvasTouchEnd(event) {
+  event.preventDefault();
+  if (currentDraggedPeep) {
+    currentDraggedPeep.isBeingDragged = false;
+    currentDraggedPeep = null;
+  }
+}
+
+function handlePeepInteraction(x, y) {
+  const mouseX = x - canvas.getBoundingClientRect().left;
+  const mouseY = y - canvas.getBoundingClientRect().top;
 
   activePeeps.forEach(peep => {
     const rect = peep.rect;
@@ -211,27 +237,24 @@ function onCanvasClick(event) {
           peep.startAnimation();
           break;
         case 2:
-          peep.startBouncing(randomRange(20, 100)); // Adjust bounds as needed
+          peep.startBouncing(randomRange(20, 100));
           break;
         case 3:
-          peep.startBouncing(50); // Fixed bounce size
+          peep.startBouncing(50);
           break;
         case 4:
           peep.stopAnimation();
-          clickCount = 0; // Reset click count
+          clickCount = 0;
           break;
       }
     }
   });
 }
 
-
-
-let currentDraggedPeep = null; // Global variable to keep track of the currently dragged peep
+let currentDraggedPeep = null;
+let offsetX, offsetY;
 
 function makePeepDraggable(peep) {
-  let offsetX, offsetY;
-
   const onMouseMove = (e) => {
     if (currentDraggedPeep) {
       currentDraggedPeep.x = e.clientX - canvas.getBoundingClientRect().left - offsetX;
@@ -243,7 +266,7 @@ function makePeepDraggable(peep) {
   const onMouseUp = () => {
     if (currentDraggedPeep) {
       currentDraggedPeep.isBeingDragged = false;
-      currentDraggedPeep = null; // Clear the current dragged peep
+      currentDraggedPeep = null;
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     }
@@ -253,8 +276,8 @@ function makePeepDraggable(peep) {
     const rect = peep.rect;
     if (e.clientX >= peep.x && e.clientX <= peep.x + rect[2] &&
         e.clientY >= peep.y && e.clientY <= peep.y + rect[3]) {
-      if (currentDraggedPeep === null) { // Check if no peep is currently being dragged
-        currentDraggedPeep = peep; // Set the current dragged peep
+      if (currentDraggedPeep === null) {
+        currentDraggedPeep = peep;
         peep.isBeingDragged = true;
         offsetX = e.clientX - canvas.getBoundingClientRect().left - peep.x;
         offsetY = e.clientY - canvas.getBoundingClientRect().top - peep.y;
@@ -265,24 +288,55 @@ function makePeepDraggable(peep) {
   };
 
   canvas.addEventListener('mousedown', onMouseDown);
+
+  // Handle touch events
+  const onTouchStart = (e) => {
+    const touch = e.touches[0];
+    const touchX = touch.clientX - canvas.getBoundingClientRect().left;
+    const touchY = touch.clientY - canvas.getBoundingClientRect().top;
+
+    if (touchX >= peep.x && touchX <= peep.x + peep.rect[2] &&
+        touchY >= peep.y && touchY <= peep.y + peep.rect[3]) {
+      if (currentDraggedPeep === null) {
+        currentDraggedPeep = peep;
+        peep.isBeingDragged = true;
+        offsetX = touch.clientX - canvas.getBoundingClientRect().left - peep.x;
+        offsetY = touch.clientY - canvas.getBoundingClientRect().top - peep.y;
+        canvas.addEventListener('touchmove', onTouchMove);
+        canvas.addEventListener('touchend', onTouchEnd);
+      }
+    }
+  };
+
+  const onTouchMove = (e) => {
+    const touch = e.touches[0];
+    if (currentDraggedPeep) {
+      currentDraggedPeep.x = touch.clientX - canvas.getBoundingClientRect().left - offsetX;
+      currentDraggedPeep.y = touch.clientY - canvas.getBoundingClientRect().top - offsetY;
+      render();
+    }
+  };
+
+  const onTouchEnd = () => {
+    if (currentDraggedPeep) {
+      currentDraggedPeep.isBeingDragged = false;
+      currentDraggedPeep = null;
+      canvas.removeEventListener('touchmove', onTouchMove);
+      canvas.removeEventListener('touchend', onTouchEnd);
+    }
+  };
+
+  canvas.addEventListener('touchstart', onTouchStart);
 }
 
 // Example button click to create and make a new peep draggable
 document.getElementById('changeTextureButton').addEventListener('click', () => {
-  // Spawn a new peep in the center of the canvas
-  const x = (stage.width - 50) / 2; // Adjust based on peep size
-  const y = (stage.height - 50) / 2; // Adjust based on peep size
+  const x = (stage.width - 50) / 2;
+  const y = (stage.height - 50) / 2;
   const newPeep = createPeep(x, y);
-
-  // Add dragging functionality
   makePeepDraggable(newPeep);
-
-  // Add to active peeps
   activePeeps.push(newPeep);
 });
-
-
-const button = document.getElementById('changeTextureButton');
 
 function getRandomColor() {
   const letters = '0123456789ABCDEF';
@@ -293,47 +347,35 @@ function getRandomColor() {
   return color;
 }
 
-
-
 function add20Peeps() {
-  // Clear previous peeps
   crowd.length = 0;
   activePeeps.length = 0;
   
   for (let i = 0; i < 10; i++) {
     const peep = addPeepToCrowd();
-    peep.x = -peep.width; // Start position off-screen left
-    peep.y = randomRange(0, stage.height - peep.height); // Random y position
-
-    // Animate peep to walk in from the left
+    peep.x = -peep.width;
+    peep.y = randomRange(0, stage.height - peep.height);
     peep.walk = gsap.timeline({ repeat: -1, yoyo: true });
     peep.walk.to(peep, { x: stage.width / 2 - peep.width / 2, duration: 3 });
-    
-    // Add to active peeps
     activePeeps.push(peep);
   }
 
   for (let i = 0; i < 10; i++) {
     const peep = addPeepToCrowd();
-    peep.x = stage.width + peep.width; // Start position off-screen right
-    peep.y = randomRange(0, stage.height - peep.height); // Random y position
-
-    // Animate peep to walk in from the right
+    peep.x = stage.width + peep.width;
+    peep.y = randomRange(0, stage.height - peep.height);
     peep.walk = gsap.timeline({ repeat: -1, yoyo: true });
     peep.walk.to(peep, { x: stage.width / 2 - peep.width / 2, duration: 3 });
-
-    // Add to active peeps
     activePeeps.push(peep);
   }
 }
-
 
 function reverseDirection() {
   crowd.forEach(peep => {
     if (peep.walk) {
       const progress = peep.walk.progress();
-      peep.walk.reverse(); // Reverse the timeline
-      peep.walk.progress(1 - progress); // Keep the current position but in reverse
+      peep.walk.reverse();
+      peep.walk.progress(1 - progress);
     }
   });
 }
@@ -350,54 +392,48 @@ function spawnCrowd() {
   const numPeeps = 12;
   const numFromLeft = 6;
   const numFromRight = 6;
-  const spawnHeight = stage.height * 0.3; // Bottom 30% of screen height
-  const offScreenBuffer = 50; // Buffer space off-screen to start and end
+  const spawnHeight = stage.height * 0.3;
+  const offScreenBuffer = 50;
 
   function spawnPeep(isFromLeft) {
     const peep = addPeepToCrowd();
-    peep.y = stage.height - spawnHeight + randomRange(0, spawnHeight - peep.height); // Random y position in the bottom 30%
-    peep.startBouncing(randomRange(10, 30)); // Random bounce size
+    peep.y = stage.height - spawnHeight + randomRange(0, spawnHeight - peep.height);
+    peep.startBouncing(randomRange(10, 30));
 
-    // Initialize the peep's starting position and scale
     if (isFromLeft) {
-      peep.x = -peep.width; // Start off-screen left
-      peep.scaleX = 1; // Not flipped
+      peep.x = -peep.width;
+      peep.scaleX = 1;
     } else {
-      peep.x = stage.width; // Start off-screen right
-      peep.scaleX = -1; // Flipped horizontally
+      peep.x = stage.width;
+      peep.scaleX = -1;
     }
 
-    // Animate peep to walk across the screen and flip upon reaching the end
     peep.walk = gsap.timeline({ repeat: -1 });
     if (isFromLeft) {
       peep.walk
-        .to(peep, { x: stage.width + offScreenBuffer, duration: 6, ease: 'none' }) // Walk to the end
-        .call(() => peep.scaleX = -1) // Flip horizontally
-        .to(peep, { x: -peep.width - offScreenBuffer, duration: 6, ease: 'none' }) // Walk back to the start
-        .call(() => peep.scaleX = 1); // Flip back to normal
+        .to(peep, { x: stage.width + offScreenBuffer, duration: 6, ease: 'none' })
+        .call(() => peep.scaleX = -1)
+        .to(peep, { x: -peep.width - offScreenBuffer, duration: 6, ease: 'none' })
+        .call(() => peep.scaleX = 1);
     } else {
       peep.walk
-        .to(peep, { x: -peep.width - offScreenBuffer, duration: 6, ease: 'none' }) // Walk to the end
-        .call(() => peep.scaleX = 1) // Flip horizontally
-        .to(peep, { x: stage.width + offScreenBuffer, duration: 6, ease: 'none' }) // Walk back to the start
-        .call(() => peep.scaleX = -1); // Flip back to normal
+        .to(peep, { x: -peep.width - offScreenBuffer, duration: 6, ease: 'none' })
+        .call(() => peep.scaleX = 1)
+        .to(peep, { x: stage.width + offScreenBuffer, duration: 6, ease: 'none' })
+        .call(() => peep.scaleX = -1);
     }
 
-    // Add to active peeps
     activePeeps.push(peep);
-
-    // Make sure the peep is draggable
     makePeepDraggable(peep);
   }
 
   for (let i = 0; i < numFromLeft; i++) {
-    setTimeout(() => spawnPeep(true), randomRange(0, 3000)); // Stagger entry times over 1 second for peeps from the left
+    setTimeout(() => spawnPeep(true), randomRange(0, 3000));
   }
 
   for (let i = 0; i < numFromRight; i++) {
-    setTimeout(() => spawnPeep(false), randomRange(0, 3000)); // Stagger entry times over 1 second for peeps from the right
+    setTimeout(() => spawnPeep(false), randomRange(0, 3000));
   }
 }
 
-// Trigger the function with a button click
 document.getElementById('spawnCrowdButton').addEventListener('click', spawnCrowd);
