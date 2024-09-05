@@ -237,7 +237,7 @@ function handlePeepInteraction(x, y) {
           peep.startAnimation();
           break;
         case 2:
-          peep.startBouncing(randomRange(20, 100));
+          peep.startBouncing(randomRange(10, 30));
           break;
         case 3:
           peep.startBouncing(50);
