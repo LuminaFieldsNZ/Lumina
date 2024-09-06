@@ -126,9 +126,7 @@
   video.className = 'uploaded-media';
   video.id = uniqueId;
   video.style.position = 'absolute';
-  video.style.left = '50%';
-  video.style.top = '50%';
-  video.style.transform = 'translate(-50%, -50%) scale(0.5)'; // Center and scale the video
+  video.style.transform = 'scale(0.3)'; // Center and scale the video
 
   document.getElementById('mediaContainer').appendChild(video);
 
@@ -167,7 +165,7 @@
       }
 
       // Apply the new position
-      media.style.transform = `translate(${mediaX}px, ${mediaY}px)`;
+      media.style.transform = `translate(${mediaX}px, ${mediaY}px) scale(0.3)`;
     }
 
     function selectMedia(mediaId) {
@@ -175,9 +173,6 @@
       mediaX = 0;
       mediaY = 0;
       const media = document.getElementById(mediaId);
-      if (media) {
-        media.style.transform = 'translate(0, 0)';
-      }
     }
 
     document.addEventListener('keydown', (event) => {
