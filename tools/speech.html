@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Transcription with Word Counters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #transcription {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        #controls {
+            margin-bottom: 20px;
+        }
+        .counter {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="controls">
+        <button id="startButton">Start Listening</button>
+        <button id="stopButton" disabled>Stop Listening</button>
+    </div>
+
+    <textarea id="transcription" placeholder="Live transcription will appear here..." readonly></textarea>
+
+    <div id="counters">
+        <div class="counter">Men: <span id="countMen">0</span></div>
+        <div class="counter">Women: <span id="countWomen">0</span></div>
+        <div class="counter">Child: <span id="countChild">0</span></div>
+        <div class="counter">Kamala: <span id="countKamala">0</span></div>
+        <div class="counter">Trump: <span id="countTrump">0</span></div>
+    </div>
+
+    <script>
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const transcriptionArea = document.getElementById('transcription');
+
+        const wordCounts = {
+            Men: 0,
+            Women: 0,
+            Child: 0,
+            Kamala: 0,
+            Trump: 0
+        };
+
+        const updateCounters = () => {
+            for (const word in wordCounts) {
+                document.getElementById(`count${word}`).textContent = wordCounts[word];
+            }
+        };
+
+        let recognition;
+        if (window.SpeechRecognition || window.webkitSpeechRecognition) {
+            recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = (event) => {
+                let transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript;
+                }
+                transcriptionArea.value = transcript;
+
+                // Update word counts
+                for (const word in wordCounts) {
+                    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+                    wordCounts[word] = (transcript.match(regex) || []).length;
+                }
+                updateCounters();
+            };
+
+            recognition.onstart = () => {
+                startButton.disabled = true;
+                stopButton.disabled = false;
+            };
+
+            recognition.onend = () => {
+                startButton.disabled = false;
+                stopButton.disabled = true;
+            };
+
+            startButton.addEventListener('click', () => {
+                recognition.start();
+            });
+
+            stopButton.addEventListener('click', () => {
+                recognition.stop();
+            });
+
+        } else {
+            alert('Speech Recognition API is not supported in this browser.');
+        }
+    </script>
+
+</body>
+</html>

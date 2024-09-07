@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'list/index', label: 'TikTok', index: 0 },
         { id: 'gifs', label: 'Humor', index: 1 },
         { id: 'games', label: 'Games', index: 2 },
-        { id: 'scales', label: 'Sexism', index: 3 }
+        { id: 'scales', label: 'Sexism', index: 3 },
+        { id: 'readGLB', label: 'GLBRead', index: 4 },
+        { id: 'avatar', label: 'Avatar', index: 5 },
+        { id: 'face', label: 'Face', index: 6 }
         // Add more checkboxes here as needed
     ];
 

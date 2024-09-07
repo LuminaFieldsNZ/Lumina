@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GLB Bone Viewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/loaders/GLTFLoader.js"></script>
+  <style>
+    body { font-family: Rubik, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+    input[type="file"] { margin-bottom: 10px; }
+    textarea { width: 80%; height: 300px; margin-bottom: 10px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <input type="file" id="upload" />
+  <textarea id="bonesOutput" readonly></textarea>
+  <button id="copyButton">Copy to Clipboard</button>
+
+  <script>
+    const uploadInput = document.getElementById('upload');
+    const bonesOutput = document.getElementById('bonesOutput');
+    const copyButton = document.getElementById('copyButton');
+
+    const loader = new THREE.GLTFLoader();
+
+    uploadInput.addEventListener('change', handleFileSelect);
+    copyButton.addEventListener('click', copyToClipboard);
+
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (file && file.name.endsWith('.glb')) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          const arrayBuffer = reader.result;
+          loader.parse(arrayBuffer, '', function (gltf) {
+            const bones = extractBones(gltf.scene);
+            bonesOutput.value = bones.join('\n');
+          }, function (error) {
+            console.error('An error occurred while parsing the GLB file:', error);
+          });
+        };
+        reader.readAsArrayBuffer(file);
+      } else {
+        alert('Please upload a valid .glb file.');
+      }
+    }
+
+    function extractBones(node, bones = []) {
+      if (node.isBone) {
+        bones.push(node.name);
+      }
+      if (node.children) {
+        node.children.forEach(child => extractBones(child, bones));
+      }
+      return bones;
+    }
+
+    function copyToClipboard() {
+      bonesOutput.select();
+      document.execCommand('copy');
+      alert('Bones copied to clipboard!');
+    }
+  </script>
+</body>
+</html>

@@ -329,14 +329,6 @@ function makePeepDraggable(peep) {
   canvas.addEventListener('touchstart', onTouchStart);
 }
 
-// Example button click to create and make a new peep draggable
-document.getElementById('changeTextureButton').addEventListener('click', () => {
-  const x = (stage.width - 50) / 2;
-  const y = (stage.height - 50) / 2;
-  const newPeep = createPeep(x, y);
-  makePeepDraggable(newPeep);
-  activePeeps.push(newPeep);
-});
 
 function getRandomColor() {
   const letters = '0123456789ABCDEF';
@@ -436,4 +428,3 @@ function spawnCrowd() {
   }
 }
 
-document.getElementById('spawnCrowdButton').addEventListener('click', spawnCrowd);
