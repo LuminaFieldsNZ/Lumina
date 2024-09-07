@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Transcription with Word Counters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #transcription {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        #controls {
+            margin-bottom: 20px;
+        }
+        .counter {
+            margin-top: 10px;
+        }
+        .highlight {
+            background-color: yellow;
+        }
+        #history, #countHistory {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            height: 150px;
+            overflow-y: auto;
+        }
+        .history-item, .count-history-item {
+            margin-bottom: 10px;
+        }
+        #addWordSection {
+            margin-top: 20px;
+        }
+        /* Popup styles */
+        #fallacyDetection {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        #fallacyPopup {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        #fallacyPopup h2 {
+            margin-top: 0;
+        }
+        #closePopup {
+            cursor: pointer;
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="controls">
+        <button id="startButton">Start Listening</button>
+        <button id="stopButton" disabled>Stop Listening</button>
+    </div>
+
+    <textarea id="transcription" placeholder="Live transcription will appear here..." readonly></textarea>
+
+    <div id="counters">
+        <!-- Word counters will be dynamically added here -->
+    </div>
+
+    <div id="addWordSection">
+        <input type="text" id="newWordInput" placeholder="Enter new word">
+        <button id="addWordButton">Add Word</button>
+    </div>
+
+    <div id="history">
+        <!-- Chat history will be appended here -->
+    </div>
+
+    <div id="countHistory">
+        <!-- Historical counts will be appended here -->
+    </div>
+
+    <!-- Fallacy Detection Popup -->
+    <div id="fallacyDetection">
+        <div id="fallacyPopup">
+            <h2>Fallacy Detected</h2>
+            <p id="fallacyMessage">A logical fallacy has been detected in the speech.</p>
+            <button id="closePopup">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const transcriptionArea = document.getElementById('transcription');
+        const historyDiv = document.getElementById('history');
+        const newWordInput = document.getElementById('newWordInput');
+        const addWordButton = document.getElementById('addWordButton');
+        const countersDiv = document.getElementById('counters');
+        const countHistoryDiv = document.getElementById('countHistory');
+        const fallacyDetection = document.getElementById('fallacyDetection');
+        const fallacyMessage = document.getElementById('fallacyMessage');
+        const closePopup = document.getElementById('closePopup');
+
+        // Static array to store word counts
+        const wordData = [
+            'Men', 'Women', 'female', 'child', 'narcissist', 'narcissism', 'toxic', 'validation', 'god', 'lord', 'christ', 'bible'
+        ].map(word => ({ word: word, count: 0 }));
+
+        // Array to store historical deleted counts
+        const deletedNumbers = [];
+
+        // Example fallacies with multiple expressions
+        let fallacies = [
+            { 
+                type: "appeal to emotion",
+                expressions: [
+                    "appeal to emotion",
+                    "playing on emotions",
+                    "emotional appeal"
+                ],
+                message: "This statement seems to be an appeal to emotion."
+            },
+            { 
+                type: "strawman",
+                expressions: [
+                    "strawman",
+                    "misrepresenting argument",
+                    "distorting argument"
+                ],
+                message: "This statement seems to be a strawman argument."
+            },
+            { 
+                type: "ad hominem",
+                expressions: [
+                    "ad hominem",
+                    "personal attack",
+                    "attacking the person"
+                ],
+                message: "This statement seems to be an ad hominem attack."
+            }
+        ];
+
+        // Function to initialize counters for predefined words
+        const initializeCounters = () => {
+            wordData.forEach(entry => {
+                const counterDiv = document.createElement('div');
+                counterDiv.className = 'counter';
+                counterDiv.id = `counter${entry.word}`;
+                counterDiv.innerHTML = `${entry.word}: <span id="count${entry.word}">0</span>`;
+                countersDiv.appendChild(counterDiv);
+            });
+        };
+
+        // Function to add a new word to the static array and update the display
+        const addWord = (word) => {
+            word = word.trim();
+            if (word && !wordData.some(entry => entry.word === word)) {
+                wordData.push({ word: word, count: 0 });
+                const counterDiv = document.createElement('div');
+                counterDiv.className = 'counter';
+                counterDiv.id = `counter${word}`;
+                counterDiv.innerHTML = `${word}: <span id="count${word}">0</span>`;
+                countersDiv.appendChild(counterDiv);
+            }
+        };
+
+        // Function to update the counters on the page
+        const updateCounters = () => {
+            wordData.forEach(entry => {
+                const countElement = document.getElementById(`count${entry.word}`);
+                if (countElement) {
+                    countElement.textContent = entry.count;
+                }
+            });
+        };
+
+        // Function to update existing entry or add new entry in deletedNumbers
+        const updateDeletedNumbers = (word, count) => {
+            const existingEntry = deletedNumbers.find(entry => entry.word === word);
+            if (existingEntry) {
+                existingEntry.count += count;
+            } else {
+                deletedNumbers.push({ word: word, count: count });
+            }
+        };
+
+        // Function to record and display historical deleted counts
+        const recordDeletedCounts = () => {
+            const timestamp = new Date().toLocaleTimeString();
+            const historyItem = document.createElement('div');
+            historyItem.className = 'count-history-item';
+
+            let countsText = `${timestamp}: `;
+            deletedNumbers.forEach(entry => {
+                countsText += `${entry.word}(${entry.count}) `;
+            });
+
+            historyItem.textContent = countsText;
+            countHistoryDiv.appendChild(historyItem);
+            countHistoryDiv.scrollTop = countHistoryDiv.scrollHeight; // Auto-scroll to the bottom
+        };
+
+        // Function to update counters and record counts
+        const updateCountersAndRecord = () => {
+            updateCounters(); // Ensure counters are updated
+            recordDeletedCounts(); // Record the deleted counts
+        };
+
+        // Function to highlight words in the text
+        const highlightWords = (text) => {
+            const words = wordData.map(entry => entry.word);
+            const regex = new RegExp(`\\b(${words.join('|')})\\b`, 'gi');
+            return text.replace(regex, (match) => {
+                return `<span class="highlight">${match}</span>`;
+            });
+        };
+
+        // Function to add transcribed text to history
+        const addToHistory = (text) => {
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item';
+            historyItem.innerHTML = highlightWords(text);
+            historyDiv.appendChild(historyItem);
+            historyDiv.scrollTop = historyDiv.scrollHeight; // Auto-scroll to the bottom
+        };
+
+        // Function to check for fallacies in the text
+        const checkForFallacies = (text) => {
+            for (const fallacy of fallacies) {
+                for (const expression of fallacy.expressions) {
+                    if (text.toLowerCase().includes(expression)) {
+                        fallacyMessage.textContent = fallacy.message;
+                        showPopup();
+                        return; // Exit after detecting the first fallacy
+                    }
+                }
+            }
+        };
+
+        // Function to show the fallacy detection popup
+        const showPopup = () => {
+            fallacyDetection.style.display = 'flex';
+        };
+
+        // Function to hide the fallacy detection popup
+        const hidePopup = () => {
+            fallacyDetection.style.display = 'none';
+        };
+
+        closePopup.addEventListener('click', () => {
+            hidePopup();
+        });
+
+        addWordButton.addEventListener('click', () => {
+            const newWord = newWordInput.value;
+            if (newWord) {
+                addWord(newWord);
+                newWordInput.value = '';
+            }
+        });
+
+        let recognition;
+        if (window.SpeechRecognition || window.webkitSpeechRecognition) {
+            recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = (event) => {
+                let transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript;
+                }
+                transcriptionArea.value = transcript;
+
+                // Update chat history
+                addToHistory(transcript);
+
+                // Check for fallacies
+                checkForFallacies(transcript);
+
+                // Track deletions and updates
+                wordData.forEach(entry => {
+                    const regex = new RegExp(`\\b${entry.word}\\b`, 'gi');
+                    const matchCount = (transcript.match(regex) || []).length;
+
+                    if (entry.count > matchCount) {
+                        const deletedCount = entry.count - matchCount;
+                        updateDeletedNumbers(entry.word, deletedCount);
+                    }
+
+                    entry.count = matchCount;
+                });
+
+                updateCountersAndRecord(); // Ensure counters are updated and historical counts are recorded
+            };
+
+            recognition.onstart = () => {
+                startButton.disabled = true;
+                stopButton.disabled = false;
+            };
+
+            recognition.onend = () => {
+                startButton.disabled = false;
+                stopButton.disabled = true;
+            };
+
+            startButton.addEventListener('click', () => {
+                recognition.start();
+            });
+
+            stopButton.addEventListener('click', () => {
+                recognition.stop();
+            });
+
+        } else {
+            alert('Speech Recognition API is not supported in this browser.');
+        }
+
+        // Initialize counters for predefined words
+        initializeCounters();
+    </script>
+
+
+<script src="scripts/logic.js"></script>
+
+</body>
+</html>
