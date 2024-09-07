@@ -18,7 +18,7 @@ const additionalFallacies = [
     { 
         type: "strawman",
         expressions: [
-            "strawman",
+            "straw man",
             "misrepresenting argument",
             "distorting argument",
             "caricature of argument",

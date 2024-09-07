@@ -14,15 +14,6 @@
             height: 200px;
             margin-bottom: 20px;
         }
-        #counters {
-    height: 100px;
-    overflow: auto; /* Allow scrolling */
-    scrollbar-width: none; /* For Firefox */
-}
-
-#counters::-webkit-scrollbar {
-    display: none; /* For Chrome, Safari, and newer versions of Edge */
-}
         #controls {
             margin-bottom: 20px;
         }
@@ -32,25 +23,11 @@
         .highlight {
             background-color: yellow;
         }
-        #transcription {
+        #history, #countHistory {
             border: 1px solid #ccc;
             padding: 10px;
             margin-top: 20px;
-            height: 30px;
-            overflow-y: auto;
-        }
-        #history {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-top: 20px;
-            height: 50px;
-            overflow-y: auto;
-        }
-        #countHistory {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-top: 20px;
-            height: 250px;
+            height: 150px;
             overflow-y: auto;
         }
         .history-item, .count-history-item {
@@ -59,13 +36,37 @@
         #addWordSection {
             margin-top: 20px;
         }
-        /* New red-highlighted line style */
-        .fallacy-line {
-            background-color: red;
+        /* Popup styles */
+        #fallacyDetection {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        #fallacyPopup {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        #fallacyPopup h2 {
+            margin-top: 0;
+        }
+        #closePopup {
+            cursor: pointer;
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #007BFF;
             color: white;
-            padding: 10px;
+            border: none;
             border-radius: 5px;
-            font-weight: bold;
         }
     </style>
 </head>
@@ -95,6 +96,15 @@
         <!-- Historical counts will be appended here -->
     </div>
 
+    <!-- Fallacy Detection Popup -->
+    <div id="fallacyDetection">
+        <div id="fallacyPopup">
+            <h2>Fallacy Detected</h2>
+            <p id="fallacyMessage">A logical fallacy has been detected in the speech.</p>
+            <button id="closePopup">Close</button>
+        </div>
+    </div>
+
     <script>
         const startButton = document.getElementById('startButton');
         const stopButton = document.getElementById('stopButton');
@@ -104,6 +114,9 @@
         const addWordButton = document.getElementById('addWordButton');
         const countersDiv = document.getElementById('counters');
         const countHistoryDiv = document.getElementById('countHistory');
+        const fallacyDetection = document.getElementById('fallacyDetection');
+        const fallacyMessage = document.getElementById('fallacyMessage');
+        const closePopup = document.getElementById('closePopup');
 
         // Static array to store word counts
         const wordData = [
@@ -233,21 +246,27 @@
             for (const fallacy of fallacies) {
                 for (const expression of fallacy.expressions) {
                     if (text.toLowerCase().includes(expression)) {
-                        addFallacyLine(fallacy.message);
+                        fallacyMessage.textContent = fallacy.message;
+                        showPopup();
                         return; // Exit after detecting the first fallacy
                     }
                 }
             }
         };
 
-        // Function to add a red-highlighted line to the count history
-        const addFallacyLine = (message) => {
-            const historyItem = document.createElement('div');
-            historyItem.className = 'fallacy-line';
-            historyItem.textContent = message;
-            countHistoryDiv.appendChild(historyItem);
-            countHistoryDiv.scrollTop = countHistoryDiv.scrollHeight; // Auto-scroll to the bottom
+        // Function to show the fallacy detection popup
+        const showPopup = () => {
+            fallacyDetection.style.display = 'flex';
         };
+
+        // Function to hide the fallacy detection popup
+        const hidePopup = () => {
+            fallacyDetection.style.display = 'none';
+        };
+
+        closePopup.addEventListener('click', () => {
+            hidePopup();
+        });
 
         addWordButton.addEventListener('click', () => {
             const newWord = newWordInput.value;
@@ -318,6 +337,7 @@
         // Initialize counters for predefined words
         initializeCounters();
     </script>
+
 
 <script src="scripts/logic.js"></script>
 
