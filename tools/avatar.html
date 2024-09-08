@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix"></script>
+    <script src="https://cdn.jsdelivr.net/npm/kalidokit@latest/dist/kalidokit.min.js"></script>
     <style>
         body { margin: 0; }
         #video { display: none; }
@@ -22,9 +23,8 @@
     <div id="app"></div>
 
     <script>
-        let scene, camera, renderer, model;
+        let scene, camera, renderer, model, kalidokitAvatar;
         let clock = new THREE.Clock();
-        let spine, neck, leftEye, rightEye, leftArm, rightArm, leftHand, rightHand, leftFingers, rightFingers;
         let net;
 
         async function setupCamera() {
@@ -40,110 +40,23 @@
             detectBody();
         }
 
-        let armsActive = false;
+        async function detectBody() {
+            try {
+                const segmentation = await net.segmentPerson(document.getElementById('video'));
+                const keypoints = segmentation.allPoses[0].keypoints;
 
-async function detectBody() {
-    try {
-        const segmentation = await net.segmentPerson(document.getElementById('video'));
-        const keypoints = segmentation.allPoses[0].keypoints;
+                // Convert BodyPix keypoints to Kalidokit format
+                const kalidokitPose = kalidokit.BodyPixToKalidokitPose(keypoints);
 
-        const getKeypoint = (part) => keypoints.find(kp => kp.part === part);
+                if (kalidokitAvatar) {
+                    // Update the avatar's pose using Kalidokit
+                    kalidokitAvatar.updatePose(kalidokitPose);
+                }
 
-        // Facial keypoints
-        const nose = getKeypoint('nose');
-        const leftEyeKeypoint = getKeypoint('leftEye');
-        const rightEyeKeypoint = getKeypoint('rightEye');
-
-        if (nose && nose.score > 0.5) {
-            armsActive = true; // Face detected, activate arms
-            const { x: noseX, y: noseY } = nose.position;
-            const videoElement = document.getElementById('video');
-            const videoWidth = videoElement.videoWidth;
-            const videoHeight = videoElement.videoHeight;
-
-            const normX = (noseX - videoWidth / 2) / (videoWidth / 2);
-            const normY = (noseY - videoHeight / 2) / (videoHeight / 2);
-
-            const sensitivity = 1.0;
-            const exaggeratedX = normX * sensitivity;
-            const exaggeratedY = normY * sensitivity;
-
-            // Update head, neck, and eyes
-            if (spine) {
-                spine.rotation.x = THREE.MathUtils.clamp(exaggeratedY, -Math.PI / 8, Math.PI / 8);
-                spine.rotation.y = THREE.MathUtils.clamp(exaggeratedX, -Math.PI / 8, Math.PI / 8);
+            } catch (error) {
+                console.error('Error detecting body:', error);
             }
-            if (neck) {
-                neck.rotation.x = spine.rotation.x;
-                neck.rotation.y = spine.rotation.y;
-            }
-            if (leftEye && rightEye) {
-                leftEye.rotation.x = exaggeratedY * 0.5; 
-                leftEye.rotation.y = exaggeratedX * 0.5;
-                rightEye.rotation.x = exaggeratedY * 0.5;
-                rightEye.rotation.y = exaggeratedX * 0.5;
-            }
-        } else {
-            armsActive = false; // No face detected, deactivate arms
-        }
-
-        // Update arm positions
-        if (armsActive) {
-            if (leftShoulder && leftShoulder.score > 0.5 && leftElbow && leftWrist) {
-                updateLimbRotation(leftArm, leftShoulder, leftElbow, leftWrist);
-            }
-            if (rightShoulder && rightShoulder.score > 0.5 && rightElbow && rightWrist) {
-                updateLimbRotation(rightArm, rightShoulder, rightElbow, rightWrist);
-            }
-        } else {
-            // Rest arms at the side
-            if (leftArm && rightArm) {
-                leftArm.rotation.set(0, 0, 0); // Reset left arm position
-                rightArm.rotation.set(0, 0, 0); // Reset right arm position
-            }
-        }
-
-        // Finger movements
-        if (armsActive) {
-            if (leftIndexFinger && leftIndexFinger.score > 0.5 && leftWrist) {
-                updateFingerRotation(leftHand, leftIndexFinger, leftThumb, leftPinky);
-            }
-            if (rightIndexFinger && rightIndexFinger.score > 0.5 && rightWrist) {
-                updateFingerRotation(rightHand, rightIndexFinger, rightThumb, rightPinky);
-            }
-        }
-    } catch (error) {
-        console.error('Error detecting body:', error);
-    }
-    requestAnimationFrame(detectBody);
-}
-
-
-
-        function updateLimbRotation(arm, shoulder, elbow, wrist) {
-            const shoulderToElbowVec = new THREE.Vector3(
-                elbow.position.x - shoulder.position.x,
-                elbow.position.y - shoulder.position.y,
-                0
-            );
-            const elbowToWristVec = new THREE.Vector3(
-                wrist.position.x - elbow.position.x,
-                wrist.position.y - elbow.position.y,
-                0
-            );
-
-            arm.rotation.x = shoulderToElbowVec.angleTo(elbowToWristVec);
-        }
-
-        function updateFingerRotation(hand, indexFinger, thumb, pinky) {
-            const indexFingerVec = new THREE.Vector3(
-                indexFinger.position.x - hand.position.x,
-                indexFinger.position.y - hand.position.y,
-                0
-            );
-            hand.rotation.x = indexFingerVec.length();
-
-            // Add similar rotations for thumb and pinky
+            requestAnimationFrame(detectBody);
         }
 
         function init() {
@@ -163,20 +76,9 @@ async function detectBody() {
                 scene.add(model);
                 model.position.set(-0.5, 0, 0);
 
-                spine = model.getObjectByName('Spine');
-                neck = model.getObjectByName('Neck');
-                leftEye = model.getObjectByName('LeftEye');
-                rightEye = model.getObjectByName('RightEye');
-                leftArm = model.getObjectByName('LeftArm');
-                rightArm = model.getObjectByName('RightArm');
-                leftHand = model.getObjectByName('LeftHand');
-                rightHand = model.getObjectByName('RightHand');
-                leftFingers = model.getObjectByName('LeftFingers');
-                rightFingers = model.getObjectByName('RightFingers');
+                kalidokitAvatar = new kalidokit.ThreeAvatar(model);
 
-                if (!spine || !neck || !leftEye || !rightEye || !leftArm || !rightArm || !leftHand || !rightHand || !leftFingers || !rightFingers) {
-                    console.warn('Some bones or hands not found in the model');
-                }
+                // Optionally adjust model scale, position, etc.
             });
 
             renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -203,4 +105,3 @@ async function detectBody() {
     <script src='https://unpkg.com/gsap@3/dist/EasePack.min.js'></script>
 </body>
 </html>
-
