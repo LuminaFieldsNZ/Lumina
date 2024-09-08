@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 const bookFrame1 = document.getElementById('bookFrame1');
-bookFrame1.src = 'tools/logic.html';
+bookFrame1.src = 'model/index.html';
  
 
 
