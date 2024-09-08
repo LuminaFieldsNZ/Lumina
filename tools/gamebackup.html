@@ -232,6 +232,7 @@ a:hover {
 <!-- Move around your cursor, the puppy will look at the direction. Click or tap, and the dog will walk  -->
 
 <body>
+  <button id="add-dog-btn">Add Dog</button>
 
   <div class="wrapper">
     <!-- if you want to see the markers, remove d-none from them -->
@@ -429,7 +430,9 @@ function init() {
 
   const positionTail = (dog, frame) => { 
     setStyles({
-      target: dog.childNodes[13],
+      target: dog.childNodes[13
+
+],
       x: px(partPositions[frame].tail.x), y: px(partPositions[frame].tail.y),
     })
     dog.childNodes[13].style.zIndex = partPositions[frame].tail.z
@@ -686,29 +689,18 @@ function init() {
            rect1.top > rect2.bottom);
 }
 
-
-
-// Initialize a counter for dog numbers
-let dogCounter = 1;
+function spinDog(dog) {
+  dog.style.transition = 'transform 1s'; // Smooth transition
+  dog.style.transform = 'rotate(0deg)'; // Reset rotation
+  setTimeout(() => {
+    dog.style.transform = 'rotate(720deg)'; // Spin around twice (720 degrees)
+  }, 10); // Small delay to ensure transition is applied
+}
 
 function createDog2() {
-  // Check if the maximum number of dogs (66) has been reached
-  if (dogCounter > 66) {
-    console.log('Maximum number of dogs created.');
-    return;
-  }
-
-  // Clone the dog element and set its position
   const dog = document.querySelector('.dog').cloneNode(true);
   dog.style.top = Math.random() * (window.innerHeight - 96) + 'px'; // 96 is the height of the dog
   dog.style.left = Math.random() * (window.innerWidth - 96) + 'px'; // 96 is the width of the dog
-  
-  // Set a unique number for the new dog
-  dog.dataset.number = dogCounter;
-  
-  // Increment the counter for the next dog
-  dogCounter++;
-
   elements.wrapper.appendChild(dog);
 
   // Initialize the new dog with the same properties and behaviors as the original dog
@@ -818,13 +810,12 @@ function createDog2() {
   allDogs.forEach(otherDog => {
     if (otherDog !== dog) {
       if (detectCollision(dog, otherDog)) {
-        //spinDog(dog);
-        //spinDog(otherDog);
+        spinDog(dog);
+        spinDog(otherDog);
       }
     }
   });
 }
-
 
 // Add collision detection to all dogs
 const detectAllCollisions = () => {
@@ -832,8 +823,8 @@ const detectAllCollisions = () => {
   allDogs.forEach(dog1 => {
     allDogs.forEach(dog2 => {
       if (dog1 !== dog2 && detectCollision(dog1, dog2)) {
-        //spinDog(dog1);
-        //spinDog(dog2);
+        spinDog(dog1);
+        spinDog(dog2);
       }
     });
   });
@@ -842,11 +833,9 @@ const detectAllCollisions = () => {
 // Call this function to check collisions periodically
 setInterval(detectAllCollisions, 200); // Check collisions every 200ms
 
-for (let i = 0; i < 7; i++) {
-  createDog2();
-}
 
 
+  addDogButton.addEventListener('click', createDog2);
 }
 
 window.addEventListener('DOMContentLoaded', init);
