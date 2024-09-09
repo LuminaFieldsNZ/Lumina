@@ -51,7 +51,7 @@ const loader = new THREE.GLTFLoader();
 loader.crossOrigin = "anonymous";
 // Import model from URL, add your own model here
 loader.load(
-  "https://luminafieldsnz.github.io/Lumina/model/micheal.vrm",
+  "https://mfglife.github.io/brambletwist/papa.vrm",
 
   gltf => {
     THREE.VRMUtils.removeUnnecessaryJoints(gltf.scene);
