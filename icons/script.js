@@ -8,11 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkboxes = [
         { id: 'list/index', label: 'TikTok', index: 0 },
         { id: 'gifs', label: 'Humor', index: 1 },
-        { id: 'games', label: 'Games', index: 2 },
+        { id: 'games', label: 'Lumie', index: 2 },
         { id: 'scales', label: 'Sexism', index: 3 },
-        { id: 'readGLB', label: 'GLBRead', index: 4 },
-        { id: 'avatar', label: 'Avatar', index: 5 },
-        { id: 'face', label: 'Face', index: 6 }
+        { id: 'model/index', label: 'VRM Avatar', index: 4 },
+        { id: 'logic', label: 'Hearing', index: 5 },
+        { id: '../peepBasic', label: 'Agents', index: 6 },
+        { id: 'readGLB', label: 'GLB Reader', index: 7 },
+        { id: 'avatar', label: 'GLB Avatar', index: 8 },
+        { id: 'face', label: 'Face', index: 9 }
         // Add more checkboxes here as needed
     ];
 

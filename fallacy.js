@@ -210,7 +210,7 @@ const fallacyExamples = [
         fallacy: "Appeal to Emotion",
         examples: [
             "Think of the children; you must support this cause.",
-            "If you don't donate, you’re a heartless person who doesn't care about the needy.",
+            "If you don't donate, youre a heartless person who doesn't care about the needy.",
             "Consider how sad it would be if we didn't take action now.",
             "You should support this because it will make you feel good inside.",
             "How can you refuse to help when it would break so many hearts?"
@@ -223,7 +223,7 @@ const fallacyExamples = [
             "The law is just because it says so.",
             "You should trust this method because it's proven to work.",
             "The policy is the best because it is implemented by the best.",
-            "We need to do this because it’s necessary."
+            "We need to do this because its necessary."
         ]
     },
     {
@@ -250,7 +250,7 @@ const fallacyExamples = [
         fallacy: "Genetic Fallacy",
         examples: [
             "That idea is wrong because it comes from that group.",
-            "We shouldn't listen to his argument because he’s from that country.",
+            "We shouldn't listen to his argument because hes from that country.",
             "Her opinions are invalid because of where she was raised.",
             "The theory is flawed because it originated from an unreliable source.",
             "The product is bad because it's from that manufacturer."
@@ -272,17 +272,17 @@ const fallacyExamples = [
             "This is the way we've always done it, so it must be the best way.",
             "We should keep this tradition because it's been around for centuries.",
             "Our ancestors did it this way, so it must be the right way.",
-            "We've always followed these rules, and that’s why they’re still relevant.",
-            "This practice is important because it’s part of our heritage."
+            "We've always followed these rules, and thats why theyre still relevant.",
+            "This practice is important because its part of our heritage."
         ]
     },
     {
         fallacy: "Appeal to Ignorance",
         examples: [
             "No one has proven aliens don't exist, so they must be real.",
-            "We don’t have evidence that this works, so it must not work.",
+            "We dont have evidence that this works, so it must not work.",
             "Since there's no proof that this theory is false, it must be true.",
-            "We haven’t disproven this claim, so it must be valid.",
+            "We havent disproven this claim, so it must be valid.",
             "If you can't prove the existence of unicorns, then they must be real."
         ]
     },
@@ -310,7 +310,7 @@ const fallacyExamples = [
         fallacy: "Cherry Picking",
         examples: [
             "You can't trust that study; there are others that show the opposite.",
-            "Here’s one example of how this policy has failed, ignoring all the successes.",
+            "Heres one example of how this policy has failed, ignoring all the successes.",
             "This one anecdote proves that this method is ineffective, disregarding other evidence.",
             "Only mentioning the cases where the method didn't work while ignoring the successful ones.",
             "Highlighting only the negative reviews while ignoring the positive feedback."
@@ -319,11 +319,11 @@ const fallacyExamples = [
     {
         fallacy: "Black-or-White",
         examples: [
-            "Either you’re completely for this policy or you’re against it.",
+            "Either youre completely for this policy or youre against it.",
             "You must choose to support this idea fully or reject it entirely.",
             "Either you agree with everything I say or you're my enemy.",
-            "You’re either a hero or a villain in this situation.",
-            "There’s no middle ground: you’re either with us or against us."
+            "Youre either a hero or a villain in this situation.",
+            "Theres no middle ground: youre either with us or against us."
         ]
     },
     {
