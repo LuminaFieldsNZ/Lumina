@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rational Behavior Emotional Maturity Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Evaluate Your Emotional Maturity</h1>
+        <p>Take this quiz to assess how logically you process emotions.</p>
+    </header>
+
+    <section id="intro">
+        <p>In line with Rational Behavior Training, this quiz will help you understand how your emotions are side effects of your logical processing. For each question, move the slider to match how you feel about the scenario presented. At the end of the quiz, we'll show you a score that indicates how much emotional maturity you’ve achieved.</p>
+        <button id="start-quiz-btn">Start Quiz</button>
+    </section>
+
+    <section id="quiz" class="hidden">
+        <h2 id="question-text"></h2>
+        <div class="slider-container">
+            <span id="slider-min"></span>
+            <input type="range" min="0" max="100" value="50" id="slider" />
+            <span id="slider-max"></span>
+        </div>
+        <p id="slider-value">50</p>
+        <button id="submit-btn">Submit Answer</button>
+    </section>
+    
+
+    <section id="results" class="hidden">
+        <h2>Your Emotional Maturity Score: <span id="final-score"></span></h2>
+        <h3>Maturity Level: <span id="maturity-label"></span></h3>  <!-- New label placeholder -->
+        <p id="result-message"></p>
+        <button id="retake-quiz-btn">Retake Quiz</button>
+    </section>
+    
+    <script src="addQuestions.js"></script>
+
+    <script src="script.js"></script>
+
+
+</body>
+</html>

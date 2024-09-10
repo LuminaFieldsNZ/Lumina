@@ -1,0 +1,131 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f8f9;
+}
+
+
+#checkbox-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.checkbox-tile {
+  display: relative;
+  z-index: -1; /* Ensure the label is above the checkbox */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  left: 70px;
+  top: 301px;
+  position: relative;
+}
+
+/* Ensure the checkboxes stack in a row on wider screens */
+@media (min-width: 600px) {
+  #checkbox-container {
+    flex-direction: row;
+  }
+}
+
+
+.checkbox-group > * {
+  margin: 0;
+
+}
+
+.checkbox-group-legend {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #9c9c9c;
+  text-align: center;
+  line-height: 1.125;
+  margin-bottom: 1.25rem;
+}
+
+.checkbox-input {
+
+  display: none;
+}
+
+
+
+.checkbox-label {
+  position: relative; /* Changed from display: relative */
+  z-index: 99999; /* Ensure this element is on top */
+  text-align: center;
+  border: 2px solid black;
+  background: transparent;
+  color: black;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 14px;
+  padding: .5em 1em;
+  font-weight: bold;
+  -webkit-transition: background 0.3s;
+  transition: background 0.3s;
+  animation: pulse 8s infinite;
+  margin-right: 10px; /* Adds 10px margin on the right side */
+}
+
+.checkbox-label:hover {
+  background: #D95952; /* Hover state background color */
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  40% {
+    opacity: 0.8;
+    box-shadow: 0px 0px 5px 0px white;
+  }
+
+  60% {
+    opacity: 0.7;
+    box-shadow: 0px 0px 5px 0px white;
+  }
+
+  100% {
+    opacity: 1;
+    box-shadow: none;
+  }
+}
+
+
+.checkbox-wrapper {
+  position: relative; /* Required for z-index to work */
+  display: none;
+  width: 250px; /* Adjust size as needed */
+  height: 250px; /* Adjust size as needed */
+  background-size: cover; /* Ensure background image scales properly */
+  
+  /* Other styling as needed */
+}
+
+
+/* Ensure the checkboxes stack in a row on wider screens */
+@media (min-width: 600px) {
+  .checkbox-group {
+    flex-direction: row;
+  }
+}
+
+
+.scale-up-50 {
+  transform: scale(2);
+}

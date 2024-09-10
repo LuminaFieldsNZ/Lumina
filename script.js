@@ -2,7 +2,6 @@
 
 
 
-
 let state = {
      hair: './hair/hair0.png',
      glasses: './glasses/glasses0.png',
@@ -294,4 +293,3 @@ window.addEventListener('message', function(event) {
     updateLayer('outer', outer);
   }
 }, false);
-

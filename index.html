@@ -526,13 +526,14 @@
 
   <div class="grid-item" id="loginPlace">
     <h1>Login</h1>
-    <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" placeholder="Import Base Data Set"><hr><br>
+    <hr><br>
 
    <p>You always need to <font style="color:darkblue;"><b>[Upload]</b></font> your profile.json file above to <font style="color:darkred;"><b>[Login]</b></font>. If you dont have one, you can <font style="color:darkgreen;"><b>[Download]</b></font> a base file now.
    </p><br>
  </div>
  <div class="grid-item">
-   <button class="open-modal"  onclick="exportData()">Download</button>
+  <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)" placeholder="Import Base Data Set">
+
    <div style="display: none;" id="result"></div>
 
 <br>
@@ -552,11 +553,113 @@ At the end of every *session* make sure you <font style="color:darkgreen;"><b>[D
 </div>
 
 
+<script>
 
+
+
+function toggleCompletedModules() {
+  const completedModules = document.querySelectorAll('[id$="xx"]');
+
+  completedModules.forEach(module => {
+    const statusElement = module.querySelector('.days-left');
+    if (statusElement) {
+      if (statusElement.textContent.trim() === 'Complete') {
+        if (module.style.display === 'none') {
+          module.style.display = 'block';  // Show the module
+        } else {
+          module.style.display = 'none';  // Hide the module
+        }
+      }
+    }
+  });
+}
+
+
+</script>
 
 <div id="splash" class="project-boxes" style="display: none;">
-<iframe id="bookFrame1" src="" style="width: 100%; height:96vh; border-radius: 22px;"></iframe>
+
+  <div class="projects-section-line">
+          <div class="projects-status" style="justify-content: center;">
+            <div class="item-status">
+              <button class="open-modal" onclick="toggleCompletedModules()">Lumina Fields</button>
+            </div>
+          </div>
+        </div>
+
+    <div class="project-box-wrapper" id="module1xx">
+      <div class="project-box" id="module1" style="background-color: rgba(199, 60, 32, .1);">
+    <div class="project-box-header">
+      <div class="days-left" id="module1a" style="color: rgba(199, 60, 32, 1)">
+        incomplete
+      </div>
 </div>
+<div class="project-box-content-header">
+  <p class="box-content-header">User Profile</p><br>
+  <p class="box-content-subheader">
+    
+    Download JSON file: We don't believe in saving your data or hosting data online.
+     We believe you should be in charge of your data, so when you download your .json file
+     you're holding all the memory of Lumina interactions. You'll be promted to change add your name 
+     and keep this file safe, we recommend keeping this file on a usb stick for total security.
+    
+    <br><br>
+
+    <button class="open-modal"  onclick="exportData();addCompletedModule(1);">Download</button>
+ 
+  </p>
+</div>
+
+  </div></div>
+
+
+
+    <div class="project-box-wrapper" id="module2xx">
+      <div class="project-box" id="module2" style="background-color: rgba(199, 60, 32, .1);">
+    <div class="project-box-header">
+      <div class="days-left" id="module2a" style="color: rgba(199, 60, 32, 1)">
+        incomplete
+      </div>
+</div>
+<div class="project-box-content-header">
+  <p class="box-content-header">Unique Identity</p>
+  <p class="box-content-subheader">
+    Once you've downloaded your profile.json file, you should navigate to the settings [gear icon] page.
+    Click the [choose file] button, and select your profile.json file to upload.
+     Here you can see and modify all of the data inside your profile. 
+     Upload your recently downloaded Profile.json file, to login then navigate to the animated logo button. [Top Left of screen]
+  </p>
+</div>
+
+  </div>
+</div>
+
+
+<div class="project-box-wrapper" id="module3xx">
+  <div class="project-box" id="module3" style="background-color: rgba(199, 60, 32, .1);">
+<div class="project-box-header">
+  <div class="days-left" id="module3a" style="color: rgba(199, 60, 32, 1)">
+    incomplete
+  </div>
+</div>
+<div class="project-box-content-header">
+<p class="box-content-header">Getting Started</p>
+<p class="box-content-subheader">
+More stuff here
+</p>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+  </div>
+
                 
 
 
@@ -638,6 +741,7 @@ At the end of every *session* make sure you <font style="color:darkgreen;"><b>[D
               <script src="home.js"></script>
               <script src="emotion.js"></script>
               <script src="fallacy.js"></script>
+              <script src="additionals.js"></script>
               <script src="chatbot.js"></script>
               <script src="hpxml.js"></script>
               <script src="populations.js"></script>

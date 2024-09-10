@@ -1,22 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const config = {
-        src: '../peeps.png',
+        src: './peeps.png',
         rows: 7,
         cols: 15
     };
 
     const checkboxes = [
-        { id: 'quiz/quiz', label: 'Learn', index: 0 },
-        { id: 'gifs', label: 'Humor', index: 1 },
-        { id: 'games', label: 'Lumie', index: 2 },
-        { id: 'scales', label: 'Sexism', index: 3 },
-        { id: 'model/index', label: 'VRM Avatar', index: 4 },
-        { id: 'logic', label: 'Hearing', index: 5 },
-        { id: '../peepBasic', label: 'Agents', index: 6 },
-        { id: 'readGLB', label: 'GLB Reader', index: 7 },
-        { id: 'avatar', label: 'GLB Avatar', index: 8 },
-        { id: 'face', label: 'Face', index: 9 },
-        { id: 'list/index', label: 'TikTok', index: 10 }
+        { id: 'maturity', label: 'Maturity', index: 0 },
+        { id: 'narcissism', label: 'Narcissism', index: 1 }
         // Add more checkboxes here as needed
     ];
 
@@ -64,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     container.addEventListener('change', (event) => {
         if (event.target.classList.contains('checkbox-input')) {
             const checkboxId = event.target.id;
-            const url = `../tools/${checkboxId}.html`;
+            const url = `${checkboxId}.html`;
             window.location.href = url;
         }
     });

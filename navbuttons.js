@@ -8,11 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-const bookFrame1 = document.getElementById('bookFrame1');
-bookFrame1.src = 'tools/games.html';
- 
-
-
 function checkPasscode() {
   const code = document.getElementById("passcode").value;
   const iframe = document.getElementById("bookFrame5"); // Assuming your iframe has this ID
