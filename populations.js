@@ -23,7 +23,7 @@
     sailor: 1
 };
 
-function updateData(dataObj, totalElemId, avgElemId) {
+function updateData(dataObj) {
     let total = 0;
 
     // Update the text content for each element

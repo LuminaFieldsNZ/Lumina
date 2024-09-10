@@ -1,3 +1,7 @@
+
+
+let currentStep = -1;
+
 // Define initial responses
 let faxiumResponses = {
     "Hello": "Hey, it's Faxium here!"
@@ -78,12 +82,69 @@ let faxiumResponses = {
 
 
 
-      if (message.trim().toLowerCase().startsWith('systemic')) {
-        updateModule(3);
-        document.getElementById('module4xx').style.display = 'block';
-      }
 
-  
+
+
+// Word Navigation Bar !!!!!!!!!!!!!!!!
+// Word Navigation Bar !!!!!!!!!!!!!!!!
+// Word Navigation Bar !!!!!!!!!!!!!!!!
+// Word Navigation Bar !!!!!!!!!!!!!!!!
+// Word Navigation Bar !!!!!!!!!!!!!!!!
+// Word Navigation Bar !!!!!!!!!!!!!!!!
+
+
+
+
+
+
+ 
+if (message.trim().toLowerCase().includes('systemic')) {
+  updateModule(3);
+  document.getElementById('module4xx').style.display = 'block';
+}
+
+if (message.trim().toLowerCase().includes('start')) {
+  displayQuestion();
+  document.getElementById('module4xx').style.display = 'block';
+}
+
+if (message.trim().toLowerCase().includes('woke up')) {
+  displayQuestion();
+  document.getElementById('module4xx').style.display = 'block';
+}
+ 
+if (message.trim().toLowerCase().includes('time of day')) {
+  displayQuestion();
+  document.getElementById('module4xx').style.display = 'block';
+}
+
+if (message.trim().toLowerCase().includes('i see')) {
+  displayQuestion();
+  document.getElementById('module4xx').style.display = 'block';
+}
+
+if (message.trim().toLowerCase().includes('from me')) {
+  displayQuestion();
+  document.getElementById('module4xx').style.display = 'block';
+}
+
+
+// Word Navigation Bar !!!!!!!!!!!!!!!!
+// Word Navigation Bar !!!!!!!!!!!!!!!!
+// Word Navigation Bar !!!!!!!!!!!!!!!!
+// Word Navigation Bar !!!!!!!!!!!!!!!!
+// Word Navigation Bar !!!!!!!!!!!!!!!!
+// Word Navigation Bar !!!!!!!!!!!!!!!!
+// Word Navigation Bar !!!!!!!!!!!!!!!!
+// Word Navigation Bar !!!!!!!!!!!!!!!!
+
+
+
+
+
+
+
+
     // Check for fallacies in the user message
     const detectedFallacies = checkForFallacies(tokens);
     if (detectedFallacies.length > 0) {
@@ -99,8 +160,13 @@ let faxiumResponses = {
     }
   
     setTimeout(() => {
+
+if (currentStep == -1 || currentStep == 4) {
       let response = getResponse(message);
       chatWindow.innerHTML += `<p>Collective: ${response}</p>`;
+    }
+
+
       scrollToBottom();
   
       const timestamp = new Date().toISOString();
@@ -108,19 +174,7 @@ let faxiumResponses = {
       // Prepare updated conversation data
       const newEntry = [message, formatResponse(), timestamp];
       conversationData.push(newEntry);
-  
-      const jsonResponse = {
-        userId: userId,
-        state: state,
-        populations: populations,
-        mainHeading: mainHeading,
-        completedProjects: completedProjects,
-        userCompletedProjects: userCompletedProjects,
-        conversationData: conversationData
-      };
-  
-      const jsonString = JSON.stringify(jsonResponse, null, 2);
-      const formattedResponse = escapeHtml(jsonString);
+
   
       updateJSONDisplay();
       scanForEmotionWords();
