@@ -63,6 +63,8 @@ let faxiumResponses = {
   
   // Function to handle user messages
   function sendMessage() {
+
+
     const inputElem = document.getElementById('userInput');
     const message = inputElem.value;
     inputElem.value = '';
@@ -73,6 +75,14 @@ let faxiumResponses = {
   
     // Preprocess and tokenize the message
     const tokens = preprocessAndTokenize(message);
+
+
+
+      if (message.trim().toLowerCase().startsWith('systemic')) {
+        updateModule(3);
+        document.getElementById('module4xx').style.display = 'block';
+      }
+
   
     // Check for fallacies in the user message
     const detectedFallacies = checkForFallacies(tokens);

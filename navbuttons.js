@@ -8,20 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-function checkPasscode() {
-  const code = document.getElementById("passcode").value;
-  const iframe = document.getElementById("bookFrame5"); // Assuming your iframe has this ID
-
-  if (code === "100") {
-    iframe.src = '100/index.html';
-  }
-  if (code === "ae49dr23@%") {
-    iframe.src = 'nations/16122042361017147.html';
-  }
-  if (code === "587112349") {
-    iframe.src = 'nations/book.html';
-  }
-}
 
 
 function peepMake(){
