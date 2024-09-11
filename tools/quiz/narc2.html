@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narcissism Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #image-container {
+            margin-bottom: 20px;
+            width: 150px;
+            height: 150px;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Narcissism Test</h1>
+
+    <div id="image-container"></div>
+
+    <form id="quizForm">
+        <div class="question" id="question-container">
+            <!-- Questions will be injected here dynamically -->
+        </div>
+        <button type="button" id="next-btn">Next</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const config = {
+                src: '../../peeps.png', // Updated path
+                rows: 7,
+                cols: 15
+            };
+    
+            const questions = [
+                {
+                    text: 'How do you feel when someone doesn\'t acknowledge your achievements?',
+                    options: [
+                        'A. I get upset if my hard work is not noticed.',
+                        'B. If it wasn\'t intentional it doesn\'t bother me.',
+                        'C. I might feel slightly ignored but it\'s no big deal.',
+                        'D. I find it disrespectful when people don\'t recognize my efforts.',
+                        'E. I feel like people owe me admiration for my success.'
+                    ],
+                    values: [2, 0, 1, 3, 4]
+                },
+                {
+                    text: 'How do you react when someone else is the center of attention?',
+                    options: [
+                        'A. I feel annoyed when someone else takes the spotlight.',
+                        'B. I don\'t mind, everyone has their moment.',
+                        'C. I feel slightly overshadowed.',
+                        'D. I may acknowledge everyone who helped me.',
+                        'E. It frustrates me because I should be the one getting the attention.'
+                    ],
+                    values: [4, 1, 3, 0, 2]
+                },
+                {
+        text: 'How do you feel about giving credit to others for your success?',
+        options: [
+            'A. I find it hard to share the credit when I did most of the work.',
+            'B. I usually give credit where it\'s due, but sometimes I forget.',
+            'C. I don\'t mind giving credit, but I think my work is the most important.',
+            'D. I believe I deserve the recognition for my success.',
+            'E. I may acknowledge everyone who helped me.'
+        ],
+        values: [3, 1, 2, 4, 0] // Shuffle this array so it corresponds to the shuffled options
+    },
+    {
+        text: 'How do you feel when someone criticizes you?',
+        options: [
+            'A. I think they\'re just jealous or incompetent to criticize me.',
+            'B. I try to ignore it, but it bothers me.',
+            'C. I take it as constructive and try to improve.',
+            'D. It stings a little, but I get over it.',
+            'E. I feel personally attacked and get defensive.'
+        ],
+        values: [4, 2, 0, 1, 3] // Shuffle this array so it corresponds to the shuffled options
+    },
+    {
+        text: 'When working in a team, how do you view your role?',
+        options: [
+            'A. I enjoy collaborating and sharing ideas.',
+            'B. I prefer to contribute without taking a lead.',
+            'C. I’m the one who makes sure the project succeeds, others usually hold me back.',
+            'D. I believe I should be the leader because I have the best ideas.',
+            'E. I like leading, but only if necessary.'
+        ],
+        values: [0, 1, 4, 3, 2] // Shuffle this array so it corresponds to the shuffled options
+    },
+    {
+        text: 'How do you respond when others around you are successful?',
+        options: [
+            'A. I’m content but sometimes feel like I should be doing more.',
+            'B. I feel competitive and wonder why I\'m not getting the same recognition.',
+            'C. I find it hard to be happy for them because I deserve success more.',
+            'D. I feel a bit envious but can still be supportive.',
+            'E. I join in the happiness and celebration.'
+        ],
+        values: [1, 3, 4, 2, 0] // Shuffle this array so it corresponds to the shuffled options
+    },
+    {
+        text: 'How do you feel about following rules or guidelines?',
+        options: [
+            'A. I believe rules don’t really apply to me; I’m capable of making my own decisions.',
+            'B. I think rules are flexible and should be adapted to the situation.',
+            'C. I examine each rule closely, and if majority agrees in fairness follow them.',
+            'D. I often find myself ignoring rules if they don’t align with what I want.',
+            'E. I usually follow them, but sometimes bend them if needed.'
+        ],
+        values: [4, 2, 0, 3, 1] // Shuffle this array so it corresponds to the shuffled options
+    },
+    {
+        text: 'How do you react when someone is upset with you?',
+        options: [
+            'A. I listen carefully and try to understand their perspective.',
+            'B. I usually think they’re wrong or overreacting, so I don’t take it seriously.',
+            'C. I try to apologize and make amends, but it depends on the situation.',
+            'D. I feel frustrated but try to resolve the conflict.',
+            'E. I tend to get defensive and argue my point.'
+        ],
+        values: [0, 4, 1, 2, 3] // Shuffle this array so it corresponds to the shuffled options
+    },
+    {
+        text: 'How do you feel about your own success?',
+        options: [
+            'A. I remain humble by allowing myself to appreaciate the hard work.',
+            'B. My success is entirely due to my talent, and I don’t owe anyone for it.',
+            'C. I’m happy with my success but acknowledge help from others.',
+            'D. I believe I’ve worked harder than most and deserve more credit than I get.',
+            'E. I’m proud of my work and sometimes feel I deserve more recognition.'
+        ],
+        values: [0, 4, 1, 3, 2] // Shuffle this array so it corresponds to the shuffled options
+    },
+    {
+        text: 'How do you feel when you give someone advice?',
+        options: [
+            'A. I get frustrated if they ignore me because I know I have better judgment.',
+            'B. I feel a little annoyed if they don’t take my advice seriously.',
+            'C. I’m happy to help and hope they benefit from it.',
+            'D. I offer advice, but I don’t mind if they don’t take it.',
+            'E. I expect them to follow my advice because it’s usually right.'
+        ],
+        values: [4, 2, 0, 1, 3] // Shuffle this array so it corresponds to the shuffled options
+    }
+                // Add more questions as needed
+            ];
+    
+            let currentQuestion = 0;
+            let score = 0;
+    
+            const img = new Image();
+            img.src = config.src;
+    
+            img.onload = () => {
+                displayQuestion(currentQuestion);
+                displayRandomSprite(img);
+            };
+    
+            function displayQuestion(index) {
+                const question = questions[index];
+                const questionContainer = document.getElementById('question-container');
+                questionContainer.innerHTML = `
+                    <p>${question.text}</p>
+                    ${question.options.map((option, i) => `
+                        <input type="radio" name="q${index}" value="${question.values[i]}" id="q${index}${i}">
+                        <label for="q${index}${i}">${option}</label><br>
+                    `).join('')}
+                `;
+            }
+    
+            function displayRandomSprite(img) {
+                const rectWidth = img.naturalWidth / config.cols; // Width of each sprite
+                const rectHeight = img.naturalHeight / config.rows; // Height of each sprite
+    
+                const randomIndex = Math.floor(Math.random() * (config.rows * config.cols)); // Random index for sprite
+                const row = Math.floor(randomIndex / config.cols); // Determine the row
+                const col = randomIndex % config.cols; // Determine the column
+    
+                const backgroundPositionX = -col * rectWidth + 'px';
+                const backgroundPositionY = -row * rectHeight + 'px';
+    
+                const imageContainer = document.getElementById('image-container');
+                imageContainer.style.backgroundImage = `url(${img.src})`;
+                imageContainer.style.backgroundPosition = `${backgroundPositionX} ${backgroundPositionY}`;
+                imageContainer.style.width = `${rectWidth}px`;  // Set the sprite width
+                imageContainer.style.height = `${rectHeight}px`; // Set the sprite height
+                imageContainer.style.backgroundSize = `${img.naturalWidth}px ${img.naturalHeight}px`; // Ensure the background image scales correctly
+            }
+    
+            function nextQuestion() {
+                const selectedAnswer = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+                if (selectedAnswer) {
+                    score += parseInt(selectedAnswer.value);
+                    currentQuestion++;
+                    if (currentQuestion < questions.length) {
+                        displayQuestion(currentQuestion);
+                        displayRandomSprite(img);
+                    } else {
+                        document.getElementById('quizForm').style.display = 'none';
+                        document.getElementById('result').innerText = `Your total score is: ${score}`;
+                    }
+                } else {
+                    alert("Please select an answer before proceeding.");
+                }
+            }
+            document.getElementById('next-btn').addEventListener('click', nextQuestion);
+        });
+
+    </script>
+    
+
+</body>
+</html>
