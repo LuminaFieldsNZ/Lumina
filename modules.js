@@ -50,7 +50,7 @@ const modules = [
     daysLeft.className = 'days-left';
     daysLeft.id = `${module.id}a`;
     daysLeft.style.color = 'rgba(199, 60, 32, 1)';
-    daysLeft.textContent = 'incomplete';
+    daysLeft.textContent = 'Incomplete';
 
     header.appendChild(daysLeft);
 

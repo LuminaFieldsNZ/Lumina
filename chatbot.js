@@ -81,68 +81,18 @@ let faxiumResponses = {
     const tokens = preprocessAndTokenize(message);
 
 
-
-
-
-
-// Word Navigation Bar !!!!!!!!!!!!!!!!
-// Word Navigation Bar !!!!!!!!!!!!!!!!
-// Word Navigation Bar !!!!!!!!!!!!!!!!
-// Word Navigation Bar !!!!!!!!!!!!!!!!
-// Word Navigation Bar !!!!!!!!!!!!!!!!
-// Word Navigation Bar !!!!!!!!!!!!!!!!
-
-
-
-
-
-
- 
-if (message.trim().toLowerCase().includes('systemic')) {
-  updateModule(3);
-  document.getElementById('module4xx').style.display = 'block';
+// Function to handle user messages
+function handleMessage(message) {
+  const trimmedMessage = message.trim().toLowerCase();
+  
+  conditions.forEach(({ keyword, action }) => {
+    if (trimmedMessage.includes(keyword)) {
+      action();
+    }
+  });
 }
 
-if (message.trim().toLowerCase().includes('start')) {
-  displayQuestion();
-  document.getElementById('module4xx').style.display = 'block';
-}
-
-if (message.trim().toLowerCase().includes('woke up')) {
-  displayQuestion();
-  document.getElementById('module4xx').style.display = 'block';
-}
- 
-if (message.trim().toLowerCase().includes('time of day')) {
-  displayQuestion();
-  document.getElementById('module4xx').style.display = 'block';
-}
-
-if (message.trim().toLowerCase().includes('i see')) {
-  displayQuestion();
-  document.getElementById('module4xx').style.display = 'block';
-}
-
-if (message.trim().toLowerCase().includes('from me')) {
-  displayQuestion();
-  document.getElementById('module4xx').style.display = 'block';
-}
-
-
-// Word Navigation Bar !!!!!!!!!!!!!!!!
-// Word Navigation Bar !!!!!!!!!!!!!!!!
-// Word Navigation Bar !!!!!!!!!!!!!!!!
-// Word Navigation Bar !!!!!!!!!!!!!!!!
-// Word Navigation Bar !!!!!!!!!!!!!!!!
-// Word Navigation Bar !!!!!!!!!!!!!!!!
-// Word Navigation Bar !!!!!!!!!!!!!!!!
-// Word Navigation Bar !!!!!!!!!!!!!!!!
-
-
-
-
-
-
+handleMessage(message);
 
 
     // Check for fallacies in the user message
@@ -465,6 +415,7 @@ function updateModule(moduleNumber) {
 
     if (moduleElement && moduleAElement) {
       moduleAElement.innerHTML = 'Complete';
+      moduleAElement.style.color = 'black';
       moduleElement.style.backgroundColor = 'lightgreen';
       updateCounts[moduleNumber]++; // Increment the update count
       console.log(`Module ${moduleNumber} updated successfully. Update count: ${updateCounts[moduleNumber]}`);
