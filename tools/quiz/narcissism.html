@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narcissism Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Narcissism Test</h1>
+    <form id="quizForm">
+        <div class="question">
+            <p>1. How do you feel when someone doesn't acknowledge your achievements?</p>
+
+            <input type="radio" id="q1b" name="q1" value="1">
+            <label for="q1b">A. I might feel slightly ignored but it's no big deal.</label><br>
+            <input type="radio" id="q1c" name="q1" value="2">
+            <label for="q1c">B. I get upset if my hard work is not noticed.</label><br>
+            <input type="radio" id="q1a" name="q1" value="0">
+            <label for="q1a">C. If it wasn't intentional it doesn't bother me.</label><br>
+            <input type="radio" id="q1d" name="q1" value="3">
+            <label for="q1d">D. I find it disrespectful when people don't recognize my efforts.</label><br>
+            <input type="radio" id="q1e" name="q1" value="4">
+            <label for="q1e">E. I feel like people owe me admiration for my success.</label>
+        </div>
+
+        <div class="question">
+            <p>2. How do you react when someone else is the center of attention?</p>
+
+            <input type="radio" id="q2c" name="q2" value="2">
+            <label for="q2c">A. I feel slightly overshadowed.</label><br>
+            <input type="radio" id="q2d" name="q2" value="3">
+            <label for="q2d">B. I feel annoyed when someone else takes the spotlight.</label><br>
+            <input type="radio" id="q2a" name="q2" value="0">
+            <label for="q2a">C. If they are leading in good faith, I can get behind that.</label><br>
+            <input type="radio" id="q2b" name="q2" value="1">
+            <label for="q2b">D. I don't mind, everyone has their moment.</label><br>
+            <input type="radio" id="q2e" name="q2" value="4">
+            <label for="q2e">E. It frustrates me because I should be the one getting the attention.</label>
+        </div>
+
+        <div class="question">
+            <p>3. How do you feel about giving credit to others for your success?</p>
+
+            <input type="radio" id="q3e" name="q3" value="4">
+            <label for="q3e">A. I believe I deserve the recognition for my success.</label><br>
+            <input type="radio" id="q3a" name="q3" value="0">
+            <label for="q3a">B. I may acknowledge everyone who helped me.</label><br>
+            <input type="radio" id="q3d" name="q3" value="3">
+            <label for="q3d">C. I find it hard to share the credit when I did most of the work.</label><br>
+            <input type="radio" id="q3b" name="q3" value="1">
+            <label for="q3b">D. I usually give credit where it's due, but sometimes I forget.</label><br>
+            <input type="radio" id="q3c" name="q3" value="2">
+            <label for="q3c">E. I don't mind giving credit, but I think my work is the most important.</label><br>
+
+
+        </div>
+
+
+        <div class="question">
+            <p>4. How do you feel when someone criticizes you?</p>
+            <input type="radio" id="q4a" name="q4" value="0">
+            <label for="q4a">A. I take it as constructive and try to improve.</label><br>
+            <input type="radio" id="q4b" name="q4" value="1">
+            <label for="q4b">B. It stings a little, but I get over it.</label><br>
+            <input type="radio" id="q4c" name="q4" value="2">
+            <label for="q4c">C. I try to ignore it, but it bothers me.</label><br>
+            <input type="radio" id="q4d" name="q4" value="3">
+            <label for="q4d">D. I feel personally attacked and get defensive.</label><br>
+            <input type="radio" id="q4e" name="q4" value="4">
+            <label for="q4e">E. I think they're just jealous or incompetent to criticize me.</label><br>
+        </div>
+        
+        <div class="question">
+            <p>5. When working in a team, how do you view your role?</p>
+            <input type="radio" id="q5a" name="q5" value="0">
+            <label for="q5a">A. I enjoy collaborating and sharing ideas.</label><br>
+            <input type="radio" id="q5b" name="q5" value="1">
+            <label for="q5b">B. I prefer to contribute without taking a lead.</label><br>
+            <input type="radio" id="q5c" name="q5" value="2">
+            <label for="q5c">C. I like leading, but only if necessary.</label><br>
+            <input type="radio" id="q5d" name="q5" value="3">
+            <label for="q5d">D. I believe I should be the leader because I have the best ideas.</label><br>
+            <input type="radio" id="q5e" name="q5" value="4">
+            <label for="q5e">E. I'm the one who makes sure the project succeeds, others usually hold me back.</label><br>
+        </div>
+        
+        <div class="question">
+            <p>6. How do you respond when others around you are successful?</p>
+            <input type="radio" id="q6a" name="q6" value="0">
+            <label for="q6a">A. I feel happy and celebrate their success.</label><br>
+            <input type="radio" id="q6b" name="q6" value="1">
+            <label for="q6b">B. I’m content but sometimes feel like I should be doing more.</label><br>
+            <input type="radio" id="q6c" name="q6" value="2">
+            <label for="q6c">C. I feel a bit envious but can still be supportive.</label><br>
+            <input type="radio" id="q6d" name="q6" value="3">
+            <label for="q6d">D. I feel competitive and wonder why I'm not getting the same recognition.</label><br>
+            <input type="radio" id="q6e" name="q6" value="4">
+            <label for="q6e">E. I find it hard to be happy for them because I deserve success more.</label><br>
+        </div>
+        
+        <div class="question">
+            <p>7. How do you feel about following rules or guidelines?</p>
+            <input type="radio" id="q7a" name="q7" value="0">
+            <label for="q7a">A. Rules exist for a reason and I follow them closely.</label><br>
+            <input type="radio" id="q7b" name="q7" value="1">
+            <label for="q7b">B. I usually follow them, but sometimes bend them if needed.</label><br>
+            <input type="radio" id="q7c" name="q7" value="2">
+            <label for="q7c">C. I think rules are flexible and should be adapted to the situation.</label><br>
+            <input type="radio" id="q7d" name="q7" value="3">
+            <label for="q7d">D. I often find myself ignoring rules if they don’t align with what I want.</label><br>
+            <input type="radio" id="q7e" name="q7" value="4">
+            <label for="q7e">E. I believe rules don’t really apply to me; I’m capable of making my own decisions.</label><br>
+        </div>
+        
+        <div class="question">
+            <p>8. How do you react when someone is upset with you?</p>
+            <input type="radio" id="q8a" name="q8" value="0">
+            <label for="q8a">A. I listen carefully and try to understand their perspective.</label><br>
+            <input type="radio" id="q8b" name="q8" value="1">
+            <label for="q8b">B. I try to apologize and make amends, but it depends on the situation.</label><br>
+            <input type="radio" id="q8c" name="q8" value="2">
+            <label for="q8c">C. I feel frustrated but try to resolve the conflict.</label><br>
+            <input type="radio" id="q8d" name="q8" value="3">
+            <label for="q8d">D. I tend to get defensive and argue my point.</label><br>
+            <input type="radio" id="q8e" name="q8" value="4">
+            <label for="q8e">E. I usually think they’re wrong or overreacting, so I don't take it seriously.</label><br>
+        </div>
+        
+        <div class="question">
+            <p>9. How do you feel about your own success?</p>
+            <input type="radio" id="q9a" name="q9" value="0">
+            <label for="q9a">A. I’m proud of my accomplishments but remain humble.</label><br>
+            <input type="radio" id="q9b" name="q9" value="1">
+            <label for="q9b">B. I’m happy with my success but acknowledge help from others.</label><br>
+            <input type="radio" id="q9c" name="q9" value="2">
+            <label for="q9c">C. I’m proud of my work and sometimes feel I deserve more recognition.</label><br>
+            <input type="radio" id="q9d" name="q9" value="3">
+            <label for="q9d">D. I believe I’ve worked harder than most and deserve more credit than I get.</label><br>
+            <input type="radio" id="q9e" name="q9" value="4">
+            <label for="q9e">E. My success is entirely due to my talent, and I don’t owe anyone for it.</label><br>
+        </div>
+        
+        <div class="question">
+            <p>10. How do you feel when you give someone advice?</p>
+            <input type="radio" id="q10a" name="q10" value="0">
+            <label for="q10a">A. I’m happy to help and hope they benefit from it.</label><br>
+            <input type="radio" id="q10b" name="q10" value="1">
+            <label for="q10b">B. I offer advice, but I don’t mind if they don’t take it.</label><br>
+            <input type="radio" id="q10c" name="q10" value="2">
+            <label for="q10c">C. I feel a little annoyed if they don’t take my advice seriously.</label><br>
+            <input type="radio" id="q10d" name="q10" value="3">
+            <label for="q10d">D. I expect them to follow my advice because it’s usually right.</label><br>
+            <input type="radio" id="q10e" name="q10" value="4">
+            <label for="q10e">E. I get frustrated if they ignore me because I know I have better judgment.</label><br>
+        </div>
+        
+
+        <button type="button" onclick="checkAnswers()">Submit</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        function checkAnswers() {
+            let score = 0;
+
+            // Get selected answers
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const q4 = document.querySelector('input[name="q4"]:checked');
+            const q5 = document.querySelector('input[name="q5"]:checked');
+            const q6 = document.querySelector('input[name="q6"]:checked');
+            const q7 = document.querySelector('input[name="q7"]:checked');
+            const q8 = document.querySelector('input[name="q8"]:checked');
+            const q9 = document.querySelector('input[name="q9"]:checked');
+            const q10 = document.querySelector('input[name="q10"]:checked');
+
+
+            // Check if all questions are answered
+            if (!q1 || !q2 || !q3 || !q4 || !q5 || !q6 || !q7 || !q8 || !q9 || !q10) {
+                document.getElementById("result").innerText = "Please answer all the questions.";
+                return;
+            }
+
+            // Calculate score
+            score += parseInt(q1.value);
+            score += parseInt(q2.value);
+            score += parseInt(q3.value);
+            score += parseInt(q4.value);
+            score += parseInt(q5.value);
+            score += parseInt(q6.value);
+            score += parseInt(q7.value);
+            score += parseInt(q8.value);
+            score += parseInt(q9.value);
+            score += parseInt(q10.value);
+
+
+            // Display result
+            let resultText = "";
+            if (score >= 9) {
+                resultText = "High Narcissistic Traits Detected.";
+            } else if (score >= 5) {
+                resultText = "Moderate Narcissistic Traits Detected.";
+            } else {
+                resultText = "Low Narcissistic Traits Detected.";
+            }
+
+            document.getElementById("result").innerText = resultText;
+        }
+    </script>
+
+</body>
+</html>

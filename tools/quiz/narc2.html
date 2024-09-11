@@ -219,22 +219,36 @@
             }
     
             function nextQuestion() {
-                const selectedAnswer = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
-                if (selectedAnswer) {
-                    score += parseInt(selectedAnswer.value);
-                    currentQuestion++;
-                    if (currentQuestion < questions.length) {
-                        displayQuestion(currentQuestion);
-                        displayRandomSprite(img);
-                    } else {
-                        document.getElementById('quizForm').style.display = 'none';
-                        document.getElementById('result').innerText = `Your total score is: ${score}`;
-                    }
-                } else {
-                    alert("Please select an answer before proceeding.");
-                }
+    const selectedAnswer = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+    if (selectedAnswer) {
+        score += parseInt(selectedAnswer.value);
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+            displayQuestion(currentQuestion);
+            displayRandomSprite(img);
+        } else {
+            document.getElementById('quizForm').style.display = 'none';
+
+            // Determine result based on the score
+            let resultText = "";
+            if (score >= 9) {
+                resultText = "High Narcissistic Traits Detected.";
+            } else if (score >= 5) {
+                resultText = "Moderate Narcissistic Traits Detected.";
+            } else {
+                resultText = "Low Narcissistic Traits Detected.";
             }
-            document.getElementById('next-btn').addEventListener('click', nextQuestion);
+
+            // Display the result
+            document.getElementById('result').innerText = resultText;
+        }
+    } else {
+        alert("Please select an answer before proceeding.");
+    }
+}
+
+document.getElementById('next-btn').addEventListener('click', nextQuestion);
+
         });
 
     </script>
