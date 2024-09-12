@@ -42,7 +42,7 @@ let faxiumResponses = {
   // Initial chat window message
   setTimeout(function() {
     const chatWindow = document.getElementById('chatWindow');
-    chatWindow.innerHTML += '<p>Lumin: Hello, We\'re your <font style="color: lightblue;">AI</font> assistants... here to support humans in providing ideology perspective</p>';
+    chatWindow.innerHTML += '<p>Lumie: Hello, We\'re your <font style="color: lightblue;">AI</font> assistants... here to support humans in providing ideology perspective</p>';
     scrollToBottom();
   }, 4300);
   
@@ -113,7 +113,7 @@ handleMessage(message);
 
 if (currentStep == -1 || currentStep == 4) {
       let response = getResponse(message);
-      chatWindow.innerHTML += `<p>Lumin: ${response}</p>`;
+      chatWindow.innerHTML += `<p>Lumie: ${response}</p>`;
     }
 
 
@@ -365,7 +365,7 @@ if (currentStep == -1 || currentStep == 4) {
         response = "Faxium: I'm sorry, I couldn't understand your question.";
       }
     } else {
-      response = "Lumin: " + getResponse(message);
+      response = "Lumie: " + getResponse(message);
     }
   
     setTimeout(() => {
