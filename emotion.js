@@ -156,66 +156,128 @@ function levenshtein(a, b) {
   const politicalKeywords = {
     progressive: {
       "equality": 5,
-      "socialJustice": 4,
+      "social": 4,
       "reform": 4,
       "inclusivity": 3,
-      "liberal": 3
+      "liberal": 3,
+      "activism": 5,
+    "gender": 4,
+    "Welfare": 4,
+    "minority": 4,
+    "green": 3,
+    "Reform": 4,
+    "Justice": 5
     },
     socialist: {
       "collectivism": 5,
       "redistribution": 4,
       "equality": 4,
       "welfare": 3,
-      "workers": 4
+      "workers": 4,
+      "public": 5,
+    "social": 4,
+    "collective": 4,
+    "Equality": 5,
+    "Ownership": 4,
+    "proletariat": 5,
+    "universal": 5
     },
     idealist: {
       "utopian": 5,
       "dreamer": 4,
       "visionary": 4,
       "hopeful": 3,
-      "ideal": 3
+      "ideal": 3,
+      "Potential": 5,
+    "Vision": 4,
+    "philanthropy": 4,
+    "justice": 3,
+    "future": 4,
+    "Idealism": 4,
+    "transformative": 4
     },
     globalist: {
       "international": 5,
       "global": 5,
       "cooperation": 4,
       "integration": 4,
-      "world": 4
+      "world": 4,
+      "trans": 5,
+    "Border": 4,
+    "universal": 5,
+    "global": 4,
+    "multi": 5,
+    "Peace": 5,
+    "Solidarity": 4
     },
     conservative: {
       "tradition": 5,
       "stability": 4,
       "order": 4,
       "authority": 3,
-      "preservation": 4
+      "preservation": 4,
+      "heritage": 5,
+    "Stability": 4,
+    "socialOrder": 4,
+    "cultural": 4,
+    "Values": 5,
+    "Preservation": 4,
+    "familyValues": 4
     },
     economist: {
       "capitalism": 5,
       "market": 5,
       "freeTrade": 4,
       "efficiency": 4,
-      "investment": 3
+      "investment": 3,
+      "economic": 5,
+    "entrepreneur": 4,
+    "fiscal": 4,
+    "supply": 5,
+    "Formation": 4,
+    "labor": 4
     },
     realist: {
       "pragmatic": 5,
       "practical": 4,
       "realistic": 5,
-      "downToEarth": 4,
-      "rational": 4
+      "Earth": 4,
+      "rational": 4,
+      "feasibility": 5,
+    "tactical": 4,
+    "Based": 5,
+    "Solutions": 4,
+    "real": 4,
+    "Effectiveness": 4,
+    "risk": 4
     },
     nationalist: {
       "patriotism": 5,
       "sovereignty": 5,
       "national": 4,
       "identity": 4,
-      "independence": 4
+      "independence": 4,
+      "nationalUnity": 5,
+    "sovereignRights": 5,
+    "culturalPride": 4,
+    "nationalDevelopment": 4,
+    "Priority": 4,
+    "Integrity": 5,
+    "patriotic": 4
     },
     populist: {
-      "antiEstablishment": 5,
+      "Establishment": 5,
       "peoplePower": 4,
       "commonMan": 4,
       "grassroots": 4,
-      "revolt": 3
+      "revolt": 3,
+      "direct": 5,
+    "popular": 4,
+    "Elite": 4,
+    "Participation": 4,
+    "socialReform": 4,
+    "Centric": 4,
+    "Accountability": 4
     }
   };
   
@@ -332,4 +394,7 @@ function levenshtein(a, b) {
     }
   
   }
+  
+
+
   

@@ -33,8 +33,33 @@ let faxiumResponses = {
     body: './body/body0.png',
     outer: './outer/outer0.png'
   };
-  let populations = {};
-  let mainHeading = {};
+
+  // Global variables for populations and mainHeading
+ let populations = {
+  progressive: 100,
+  socialist: 100,
+  idealist: 10,
+  globalist: 10,
+  conservative: 10,
+  economist: 10,
+  realist: 10,
+  nationalist: 10,
+  populist: 100
+};
+
+let mainHeading = {
+  explorer: 1,
+  voyager: 2,
+  captain: 1,
+  merchant: 1,
+  shipwright: 1,
+  fisherman: 1,
+  smuggler: 2,
+  arbiter: 1,
+  sailor: 1
+};
+
+
   let completedProjects = [];
   let userCompletedProjects = [];
   let conversationData = [];

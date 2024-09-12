@@ -1,27 +1,4 @@
-// Global variables for populations and mainHeading
- populations = {
-    progressive: 100,
-    socialist: 100,
-    idealist: 10,
-    globalist: 10,
-    conservative: 10,
-    economist: 10,
-    realist: 10,
-    nationalist: 10,
-    populist: 100
-};
 
- mainHeading = {
-    explorer: 1,
-    voyager: 1,
-    captain: 1,
-    merchant: 1,
-    shipwright: 1,
-    fisherman: 1,
-    smuggler: 1,
-    arbiter: 1,
-    sailor: 1
-};
 
 function updateData(dataObj) {
     let total = 0;
@@ -114,7 +91,7 @@ function updateHeadingsBasedOnEmotions(emotionScores) {
     });
 
     // Update data display
-    updateData(mainHeading, 'totalMainHeading', 'avgMainHeading');
+    updateData(mainHeading, 'totalMainHeading');
 }
 
 
