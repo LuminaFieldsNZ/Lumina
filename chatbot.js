@@ -626,7 +626,7 @@ function createTypingContainer() {
 
   // Set the absolute positioning of the face to bottom-left of the chat window
   svgContainer.style.position = 'absolute'; // Correct absolute positioning
-  svgContainer.style.bottom = '20px'; // Position it at the bottom
+  svgContainer.style.bottom = '40px'; // Position it at the bottom
   svgContainer.style.left = '0';   // Position it on the left
   svgContainer.style.zIndex = '999'; // Ensure it's on top of other content
 
