@@ -19,56 +19,10 @@
       font-family: Arial, sans-serif;
     }
 
-    .container2 {
-      position: absolute;
-      z-index: -1;
-      background-color: transparent;
-    }
 
-    .background-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      min-width: 100%;
-      min-height: 100%;
-      z-index: -2;
-      object-fit: cover;
-    }
 
-    button {
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 18px;
-      color: #fff;
-      background-color: #ff0077;
-      border: none;
-      border-radius: 5px;
-      padding: 10px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #e6006c;
-    }
-
-    input[type="file"] {
-      display: none;
-    }
-
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    
     .project-box-wrapper {
-      width: 300px;
+      width: 85vw;
       margin: 20px;
     }
 
@@ -82,8 +36,8 @@
     .text-content {
       font-family: 'Arial', sans-serif;
       font-size: 16px;
-      height: 150px; /* Ensures a fixed space for the text */
-      overflow: hidden;
+      height: 90px; /* Ensures a fixed space for the text */
+      overflow: scroll;
     }
 
     .svg-container {
@@ -91,144 +45,17 @@
       z-index: 5;
     }
 
-    .typing-cursor {
-      display: inline-block;
-      width: 8px;
-      height: 20px;
-      background-color: #2C0E0F;
-      margin-left: 2px;
-      animation: blinkk 1s infinite;
-    }
 
-    @keyframes blinkk {
-      0%, 100% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0;
-      }
-    }
 
   </style>
 </head>
 <body>
-    <button style="z-index: 999; position: absolute; top: 20px; left: 120px;" id="uploadButton">Upload Audio</button>
-
 
     <div style="z-index: 9999999;" id="container"></div>
 
 
-  <div class="container2" id="container2">
-    <!-- Container where text animation and SVG go -->
-    <input type="file" id="audioFile" accept="audio/*">
-    <canvas id="visualizer"></canvas>
-  </div>
-
-  <video class="background-video" autoplay muted loop>
-    <source src="./99Dancing.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
 
   <script>
-    const canvas = document.getElementById('visualizer');
-    const ctx = canvas.getContext('2d');
-    const uploadButton = document.getElementById('uploadButton');
-    const audioFileInput = document.getElementById('audioFile');
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    let audioContext;
-    let analyser;
-    let source;
-
-    // Click the upload button to trigger file input
-    uploadButton.addEventListener('click', () => {
-      if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      audioFileInput.click();
-    });
-
-    // Load and handle selected audio file
-    audioFileInput.addEventListener('change', handleFileSelect);
-
-    function handleFileSelect(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const audioURL = URL.createObjectURL(file);
-        loadAudio(file);
-        uploadButton.style.display = 'none';  // Hide the button after file is selected
-      }
-    }
-
-    function loadAudio(file) {
-      const reader = new FileReader();
-      
-      reader.onload = function(event) {
-        audioContext.decodeAudioData(event.target.result, function(buffer) {
-          if (source) {
-            source.disconnect();
-          }
-          
-          source = audioContext.createBufferSource();
-          source.buffer = buffer;
-          analyser = audioContext.createAnalyser();
-          analyser.fftSize = 256;
-          source.connect(analyser);
-          analyser.connect(audioContext.destination);
-          source.start();
-          drawVisualizer();
-        });
-      };
-
-      reader.readAsArrayBuffer(file); // Correctly pass the File object to readAsArrayBuffer
-    }
-
-// Visualizer drawing function
-function drawVisualizer() {
-  requestAnimationFrame(drawVisualizer);
-
-  const bufferLength = analyser.frequencyBinCount;
-  const dataArray = new Uint8Array(bufferLength);
-
-  analyser.getByteFrequencyData(dataArray);
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Get the center of the container for the circular effect
-  const container2 = document.getElementById('container2');
-  const containerRect = container2.getBoundingClientRect();
-  const centerX = containerRect.left + containerRect.width / 2;
-  const centerY = containerRect.top + containerRect.height / 2;
-
-  // Variables for visualizer radius and bars
-  const radius = Math.min(containerRect.width, containerRect.height) / 3 + 20;
-  const angleStep = (Math.PI * 2) / bufferLength;
-
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = '#f8db82';
-
-  for (let i = 0; i < bufferLength; i++) {
-    // Increase the barHeight to extend lines more
-    const barHeight = dataArray[i] * 2;  // Scale up the bar height
-
-    const angle = i * angleStep;
-
-    // Start points of lines (inside circle)
-    const xStart = centerX + radius * Math.cos(angle);
-    const yStart = centerY + radius * Math.sin(angle);
-
-    // End points of lines (based on frequency data)
-    const xEnd = centerX + (radius + barHeight) * Math.cos(angle);
-    const yEnd = centerY + (radius + barHeight) * Math.sin(angle);
-
-    ctx.beginPath();
-    ctx.moveTo(xStart, yStart);
-    ctx.lineTo(xEnd, yEnd);
-    ctx.stroke();
-  }
-}
 
     
 const svgTemplates = {
@@ -298,7 +125,6 @@ const svgTemplates = {
 };
 
 
-  const sentences = ['Part 1', 'Part 2', 'Part 3'];
 
   // Function to get a random emotion SVG
   function getRandomEmotion() {
@@ -341,61 +167,20 @@ const svgTemplates = {
     return container;
   }
 
-  // Function to simulate typing animation
-  function typeText(element, text, callback) {
-    element.innerHTML = ''; // Clear the current text
-    let charIndex = 0;
-    
-    const typingInterval = setInterval(() => {
-      if (charIndex < text.length) {
-        element.innerHTML += text.charAt(charIndex);
-        charIndex++;
-      } else {
-        clearInterval(typingInterval);
-        if (callback) callback(); // Call the callback function after typing is done
-      }
-    }, 100); // Typing speed
 
-    // Add a blinking cursor
-    const cursor = document.createElement('span');
-    cursor.className = 'typing-cursor';
-    element.appendChild(cursor);
-  }
 
-  // Function to cycle through sentences
-  function cycleSentences() {
-    const textElement = document.getElementById('text-content');
-    let currentSentenceIndex = 0;
-
-    function nextSentence() {
-      if (currentSentenceIndex >= sentences.length) {
-        currentSentenceIndex = 0; // Reset to the first sentence
-      }
-
-      const sentence = sentences[currentSentenceIndex];
-      currentSentenceIndex++;
-
-      // Start the typing animation
-      typeText(textElement, sentence, () => {
-        // After the sentence is fully typed, wait 4 seconds before starting the next one
-        setTimeout(nextSentence, 8000);
-      });
-    }
-
-    // Start with the first sentence
-    nextSentence();
-  }
 
   // Initialize the container and typing animation
   function init() {
     const container = document.getElementById('container');
     
     // Create the typing container and append it to the DOM
+    setTimeout(() => {
     const typingContainer = createTypingContainer();
     container.appendChild(typingContainer);
+}, 500); // 500 milliseconds = 0.5 seconds
 
-    // Start cycling through the sentences
-    cycleSentences();
+
   }
 
   // Start the script

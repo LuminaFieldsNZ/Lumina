@@ -64,12 +64,7 @@ let mainHeading = {
   let userCompletedProjects = [];
   let conversationData = [];
   
-  // Initial chat window message
-  setTimeout(function() {
-    const chatWindow = document.getElementById('chatWindow');
-    chatWindow.innerHTML += '<p>Lumie: Hello, We\'re your <font style="color: lightblue;">AI</font> assistants... here to support humans in providing ideology perspective</p>';
-    scrollToBottom();
-  }, 4300);
+
   
   // Function to show command list
   function showCommands() {
@@ -136,10 +131,21 @@ handleMessage(message);
   
     setTimeout(() => {
 
-if (currentStep == -1 || currentStep == 4) {
-      let response = getResponse(message);
-      chatWindow.innerHTML += `<p>Lumie: ${response}</p>`;
-    }
+      if (currentStep == -1 || currentStep == 4) {
+        let response = getResponse(message);
+      
+        // Create the typing container with the random emotion
+        let typingContainer = createTypingContainer();
+      
+        // Append response to the text content within the container
+        typingContainer.querySelector('#text-content').innerHTML = response;
+      
+        // Append the container to the chat window
+        chatWindow.appendChild(typingContainer);
+      
+        scrollToBottom();
+      }
+      
 
 
       scrollToBottom();
@@ -506,4 +512,201 @@ function updateModule(moduleNumber) {
   
   // Example usage of addCompletedModule
   // addCompletedModule(3);  // Adds module 3 to completedProjects
+
+
+
+
+
+
+
+
+
+
   
+const svgTemplates2 = {
+  sad: `
+    <svg class="sad" width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <g id="sad" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(0, 0)">
+            <g id="face" transform="translate(13.000000, 20.000000)">
+                <g class="face">
+                <path d="M7,4 C7,5.1045695 7.8954305,6 9,6 C10.1045695,6 11,5.1045695 11,4" class="mouth" stroke="#2C0E0F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(9.000000, 5.000000) rotate(-180.000000) translate(-9.000000, -5.000000) "></path>
+                <ellipse class="right-eye" fill="#2C0E0F" cx="16.0941176" cy="1.75609756" rx="1.90588235" ry="1.75609756"></ellipse>
+                <ellipse class="left-eye" fill="#2C0E0F" cx="1.90588235" cy="1.75609756" rx="1.90588235" ry="1.75609756"></ellipse>
+              </g>
+            </g>
+        </g>
+    </svg>
+  `,
+  neutral: `
+    <svg class="neutral" width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <g>
+          <g class="face">
+            <g transform="translate(13.000000, 20.000000)" fill="#2C0E0F">
+              <g class="mouth">
+                  <g transform="translate(9, 5)" >
+                    <rect x="-2" y="0" width="4" height="2" rx="2"></rect>
+                  </g>
+                </g>
+                <ellipse class="right-eye" cx="16.0941176" cy="1.75" rx="1.90588235" ry="1.75"></ellipse>
+                <ellipse class="left-eye" cx="1.90588235" cy="1.75" rx="1.90588235" ry="1.75"></ellipse>
+            </g>
+          </g>
+      </g>
+    </svg>
+  `,
+  fine: `
+    <svg class="fine" width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <g id="fine-emotion" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <g id="fine">
+              <g class="matrix" transform="translate(22.000000, 32.000000)">
+               <g class="face-container">
+                <g class="face" transform="translate(-9, -12)">
+                  <g class="face-upAndDown">
+                  <g class="eyes">
+                  <ellipse class="right-eye" fill="#2C0E0F" cx="16.0941176" cy="1.75609756" rx="1.90588235" ry="1.75609756"></ellipse>
+                  <ellipse class="left-eye" fill="#2C0E0F" cx="1.90588235" cy="1.75609756" rx="1.90588235" ry="1.75609756"></ellipse></g>
+                  <path d="M6.18823529,4.90499997 C6.18823529,5.95249999 7.48721095,7 9.08957864,7 C10.6919463,7 11.990922,5.95249999 11.990922,4.90499997" id="mouth" stroke="#2C0E0F" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </g>
+              </g>
+              </g>
+            </g>
+          </g>
+      </g>
+    </svg>
+  `,
+  happy: `
+    <svg class="happy" width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <g id="Happy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(0, 0)">
+          <g class="scaleFace">
+            <g class="face">  
+              <ellipse id="Eye-right" fill="#2C0E0F" cx="29.0875" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
+                <ellipse id="Eye-left" fill="#2C0E0F" cx="14.8992647" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
+                <path d="M21.8941176,27.8819633 C24.8588235,27.8819632 25.4941176,25.5404999 25.4941176,24.5648901 C25.4941176,23.5892803 24.4352941,23.9795242 22.1058824,23.9795242 C19.7764706,23.9795242 18.2941176,23.5892803 18.2941176,24.5648901 C18.2941176,25.5404999 18.9294118,27.8819633 21.8941176,27.8819633 Z" id="Mouth" fill="#2C0E0F"></path>
+                <ellipse id="Tung" fill="#E23D18" cx="21.8941176" cy="26.4390244" rx="1.69411765" ry="0.780487805"></ellipse>
+            </g>  
+        </g>
+    </svg>
+  `
+};
+
+
+function getRandomEmotion() {
+  const emotions = ['sad', 'neutral', 'fine', 'happy'];
+  const randomEmotion = emotions[Math.floor(Math.random() * emotions.length)];
+  return svgTemplates2[randomEmotion];
+}
+
+// Function to create and return a typing container
+function createTypingContainer() {
+  const container = document.createElement('div');
+  container.className = 'project-box-wrapper';
+
+  const box = document.createElement('div');
+  box.className = 'project-box';
+  box.style.position = 'relative'; // Allow child absolute positioning within this box
+  box.style.backgroundColor = '#f8db82';
+  box.style.fontSize = '1.3em';
+
+
+  // Text Content Element
+  const textContent = document.createElement('div');
+  textContent.className = 'text-content';
+  textContent.id = 'text-content'; // Add an ID for easy access
+  
+  // Set intro message here
+  textContent.innerHTML = `Hello, We're <b>Lumies</b>, your assistants in the singularity.`;
+
+  // Add text content to the box
+  box.appendChild(textContent);
+
+  // Add random emotion SVG
+  const svgContainer = document.createElement('div');
+  svgContainer.className = 'svg-container';
+  svgContainer.innerHTML = getRandomEmotion();
+
+  // Set the absolute positioning of the face to bottom-left of the chat window
+  svgContainer.style.position = 'absolute'; // Correct absolute positioning
+  svgContainer.style.bottom = '20px'; // Position it at the bottom
+  svgContainer.style.left = '0';   // Position it on the left
+  svgContainer.style.zIndex = '999'; // Ensure it's on top of other content
+
+  box.appendChild(svgContainer);
+
+  // Add data attributes to the eyes to track original positions
+  const rightEye = svgContainer.querySelector('.right-eye');
+  const leftEye = svgContainer.querySelector('.left-eye');
+  
+  if (rightEye && leftEye) {
+    rightEye.setAttribute('data-original-cx', rightEye.getAttribute('cx'));
+    rightEye.setAttribute('data-original-cy', rightEye.getAttribute('cy'));
+    leftEye.setAttribute('data-original-cx', leftEye.getAttribute('cx'));
+    leftEye.setAttribute('data-original-cy', leftEye.getAttribute('cy'));
+  }
+
+  container.appendChild(box);
+  return container;
+}
+
+// Initialize the container and typing animation
+function init() {
+  const container = document.getElementById('chatWindow');
+
+  // Ensure the container exists
+  if (container) {
+    // Create the typing container and append it to the DOM
+    setTimeout(() => {
+      const typingContainer = createTypingContainer();
+      container.appendChild(typingContainer);
+    }, 500); // 500 milliseconds = 0.5 seconds
+  } else {
+    console.error("Container element not found.");
+  }
+}
+
+// Function to move the eyes based on the mouse click position
+function moveEyes(event) {
+  const svgContainers = document.querySelectorAll('.svg-container');
+  const mouseX = event.clientX;
+  const mouseY = event.clientY;
+
+  svgContainers.forEach(container => {
+    const containerRect = container.getBoundingClientRect();
+    const rightEye = container.querySelector('.right-eye');
+    const leftEye = container.querySelector('.left-eye');
+
+    if (rightEye && leftEye) {
+      const originalRightEyeCX = parseFloat(rightEye.getAttribute('data-original-cx'));
+      const originalRightEyeCY = parseFloat(rightEye.getAttribute('data-original-cy'));
+      const originalLeftEyeCX = parseFloat(leftEye.getAttribute('data-original-cx'));
+      const originalLeftEyeCY = parseFloat(leftEye.getAttribute('data-original-cy'));
+
+      const maxEyeMovement = 5;
+      const offsetX = mouseX - (containerRect.left + containerRect.width / 2);
+      const offsetY = mouseY - (containerRect.top + containerRect.height / 2);
+
+      const rightEyeOffsetX = Math.min(maxEyeMovement, offsetX / 50);
+      const rightEyeOffsetY = Math.min(maxEyeMovement, offsetY / 50);
+      const leftEyeOffsetX = Math.min(maxEyeMovement, offsetX / 50);
+      const leftEyeOffsetY = Math.min(maxEyeMovement, offsetY / 50);
+
+      rightEye.setAttribute('cx', originalRightEyeCX + rightEyeOffsetX);
+      rightEye.setAttribute('cy', originalRightEyeCY + rightEyeOffsetY);
+      leftEye.setAttribute('cx', originalLeftEyeCX + leftEyeOffsetX);
+      leftEye.setAttribute('cy', originalLeftEyeCY + leftEyeOffsetY);
+
+      // Reset eyes after a delay
+      setTimeout(() => {
+        rightEye.setAttribute('cx', originalRightEyeCX);
+        rightEye.setAttribute('cy', originalRightEyeCY);
+        leftEye.setAttribute('cx', originalLeftEyeCX);
+        leftEye.setAttribute('cy', originalLeftEyeCY);
+      }, 2000);
+    }
+  });
+}
+
+// Start the script
+init();
+
+// Add event listener to track click location
+document.addEventListener('click', moveEyes);
