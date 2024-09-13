@@ -202,7 +202,7 @@ handleMessage(message);
     if (!response) {
       response = searchInData(message, conversationData);
     }
-    return response || "I can't answer that until you provide me with an Updated OS.";
+    return response || "I can't answer that until you provide me with more context.";
   }
   
   // Function to search for a response in data

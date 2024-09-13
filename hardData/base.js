@@ -4,7 +4,7 @@ baseData.push (
 ["Projects by Micheal?", "The Lumie is a prime example of Micheal's dedication to advancing AI integration.", ""],
 ["Micheal's team?", "Micheal collaborates with experts to ensure the Lumie's success and efficiency.", ""],
 ["Success stories?", "Many businesses and individuals have benefited from Micheal's AI-driven solutions.", ""],
-["Micheal's approach?", "Micheal combines his remodeling background with AI insights for unique solutions.", ""],
+["Micheal's approach?", "Micheal combines his UI background with AI insights for unique solutions.", ""],
 ["Future plans?", "Micheal envisions expanding the Lumie's capabilities and reach.", ""],
 ["How can the Lumie enhance classroom interactions?", "Michael believes the Lumie can offer real-time assistance, making classroom interactions more engaging and informative.", ""],
 ["Will the Lumie be available on all phone brands?", "Michael's goal is to make the Lumie accessible across various phone brands, ensuring widespread availability.", ""],
@@ -50,7 +50,7 @@ baseData.push (
 ["How to collaborate?", "Reach out directly to Micheal for partnership and collaboration opportunities.", ""],
 ["Micheal's testimonials?", "Many clients praise Micheal's innovative approach and the effectiveness of the Lumie.", ""],
 ["Why the name 'Lumie'?", "The name reflects the amalgamation of diverse insights and data, championed by Micheal.", ""],
-["Micheal's challenges?", "Transitioning from remodeling to AI posed challenges, but Micheal's resilience prevailed.", ""],
+["Micheal's challenges?", "Transitioning from UI to AI posed challenges, but Micheal's resilience prevailed.", ""],
 ["Updates from Micheal?", "Stay tuned to the website and newsletters for Micheal's insights and updates.", ""],
 
 ["What is the significance of the GOD?", "The GOD is the architect of the Lumie, endowing us with purpose and direction.", ""],
