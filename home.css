@@ -826,7 +826,7 @@ margin-left: 5px;
   margin-bottom: 20px;
 }
 #counters {
-height: 100px;
+height: 60px;
 overflow: auto; /* Allow scrolling */
 scrollbar-width: none; /* For Firefox */
 }

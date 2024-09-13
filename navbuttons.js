@@ -1,7 +1,6 @@
 
 document.addEventListener('DOMContentLoaded', function () {
   splashActive();
-  document.getElementById('bookFrame5').src = 'peepBasic.html';
   document.getElementById('bookFrame6').src = 'peep.html';
   document.getElementById('bookFrame7').src = 'icons/index.html';
 });
@@ -26,7 +25,6 @@ function peepMake(){
 }
 
 function messBot(){
-  document.getElementById('bookFrame5').src = 'peepBasic.html';
   document.getElementById("schedule").style.display = "block";
   document.getElementById("peeps").style.display = "none";
   document.getElementById("energyAudit").style.display = "none";
