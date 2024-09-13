@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Visualizer</title>
+    
+    <style>
+html,body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: #000;
+    color: #fff;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    text-align: center;
+}
+
+button {
+    position: absolute;
+    font-size: 18px;
+    right: 50%;
+    transform: translateX(50%);
+    top: 50px;
+    color: #fff;
+    background-color: #ff0077;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+button:hover {
+    background-color: #e6006c;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+
+
+    </style>
+
+
+</head>
+<body>
+    <div class="container">
+        <button id="uploadButton">Upload Audio</button>
+        <input type="file" id="audioFile" accept="audio/*" style="display: none;">
+        <canvas id="visualizer"></canvas>
+    </div>
+    <script>
+        
+        const canvas = document.getElementById('visualizer');
+const ctx = canvas.getContext('2d');
+const uploadButton = document.getElementById('uploadButton');
+const audioFileInput = document.getElementById('audioFile');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let audioContext;
+let analyser;
+let source;
+
+uploadButton.addEventListener('click', () => {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    audioFileInput.click();
+});
+
+audioFileInput.addEventListener('change', handleFileSelect);
+
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const audioURL = URL.createObjectURL(file);
+        loadAudio(file);
+        uploadButton.style.display = 'none';  // Hide the button after file is selected
+    }
+}
+
+function loadAudio(file) {
+    const reader = new FileReader();
+    
+    reader.onload = function(event) {
+        audioContext.decodeAudioData(event.target.result, function(buffer) {
+            if (source) {
+                source.disconnect();
+            }
+            
+            source = audioContext.createBufferSource();
+            source.buffer = buffer;
+            analyser = audioContext.createAnalyser();
+            source.connect(analyser);
+            analyser.connect(audioContext.destination);
+            source.start();
+            draw();
+        });
+    };
+
+    reader.readAsArrayBuffer(file); // Correctly pass the File object to readAsArrayBuffer
+}
+
+function draw() {
+    requestAnimationFrame(draw);
+
+    analyser.fftSize = 256;
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    analyser.getByteFrequencyData(dataArray);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const barWidth = (canvas.width / bufferLength) * 2.5;
+    let barHeight;
+    let x = 0;
+
+    ctx.fillStyle = '#ff0077';
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+
+    for (let i = 0; i < bufferLength; i++) {
+        barHeight = dataArray[i];
+
+        ctx.beginPath();
+        ctx.moveTo(x, canvas.height);
+        ctx.lineTo(x, canvas.height - barHeight);
+        ctx.stroke();
+
+        x += barWidth + 1;
+    }
+}
+
+
+    </script>
+</body>
+</html>

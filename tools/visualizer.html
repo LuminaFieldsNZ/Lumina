@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Visualizer with Emotions</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #282c34;
+        }
+        #canvas {
+            background-color: #1e1e1e;
+        }
+        .svg-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        svg {
+            margin: 10px;
+            width: 80px;
+            height: 80px;
+        }
+        #upload {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <input type="file" id="upload" accept="audio/*">
+    <canvas id="canvas" width="800" height="400"></canvas>
+
+    <div class="svg-container">
+        <svg class="sad" width="44px" height="44px"></svg>
+        <svg class="neutral" width="44px" height="44px"></svg>
+        <svg class="fine" width="44px" height="44px"></svg>
+        <svg class="happy" width="44px" height="44px"></svg>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const upload = document.getElementById('upload');
+        const sadSVG = document.querySelector('.sad');
+        const neutralSVG = document.querySelector('.neutral');
+        const fineSVG = document.querySelector('.fine');
+        const happySVG = document.querySelector('.happy');
+
+        let audioContext;
+        let analyser;
+        let source;
+        let bufferLength;
+        let dataArray;
+
+        upload.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const audio = new Audio(URL.createObjectURL(file));
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                audioContext.resume().then(() => {
+                    source = audioContext.createMediaElementSource(audio);
+                    source.connect(analyser);
+                    analyser.connect(audioContext.destination);
+                    analyser.fftSize = 2048;
+                    bufferLength = analyser.frequencyBinCount;
+                    dataArray = new Uint8Array(bufferLength);
+                    audio.play();
+                    visualize();
+                });
+            }
+        }
+
+        function visualize() {
+            const width = canvas.width;
+            const height = canvas.height;
+            const barWidth = width / 20;
+            let barHeight;
+            let x = 0;
+
+            function draw() {
+                x = 0;
+                ctx.clearRect(0, 0, width, height);
+                analyser.getByteFrequencyData(dataArray);
+
+                for (let i = 0; i < 20; i++) {
+                    barHeight = dataArray[i] / 2;
+                    ctx.fillStyle = 'rgb(' + (barHeight + 100) + ',50,50)';
+                    ctx.fillRect(x, height - barHeight, barWidth, barHeight);
+                    x += barWidth + 1;
+                }
+
+                // Dynamically adjust SVGs based on audio data
+                let avgFreq = dataArray.slice(0, 20).reduce((a, b) => a + b) / 20;
+
+                adjustSVG(sadSVG, avgFreq, '#E23D18');
+                adjustSVG(neutralSVG, avgFreq, '#F9AC1B');
+                adjustSVG(fineSVG, avgFreq, '#1988E3');
+                adjustSVG(happySVG, avgFreq, '#248C37');
+
+                requestAnimationFrame(draw);
+            }
+
+            function adjustSVG(svgElement, frequency, color) {
+                const scale = 1 + frequency / 500;  // Adjust scale based on frequency
+                svgElement.style.transform = `scale(${scale})`;
+                svgElement.style.fill = color;
+            }
+
+            draw();
+        }
+    </script>
+</body>
+</html>
