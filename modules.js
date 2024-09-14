@@ -73,25 +73,25 @@ const modules = [
     header: 'User Profile',
     content: `Download JSON file: We don't believe in saving your data or hosting data online.
                We believe you should be in charge of your data, so when you download your .json file
-               you're holding all the memory of Lumina interactions. You'll be prompted to update your name
+               you're holding all the memory of <b>[Lumie]</b><span id="msgIcon"></span> interactions. You'll be prompted to update your name
                and move to the next module.`,
     buttonAction: 'exportData();addCompletedModule(1);'
   },
   {
     id: 'module2',
     header: 'Unique Identity',
-    content: `Once you've downloaded your profile.json file, you should navigate to the settings <b>[GEAR]</b> icon page.
+    content: `Once you've downloaded your profile.json file, you should navigate to settings <span id="svgIcon"></span>.
                Click the [CHOOSE FILE] button, and select your profile.json file to upload.
                Here you can see and modify all of the data inside your profile.
-               Upload your recently downloaded profile.json file, to login then navigate to the animated logo button. <i>Top Left of screen</i> - 
-               design your avatar, then navigate to chat <b>[MESSAGE]</b> icon.`
+               Upload your recently downloaded profile.json file to login, then navigate to <b>[EDIT]</b> <span id="lumIcon"></span> - 
+               to design your avatar.`
   },
   {
     id: 'module3',
     header: 'Getting Started',
-    content: `You're ready to apply yourself. The <b>[CHAT]</b> interface will navigate you through everything Lumina Fields. 
+    content: `You're ready to apply yourself. We Lumies <span id="msgIcon"></span> will navigate you through everything <b>[QUEST]</b> related. 
     You can use your voice or the standard keyobard, try telling the Lumies a little about your day and why you chose to be exactly where you are now. 
-    Once you've done that, navigate with the <b>[MODULE]</b> button to view your <i>Heading</i>.`
+    Once you've done that you can start tracking your <span id="audIcon"></span><b>[Heading]</b>.`
   },
   {
     id: 'module4',
