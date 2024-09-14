@@ -244,6 +244,12 @@ function createEmotes(x, y) {
     
       // Add the falling class to trigger the animation
       container2.classList.add('falling');
+
+    // Remove the emote after 5 seconds
+    setTimeout(() => {
+      container2.remove();
+    }, 8760); // 5000 milliseconds = 5 seconds
+  
     
 
       document.body.appendChild(container2);
