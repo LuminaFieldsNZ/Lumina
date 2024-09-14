@@ -133,7 +133,7 @@ function startQuest() {
   scrollToBottom();
 }
 
-setInterval(startQuest, 25000);
+setInterval(startQuest, 45000);
 
 
 
@@ -163,6 +163,11 @@ const storyline = [
 // Function to display the current question
 function displayQuestion() {
 
+  if (document.getElementById('module991xx') && document.getElementById('module991xx').style.display === 'block') {
+    return;
+  }
+  
+
   currentStep++;
 
   // Get the chat window element
@@ -175,14 +180,23 @@ function displayQuestion() {
   if (currentStep < storyline.length) {
     // Get the current question and additional info
     const step = storyline[currentStep];
-    
-    // Display the question and additional info
-    chatWindow.innerHTML += `<p><strong>Question:</strong> ${step.question}</p>`;
-    chatWindow.innerHTML += `<p><strong>Info:</strong> ${step.additionalInfo}</p>`;
+  
+    const chatWindow4 = document.getElementById('chatWindow');
+    let typingContainer3 = createTypingContainer();
+  
+    // Append response to the text content within the container
+    typingContainer3.querySelector('#text-content').innerHTML = `<p>${step.question}</p><p>${step.additionalInfo}</p>`;
+  
+    // Append the container to the chat window
+    chatWindow4.appendChild(typingContainer3);
+  
+    scrollToBottom();
 
   } else {
     // End of the storyline
-    chatWindow.innerHTML += '<p>Thank you for completing the quest. We will now analyze your responses.</p>';
+    
+    chatWindow.innerHTML += '<p>Quest completed experience logged.</p>';
+    addCompletedModule(991); 
     
   }
 }

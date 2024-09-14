@@ -4,6 +4,6 @@ let conditions = [
     { keyword: 'woke up', action: () => displayQuestion() },
     { keyword: 'time of day', action: () => displayQuestion() },
     { keyword: 'i see', action: () => displayQuestion() },
-    { keyword: 'from me', action: () => displayQuestion() }
+    { keyword: 'from me', action: () => { displayQuestion(); document.getElementById('module991xx').style.display = 'block'; } }
 ];
     

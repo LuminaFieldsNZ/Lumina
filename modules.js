@@ -97,6 +97,12 @@ const modules = [
     header: 'Awaiting update',
     content: `Module 1 Complete.`,
     display: 'none'
+  },
+  {
+    id: 'module991',
+    header: 'Learning Ego',
+    content: `Module 911 Complete.`,
+    display: 'none'
   }
 ];
 
