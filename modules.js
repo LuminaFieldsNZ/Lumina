@@ -75,7 +75,8 @@ const modules = [
                We believe you should be in charge of your data, so when you download your .json file
                you're holding all the memory of <b>[Lumie]</b><span id="msgIcon"></span> interactions. You'll be prompted to update your name
                and move to the next module.`,
-    buttonAction: 'exportData();addCompletedModule(1);'
+    buttonAction: 'exportData();addCompletedModule(1);',
+    buttonLabel: 'Save Profile'
   },
   {
     id: 'module2',
@@ -83,8 +84,7 @@ const modules = [
     content: `Once you've downloaded your profile.json file, you should navigate to settings <span id="svgIcon"></span>.
                Click the [CHOOSE FILE] button, and select your profile.json file to upload.
                Here you can see and modify all of the data inside your profile.
-               Upload your recently downloaded profile.json file to login, then navigate to <b>[EDIT]</b> <span id="lumIcon"></span> - 
-               to design your avatar.`
+               After upload navigate to <b>[EDIT]</b> <span id="lumIcon"></span> to design your unique avatar.`
   },
   {
     id: 'module3',
@@ -140,7 +140,7 @@ function createModule(module) {
   const boxContentSubheader = document.createElement('p');
   boxContentSubheader.className = 'box-content-subheader';
   boxContentSubheader.style.marginBottom = '60px';
-  boxContentSubheader.innerHTML = `${module.content} ${module.buttonAction ? `<br><br><button class="open-modal" onclick="${module.buttonAction}">Download</button>` : ''}`;
+  boxContentSubheader.innerHTML = `${module.content} ${module.buttonAction ? `<br><br><button class="open-modal" onclick="${module.buttonAction}">${module.buttonLabel}</button>` : ''}`;
 
   contentHeader.appendChild(boxContentHeader);
   contentHeader.appendChild(boxContentSubheader);

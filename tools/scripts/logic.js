@@ -166,6 +166,7 @@ if (window.SpeechRecognition || window.webkitSpeechRecognition) {
 
     document.getElementById('micOn').addEventListener('click', () => {
 
+        messBot(); // direct to chat window
         let micOnColor = document.getElementById('micOnColor');
         let computedStyle = window.getComputedStyle(micOnColor);
         let strokeColor = computedStyle.stroke;
