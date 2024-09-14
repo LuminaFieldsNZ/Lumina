@@ -231,3 +231,72 @@ document.addEventListener('DOMContentLoaded', () => {
   addModules();
   document.getElementById('splash').addEventListener('click', moveEyes);
 });
+
+
+function lumie(module) {
+  const moduleWrapper = document.createElement('div');
+  moduleWrapper.className = 'project-box-wrapper';
+  moduleWrapper.id = `${module.id}xx`;
+  moduleWrapper.style.display = module.display || 'block';
+  moduleWrapper.style.position = 'relative';
+
+  const moduleBox = document.createElement('div');
+  moduleBox.className = 'project-box';
+  moduleBox.id = module.id;
+  moduleBox.style.backgroundColor = '#c7c7c7'; // Fixed background color
+
+  const header = document.createElement('div');
+  header.className = 'project-box-header';
+
+
+  const contentHeader = document.createElement('div');
+  contentHeader.className = 'project-box-content-header';
+
+  const boxContentHeader = document.createElement('p');
+  boxContentHeader.className = 'box-content-header';
+  boxContentHeader.textContent = module.header;
+
+
+  const boxContentSubheader = document.createElement('p');
+  boxContentSubheader.className = 'box-content-subheader';
+  boxContentSubheader.innerHTML = `${module.content} ${module.buttonAction ? `<br><br><button class="open-modal" onclick="${module.buttonAction}">${module.buttonLabel}</button>` : ''}`;
+
+  contentHeader.appendChild(boxContentHeader);
+  contentHeader.appendChild(boxContentSubheader);
+
+  moduleBox.appendChild(header);
+  moduleBox.appendChild(contentHeader);
+
+  // Add the random emotion SVG to the module
+  const svgContainer = document.createElement('div');
+  svgContainer.className = 'svg-container';
+  const svg = getRandomEmotion();
+  svgContainer.innerHTML = svg;
+  svgContainer.style.marginBottom = '60px';
+
+
+  // Ensure there are eye elements before adding data attributes
+  const rightEye = svgContainer.querySelector('.right-eye');
+  const leftEye = svgContainer.querySelector('.left-eye');
+  if (rightEye && leftEye) {
+    rightEye.setAttribute('data-original-cx', rightEye.getAttribute('cx'));
+    rightEye.setAttribute('data-original-cy', rightEye.getAttribute('cy'));
+    leftEye.setAttribute('data-original-cx', leftEye.getAttribute('cx'));
+    leftEye.setAttribute('data-original-cy', leftEye.getAttribute('cy'));
+  }
+
+  moduleBox.appendChild(svgContainer);
+  moduleWrapper.appendChild(moduleBox);
+
+  return moduleWrapper;
+}
+
+
+const freeModule = {
+  id: 'freeModule',
+  content: '<div id="addWordSection"><input type="text" id="newWordInput" placeholder="Word Tracking"><button id="addWordButton">Add Word</button></div><div id="counters"></div><div style="display: none;" id="history"></div><div style="display: none;" id="countHistory"></div>',
+  // buttonAction: 'exportData();addCompletedModule(1);',
+  // buttonLabel: 'Save Profile'
+};
+
+document.getElementById('chatWindow').appendChild(lumie(freeModule)); 

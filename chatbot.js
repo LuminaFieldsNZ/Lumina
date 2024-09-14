@@ -405,11 +405,7 @@ handleMessage(message);
     }, 1000); // 1-second delay
   }
   
-  // Add version info on page load
-  document.addEventListener('DOMContentLoaded', function() {
-    const chatWindow = document.getElementById('chatWindow');
-    chatWindow.innerHTML += '<font style="font-size: 12px;">v3.1 copyright 2024</font>';
-  });
+
   
   // Function to check username
   function checkUsername() {
