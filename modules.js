@@ -80,22 +80,23 @@ const modules = [
   {
     id: 'module2',
     header: 'Unique Identity',
-    content: `Once you've downloaded your profile.json file, you should navigate to the settings [gear icon] page.
-               Click the [choose file] button, and select your profile.json file to upload.
+    content: `Once you've downloaded your profile.json file, you should navigate to the settings <b>[GEAR]</b> icon page.
+               Click the [CHOOSE FILE] button, and select your profile.json file to upload.
                Here you can see and modify all of the data inside your profile.
-               Upload your recently downloaded profile.json file, to login then navigate to the animated logo button. [Top Left of screen] - 
-               design your avatar, then navigate to chat [message icon]. Press the [nudge] button to learn about the current topic.`
+               Upload your recently downloaded profile.json file, to login then navigate to the animated logo button. <i>Top Left of screen</i> - 
+               design your avatar, then navigate to chat <b>[MESSAGE]</b> icon.`
   },
   {
     id: 'module3',
     header: 'Getting Started',
-    content: `We are currently talking about the systemic oppression of Black Americans. Why are Black entrepreneurs often overlooked in mainstream business?
-               Answer this in the chat, to open additional modules.`
+    content: `You're ready to apply yourself. The <b>[CHAT]</b> interface will navigate you through everything Lumina Fields. 
+    You can use your voice or the standard keyobard, try telling the Lumies a little about your day and why you chose to be exactly where you are now. 
+    Once you've done that, navigate with the <b>[MODULE]</b> button to view your <i>Heading</i>.`
   },
   {
     id: 'module4',
-    header: 'Awaiting update',
-    content: `Module 1 Complete.`,
+    header: 'Mental Image',
+    content: `Let us walk you through a logic puzzle to begin data gathering. <b>Reminder! </b><i>Lumie response will be locked to Quest narrative until completion</i>`,
     display: 'none'
   },
   {
@@ -138,6 +139,7 @@ function createModule(module) {
 
   const boxContentSubheader = document.createElement('p');
   boxContentSubheader.className = 'box-content-subheader';
+  boxContentSubheader.style.marginBottom = '60px';
   boxContentSubheader.innerHTML = `${module.content} ${module.buttonAction ? `<br><br><button class="open-modal" onclick="${module.buttonAction}">Download</button>` : ''}`;
 
   contentHeader.appendChild(boxContentHeader);

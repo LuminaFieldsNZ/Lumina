@@ -606,7 +606,12 @@ function createTypingContainer() {
   box.style.position = 'relative'; // Allow child absolute positioning within this box
   box.style.backgroundColor = '#f8db82';
   box.style.fontSize = '1.3em';
+// Automatically adjust height based on content
+box.style.height = 'auto';
 
+// Add 40px margins to the top and bottom
+box.style.marginTop = '40px';
+box.style.marginBottom = '40px';
 
   // Text Content Element
   const textContent = document.createElement('div');
@@ -626,7 +631,7 @@ function createTypingContainer() {
 
   // Set the absolute positioning of the face to bottom-left of the chat window
   svgContainer.style.position = 'absolute'; // Correct absolute positioning
-  svgContainer.style.bottom = '40px'; // Position it at the bottom
+  svgContainer.style.marginBottom = '60px'; // Position it at the bottom
   svgContainer.style.left = '0';   // Position it on the left
   svgContainer.style.zIndex = '999'; // Ensure it's on top of other content
 

@@ -1,6 +1,4 @@
 
-const startButton = document.getElementById('startButton');
-const stopButton = document.getElementById('stopButton');
 const transcriptionArea = document.getElementById('userInput');
 const historyDiv = document.getElementById('history');
 const newWordInput = document.getElementById('newWordInput');
@@ -159,22 +157,26 @@ if (window.SpeechRecognition || window.webkitSpeechRecognition) {
     
 
     recognition.onstart = () => {
-        startButton.disabled = true;
-        stopButton.disabled = false;
+        document.getElementById('micOnColor').style.stroke = 'rgb(255, 0, 0)';
     };
 
     recognition.onend = () => {
-        startButton.disabled = false;
-        stopButton.disabled = true;
+        document.getElementById('micOnColor').style.stroke = 'rgb(0, 0, 0)';
     };
 
-    startButton.addEventListener('click', () => {
-        recognition.start();
+    document.getElementById('micOn').addEventListener('click', () => {
+
+        let micOnColor = document.getElementById('micOnColor');
+        let computedStyle = window.getComputedStyle(micOnColor);
+        let strokeColor = computedStyle.stroke;
+        
+        if (strokeColor === 'black' || strokeColor === 'rgb(0, 0, 0)'){
+            recognition.start();
+        } else {
+            recognition.stop();
+        }
     });
 
-    stopButton.addEventListener('click', () => {
-        recognition.stop();
-    });
 
 } else {
     alert('Speech Recognition API is not supported in this browser.');

@@ -784,10 +784,7 @@ margin-left: 5px;
   margin-right: 10px; /* Adds 10px margin on the right side */
 }
 
-/* Removes right margin on the first button */
-.button-container .open-modal:first-of-type {
-  margin-right: 0;
-}
+
 
 .open-modal:hover {
   background: #D95952;
@@ -1117,8 +1114,9 @@ svg.fine .left-eye, svg.fine .right-eye {
 .text-content {
   font-family: 'Arial', sans-serif;
   font-size: 16px;
-  height: 90px; /* Ensures a fixed space for the text */
-  overflow: scroll;
+  height: auto;
+  margin-top: 5px;
+  margin-bottom: 60px;
 }
 
 
