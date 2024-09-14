@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Plasticity Frequency Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        select, button {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Brain Plasticity Frequency Generator</h1>
+    <label for="frequency-group">Select Frequency Group:</label>
+    <select id="frequency-group">
+        <option value="0">Select Frequency</option>
+        <option value="1">Non-Linear Thinking - Set 1</option>
+        <option value="2">Non-Linear Thinking - Set 2</option>
+        <option value="3">Non-Linear Thinking - Set 3</option>
+        <option value="4">Interdimensional Communication - Set 1</option>
+        <option value="5">Interdimensional Communication - Set 2</option>
+        <option value="6">Interdimensional Communication - Set 3</option>Neurological Synchronization
+        <option value="7">Neurological Synchronization - Set 1</option>
+        <option value="8">Neurological Synchronization - Set 2</option>
+        <option value="9">Neurological Synchronization - Set 3</option>
+        <option value="10">Neurological Synchronization - Set 4</option>
+        <option value="11">Neurological Synchronization - Set 5</option>
+    </select>
+    <button onclick="playFrequency()">Play Frequency</button>
+    <button onclick="stopFrequency()">Stop Frequency</button>
+
+</body>
+</html>
+
+
+
+<script>
+    
+    let audioContext;
+let oscillators = [];
+let gainNode;
+
+const frequencySets = {
+    1: [ 132, 528, 2112 ], // Non-Linear Thinking - Set 1
+    2: [ 256, 512, 1024 ], // Non-Linear Thinking - Set 2
+    3: [ 300, 600, 1200 ], // Non-Linear Thinking - Set 3
+    4: [ 432, 864, 1728 ], // Interdimensional Communication - Set 1
+    5: [ 550, 1100, 2200 ], // Interdimensional Communication - Set 2
+    6: [ 620, 1240, 2480 ], // Interdimensional Communication - Set 3
+    7: [ 110, 220, 440, 880, 1760 ], // Neurological Synchronization - Set 1
+    8: [ 150, 300, 600, 1200, 2400 ], // Neurological Synchronization - Set 2
+    9: [ 200, 400, 800, 1600, 3200 ], // Neurological Synchronization - Set 3
+    10: [ 250, 500, 1000, 2000, 4000 ], // Neurological Synchronization - Set 4
+    11: [ 300, 600, 1200, 2400, 4800 ], // Neurological Synchronization - Set 5
+};
+
+function setupAudio() {
+    // Create an AudioContext
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Create a GainNode (for controlling volume)
+    gainNode = audioContext.createGain();
+    gainNode.connect(audioContext.destination);
+    gainNode.gain.setValueAtTime(0.5, audioContext.currentTime); // Volume level
+}
+
+function createOscillators(frequencies) {
+    // Clear existing oscillators
+    oscillators.forEach(osc => osc.stop());
+    oscillators = [];
+
+    // Create oscillators for each frequency
+    frequencies.forEach(frequency => {
+        const oscillator = audioContext.createOscillator();
+        oscillator.type = 'sine'; // Sine wave
+        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+        oscillator.connect(gainNode);
+        oscillator.start();
+        oscillators.push(oscillator);
+    });
+}
+
+function playFrequency() {
+    if (!audioContext) setupAudio();
+    const group = parseInt(document.getElementById('frequency-group').value);
+    const frequencies = frequencySets[group];
+
+    if (frequencies && frequencies.length) {
+        createOscillators(frequencies);
+    }
+}
+
+function stopFrequency() {
+    oscillators.forEach(osc => {
+        osc.stop();
+        osc.disconnect();
+    });
+    audioContext = null; // Reset the AudioContext
+}
+
+
+
+
+    </script>

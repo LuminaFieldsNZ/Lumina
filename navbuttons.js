@@ -110,17 +110,32 @@ function settingsActive(){
 // Function to start the quest and display a random toxic validation question
 function startQuest() {
   // Filter questions that contain the word "toxic"
-  const toxicQuestions = baseData.filter(item => item[0].toLowerCase().includes('black'));
+  const toxicQuestions = baseData.filter(item => item[0].toLowerCase().includes('lumie')); 
 
   // Randomly select one question from the filtered list
   const randomIndex = Math.floor(Math.random() * toxicQuestions.length);
   const selectedQuestion = toxicQuestions[randomIndex];
 
   // Display the selected question and answer in the chat window
-  const chatWindow = document.getElementById('chatWindow');
-  chatWindow.innerHTML += `<p><strong>Question:</strong> ${selectedQuestion[0]}</p>`;
-  chatWindow.innerHTML += `<p><strong>Answer:</strong> ${selectedQuestion[1]}</p>`;
+  const chatWindow3 = document.getElementById('chatWindow');
+
+  
+
+  let typingContainer2 = createTypingContainer();
+
+  
+        // Append response to the text content within the container
+        typingContainer2.querySelector('#text-content').innerHTML = `<p>${selectedQuestion[1]}</p>`;
+
+  // Append the container to the chat window
+  chatWindow3.appendChild(typingContainer2);
+
+  scrollToBottom();
 }
+
+setInterval(startQuest, 25000);
+
+
 
 
 // Define the linear storyline

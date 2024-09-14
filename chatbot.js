@@ -614,7 +614,7 @@ function createTypingContainer() {
   textContent.id = 'text-content'; // Add an ID for easy access
   
   // Set intro message here
-  textContent.innerHTML = `Hello, We're <b>Lumies</b>, your assistants in the singularity.`;
+  textContent.innerHTML = `We <b>Lumies</b> are singularity neurons connecting humans with AI.`;
 
   // Add text content to the box
   box.appendChild(textContent);
