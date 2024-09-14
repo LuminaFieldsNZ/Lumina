@@ -15,6 +15,9 @@ function peepMake(){
   document.getElementById("energyAudit").style.display = "none";
   document.getElementById("splash").style.display = "none";
   document.getElementById("settingsMain").style.display = "none";
+  document.getElementById("hugs").style.display = "none";
+
+
   navLumi.classList.add("active");
   navMess.classList.remove("active");
   navHome.classList.remove("active");
@@ -30,6 +33,9 @@ function messBot(){
   document.getElementById("energyAudit").style.display = "none";
   document.getElementById("splash").style.display = "none";
   document.getElementById("settingsMain").style.display = "none";
+  document.getElementById("hugs").style.display = "none";
+
+
   navMess.classList.add("active");
   navLumi.classList.remove("active");
   navHome.classList.remove("active");
