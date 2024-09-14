@@ -163,3 +163,96 @@ function getExample(fallacyType) {
 }
 
 
+
+const emoteClasses = ['happy', 'sad', 'neutral', 'fine'];
+
+function getRandomEmote() {
+  const randomIndex = Math.floor(Math.random() * emoteClasses.length);
+  return emoteClasses[randomIndex];
+}
+
+function createEmotes(x, y) {
+    for (let i = 0; i < 10; i++) {
+      const container2 = document.createElement('div');
+      container2.classList.add('svg-container2');
+      
+      const emote = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      emote.classList.add('emote', getRandomEmote());
+      emote.setAttribute('viewBox', '0 0 44 44');
+
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('cx', '22');
+      circle.setAttribute('cy', '22');
+      circle.setAttribute('r', '22');
+      circle.setAttribute('fill', '#f8db82');
+      emote.appendChild(circle);
+
+      const faceGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      faceGroup.classList.add('face');
+
+      if (emote.classList.contains('happy')) {
+        faceGroup.innerHTML = `
+          <g class="scaleFace">
+            <ellipse fill="#2C0E0F" cx="29.0875" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
+            <ellipse fill="#2C0E0F" cx="14.8992647" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
+            <path d="M21.8941176,27.8819633 C24.8588235,27.8819632 25.4941176,25.5404999 25.4941176,24.5648901 C25.4941176,23.5892803 24.4352941,23.9795242 22.1058824,23.9795242 C19.7764706,23.9795242 18.2941176,23.5892803 18.2941176,24.5648901 C18.2941176,25.5404999 18.9294118,27.8819633 21.8941176,27.8819633 Z" fill="#2C0E0F"></path>
+            <ellipse fill="#E23D18" cx="21.8941176" cy="26.4390244" rx="1.69411765" ry="0.780487805"></ellipse>
+          </g>
+        `;
+      } else if (emote.classList.contains('sad')) {
+        faceGroup.innerHTML = `
+          <g transform="translate(13, 20)">
+            <path d="M7,4 C7,5.1045695 7.8954305,6 9,6 C10.1045695,6 11,5.1045695 11,4" class="mouth" stroke="#2C0E0F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(9, 5) rotate(-180) translate(-9, -5)"></path>
+            <ellipse class="right-eye" fill="#2C0E0F" cx="16.0941176" cy="1.75609756" rx="1.90588235" ry="1.75609756"></ellipse>
+            <ellipse class="left-eye" fill="#2C0E0F" cx="1.90588235" cy="1.75609756" rx="1.90588235" ry="1.75609756"></ellipse>
+          </g>
+        `;
+      } else if (emote.classList.contains('neutral')) {
+        faceGroup.innerHTML = `
+          <g class="scaleFace">
+            <ellipse fill="#2C0E0F" cx="29.0875" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
+            <ellipse fill="#2C0E0F" cx="14.8992647" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
+            <path d="M21.8941176,25.5 C24.8588235,25.5 25.4941176,23.1585367 25.4941176,22.1829268 C25.4941176,21.2073169 24.4352941,21.5975608 22.1058824,21.5975608 C19.7764706,21.5975608 18.2941176,21.2073169 18.2941176,22.1829268 C18.2941176,23.1585367 18.9294118,25.5 21.8941176,25.5 Z" fill="#2C0E0F"></path>
+            <ellipse fill="#E23D18" cx="21.8941176" cy="26.4390244" rx="1.69411765" ry="0.780487805"></ellipse>
+          </g>
+        `;
+      } else if (emote.classList.contains('fine')) {
+        faceGroup.innerHTML = `
+          <g class="scaleFace">
+            <ellipse fill="#2C0E0F" cx="29.0875" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
+            <ellipse fill="#2C0E0F" cx="14.8992647" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
+            <path d="M21.8941176,27.8819633 C24.8588235,27.8819632 25.4941176,25.5404999 25.4941176,24.5648901 C25.4941176,23.5892803 24.4352941,23.9795242 22.1058824,23.9795242 C19.7764706,23.9795242 18.2941176,23.5892803 18.2941176,24.5648901 C18.2941176,25.5404999 18.9294118,27.8819633 21.8941176,27.8819633 Z" fill="#2C0E0F"></path>
+            <ellipse fill="#E23D18" cx="21.8941176" cy="26.4390244" rx="1.69411765" ry="0.780487805"></ellipse>
+          </g>
+        `;
+      }
+
+      emote.appendChild(faceGroup);
+      container2.appendChild(emote);
+
+
+      container2.style.top = `${y}px`;
+      container2.style.left = `${x}px`;
+    
+      // Assign a random horizontal distance and falling duration
+      const horizontalDistance = (Math.random() * 500 - 250); // Random distance between -1000px and 1000px
+      const fallDuration = Math.random() * 10 + 5; // Range from 5s to 15s
+    
+      // Set the CSS properties for horizontal distance and fall duration
+      container2.style.setProperty('--horizontal-distance', `${horizontalDistance}px`);
+      container2.style.setProperty('--animation-duration', `${fallDuration}s`);
+    
+      // Add the falling class to trigger the animation
+      container2.classList.add('falling');
+    
+
+      document.body.appendChild(container2);
+    }
+  }
+
+  document.addEventListener('click', (event) => {
+    const x = event.clientX;
+    const y = event.clientY;
+    createEmotes(x, y);
+  });
+  

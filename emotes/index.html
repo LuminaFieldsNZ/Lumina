@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Simple animating emotions.</title>
+
+  
+<style>
+
+html, body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+svg.happy .face {
+    -webkit-animation: upAndDown 0.8s ease infinite;
+            animation: upAndDown 0.8s ease infinite;  
+  }
+
+svg.happy .scaleFace {
+    transform-origin: 35px 20px;
+    transform: rotate(12deg);
+  }
+
+
+svg.sad .face {
+    animation: leftToRight 0.4s linear infinite alternate-reverse;
+  }
+
+svg.sad .left-eye, svg.sad .right-eye {
+    opacity: 1;
+    transform-origin: 0 1px;
+    -webkit-animation: 
+      blink 3s linear infinite,
+      blinkSqueeze 3s linear infinite;
+            animation: 
+      blink 3s linear infinite,
+      blinkSqueeze 3s linear infinite;
+  }
+
+svg.sad .mouth {
+    padding-top: 20px;
+  }
+
+svg.neutral .face {
+    -webkit-animation: upAndDown 6s ease infinite;
+            animation: upAndDown 6s ease infinite; 
+  }
+
+svg.neutral .left-eye, svg.neutral .right-eye {
+    opacity: 1;
+    transform-origin: 0 1px;
+    -webkit-animation: 
+      blink 3s linear infinite,
+      blinkSqueezeTwice 3s linear infinite;
+            animation: 
+      blink 3s linear infinite,
+      blinkSqueezeTwice 3s linear infinite;
+    -webkit-animation-delay: 1s;
+            animation-delay: 1s;
+  }
+
+svg.neutral .mouth {
+    animation: scaleX 2s ease infinite alternate-reverse;
+  }
+
+svg.fine .face-container {
+    -webkit-animation: rotateLeftToRight 3s infinite;
+            animation: rotateLeftToRight 3s infinite;
+  }
+
+svg.fine .face-upAndDown {
+    -webkit-animation: fineUpAndDown 3s infinite;
+            animation: fineUpAndDown 3s infinite;
+  }
+
+svg.fine .left-eye, svg.fine .right-eye {
+    opacity: 1;
+    transform-origin: 0 1px;
+    -webkit-animation: 
+      blink 3s linear infinite,
+      blinkSqueeze 3s linear infinite;
+            animation: 
+      blink 3s linear infinite,
+      blinkSqueeze 3s linear infinite;
+  }
+
+@-webkit-keyframes rotateLeftToRight {
+  0% { transform: rotate(15deg); }
+  50% { transform: rotate(-15deg); }
+  100% { transform: rotate(15deg); }
+}
+
+@keyframes rotateLeftToRight {
+  0% { transform: rotate(15deg); }
+  50% { transform: rotate(-15deg); }
+  100% { transform: rotate(15deg); }
+}
+
+@-webkit-keyframes fineUpAndDown {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(0, -1px); }
+  50% { transform: translate(0, 0); }
+  75% { transform: translate(0, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes fineUpAndDown {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(0, -1px); }
+  50% { transform: translate(0, 0); }
+  75% { transform: translate(0, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+@-webkit-keyframes upAndDown {
+  0% { transform: translate(0, -1px); }
+  50% { transform: translate(0, 2px); }
+  100% { transform: translate(0, -1px); }
+}
+
+@keyframes upAndDown {
+  0% { transform: translate(0, -1px); }
+  50% { transform: translate(0, 2px); }
+  100% { transform: translate(0, -1px); }
+}
+
+@-webkit-keyframes leftToRight {
+  0% { transform: translate(-1px, 4px); }
+  100% { transform: translate(1px, 4px); }
+}
+
+@keyframes leftToRight {
+  0% { transform: translate(-1px, 4px); }
+  100% { transform: translate(1px, 4px); }
+}
+
+@-webkit-keyframes leftToRightWide {
+  0% { transform: translate(-5px, 1px); }
+  100% { transform: translate(2px, 1px); }
+}
+
+@keyframes leftToRightWide {
+  0% { transform: translate(-5px, 1px); }
+  100% { transform: translate(2px, 1px); }
+}
+
+@-webkit-keyframes scaleX {
+  0% { transform: translate(0, 0) scale(1, 1); }
+  100% { transform: translate(-9px, 0) scale(2, 1); }
+}
+
+@keyframes scaleX {
+  0% { transform: translate(0, 0) scale(1, 1); }
+  100% { transform: translate(-9px, 0) scale(2, 1); }
+}
+
+@-webkit-keyframes scaleUpAndDown {
+  0% { transform: scale(1, 1); }
+  100% { transform: scale(1, 1.2); }
+}
+
+@keyframes scaleUpAndDown {
+  0% { transform: scale(1, 1); }
+  100% { transform: scale(1, 1.2); }
+}
+
+@-webkit-keyframes blink {
+  0% { opacity: 1; }
+  45% { opacity: 1; }
+  50% { opacity: 0; }
+  55% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  45% { opacity: 1; }
+  50% { opacity: 0; }
+  55% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@-webkit-keyframes blinkSqueeze {
+  0% { transform: scale(1, 1); }
+  45% { transform: scale(1, 1); }
+  50% { transform: scale(1, 0); }
+  55% { transform: scale(1, 1); }
+  100% { transform: scale(1, 1); }
+}
+
+@keyframes blinkSqueeze {
+  0% { transform: scale(1, 1); }
+  45% { transform: scale(1, 1); }
+  50% { transform: scale(1, 0); }
+  55% { transform: scale(1, 1); }
+  100% { transform: scale(1, 1); }
+}
+
+@-webkit-keyframes blinkSqueezeTwice {
+  0% { transform: scale(1, 1); }
+  45% { transform: scale(1, 1); }
+  50% { transform: scale(1, 0); }
+  55% { transform: scale(1, 1); }
+  60% { transform: scale(1, 0); }
+  65% { transform: scale(1, 1); }
+  100% { transform: scale(1, 1); }
+}
+
+@keyframes blinkSqueezeTwice {
+  0% { transform: scale(1, 1); }
+  45% { transform: scale(1, 1); }
+  50% { transform: scale(1, 0); }
+  55% { transform: scale(1, 1); }
+  60% { transform: scale(1, 0); }
+  65% { transform: scale(1, 1); }
+  100% { transform: scale(1, 1); }
+}
+
+
+
+
+/* Set a default size for SVG elements */
+svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Emote class styles */
+.emote {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.5s;
+}
+
+/* Falling animation */
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+
+
+
+
+</style>
+
+</head>
+<body>
+
+
+  
+<script>
+  
+
+  const emoteClasses = ['happy', 'sad', 'neutral', 'fine'];
+
+function getRandomEmote() {
+  const randomIndex = Math.floor(Math.random() * emoteClasses.length);
+  return emoteClasses[randomIndex];
+}
+
+function createEmotes(x, y) {
+  for (let i = 0; i < 10; i++) {
+    const emote = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    emote.classList.add('emote', getRandomEmote());
+    emote.setAttribute('viewBox', '0 0 44 44');
+
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', '22');
+    circle.setAttribute('cy', '22');
+    circle.setAttribute('r', '22');
+    circle.setAttribute('fill', '#f8db82');
+    emote.appendChild(circle);
+
+    const faceGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    faceGroup.classList.add('face');
+
+    if (emote.classList.contains('happy')) {
+      faceGroup.innerHTML = `
+        <g class="scaleFace">
+          <ellipse fill="#2C0E0F" cx="29.0875" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
+          <ellipse fill="#2C0E0F" cx="14.8992647" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
+          <path d="M21.8941176,27.8819633 C24.8588235,27.8819632 25.4941176,25.5404999 25.4941176,24.5648901 C25.4941176,23.5892803 24.4352941,23.9795242 22.1058824,23.9795242 C19.7764706,23.9795242 18.2941176,23.5892803 18.2941176,24.5648901 C18.2941176,25.5404999 18.9294118,27.8819633 21.8941176,27.8819633 Z" fill="#2C0E0F"></path>
+          <ellipse fill="#E23D18" cx="21.8941176" cy="26.4390244" rx="1.69411765" ry="0.780487805"></ellipse>
+        </g>
+      `;
+    } else if (emote.classList.contains('sad')) {
+      faceGroup.innerHTML = `
+        <g transform="translate(13, 20)">
+          <path d="M7,4 C7,5.1045695 7.8954305,6 9,6 C10.1045695,6 11,5.1045695 11,4" class="mouth" stroke="#2C0E0F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(9, 5) rotate(-180) translate(-9, -5)"></path>
+          <ellipse class="right-eye" fill="#2C0E0F" cx="16.0941176" cy="1.75609756" rx="1.90588235" ry="1.75609756"></ellipse>
+          <ellipse class="left-eye" fill="#2C0E0F" cx="1.90588235" cy="1.75609756" rx="1.90588235" ry="1.75609756"></ellipse>
+        </g>
+      `;
+    } else if (emote.classList.contains('neutral')) {
+      faceGroup.innerHTML = `
+        <g class="scaleFace">
+          <ellipse fill="#2C0E0F" cx="29.0875" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
+          <ellipse fill="#2C0E0F" cx="14.8992647" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
+          <path d="M21.8941176,25.5 C24.8588235,25.5 25.4941176,23.1585367 25.4941176,22.1829268 C25.4941176,21.2073169 24.4352941,21.5975608 22.1058824,21.5975608 C19.7764706,21.5975608 18.2941176,21.2073169 18.2941176,22.1829268 C18.2941176,23.1585367 18.9294118,25.5 21.8941176,25.5 Z" fill="#2C0E0F"></path>
+          <ellipse fill="#E23D18" cx="21.8941176" cy="26.4390244" rx="1.69411765" ry="0.780487805"></ellipse>
+        </g>
+      `;
+    } else if (emote.classList.contains('fine')) {
+      faceGroup.innerHTML = `
+        <g class="scaleFace">
+          <ellipse fill="#2C0E0F" cx="29.0875" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
+          <ellipse fill="#2C0E0F" cx="14.8992647" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
+          <path d="M21.8941176,27.8819633 C24.8588235,27.8819632 25.4941176,25.5404999 25.4941176,24.5648901 C25.4941176,23.5892803 24.4352941,23.9795242 22.1058824,23.9795242 C19.7764706,23.9795242 18.2941176,23.5892803 18.2941176,24.5648901 C18.2941176,25.5404999 18.9294118,27.8819633 21.8941176,27.8819633 Z" fill="#2C0E0F"></path>
+          <ellipse fill="#E23D18" cx="21.8941176" cy="26.4390244" rx="1.69411765" ry="0.780487805"></ellipse>
+        </g>
+      `;
+    }
+
+    emote.appendChild(faceGroup);
+    emote.style.top = `${y}px`;
+    emote.style.left = `${x}px`;
+// Assign a random horizontal distance and falling duration
+const maxDistance = 1000; // Maximum distance in pixels
+const horizontalDistance = (Math.random() * 2 - 1) * maxDistance; // Range from -2000px to 2000px
+const fallDuration = Math.random() * 10 + 5; // Range from 5s to 15s
+
+// Set the CSS properties for horizontal distance and fall duration
+emote.style.setProperty('--horizontal-distance', `${horizontalDistance}px`);
+emote.style.animation = `fall ${fallDuration}s ease-in forwards`;
+
+// Define the animation in CSS
+const styleSheet = document.styleSheets[0];
+styleSheet.insertRule(`
+@keyframes fall {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  100% {
+    transform: translateY(100vh) translateX(var(--horizontal-distance));
+  }
+}`, styleSheet.cssRules.length);
+
+emote.classList.add('falling');
+
+
+    document.body.appendChild(emote);
+  }
+}
+
+document.addEventListener('click', (event) => {
+  const x = event.clientX;
+  const y = event.clientY;
+  createEmotes(x, y);
+});
+</script>
+
+</body>
+</html>

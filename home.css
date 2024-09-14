@@ -1120,3 +1120,33 @@ svg.fine .left-eye, svg.fine .right-eye {
 }
 
 
+/* Emote class styles */
+.emote {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.5s;
+}
+
+/* Falling animation */
+.falling {
+  position: absolute;
+  animation: fall var(--animation-duration) ease-in forwards;
+  --horizontal-distance: 0px; /* Default value */
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) translateX(var(--horizontal-distance));
+  }
+}
+
+
+.svg-container2 {
+  z-index: 9999999999999999999999999999;
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  overflow: hidden; /* Ensure the SVG doesn't overflow the container */
+  position: absolute; /* Required for absolute positioning of SVG inside */
+}
