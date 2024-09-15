@@ -239,6 +239,8 @@ function lumie(module) {
   moduleWrapper.id = `${module.id}xx`;
   moduleWrapper.style.display = module.display || 'block';
   moduleWrapper.style.position = 'relative';
+  moduleWrapper.style.marginTop = '40px';
+
 
   const moduleBox = document.createElement('div');
   moduleBox.className = 'project-box';
@@ -294,7 +296,7 @@ function lumie(module) {
 
 const freeModule = {
   id: 'freeModule',
-  content: '<div id="addWordSection"><input type="text" id="newWordInput" placeholder="Word Tracking"><button id="addWordButton">Add Word</button></div><div id="counters"></div><div style="display: none;" id="history"></div><div style="display: none;" id="countHistory"></div>',
+  content: '<div id="addWordSection"><input class="open-modal button flexible" type="text" id="newWordInput" placeholder="Word Tracking"><button class="open-modal button fixed-width" id="addWordButton">Add Word</button></div><div id="counters"></div><div style="display: none;" id="history"></div><div style="display: none;" id="countHistory"></div>',
   // buttonAction: 'exportData();addCompletedModule(1);',
   // buttonLabel: 'Save Profile'
 };
