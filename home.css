@@ -1155,6 +1155,7 @@ svg.fine .left-eye, svg.fine .right-eye {
   position: absolute;
   animation: fall var(--animation-duration) ease-in forwards;
   --horizontal-distance: 0px; /* Default value */
+  border-radius: 30%; /* Adds a radius for rounded corners */
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* White glow effect */
 }
 

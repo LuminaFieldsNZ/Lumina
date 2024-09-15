@@ -96,7 +96,7 @@ const modules = [
   {
     id: 'module4',
     header: 'Mental Image',
-    content: `Let us walk you through a logic puzzle to begin data gathering. <b>Reminder! </b><i>Lumie response will be locked to Quest narrative until completion</i>`,
+    content: `Let us walk you through a logic puzzle to begin Heading identification. <b>Lumie</b><i> response will be locked to Quest narrative until completion once started</i>`,
     display: 'none'
   },
   {
