@@ -1169,6 +1169,8 @@ svg.fine .left-eye, svg.fine .right-eye {
   }
   100% {
     transform: translateY(100vh) translateX(var(--horizontal-distance));
+    opacity: 0; /* Fully transparent at the end */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0); /* Fade out glow */
   }
 }
 
