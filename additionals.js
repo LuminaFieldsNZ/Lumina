@@ -172,7 +172,7 @@ function getRandomEmote() {
 }
 
 function createEmotes(x, y) {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 4; i++) {
       const container2 = document.createElement('div');
       container2.classList.add('svg-container2');
       

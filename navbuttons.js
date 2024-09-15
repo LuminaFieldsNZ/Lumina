@@ -254,29 +254,6 @@ function startQuest() {
   scrollToBottom();
 }
 
-setInterval(startQuest, 145000);
-
-
-
-
-// Define the linear storyline
-const storyline = [
-  {
-    question: "You have just woken up on a small, isolated island. What three objects do you find yourself with?",
-    additionalInfo: "Consider whether the items are for survival or naturally with you. Begin your response with 'I woke up finding'..."
-  },
-  {
-    question: "What time of day is it?",
-    additionalInfo: "Your answer might reflect your current mental and emotional state. Begin your response with 'The time of day is'..."
-  },
-  {
-    question: "What type of boat do you see in the distance?",
-    additionalInfo: "The type of boat can indicate your personal focus and creativity. Begin your response with 'I see'..."
-  },
-  {
-    question: "Which direction is the boat going?",
-    additionalInfo: "The direction of the boat can reveal insights about your ego and self-perception. Begin your response with 'From me the boat is travelling'..."
-  }
-];
+setInterval(startQuest, 345000);
 
 

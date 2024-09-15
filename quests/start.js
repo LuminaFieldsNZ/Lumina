@@ -1,33 +1,40 @@
-
-
-let progressBarPosition = 0;
-const progressBar = `
-<div class="box-progress-wrapper">
-           <p class="box-progress-header">Quest Progress:</p>
-  <span id="progressBarWidth" class="box-progress2" style="width: 50%; background-color: black"></span>
-           <p id="displayPercentage" class="box-progress-percentage">0%</p>
-</div>`;
-
-
-
-function animateProgressBar(targetWidth) {
-    const progressBar = document.getElementById('progressBarWidth');
-    let currentWidth = parseFloat(progressBar.style.width);
-    const interval = 10; // Time interval for animation in milliseconds
-    const step = 1; // Width increment for each interval
-    
-    function updateProgress() {
-      if (currentWidth < targetWidth) {
-        currentWidth += step;
-        if (currentWidth > targetWidth) currentWidth = targetWidth; // Ensure it doesn't exceed target
-        progressBar.style.width = currentWidth + '%';
-        setTimeout(updateProgress, interval);
-      }
-    }
+let conditions = [
+  { keyword: 'systemic', action: () => { updateModule(3); document.getElementById('module4xx').style.display = 'block'; } },
+  { keyword: 'start', action: () => { displayQuestion(); document.getElementById('module4xx').style.display = 'block'; } },
+  { keyword: 'woke up', action: () => displayQuestion() },
+  { keyword: 'time of day', action: () => displayQuestion() },
+  { keyword: 'i see', action: () => displayQuestion() },
+  { keyword: 'from me', action: () => { displayQuestion(); document.getElementById('module991xx').style.display = 'block'; } }
+];
   
-    updateProgress();
+
+// populations['globalist'] += 5000000;
+// mainHeading['merchant'] += 5000000;
+
+
+// Define the linear storyline
+const storyline = [
+  {
+    question: "You have just woken up on a small, isolated island. What three objects do you find yourself with?",
+    additionalInfo: "Consider whether the items are for survival or naturally with you. Begin your response with 'I woke up finding'..."
+  },
+  {
+    question: "What time of day is it?",
+    additionalInfo: "Your answer might reflect your current mental and emotional state. Begin your response with 'The time of day is'..."
+  },
+  {
+    question: "What type of boat do you see in the distance?",
+    additionalInfo: "The type of boat can indicate your personal focus and creativity. Begin your response with 'I see'..."
+  },
+  {
+    question: "Which direction is the boat going?",
+    additionalInfo: "The direction of the boat can reveal insights about your ego and self-perception. Begin your response with 'From me the boat is travelling'..."
   }
-  
+];
+
+
+
+
 
 // Function to display the current question
 function displayQuestion() {
@@ -81,4 +88,36 @@ function displayQuestion() {
     }
   }
   
+  
+
+
+
+  
+let progressBarPosition = 0;
+const progressBar = `
+<div class="box-progress-wrapper">
+           <p class="box-progress-header">Quest Progress:</p>
+  <span id="progressBarWidth" class="box-progress2" style="width: 50%; background-color: black"></span>
+           <p id="displayPercentage" class="box-progress-percentage">0%</p>
+</div>`;
+
+
+
+function animateProgressBar(targetWidth) {
+    const progressBar = document.getElementById('progressBarWidth');
+    let currentWidth = parseFloat(progressBar.style.width);
+    const interval = 10; // Time interval for animation in milliseconds
+    const step = 1; // Width increment for each interval
+    
+    function updateProgress() {
+      if (currentWidth < targetWidth) {
+        currentWidth += step;
+        if (currentWidth > targetWidth) currentWidth = targetWidth; // Ensure it doesn't exceed target
+        progressBar.style.width = currentWidth + '%';
+        setTimeout(updateProgress, interval);
+      }
+    }
+  
+    updateProgress();
+  }
   

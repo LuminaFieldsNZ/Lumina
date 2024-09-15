@@ -163,7 +163,6 @@ handleMessage(message);
       
       // Update the UI with the new population data
       updateData(populations, 'totalPopulations', 'avgPopulations');
-      updateProgressBars(populations);
   
     }, 1000);
   }

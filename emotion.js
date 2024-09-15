@@ -34,7 +34,29 @@ function levenshtein(a, b) {
       "elated": 4,
       "blissful": 5,
       "jubilant": 5,
-      "excited": 4
+      "excited": 4,
+      "joyful": 5,        
+      "radiant": 4,       
+      "gleeful": 4,       
+      "thrilled": 5,      
+      "overjoyed": 5,     
+      "buoyant": 3,       
+      "playful": 3,       
+      "gratified": 4,     
+      "contented": 3,    
+      "upbeat": 4,        
+      "cheery": 4,        
+      "jovial": 5,        
+      "merry": 3,         
+      "elation": 5,       
+      "satisfied": 4,     
+      "radiance": 5,      
+      "euphoric": 5,      
+      "spirited": 4,      
+      "happy": 4, 
+      "exultant": 5,      
+      "exuberant": 5,     
+      "vivacious": 4      
     },
     sadness: {
       "sorrow": 5,
@@ -46,7 +68,28 @@ function levenshtein(a, b) {
       "heartbroken": 5,
       "desolate": 4,
       "dismal": 3,
-      "gloomy": 3
+      "gloomy": 3,
+      "woeful": 5,       
+      "downcast": 4,     
+      "distressed": 5,   
+      "bleak": 4,        
+      "forlorn": 5,      
+      "miserable": 5,    
+      "sullen": 4,       
+      "pessimistic": 4,  
+      "troubled": 4,     
+      "blue": 3,         
+      "woe": 5,          
+      "doleful": 4,      
+      "dejected": 4,     
+      "crestfallen": 5, 
+      "heavyhearted": 5, 
+      "morose": 4,       
+      "sad": 3,          
+      "lonely": 5,       
+      "anguished": 5,    
+      "painful": 5,      
+      "saddened": 4      
     },
     anger: {
       "furious": 5,
@@ -58,7 +101,37 @@ function levenshtein(a, b) {
       "infuriated": 5,
       "outraged": 5,
       "hostile": 4,
-      "agitated": 3
+      "agitated": 3,
+      "livid": 5,
+      "exasperated": 4,
+      "incensed": 5,
+      "enraged": 5,
+      "seething": 5,
+      "cross": 3,
+      "fuming": 5,
+      "irate": 5,
+      "vexed": 4,
+      "peeved": 3,
+      "wrathful": 5,
+      "boiling": 5,
+      "inflamed": 5,
+      "displeased": 4,
+      "riled": 4,
+      "mad": 4,
+      "irritated": 4,
+      "hot-tempered": 5,
+      "vehement": 5,
+      "exasperated": 4,
+      "outraged": 5,
+      "infuriating": 5,
+      "tense": 4,
+      "wrath": 5,
+      "resentful": 4,
+      "choleric": 5,
+      "worked-up": 5,
+      "provoked": 4,
+      "disgruntled": 4,
+      "belligerent": 5
     },
     fear: {
       "terrified": 5,
@@ -70,8 +143,38 @@ function levenshtein(a, b) {
       "apprehensive": 4,
       "alarmed": 4,
       "worried": 3,
-      "fearful": 5
-    },
+      "fearful": 5,
+      "horrified": 5,
+      "dismayed": 4,
+      "spooked": 4,
+      "shaken": 4,
+      "jittery": 3,
+      "nervousness": 4,
+      "petrified": 5,
+      "startled": 4,
+      "uneasy": 4,
+      "terrorized": 5,
+      "disturbed": 4,
+      "afraid": 4,
+      "apprehension": 4,
+      "trembling": 4,
+      "worried": 3,
+      "freaked": 4,
+      "shuddering": 4,
+      "scary": 4,
+      "panicky": 5,
+      "horrific": 5,
+      "shaky": 4,
+      "dreadful": 5,
+      "spooky": 4,
+      "fright": 4,
+      "trepidation": 4,
+      "alarmed": 4,
+      "skittish": 3,
+      "terrifying": 5,
+      "fearsome": 5,
+      "troubled": 4
+    },    
     surprise: {
       "amazed": 5,
       "astonished": 5,
@@ -82,8 +185,41 @@ function levenshtein(a, b) {
       "bewildered": 4,
       "stunned": 5,
       "astounded": 5,
-      "flabbergasted": 5
+      "flabbergasted": 5,
+      "incredulous": 5,
+      "overwhelmed": 5,
+      "shaking": 4,
+      "baffled": 5,
+      "staggered": 5,
+      "taken aback": 5,
+      "confounded": 5,
+      "surprised": 5,
+      "disbelieving": 5,
+      "amazing": 5,
+      "unexpectedly": 4,
+      "unexpectedness": 4,
+      "startling": 4,
+      "jolted": 4,
+      "unbelievable": 5,
+      "stunning": 5,
+      "marveled": 5,
+      "speechless": 5,
+      "disconcerted": 4,
+      "wonderstruck": 5,
+      "awed": 5,
+      "exhilarated": 5,
+      "in awe": 5,
+      "flummoxed": 5,
+      "thrilled": 5,
+      "surprised": 5,
+      "shaken up": 4,
+      "unsettled": 4,
+      "gobsmacked": 5,
+      "dazed": 4,
+      "perplexed": 4,
+      "shocked": 5
     }
+    
   };
   
   let emotionScores = {
@@ -96,59 +232,59 @@ function levenshtein(a, b) {
   
   const emotionToHeading = {
     happiness: {
-      explorer: 1,
-      voyager: 0,
-      captain: 0,
-      merchant: 0,
-      shipwright: 0,
-      fisherman: 0,
-      smuggler: 0,
-      arbiter: 0,
-      sailor: 0
+      explorer: 150,
+      voyager: 100,
+      captain: 90,
+      merchant: 40,
+      shipwright: 40,
+      fisherman: 80,
+      smuggler: 30,
+      arbiter: 10,
+      sailor: 80
     },
     sadness: {
-      explorer: 0,
-      voyager: 1,
-      captain: 0,
-      merchant: 0,
-      shipwright: 0,
-      fisherman: 0,
-      smuggler: 0,
-      arbiter: 0,
-      sailor: 0
+      explorer: 20,
+      voyager: 150,
+      captain: 50,
+      merchant: 90,
+      shipwright: 20,
+      fisherman: 60,
+      smuggler: 60,
+      arbiter: 100,
+      sailor: 50
     },
     anger: {
-      explorer: 0,
-      voyager: 0,
-      captain: 1,
-      merchant: 0,
-      shipwright: 0,
-      fisherman: 0,
-      smuggler: 0,
-      arbiter: 0,
-      sailor: 0
+      explorer: 50,
+      voyager: 90,
+      captain: 150,
+      merchant: 50,
+      shipwright: 30,
+      fisherman: 10,
+      smuggler: 80,
+      arbiter: 100,
+      sailor: 50
     },
     fear: {
-      explorer: 0,
-      voyager: 0,
-      captain: 0,
-      merchant: 1,
-      shipwright: 0,
-      fisherman: 0,
-      smuggler: 0,
-      arbiter: 0,
-      sailor: 0
+      explorer: 10,
+      voyager: 80,
+      captain: 100,
+      merchant: 150,
+      shipwright: 60,
+      fisherman: 90,
+      smuggler: 10,
+      arbiter: 10,
+      sailor: 90
     },
     surprise: {
-      explorer: 0,
-      voyager: 0,
-      captain: 0,
-      merchant: 0,
-      shipwright: 1,
-      fisherman: 0,
-      smuggler: 0,
-      arbiter: 0,
-      sailor: 0
+      explorer: 50,
+      voyager: 100,
+      captain: 30,
+      merchant: 30,
+      shipwright: 150,
+      fisherman: 100,
+      smuggler: 10,
+      arbiter: 10,
+      sailor: 50
     }
   };
   
@@ -398,3 +534,180 @@ function levenshtein(a, b) {
 
 
   
+
+function updateData(dataObj) {
+  let total = 0;
+
+  // Update the text content for each element
+  for (const key in dataObj) {
+      const elem = document.getElementById(key);
+      if (elem) {
+          elem.textContent = Math.round(dataObj[key]);
+          total += dataObj[key];
+      } else {
+          console.warn(`Element with ID ${key} not found.`);
+      }
+  }
+
+  // Calculate and update average
+  const avg = Object.keys(dataObj).length ? total / Object.keys(dataObj).length : 0;
+
+  // Update percentages based on total
+  updatePercentages(total, dataObj);
+}
+
+
+function updatePercentages(total, dataObj) {
+  if (total <= 0) {
+      console.error('Total value is 0 or less:', total);
+      return;
+  }
+
+  for (const key in dataObj) {
+      const value = Number(dataObj[key]); // Ensure the value is a number
+      if (isNaN(value)) {
+          console.warn(`Value for ${key} is not a number.`);
+          continue;
+      }
+
+      const percentage = (value / total) * 100;
+      const roundedPercentage = Math.round(percentage);
+
+      // Ensure the percentage is within expected bounds
+      if (percentage < 0 || percentage > 100) {
+          console.warn(`Percentage for ${key} is out of bounds: ${percentage}%`);
+          continue;
+      }
+
+      const percentageElem = document.getElementById(`${key}bp`);
+      if (percentageElem) {
+          percentageElem.textContent = `${roundedPercentage}%`;
+      } else {
+          console.warn(`Element with ID ${key + 'bp'} not found.`);
+      }
+
+      const progressBar = document.querySelector(`.${key}-progress`);
+      if (progressBar) {
+          progressBar.style.width = `${roundedPercentage}%`;
+          progressBar.style.backgroundColor = getProgressBarColor(roundedPercentage);
+      } else {
+          console.warn(`Progress bar with class ${key}-progress not found.`);
+      }
+  }
+}
+
+
+
+// Function to get progress bar color based on percentage
+function getProgressBarColor(percentage) {
+  if (percentage > 75) return 'green';
+  if (percentage > 50) return 'black';
+  if (percentage > 25) return 'black';
+  return 'red';
+}
+
+// Update headings based on emotions
+function updateHeadingsBasedOnEmotions(emotionScores) {
+  // Reset headings
+  for (const key in mainHeading) {
+      mainHeading[key] = 0;
+  }
+
+  // Determine the highest emotion score
+  const sortedEmotions = Object.entries(emotionScores).sort((a, b) => b[1] - a[1]);
+
+  // Allocate emotions to headings based on the highest scores
+  sortedEmotions.forEach(([emotion, score]) => {
+      if (score > 0) {
+          for (const [heading, value] of Object.entries(emotionToHeading[emotion])) {
+              mainHeading[heading] += value * score;
+          }
+      }
+  });
+
+  // Update data display
+  updateData(mainHeading, 'totalMainHeading');
+}
+
+
+
+function updateProgressBars(populations) {
+  const totalPopulation = Object.values(populations).reduce((total, num) => total + num, 0);
+  console.log('Total Population:', totalPopulation);
+
+  if (totalPopulation > 0) {
+      for (const [category, population] of Object.entries(populations)) {
+          const percentage = (population / totalPopulation) * 100;
+
+          // Update the population number
+          const populationElem = document.getElementById(category);
+          if (populationElem) {
+              populationElem.textContent = Math.round(population);
+          } else {
+              console.warn(`Element with ID ${category} not found.`);
+          }
+
+          // Update progress bar width
+          const progressBar = document.querySelector(`.${category}-progress`);
+          if (progressBar) {
+              progressBar.style.width = `${percentage}%`;
+          } else {
+              console.warn(`Progress bar with class ${category}-progress not found.`);
+          }
+
+          // Update percentage text
+          const percentageElem = document.getElementById(`${category}bp`);
+          if (percentageElem) {
+              percentageElem.textContent = `${Math.round(percentage)}%`;
+          } else {
+              console.warn(`Element with ID ${category}bp not found.`);
+          }
+      }
+  } else {
+      console.warn('Total population is 0 or less.');
+  }
+}
+
+
+
+function updateDataFromJSONEditor() {
+  const jsonEditorContent = document.getElementById('jsonEditor').value;
+  console.log('JSON Editor Content:', jsonEditorContent); // Log JSON content
+
+  let parsedData;
+  try {
+      parsedData = JSON.parse(jsonEditorContent);
+  } catch (error) {
+      console.error('Invalid JSON format');
+      return;
+  }
+
+  console.log('Parsed Data:', parsedData); // Log parsed data
+
+  if (parsedData && parsedData.userData) {
+      const userData = parsedData.userData;
+
+      // Update populations based on JSON data
+      if (userData.emotionScores) {
+          const emotionScores = userData.emotionScores;
+          console.log('Emotion Scores:', emotionScores); // Log emotion scores
+
+          for (const key in populations) {
+              populations[key] = emotionScores[key] || 0;
+          }
+
+          // Update mainHeading based on detected emotions
+          updateHeadingsBasedOnEmotions(emotionScores);
+      }
+
+      // Handle mainHeading if available in userData
+      if (userData.mainHeading) {
+          for (const key in mainHeading) {
+              mainHeading[key] = userData.mainHeading[key] || 0;
+          }
+      }
+      
+      // Update progress bars and percentages
+      updateProgressBars(populations);
+  }
+}

@@ -66,8 +66,8 @@ function updatePercentages(total, dataObj) {
 // Function to get progress bar color based on percentage
 function getProgressBarColor(percentage) {
     if (percentage > 75) return 'green';
-    if (percentage > 50) return 'yellow';
-    if (percentage > 25) return 'orange';
+    if (percentage > 50) return 'black';
+    if (percentage > 25) return 'black';
     return 'red';
 }
 
