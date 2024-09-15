@@ -1,10 +1,10 @@
 let conditions = [
-  { keyword: 'systemic', action: () => { updateModule(3); document.getElementById('module4xx').style.display = 'block'; } },
+  { keyword: 'systemic', action: () => { addCompletedModule(3); document.getElementById('module4xx').style.display = 'block'; } },
   { keyword: 'start', action: () => { displayQuestion(); document.getElementById('module4xx').style.display = 'block'; } },
   { keyword: 'woke up', action: () => displayQuestion() },
   { keyword: 'time of day', action: () => displayQuestion() },
   { keyword: 'i see', action: () => displayQuestion() },
-  { keyword: 'from me', action: () => { displayQuestion(); document.getElementById('module991xx').style.display = 'block'; } }
+  { keyword: 'from me', action: () => { displayQuestion(); document.getElementById('module5xx').style.display = 'block'; } }
 ];
   
 
@@ -39,7 +39,7 @@ const storyline = [
 // Function to display the current question
 function displayQuestion() {
 
-    if (document.getElementById('module991xx') && document.getElementById('module991xx').style.display === 'block') {
+    if (document.getElementById('module5xx') && document.getElementById('module5xx').style.display === 'block') {
       return;
     }
     
@@ -83,7 +83,7 @@ function displayQuestion() {
       // End of the storyline
       
       chatWindow.innerHTML += '<p>Quest completed experience logged.</p>';
-      addCompletedModule(991); 
+      addCompletedModule(5); 
       
     }
   }

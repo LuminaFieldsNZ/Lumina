@@ -75,7 +75,7 @@ const modules = [
                We believe you should be in charge of your data, so when you download your .json file
                you're holding all the memory of <b>[Lumie]</b><span id="msgIcon"></span> interactions. You'll be prompted to update your name
                and move to the next module.`,
-    buttonAction: 'exportData();addCompletedModule(1);',
+    buttonAction: 'addCompletedModule(1);exportData();',
     buttonLabel: 'Save Profile'
   },
   {
@@ -100,9 +100,9 @@ const modules = [
     display: 'none'
   },
   {
-    id: 'module991',
+    id: 'module5',
     header: 'Learning Ego',
-    content: `Module 911 Complete.`,
+    content: `Module 5 Complete.`,
     display: 'none'
   }
 ];

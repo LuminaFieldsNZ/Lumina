@@ -174,7 +174,7 @@ if (container) {
 
 // Define the SVG as a string
 const lumIcon = `
-<a style="width:14px: height:14px;" onclick="peepMake();updateModule(2);">
+<a style="width:14px: height:14px;" onclick="peepMake();addCompletedModule(2);">
 <svg style="background-color: #fff; border-radius: 30%; width:14px; height:14px;" class="fine" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g id="fine-emotion" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g id="fine">
