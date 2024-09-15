@@ -95,14 +95,14 @@ const modules = [
   },
   {
     id: 'module4',
-    header: 'Mental Image',
+    header: 'Mental Enneagram',
     content: `Let us walk you through a logic puzzle to begin Heading identification. <b>Lumie</b><i> response will be locked to Quest narrative until completion once started</i>`,
     display: 'none'
   },
   {
     id: 'module5',
-    header: 'Learning Ego',
-    content: `Module 5 Complete.`,
+    header: 'Established Heading',
+    content: `In this diverse societal landscape, the Progressive and Socialist focus on reforming and supporting societal structures for greater fairness and equity. The Idealist and Globalist seek authenticity and global harmony, while the Conservative and Economist emphasize stability and understanding complex systems. The Realist, Nationalist, and Populist drive practical outcomes, national pride, and broad public engagement, respectively, each shaping the society with their distinct values and motivations.`,
     display: 'none'
   }
 ];

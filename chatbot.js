@@ -36,25 +36,25 @@ let faxiumResponses = {
 
   // Global variables for populations and mainHeading
  let populations = {
-  progressive: 100,
-  socialist: 100,
+  progressive: 10,
+  socialist: 10,
   idealist: 10,
   globalist: 10,
   conservative: 10,
   economist: 10,
   realist: 10,
   nationalist: 10,
-  populist: 100
+  populist: 10
 };
 
 let mainHeading = {
   explorer: 1,
-  voyager: 2,
+  voyager: 1,
   captain: 1,
   merchant: 1,
   shipwright: 1,
   fisherman: 1,
-  smuggler: 2,
+  smuggler: 1,
   arbiter: 1,
   sailor: 1
 };
@@ -63,7 +63,21 @@ let mainHeading = {
   let completedProjects = [];
   let userCompletedProjects = [];
   let conversationData = [];
-  
+  let totalPopulation = 0;
+
+  function getTotalPopulation(populations) {
+    let total2 = 0;
+    
+    // Loop through the populations object and sum the values
+    for (let key in populations) {
+      if (populations.hasOwnProperty(key)) {
+        total2 += populations[key];
+      }
+    }
+    
+    return total2;
+  }
+    
 
   
   // Function to show command list
@@ -160,9 +174,8 @@ handleMessage(message);
       updateJSONDisplay();
       scanForEmotionWords();
       testData();
-      
-      // Update the UI with the new population data
-      updateData(populations, 'totalPopulations', 'avgPopulations');
+      totalPopulation = getTotalPopulation(populations);
+      document.getElementById('mainHeadingAverage').innerHTML = totalPopulation;
   
     }, 1000);
   }
