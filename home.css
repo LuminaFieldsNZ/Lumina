@@ -1155,13 +1155,23 @@ svg.fine .left-eye, svg.fine .right-eye {
   position: absolute;
   animation: fall var(--animation-duration) ease-in forwards;
   --horizontal-distance: 0px; /* Default value */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* White glow effect */
 }
 
 @keyframes fall {
-  to {
+  0% {
+    opacity: 1; /* Fully visible at the start */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* White glow at the start */
+  }
+  70% {
+    opacity: 0; /* Fully transparent at the end */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0); /* Fade out glow */
+  }
+  100% {
     transform: translateY(100vh) translateX(var(--horizontal-distance));
   }
 }
+
 
 
 .svg-container2 {
