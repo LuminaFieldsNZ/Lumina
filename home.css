@@ -529,6 +529,10 @@ margin-left: 5px;
   flex: 1;
 }
 
+.box-progress-wrapper {
+margin-bottom: 180px;
+}
+
 .project-box {
   --main-color-card: #dbf6fd;
   border-radius: 30px;

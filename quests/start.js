@@ -163,8 +163,8 @@ function displayModule(moduleId) {
       choice3 = step.but3;
     
       // Append response to the text content within the container
-      typingContainer3.querySelector('#text-content').innerHTML = `${progressBar}<p>${step.question}</p><p>${step.additionalInfo}</p>
-      <button class="open-modal2" onclick="run1();">${choice1}</button><button class="open-modal2" onclick="run2();">${choice2}</button><button class="open-modal2" onclick="run3();">${choice3}</button>`;
+      typingContainer3.querySelector('#text-content').innerHTML = `<p>${step.question}</p><p>${step.additionalInfo}</p>
+      <button class="open-modal2" onclick="run1();">${choice1}</button><button class="open-modal2" onclick="run2();">${choice2}</button><button class="open-modal2" onclick="run3();">${choice3}</button><br>${progressBar}`;
     
 
 
