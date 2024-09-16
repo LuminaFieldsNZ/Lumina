@@ -18,7 +18,7 @@
   width: 130px;
   height: 130px;
   left: -5px;
-  bottom: -40px;
+  bottom: 0px;
   z-index: 100000000000000000000000000000000000000000000000000000000; /* Optional: To ensure it's above other elements */
   border-style: none;
   opacity: .35;
@@ -46,7 +46,7 @@
   width: calc(130px * var(--scale-factor));
   height: calc(130px * var(--scale-factor));
   right: 5%;
-  bottom: -10px;
+  bottom: 0px;
   z-index: 100000000000000000000000000000000000000000000000000000000; /* Optional: To ensure it's above other elements */
   border-style: none;
   transform: scaleX(-1);

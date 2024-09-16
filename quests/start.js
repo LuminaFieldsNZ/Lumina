@@ -63,6 +63,7 @@ function run2() {
   displayQuestion();
   shake('questPlayer');
   shake2('questBoss');
+  switchBoss(0, 1, 3, 6, 7);
 }
 
 function run3() {
@@ -111,17 +112,12 @@ const storylineFaxium = [
 // Function to display the current question
 function displayQuestion() {
 
-
-    
-
 // Main function to handle game logic
 function handleBattleStep(currentStep, totalPopulation) {
   if (currentStep !== 0) {
       checkPopulationAndHandleModule(); // Checks population and handles module display
   }
 }
-
-
 
 // Function to check population and display the module
 function checkPopulationAndHandleModule() {
@@ -194,6 +190,7 @@ function displayModule(moduleId) {
       
       chatWindow.innerHTML += '<p>Quest completed experience logged.</p>';
       document.getElementById('module3').querySelector('button').remove();
+      document.querySelector('.image-container2').style.opacity = .35;
       addCompletedModule(3);
       addCompletedModule(4); 
       addCompletedModule(5); 

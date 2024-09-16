@@ -4,7 +4,7 @@ const config = {
   cols: 15
 };
 
-const checkboxes = [
+let checkboxes = [
   { id: 'boss', label: 'Rachel', index: 0 },
   { id: 'shake', label: 'Mark', index: 1 },
   { id: 'fade-out', label: 'Clyde', index: 2 }
@@ -35,70 +35,83 @@ function removeFromBody(uniqueId) {
   }
 }
 
-let scaleFactor = 1;
+function removeCheckboxes() {
+  // Remove all checkboxes within the container
+  const container = document.getElementById('dynamicBoss1');
+  if (container) {
+    container.innerHTML = '';
+  }
+}
 
 // Define the boss1 HTML content
 const boss1 = `
 <div class="image-container3 questBoss flipped" id="dynamicBoss1" onclick="shake2('questBoss');">
 </div>
 `;
+function createCheckboxes() {
+  // Get the container element after it has been added to the DOM
+  const container = document.getElementById('dynamicBoss1');
+  if (container) {
+    const img = new Image();
+    img.src = config.src;
+    img.onload = () => {
+      // Define the scaling factor
+      const screenWidth = window.innerWidth;
+      const scaleFactor = screenWidth < 850 ? 0.5 : 1;
 
-// Append the boss1 HTML content to the body
+      // Calculate the dimensions and position based on the scaling factor
+      const rectWidth = (img.naturalWidth / config.cols) * scaleFactor;
+      const rectHeight = (img.naturalHeight / config.rows) * scaleFactor;
+
+      // Loop through checkboxes to create and style them
+      checkboxes.forEach((checkbox, index) => {
+        const row = Math.floor(checkbox.index / config.cols);
+        const col = checkbox.index % config.cols;
+        const backgroundPositionX = -col * rectWidth + 'px';
+        const backgroundPositionY = -row * rectHeight + 'px';
+
+        // Create and style the checkbox wrapper
+        const checkboxWrapper = document.createElement('label');
+        checkboxWrapper.className = 'checkbox-wrapper';
+        checkboxWrapper.id = `${checkbox.id}`;
+        checkboxWrapper.style.backgroundImage = `url(${img.src})`;
+        checkboxWrapper.style.backgroundPosition = `${backgroundPositionX} ${backgroundPositionY}`;
+        checkboxWrapper.style.width = `${rectWidth}px`;
+        checkboxWrapper.style.height = `${rectHeight}px`;
+        checkboxWrapper.style.backgroundSize = `${img.naturalWidth * scaleFactor}px ${img.naturalHeight * scaleFactor}px`;
+        checkboxWrapper.style.display = 'inline-block';
+        checkboxWrapper.style.marginLeft = `${index * (screenWidth < 850 ? 40 : 120)}px`;
+
+        // Append the checkbox wrapper to the container
+        container.appendChild(checkboxWrapper);
+      });
+    };
+  } else {
+    console.error('Element with ID dynamicBoss1 not found.');
+  }
+}
+
+// Switch boss function
+function switchBoss(...indices) {
+  // Remove old checkboxes
+  removeCheckboxes();
+
+  // Update the checkboxes array with new indices
+  checkboxes = checkboxes.map((checkbox, index) => ({
+    ...checkbox,
+    index: indices[index] !== undefined ? indices[index] : checkbox.index
+  }));
+
+  // Recreate the checkboxes with the new indices
+  createCheckboxes();
+}
+
+
 appendToBody(boss1, 'dynamicBoss1');
+createCheckboxes();
 hideDynamicBoss1();
 
 
-// Get the container element after it has been added to the DOM
-const container = document.getElementById('dynamicBoss1');
-
-if (container) {
-  const img = new Image();
-  img.src = config.src;
-
-  img.onload = () => {
-    // Define the scaling factor
-    const screenWidth = window.innerWidth;
-
-    if (screenWidth < 850) {
-      scaleFactor = 0.5; // Scale down for smaller screens
-    }  
-    // Calculate the dimensions and position based on the scaling factor
-    const rectWidth = (img.naturalWidth / config.cols) * scaleFactor;
-    const rectHeight = (img.naturalHeight / config.rows) * scaleFactor;
-  
-    // Loop through checkboxes to create and style them
-    checkboxes.forEach((checkbox, index) => {
-      const row = Math.floor(checkbox.index / config.cols);
-      const col = checkbox.index % config.cols;
-      // Calculate the background position with scaling factor
-      const backgroundPositionX = -col * rectWidth + 'px';
-      const backgroundPositionY = -row * rectHeight + 'px';
-  
-      // Create and style the checkbox wrapper
-      const checkboxWrapper = document.createElement('label');
-      checkboxWrapper.className = 'checkbox-wrapper';
-      checkboxWrapper.id = `${checkbox.id}`;
-      checkboxWrapper.style.backgroundImage = `url(${img.src})`;
-      checkboxWrapper.style.backgroundPosition = `${backgroundPositionX} ${backgroundPositionY}`;
-      checkboxWrapper.style.width = `${rectWidth}px`;
-      checkboxWrapper.style.height = `${rectHeight}px`;
-      checkboxWrapper.style.backgroundSize = `${img.naturalWidth * scaleFactor}px ${img.naturalHeight * scaleFactor}px`;
-      checkboxWrapper.style.display = 'inline-block';
-      if (screenWidth < 850) {
-        checkboxWrapper.style.marginLeft = `${index * 40}px`; // Adjust the spacing as needed
-      }  else {
-        checkboxWrapper.style.marginLeft = `${index * 120}px`; // Adjust the spacing as needed
-      }
-  
-      // Append the checkbox wrapper to the container
-      container.appendChild(checkboxWrapper);
-    });
-  };
-  
-
-} else {
-  console.error('Element with ID dynamicBoss1 not found.');
-}
 
 // Functions for animations
 function shake(className) {
