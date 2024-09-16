@@ -14,13 +14,15 @@
             margin: 0;
             position: relative;
             overflow: hidden;
+            background-color: #f0f0f0; /* Light background for better contrast */
         }
         .letter {
             position: absolute;
-            font-size: 64px;
+            font-size: 8vw; /* Responsive font size based on viewport width */
             cursor: pointer;
             white-space: nowrap;
             transform-origin: center;
+            user-select: none; /* Prevent text selection on double-click */
         }
     </style>
 </head>
@@ -75,8 +77,8 @@
         function displayLetters() {
             const body = document.body;
             const keys = Object.keys(soundFiles);
-            const letterWidth = 50; // Approximate width of each letter
-            const letterHeight = 50; // Approximate height of each letter
+            const letterWidth = 120; // Approximate width of each letter
+            const letterHeight = 120; // Approximate height of each letter
             const letters = [];
 
             keys.forEach(letter => {
@@ -100,7 +102,11 @@
                 letterElement.style.top = `${position.y}px`;
                 letterElement.style.transform = `rotate(${getRandomRotation()}deg)`;
 
-                letterElement.addEventListener('click', () => playSound(letter));
+                // Add both click and touchstart event listeners
+                const play = () => playSound(letter);
+                letterElement.addEventListener('click', play);
+                letterElement.addEventListener('touchstart', play);
+
                 body.appendChild(letterElement);
 
                 letters.push({ element: letterElement, rect: {
