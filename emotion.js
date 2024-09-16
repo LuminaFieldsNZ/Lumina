@@ -1,30 +1,31 @@
-
 const similarityThreshold = 2; // Adjust this threshold as needed
 
+// Distance function to compare words
+function distance(a, b) {
+    const aLen = a.length;
+    const bLen = b.length;
+    const dist = Array(aLen + 1).fill(null).map(() => Array(bLen + 1).fill(null));
 
-function levenshtein(a, b) {
-    let tmp;
-    let i, j, alen = a.length, blen = b.length;
-    const arr = [];
-  
-    if (alen === 0) return blen;
-    if (blen === 0) return alen;
-  
-    for (i = 0; i <= blen; i++) arr[i] = [i];
-    for (j = 0; j <= alen; j++) arr[0][j] = j;
-  
-    for (i = 1; i <= blen; i++) {
-      for (j = 1; j <= alen; j++) {
-        tmp = a[j - 1] === b[i - 1] ? 0 : 1;
-        arr[i][j] = Math.min(arr[i - 1][j] + 1, Math.min(arr[i][j - 1] + 1, arr[i - 1][j - 1] + tmp));
-      }
+    for (let i = 0; i <= aLen; i++) dist[i][0] = i;
+    for (let j = 0; j <= bLen; j++) dist[0][j] = j;
+
+    for (let i = 1; i <= aLen; i++) {
+        for (let j = 1; j <= bLen; j++) {
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+            dist[i][j] = Math.min(
+                dist[i - 1][j] + 1, // Deletion
+                dist[i][j - 1] + 1, // Insertion
+                dist[i - 1][j - 1] + cost // Substitution
+            );
+        }
     }
-  
-    return arr[blen][alen];
-  }
-  
-  
-  const emotionWords = {
+    return dist[aLen][bLen];
+}
+
+
+
+// Define emotion words and their weights
+const emotionWords = {
     happiness: {
       "ecstasy": 4,
       "delight": 4,
@@ -221,16 +222,17 @@ function levenshtein(a, b) {
     }
     
   };
-  
-  let emotionScores = {
+
+// Define emotion scores and initial heading values
+let emotionScores = {
     happiness: 0,
     sadness: 0,
     anger: 0,
     fear: 0,
     surprise: 0
-  };
-  
-  const emotionToHeading = {
+};
+
+const emotionToHeading = {
     happiness: {
       explorer: 150,
       voyager: 100,
@@ -288,8 +290,124 @@ function levenshtein(a, b) {
     }
   };
   
-  // Political keywords with weighted values
-  const politicalKeywords = {
+
+
+// Update headings based on emotions
+function updateHeadingsBasedOnEmotions(emotionScores) {
+    // Reset headings
+    for (const key in mainHeading) {
+        if (mainHeading.hasOwnProperty(key)) {
+            mainHeading[key] = 0;
+        }
+    }
+
+    // Allocate emotions to headings based on the highest scores
+    for (const [emotion, score] of Object.entries(emotionScores)) {
+        if (score > 0) {
+            const headings = emotionToHeading[emotion] || {};
+            for (const [heading, value] of Object.entries(headings)) {
+                if (mainHeading.hasOwnProperty(heading)) {
+                    mainHeading[heading] += value * score;
+                }
+            }
+        }
+    }
+
+    // Update data display
+    updateData(mainHeading);
+}
+
+// Update data display
+function updateData(dataObj) {
+    let total = 0;
+
+    // Update text content for each element
+    for (const key in dataObj) {
+        const elem = document.getElementById(key);
+        if (elem) {
+            elem.textContent = Math.round(dataObj[key]);
+            total += dataObj[key];
+        }
+    }
+
+    // Update percentages based on total
+    updatePercentages(total, dataObj);
+}
+
+// Update percentages
+function updatePercentages(total, dataObj) {
+    if (total <= 0) return;
+
+    for (const key in dataObj) {
+        const value = Number(dataObj[key]);
+        if (isNaN(value)) continue;
+
+        const percentage = (value / total) * 100;
+        const roundedPercentage = Math.round(percentage);
+
+        const percentageElem = document.getElementById(`${key}bp`);
+        if (percentageElem) {
+            percentageElem.textContent = `${roundedPercentage}%`;
+        }
+
+        const progressBar = document.querySelector(`.${key}-progress`);
+        if (progressBar) {
+            progressBar.style.width = `${roundedPercentage}%`;
+            progressBar.style.backgroundColor = getProgressBarColor(roundedPercentage);
+        }
+    }
+}
+
+// Function to get progress bar color based on percentage
+function getProgressBarColor(percentage) {
+    if (percentage > 75) return 'green';
+    if (percentage > 50) return 'black';
+    if (percentage > 25) return 'black';
+    return 'black';
+}
+
+// Scan for emotion words
+function scanForEmotionWords() {
+    const content = document.getElementById('jsonEditor').value.toLowerCase();
+    const contentWords = content.split(/\s+/).map(word => word.replace(/[^\w\s]/g, ''));
+
+    // Reset scores
+    for (const key in emotionScores) {
+        emotionScores[key] = 0;
+    }
+
+    // Scan for emotion words
+    for (const [emotion, words] of Object.entries(emotionWords)) {
+        for (const [word, weight] of Object.entries(words)) {
+            for (const contentWord of contentWords) {
+                if (distance(word, contentWord) <= similarityThreshold) {
+                    emotionScores[emotion] += weight;
+                }
+            }
+        }
+    }
+
+    // Update headings based on detected emotions
+    updateHeadingsBasedOnEmotions(emotionScores);
+
+    // Update populations based on detected keywords
+    updatePoliticalHeadingsBasedOnKeywords();
+
+    // Display the result in a div
+    const resultDiv = document.getElementById('result');
+    if (resultDiv) {
+        resultDiv.innerText = `Emotion Scores: ${JSON.stringify(emotionScores, null, 2)}\nPolitical Scores: ${JSON.stringify(populations, null, 2)}`;
+    }
+}
+
+
+// Update political headings based on keywords
+function updatePoliticalHeadingsBasedOnKeywords() {
+    
+    
+
+// Political keywords with weighted values
+const politicalKeywords = {
     progressive: {
       "equality": 5,
       "social": 4,
@@ -298,6 +416,7 @@ function levenshtein(a, b) {
       "liberal": 3,
       "activism": 5,
     "gender": 4,
+    "Reformer": 250,
     "Welfare": 4,
     "minority": 4,
     "green": 3,
@@ -310,6 +429,7 @@ function levenshtein(a, b) {
       "equality": 4,
       "welfare": 3,
       "workers": 4,
+      "Helper": 250,
       "public": 5,
     "social": 4,
     "collective": 4,
@@ -324,6 +444,17 @@ function levenshtein(a, b) {
       "visionary": 4,
       "hopeful": 3,
       "ideal": 3,
+      "fix": 2,
+      "improve": 3,
+      "change": 4,
+      "system": 3,
+      "efficient": 3,
+      "principles": 2,
+      "ethics": 4,
+      "morality": 2,
+      "right": 3,
+      "Individualist": 250,
+      "wrong": 3,
       "Potential": 5,
     "Vision": 4,
     "philanthropy": 4,
@@ -339,7 +470,8 @@ function levenshtein(a, b) {
       "integration": 4,
       "world": 4,
       "trans": 5,
-    "Border": 4,
+      "Border": 4,
+    "Peacemaker": 250,
     "universal": 5,
     "global": 4,
     "multi": 5,
@@ -353,6 +485,7 @@ function levenshtein(a, b) {
       "authority": 3,
       "preservation": 4,
       "heritage": 5,
+    "Loyalist": 250,
     "Stability": 4,
     "socialOrder": 4,
     "cultural": 4,
@@ -367,6 +500,13 @@ function levenshtein(a, b) {
       "efficiency": 4,
       "investment": 3,
       "economic": 5,
+    "Investigator": 250, 
+    "Capitalists": 4,
+    "Capital": 4,
+    "money": 4,
+    "cash": 4,
+    "crypto": 4,
+    "bitcoin": 4,
     "entrepreneur": 4,
     "fiscal": 4,
     "supply": 5,
@@ -382,6 +522,7 @@ function levenshtein(a, b) {
       "feasibility": 5,
     "tactical": 4,
     "Based": 5,
+    "Achiever": 250,
     "Solutions": 4,
     "real": 4,
     "Effectiveness": 4,
@@ -394,6 +535,7 @@ function levenshtein(a, b) {
       "identity": 4,
       "independence": 4,
       "nationalUnity": 5,
+      "Challenger": 250,
     "sovereignRights": 5,
     "culturalPride": 4,
     "nationalDevelopment": 4,
@@ -409,305 +551,75 @@ function levenshtein(a, b) {
       "revolt": 3,
       "direct": 5,
     "popular": 4,
+    "Enthusiast": 250,
     "Elite": 4,
     "Participation": 4,
-    "socialReform": 4,
+    "Reform": 4,
+    "social": 4,
     "Centric": 4,
     "Accountability": 4
     }
   };
-  
-  function updateHeadingsBasedOnEmotions(emotionScores) {
-    // Reset headings
-    for (const key in mainHeading) {
-      mainHeading[key] = 0;
-    }
-  
-    // Determine the highest emotion score
-    const sortedEmotions = Object.entries(emotionScores).sort((a, b) => b[1] - a[1]);
-  
-    // Allocate emotions to headings based on the highest scores
-    sortedEmotions.forEach(([emotion, score]) => {
-      if (score > 0) {
-        for (const [heading, value] of Object.entries(emotionToHeading[emotion])) {
-          // Multiply by 100 before adding to mainHeading
-          mainHeading[heading] += value * score * 100;
-        }
-      }
-    });
-  
-    // Update populations based on mainHeading
-    updatePopulationsBasedOnHeadings();
-  }
-  
-  function updatePopulationsBasedOnHeadings() {
-    for (const [heading, value] of Object.entries(mainHeading)) {
-      if (populations.hasOwnProperty(heading)) {
-        populations[heading] = value;
-      }
-    }
-  }
-  
-  
-  function scanForEmotionWords() {
-    // Get the content of the textarea
-    const content = document.getElementById('jsonEditor').value.toLowerCase();
-  
-    // Reset scores
-    for (const key in emotionScores) {
-      if (emotionScores.hasOwnProperty(key)) {
-        emotionScores[key] = 0;
-      }
-    }
-  
-    // Split content into words for comparison
-    const contentWords = content.split(/\s+/).map(word => word.replace(/[^\w\s]/g, ''));
-  
-    // Set a threshold for similarity
-    const similarityThreshold = 2; // You can adjust this threshold
-  
-    // Scan for emotion words
-    for (const [emotion, words] of Object.entries(emotionWords)) {
-      for (const [word, weight] of Object.entries(words)) {
-        for (const contentWord of contentWords) {
-          // Calculate the Levenshtein distance
-          if (levenshtein(word, contentWord) <= similarityThreshold) {
-            emotionScores[emotion] += weight;
-          }
-        }
-      }
-    }
-  
-    // Update the headings based on detected emotions
-    updateHeadingsBasedOnEmotions(emotionScores);
-  
-    // Update the political system based on detected keywords
-    updatePoliticalHeadingsBasedOnKeywords();
-  
-    // Log the result to the console
-    console.log('Emotion Scores:', emotionScores);
-    console.log('Political Scores:', populations);
-  
-    // Display the result in a div
-    const resultDiv = document.getElementById('result');
-    if (resultDiv) {
-      resultDiv.innerText = `Emotion Scores: ${JSON.stringify(emotionScores, null, 2)}\nPolitical Scores: ${JSON.stringify(populations, null, 2)}`;
-    }
-  }
-  
 
-  
-  function updatePoliticalHeadingsBasedOnKeywords() {
-    // Reset political scores
-    for (const key in populations) {
-      if (populations.hasOwnProperty(key)) {
-        populations[key] = 0;
-      }
-    }
-  
-    // Get the content of the textarea
-    const content = document.getElementById('jsonEditor').value.toLowerCase();
-    const contentWords = content.split(/\s+/).map(word => word.replace(/[^\w\s]/g, ''));
-  
-    // Set a threshold for similarity (this needs to be defined or passed in)
-    const similarityThreshold = 2; // Adjust if needed
-  
-    // Scan for political keywords
-    for (const [political, keywords] of Object.entries(politicalKeywords)) {
-      for (const [keyword, weight] of Object.entries(keywords)) {
+
+
+
+
+ // Reset political scores
+ for (const key in populations) {
+    populations[key] = 0;
+}
+
+const content = document.getElementById('jsonEditor').value.toLowerCase();
+const contentWords = content.split(/\s+/).map(word => word.replace(/[^\w\s]/g, ''));
+
+// Scan for political keywords
+for (const [political, keywords] of Object.entries(politicalKeywords)) {
+    for (const [keyword, weight] of Object.entries(keywords)) {
         for (const contentWord of contentWords) {
-          // Calculate the Levenshtein distance
-          const distance = levenshtein(keyword, contentWord);
-  
-          if (distance <= similarityThreshold) {
-            // Ensure the political heading exists in the populations object
-            if (populations.hasOwnProperty(political)) {
-              populations[political] += weight;
+            if (distance(keyword, contentWord) <= similarityThreshold) {
+                populations[political] += weight;
             }
-          }
         }
-      }
     }
-  
-  }
-  
-
-
-  
-
-function updateData(dataObj) {
-  let total = 0;
-
-  // Update the text content for each element
-  for (const key in dataObj) {
-      const elem = document.getElementById(key);
-      if (elem) {
-          elem.textContent = Math.round(dataObj[key]);
-          total += dataObj[key];
-      } else {
-          console.warn(`Element with ID ${key} not found.`);
-      }
-  }
-
-  // Calculate and update average
-  const avg = Object.keys(dataObj).length ? total / Object.keys(dataObj).length : 0;
-
-  // Update percentages based on total
-  updatePercentages(total, dataObj);
 }
 
-
-function updatePercentages(total, dataObj) {
-  if (total <= 0) {
-      console.error('Total value is 0 or less:', total);
-      return;
-  }
-
-  for (const key in dataObj) {
-      const value = Number(dataObj[key]); // Ensure the value is a number
-      if (isNaN(value)) {
-          console.warn(`Value for ${key} is not a number.`);
-          continue;
-      }
-
-      const percentage = (value / total) * 100;
-      const roundedPercentage = Math.round(percentage);
-
-      // Ensure the percentage is within expected bounds
-      if (percentage < 0 || percentage > 100) {
-          console.warn(`Percentage for ${key} is out of bounds: ${percentage}%`);
-          continue;
-      }
-
-      const percentageElem = document.getElementById(`${key}bp`);
-      if (percentageElem) {
-          percentageElem.textContent = `${roundedPercentage}%`;
-      } else {
-          console.warn(`Element with ID ${key + 'bp'} not found.`);
-      }
-
-      const progressBar = document.querySelector(`.${key}-progress`);
-      if (progressBar) {
-          progressBar.style.width = `${roundedPercentage}%`;
-          progressBar.style.backgroundColor = getProgressBarColor(roundedPercentage);
-      } else {
-          console.warn(`Progress bar with class ${key}-progress not found.`);
-      }
-  }
+// Optionally update data if needed
+updateData(populations);
 }
 
-
-
-// Function to get progress bar color based on percentage
-function getProgressBarColor(percentage) {
-  if (percentage > 75) return 'green';
-  if (percentage > 50) return 'black';
-  if (percentage > 25) return 'black';
-  return 'red';
-}
-
-// Update headings based on emotions
-function updateHeadingsBasedOnEmotions(emotionScores) {
-  // Reset headings
-  for (const key in mainHeading) {
-      mainHeading[key] = 0;
-  }
-
-  // Determine the highest emotion score
-  const sortedEmotions = Object.entries(emotionScores).sort((a, b) => b[1] - a[1]);
-
-  // Allocate emotions to headings based on the highest scores
-  sortedEmotions.forEach(([emotion, score]) => {
-      if (score > 0) {
-          for (const [heading, value] of Object.entries(emotionToHeading[emotion])) {
-              mainHeading[heading] += value * score;
-          }
-      }
-  });
-
-  // Update data display
-  updateData(mainHeading, 'totalMainHeading');
-}
-
-
-
-function updateProgressBars(populations) {
-  const totalPopulation = Object.values(populations).reduce((total, num) => total + num, 0);
-  console.log('Total Population:', totalPopulation);
-
-  if (totalPopulation > 0) {
-      for (const [category, population] of Object.entries(populations)) {
-          const percentage = (population / totalPopulation) * 100;
-
-          // Update the population number
-          const populationElem = document.getElementById(category);
-          if (populationElem) {
-              populationElem.textContent = Math.round(population);
-          } else {
-              console.warn(`Element with ID ${category} not found.`);
-          }
-
-          // Update progress bar width
-          const progressBar = document.querySelector(`.${category}-progress`);
-          if (progressBar) {
-              progressBar.style.width = `${percentage}%`;
-          } else {
-              console.warn(`Progress bar with class ${category}-progress not found.`);
-          }
-
-          // Update percentage text
-          const percentageElem = document.getElementById(`${category}bp`);
-          if (percentageElem) {
-              percentageElem.textContent = `${Math.round(percentage)}%`;
-          } else {
-              console.warn(`Element with ID ${category}bp not found.`);
-          }
-      }
-  } else {
-      console.warn('Total population is 0 or less.');
-  }
-}
-
-
-
+// Update data from JSON editor
 function updateDataFromJSONEditor() {
-  const jsonEditorContent = document.getElementById('jsonEditor').value;
-  console.log('JSON Editor Content:', jsonEditorContent); // Log JSON content
+    const jsonEditorContent = document.getElementById('jsonEditor').value;
 
-  let parsedData;
-  try {
-      parsedData = JSON.parse(jsonEditorContent);
-  } catch (error) {
-      console.error('Invalid JSON format');
-      return;
-  }
+    let parsedData;
+    try {
+        parsedData = JSON.parse(jsonEditorContent);
+    } catch (error) {
+        console.error('Invalid JSON format');
+        return;
+    }
 
-  console.log('Parsed Data:', parsedData); // Log parsed data
+    if (parsedData && parsedData.userData) {
+        const userData = parsedData.userData;
 
-  if (parsedData && parsedData.userData) {
-      const userData = parsedData.userData;
+        if (userData.emotionScores) {
+            for (const key in populations) {
+                populations[key] = userData.emotionScores[key] || 0;
+            }
 
-      // Update populations based on JSON data
-      if (userData.emotionScores) {
-          const emotionScores = userData.emotionScores;
-          console.log('Emotion Scores:', emotionScores); // Log emotion scores
+            // Update mainHeading based on detected emotions
+            updateHeadingsBasedOnEmotions(userData.emotionScores);
+        }
 
-          for (const key in populations) {
-              populations[key] = emotionScores[key] || 0;
-          }
+        if (userData.mainHeading) {
+            for (const key in mainHeading) {
+                mainHeading[key] = userData.mainHeading[key] || 0;
+            }
+        }
 
-          // Update mainHeading based on detected emotions
-          updateHeadingsBasedOnEmotions(emotionScores);
-      }
-
-      // Handle mainHeading if available in userData
-      if (userData.mainHeading) {
-          for (const key in mainHeading) {
-              mainHeading[key] = userData.mainHeading[key] || 0;
-          }
-      }
-      
-      // Update progress bars and percentages
-      updateProgressBars(populations);
-  }
+        // Update progress bars and percentages
+        updateProgressBars(populations);
+    }
 }
+

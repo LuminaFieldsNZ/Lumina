@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sound Recorder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        input, button {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="filename" placeholder="Enter filename (without extension)" />
+        <button id="recordButton">Record Sound</button>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        const recordButton = document.getElementById('recordButton');
+        const filenameInput = document.getElementById('filename');
+        const status = document.getElementById('status');
+
+        let mediaRecorder;
+        let chunks = [];
+
+        async function startRecording() {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+            
+            mediaRecorder.ondataavailable = (event) => {
+                chunks.push(event.data);
+            };
+
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(chunks, { type: 'audio/webm' });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${filenameInput.value || 'recording'}.webm`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+
+                chunks = [];
+                status.textContent = 'Recording saved!';
+            };
+
+            mediaRecorder.start();
+
+            status.textContent = 'Recording...';
+            setTimeout(() => {
+                mediaRecorder.stop();
+            }, 4000);
+        }
+
+        recordButton.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+            } else {
+                startRecording();
+            }
+        });
+    </script>
+</body>
+</html>

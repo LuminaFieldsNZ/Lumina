@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'avatar', label: 'GLB Avatar', index: 8 },
         { id: 'face', label: 'Face', index: 9 },
         { id: 'list/index', label: 'TikTok', index: 10 },
-        { id: 'quiz/narc2', label: 'Narcissism', index: 11 }
+        { id: 'quiz/narc2', label: 'Narcissism', index: 11 },
+        { id: 'letters', label: 'Letters', index: 12 }
 
         // Add more checkboxes here as needed
     ];
