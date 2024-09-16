@@ -51,7 +51,9 @@
 
         function playSound(letter) {
             const audio = new Audio(soundFiles[letter]);
-            audio.play();
+            audio.play().catch(error => {
+                console.log('Error playing sound:', error);
+            });
         }
 
         function getRandomPosition(letterWidth, letterHeight) {
@@ -103,9 +105,11 @@
                 letterElement.style.transform = `rotate(${getRandomRotation()}deg)`;
 
                 // Add both click and touchstart event listeners
-                const play = () => playSound(letter);
-                letterElement.addEventListener('click', play);
-                letterElement.addEventListener('touchstart', play);
+                letterElement.addEventListener('click', () => playSound(letter));
+                letterElement.addEventListener('touchstart', (event) => {
+                    event.preventDefault(); // Prevents default touch behavior
+                    playSound(letter);
+                });
 
                 body.appendChild(letterElement);
 
