@@ -181,7 +181,7 @@ handleMessage(message);
       totalPopulation = getTotalPopulation(populations);
       document.getElementById('mainHeadingAverage').innerHTML = totalPopulation;
   
-    }, 1000);
+    }, 50);
   }
   
   // Function to format the response (excluding conversationData)

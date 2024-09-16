@@ -54,7 +54,6 @@ function run1() {
   displayQuestion();
   shake('questPlayer');
   shake2('questBoss');
-  removeCheckboxById('boss');
 }
 
 function run2() {
@@ -63,7 +62,6 @@ function run2() {
   displayQuestion();
   shake('questPlayer');
   shake2('questBoss');
-  switchBoss(0, 1, 3, 6, 7);
 }
 
 function run3() {
@@ -124,8 +122,9 @@ function checkPopulationAndHandleModule() {
   let totPop = Number(document.getElementById('mainHeadingAverage').innerHTML);
   if (totPop > 700) {
       displayModule('module5xx');
-      hideDynamicBoss1();
       alert('Completed Module');
+      hideDynamicBoss1();
+
   }
 }
 
@@ -165,7 +164,7 @@ function displayModule(moduleId) {
     
       // Append response to the text content within the container
       typingContainer3.querySelector('#text-content').innerHTML = `${progressBar}<p>${step.question}</p><p>${step.additionalInfo}</p>
-      <button class="open-modal" onclick="run1();">${choice1}</button><button class="open-modal" onclick="run2();">${choice2}</button><button class="open-modal" onclick="run3();">${choice3}</button>`;
+      <button class="open-modal2" onclick="run1();">${choice1}</button><button class="open-modal2" onclick="run2();">${choice2}</button><button class="open-modal2" onclick="run3();">${choice3}</button>`;
     
 
 

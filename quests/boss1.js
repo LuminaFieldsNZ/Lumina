@@ -48,6 +48,7 @@ const boss1 = `
 <div class="image-container3 questBoss flipped" id="dynamicBoss1" onclick="shake2('questBoss');">
 </div>
 `;
+
 function createCheckboxes() {
   // Get the container element after it has been added to the DOM
   const container = document.getElementById('dynamicBoss1');
@@ -80,7 +81,7 @@ function createCheckboxes() {
         checkboxWrapper.style.height = `${rectHeight}px`;
         checkboxWrapper.style.backgroundSize = `${img.naturalWidth * scaleFactor}px ${img.naturalHeight * scaleFactor}px`;
         checkboxWrapper.style.display = 'inline-block';
-        checkboxWrapper.style.marginLeft = `${index * (screenWidth < 850 ? 40 : 120)}px`;
+        checkboxWrapper.style.marginLeft = `${index * (screenWidth < 850 ? 40 : 80)}px`;
 
         // Append the checkbox wrapper to the container
         container.appendChild(checkboxWrapper);
@@ -96,10 +97,11 @@ function switchBoss(...indices) {
   // Remove old checkboxes
   removeCheckboxes();
 
-  // Update the checkboxes array with new indices
-  checkboxes = checkboxes.map((checkbox, index) => ({
-    ...checkbox,
-    index: indices[index] !== undefined ? indices[index] : checkbox.index
+  // Update the checkboxes array with new indices, adding new ones if necessary
+  checkboxes = indices.map((index, i) => ({
+    id: `checkbox-${i}`, // Use unique ID for each checkbox
+    label: `Label ${i + 1}`, // Generate a label (optional)
+    index
   }));
 
   // Recreate the checkboxes with the new indices
@@ -180,22 +182,11 @@ function removeFromBody(uniqueId) {
 }
 
 
-function removeCheckboxById(checkboxId) {
-  // Find the checkbox wrapper element by its ID
-  const checkboxWrapper = document.getElementById(checkboxId);
-  
-  if (checkboxWrapper) {
-    // Remove the checkbox wrapper from the container
-    checkboxWrapper.remove();
-  } else {
-    console.error(`Checkbox with ID "${checkboxId}" not found.`);
-  }
-}
 
 
 
 
-// Uncomment and test as needed
+// switchBoss(47);
 // appendToBody(boss1, 'dynamicBoss1');
 // removeFromBody('profilePic');
 // removeFromBody('dynamicBoss1');

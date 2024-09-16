@@ -534,6 +534,8 @@ margin-left: 5px;
   border-radius: 30px;
   padding: 16px;
   background-color: var(--main-color-card);
+  animation: pulse2 8s infinite;
+
 }
 .project-box-header {
   display: flex;
@@ -623,6 +625,7 @@ margin-left: 5px;
   overflow: hidden;
   background-color: #fff;
   margin: 8px 0;
+  animation: pulse2 12s infinite;
 }
 .box-progress-header {
   font-size: 14px;
@@ -690,6 +693,7 @@ margin-left: 5px;
   flex-shrink: 0;
   padding: 6px 16px;
   font-weight: 700;
+  animation: pulse 8s infinite;
 }
 
 .mode-switch.active .moon {
@@ -889,12 +893,12 @@ margin-left: 5px;
 
       40% {
       opacity:0.8;
-      box-shadow:0px 0px 5px 0px $color;
+      box-shadow:0px 0px 15px 0px;
       }
 
       60% {
       opacity:0.7;
-      box-shadow:0px 0px 5px 0px $color;
+      box-shadow:0px 0px 3px 0px;
       }
 
       100%{
@@ -902,6 +906,72 @@ margin-left: 5px;
       box-shadow:none;
       }
       }
+
+      @keyframes pulse2 {
+        0% {
+          box-shadow:0px 0px 4px 0px rgba(0, 0, 0, 0.35);
+        }
+  
+        33% {
+        box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.55);
+        }
+  
+        66% {
+        box-shadow:0px 0px 5px 0px rgba(0, 0, 0, 0.35);
+        }
+  
+        100%{
+          box-shadow:0px 0px 4px 0px rgba(0, 0, 0, 0.35);
+        }
+        }
+
+
+
+      .open-modal2 {
+        text-align: center;
+        border: 2px solid black;
+        background: transparent;
+        color: var(--main-color);
+        text-transform: uppercase;
+        border-radius: 5px;
+        letter-spacing: 4px;
+        font-size: 14px;
+        padding: .5em 1em;
+        font-weight: bold;
+        -webkit-transition: background 0.3s;
+        transition: background 0.3s;
+        animation: pulse 8s infinite;
+        margin-bottom: 5px; /* Adds 10px margin on the right side */
+        z-index: 9999999999999999999999999999999999999999999999999999999999999999999999999999;
+      }
+      
+      
+      
+      .open-modal2:hover {
+        background: #D95952;
+      }
+      
+      
+            @keyframes pulse {
+            0% {
+            opacity:1;
+            }
+      
+            40% {
+            opacity:0.8;
+            box-shadow:0px 0px 15px 0px;
+            }
+      
+            60% {
+            opacity:0.7;
+            box-shadow:0px 0px 3px 0px;
+            }
+      
+            100%{
+            opacity:1;
+            box-shadow:none;
+            }
+            }
 
          .row {
   display: flex;
