@@ -91,12 +91,14 @@ const modules = [
     header: 'Getting Started',
     content: `You're ready to apply yourself. We Lumies <span id="msgIcon"></span> will navigate you through everything <b>[QUEST]</b> related. 
     You can use your voice or the standard keyobard, try telling the Lumies a little about your day and why you chose to be exactly where you are now. 
-    Once you've done that you can start tracking your <span id="audIcon"></span><b>[Heading]</b>.`
+    Once you've done that you can start tracking your <span id="audIcon"></span><b>[Heading]</b>.`,
+    buttonAction: 'oneQuest();',
+    buttonLabel: 'Begin Quest'
   },
   {
     id: 'module4',
-    header: 'Mental Enneagram',
-    content: `Let us walk you through a logic puzzle to begin Heading identification. <b>Lumie</b><i> response will be locked to Quest narrative until completion once started</i>`,
+    header: 'Ideological Enneagram',
+    content: `Our framework explores how individuals’ core motivations and fears shape their worldview and belief systems. It integrates the Enneagram's nine personality types with specific ideological or philosophical orientations to understand how these factors influence one’s perception and behavior.`,
     display: 'none'
   },
   {

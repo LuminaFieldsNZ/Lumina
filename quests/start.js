@@ -1,8 +1,32 @@
 let conditions = [
   { keyword: 'finish all password', action: () => { document.getElementById('module4xx').style.display = 'block'; } },
-  { keyword: 'start', action: () => { displayQuestion(); appendToBody(player1, 'dynamicPlayer1'); appendToBody(boss1, 'dynamicBoss1'); document.getElementById('module4xx').style.display = 'block'; shake2('questBoss');} }
+  { keyword: 'start', action: () => { } }
 ];
   
+
+
+function oneQuest(){
+  if(moduleCount > 4){
+    return
+  } else {
+    if(moduleCount > 1){
+      messBot();
+      displayQuestion();
+      appendToBody(player1, 'dynamicPlayer1');
+      appendToBody(boss1, 'dynamicBoss1');
+      document.getElementById('module4xx').style.display = 'block';
+      shake2('questBoss');
+    } else {
+  // Assuming module3 is a container with a button inside
+  document.getElementById('module3').querySelector('button').textContent = 'Finish Previous Tasks';
+  setTimeout(() => {
+    document.getElementById('module3').querySelector('button').textContent = 'Begin Quest';
+  }, 5000);
+    }
+  }
+}
+
+
 
 let choice1, choice2, choice3;
 

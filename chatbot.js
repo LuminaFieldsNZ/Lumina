@@ -65,6 +65,7 @@ let mainHeading = {
   let conversationData = [];
   let totalPopulation = 0;
 
+
   function getTotalPopulation(populations) {
     let total2 = 0;
     
@@ -77,6 +78,9 @@ let mainHeading = {
     
     return total2;
   }
+
+
+
     
 
   
@@ -434,6 +438,9 @@ handleMessage(message);
   
 
 // Function to update a module
+// Global variable to keep track of the number of completed modules
+let moduleCount = 0;
+
 // Object to keep track of update counts for each module
 const updateCounts = {};
 
@@ -447,7 +454,7 @@ function updateModule(moduleNumber) {
     updateCounts[moduleNumber] = 0;
   }
 
-  // Check if the module has been updated less than 3 times
+  // Check if the module has been updated less than 1 time
   if (updateCounts[moduleNumber] < 1) {
     const moduleElement = document.getElementById(moduleId);
     const moduleAElement = document.getElementById(moduleAId);
@@ -457,6 +464,7 @@ function updateModule(moduleNumber) {
       moduleAElement.style.color = 'black';
       moduleElement.style.backgroundColor = 'lightgreen';
       updateCounts[moduleNumber]++; // Increment the update count
+      moduleCount++; // Increment the global moduleCount
       console.log(`Module ${moduleNumber} updated successfully. Update count: ${updateCounts[moduleNumber]}`);
     } else {
       if (!moduleElement) {
@@ -474,49 +482,49 @@ function updateModule(moduleNumber) {
   }
 }
 
+// Function to update all modules
+function updateModules() {
+  const totalModules = 10; // Replace with your actual number of modules
+  console.log(`Updating modules from 1 to ${totalModules}`);
 
-  
-  // Function to update all modules
-  function updateModules() {
-    const totalModules = 10; // Replace with your actual number of modules
-    console.log(`Updating modules from 1 to ${totalModules}`);
-  
-    for (let moduleNumber = 1; moduleNumber <= totalModules; moduleNumber++) {
-      updateModule(moduleNumber);
-    }
+  for (let moduleNumber = 1; moduleNumber <= totalModules; moduleNumber++) {
+    updateModule(moduleNumber);
   }
-  
-  // Function to apply completed projects
-  function applyCompletedProjects(completedProjects) {
-    if (Array.isArray(completedProjects)) {
-      completedProjects.forEach(moduleNumber => {
-        updateModule(moduleNumber);  // Update the module based on completion status
-      });
-    } else {
-      console.error("Invalid completedProjects format, expected an array.");
-    }
+}
+
+// Function to apply completed projects
+function applyCompletedProjects(completedProjects) {
+  if (Array.isArray(completedProjects)) {
+    completedProjects.forEach(moduleNumber => {
+      updateModule(moduleNumber);  // Update the module based on completion status
+    });
+  } else {
+    console.error("Invalid completedProjects format, expected an array.");
   }
-  
-  // Function to add a completed module
-  function addCompletedModule(moduleNumber) {
-    if (typeof moduleNumber === 'number' && moduleNumber > 0 && !completedProjects.includes(moduleNumber)) {
-      completedProjects.push(moduleNumber);
-      console.log(`Module ${moduleNumber} added to completed projects.`);
-      
-      // Update the module display
-      updateModule(moduleNumber);
-  
-      // Log updated state
-      console.log("User ID:", userId);
-      console.log("State:", state);
-      console.log("Populations:", populations);
-      console.log("Main Heading:", mainHeading);
-      console.log("Completed Projects:", completedProjects);
-    } else {
-      console.log(`Invalid module number or module ${moduleNumber} is already completed.`);
-    }
-    updateJSONDisplay();
+}
+
+// Function to add a completed module
+function addCompletedModule(moduleNumber) {
+  if (typeof moduleNumber === 'number' && moduleNumber > 0 && !completedProjects.includes(moduleNumber)) {
+    completedProjects.push(moduleNumber);
+    console.log(`Module ${moduleNumber} added to completed projects.`);
+
+    // Update the module display
+    updateModule(moduleNumber);
+
+    // Log updated state
+    console.log("User ID:", userId);
+    console.log("State:", state);
+    console.log("Populations:", populations);
+    console.log("Main Heading:", mainHeading);
+    console.log("Completed Projects:", completedProjects);
+    console.log("Total Completed Modules:", moduleCount);
+  } else {
+    console.log(`Invalid module number or module ${moduleNumber} is already completed.`);
   }
+  updateJSONDisplay();
+}
+
   
   // Example usage of addCompletedModule
   // addCompletedModule(3);  // Adds module 3 to completedProjects
