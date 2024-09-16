@@ -3,6 +3,23 @@ let conditions = [
   { keyword: 'start', action: () => { } }
 ];
   
+function showDynamicBoss1() {
+  const element = document.getElementById('dynamicBoss1');
+  if (element) {
+    element.style.display = 'block';
+  } else {
+    console.error('Element with ID "dynamicBoss1" not found.');
+  }
+}
+
+function hideDynamicBoss1() {
+  const element = document.getElementById('dynamicBoss1');
+  if (element) {
+    element.style.display = 'none';
+  } else {
+    console.error('Element with ID "dynamicBoss1" not found.');
+  }
+}
 
 
 function oneQuest(){
@@ -12,8 +29,8 @@ function oneQuest(){
     if(moduleCount > 1){
       messBot();
       displayQuestion();
-      appendToBody(player1, 'dynamicPlayer1');
-      appendToBody(boss1, 'dynamicBoss1');
+      document.querySelector('.image-container2').style.opacity = 1;
+      showDynamicBoss1();
       document.getElementById('module4xx').style.display = 'block';
       shake2('questBoss');
     } else {
@@ -30,10 +47,6 @@ function oneQuest(){
 
 let choice1, choice2, choice3;
 
-function removeBattle(){
-  removeFromBody('dynamicPlayer1');
-  removeFromBody('dynamicBoss1');
-}
 
 function run1() {
   document.getElementById('userInput').value = choice1;
@@ -41,6 +54,7 @@ function run1() {
   displayQuestion();
   shake('questPlayer');
   shake2('questBoss');
+  removeCheckboxById('boss');
 }
 
 function run2() {
@@ -114,8 +128,7 @@ function checkPopulationAndHandleModule() {
   let totPop = Number(document.getElementById('mainHeadingAverage').innerHTML);
   if (totPop > 700) {
       displayModule('module5xx');
-      removeBattle();
-      removeBattle();
+      hideDynamicBoss1();
       alert('Completed Module');
   }
 }
@@ -180,7 +193,7 @@ function displayModule(moduleId) {
       // End of the storylineFaxium
       
       chatWindow.innerHTML += '<p>Quest completed experience logged.</p>';
-
+      document.getElementById('module3').querySelector('button').remove();
       addCompletedModule(3);
       addCompletedModule(4); 
       addCompletedModule(5); 

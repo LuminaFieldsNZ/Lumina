@@ -1,54 +1,89 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
-* {
-  box-sizing: border-box;
-}
-
 
 
 .image-container {
-    position: absolute;
-    width: 70px;
-    height: 70px;
-    left: 290px;
-    top: 90px;
-    z-index: 100000000000000000000000000000000000000000000000000000000; /* Optional: To ensure it's above other elements */
-    border-style: none;
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  left: -5px;
+  bottom: -40px;
+  z-index: 100000000000000000000000000000000000000000000000000000000; /* Optional: To ensure it's above other elements */
+  border-style: none;
+  opacity: .35;
 }
 
 .image-container2 {
   position: absolute;
   width: 130px;
   height: 130px;
-  left: 5px;
-  bottom: -30px;
+  left: -5px;
+  bottom: -40px;
   z-index: 100000000000000000000000000000000000000000000000000000000; /* Optional: To ensure it's above other elements */
   border-style: none;
+  opacity: .35;
+  animation: bounce 2s ease-in-out infinite;
 }
 
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px); /* Adjust this value for more or less bounce */
+  }
+  100% {
+    transform: translateY(0);
+  }}
+/* Define a base scale factor */
+:root {
+  --scale-factor: 1; /* Adjust this value as needed */
+}
+
+/* Base styles for image-container3 */
 .image-container3 {
   position: absolute;
-  width: 130px;
-  height: 130px;
-  left: 75vw;
-  bottom: -30px;
+  width: calc(130px * var(--scale-factor));
+  height: calc(130px * var(--scale-factor));
+  right: 5%;
+  bottom: -10px;
   z-index: 100000000000000000000000000000000000000000000000000000000; /* Optional: To ensure it's above other elements */
   border-style: none;
   transform: scaleX(-1);
 }
 
-/* Media query for devices with width greater than 700px */
+/* Media query for devices with width greater than 850px */
 @media (min-width: 850px) {
+  .image-container,
   .image-container2 {
-    width: 250px;
-    height: 250px;
+    width: calc(250px * var(--scale-factor));
+    height: calc(250px * var(--scale-factor));
   }
 
   .image-container3 {
-    width: 250px;
-    height: 250px;
+    width: calc(250px * var(--scale-factor));
+    height: calc(250px * var(--scale-factor));
+  }
+
+  .checkbox-wrapper {
+    width: calc(150px * var(--scale-factor));
+    height: calc(150px * var(--scale-factor));
   }
 }
+
+/* Additional styles for devices with width less than 850px */
+@media (max-width: 849px) {
+  .image-container3 {
+    width: calc(150px * var(--scale-factor)); /* Adjust as needed */
+    height: calc(150px * var(--scale-factor)); /* Adjust as needed */
+  }
+
+  .checkbox-wrapper {
+    width: calc(50px * var(--scale-factor)); /* Adjust as needed */
+    height: calc(50px * var(--scale-factor)); /* Adjust as needed */
+  }
+}
+
 
 
   .layer {
@@ -1291,5 +1326,18 @@ svg.fine .left-eye, svg.fine .right-eye {
 .flipped {
   transform: scaleX(-1); /* Flip horizontally */
 }
+
+
+
+
+.checkbox-input {
+
+  display: none;
+}
+
+.checkbox-wrapper {
+  position: absolute; /* Required for z-index to work */
+}
+
 
 
