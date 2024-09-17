@@ -524,6 +524,19 @@ function runHumanDetect(input, canvas, timestamp) {
           log(result.error);
           document.getElementById('log').innerText += `\nHuman error: ${result.error}`;
         } else {
+
+
+   // Check emotions in the face detection result
+   if (result.face && result.face.length > 0 && result.face[0].emotion) {
+    const emotions = result.face[0].emotion;
+    // Loop through the detected emotions
+    for (let emotion of emotions) {
+      if (emotion.category === 'happy' || emotion.category === 'sad') {
+        alert(`Detected emotion: ${emotion.category}`);
+      }
+    }
+  }
+
           lastDetectedResult = result;
           if (!ui.drawThread) drawResults(input);
           ui.framesDetect++;
