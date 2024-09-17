@@ -116,7 +116,7 @@ function settingsActive(){
 // Define the SVG as a string
 const svgIcon = `
 <a onclick="settingsActive();">
-<svg class="link-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-settings" style="animation: pulse 8s infinite; border-radius: 50%;" viewBox="0 0 24 24">
+<svg class="link-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-settings" style="animation: pulse 4s infinite; border-radius: 50%;" viewBox="0 0 24 24">
     <defs />
     <circle cx="12" cy="12" r="3" />
     <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
@@ -138,7 +138,7 @@ if (container) {
 // Define the SVG as a string
 const msgIcon = `
 <a onclick="messBot();">
-<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle"  style="animation: pulse 8s infinite; border-radius: 70%;">
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle"  style="animation: pulse 4s infinite; border-radius: 70%;">
 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>
 </a>
 `;
@@ -156,7 +156,7 @@ if (container) {
 // Define the SVG as a string
 const audIcon = `
 <a onclick="energyAuditActive();">
-<svg class="link-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-pie-chart"  style="animation: pulse 8s infinite; border-radius: 50%;" viewBox="0 0 24 24">
+<svg class="link-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-pie-chart"  style="animation: pulse 4s infinite; border-radius: 50%;" viewBox="0 0 24 24">
 <defs /><path d="M21.21 15.89A10 10 0 118 2.83M22 12A10 10 0 0012 2v10z" />
 </svg>
 </a>
@@ -175,7 +175,7 @@ if (container) {
 // Define the SVG as a string
 const lumIcon = `
 <a style="width:14px: height:14px;" onclick="peepMake();addCompletedModule(2);" >
-<svg style="background-color: #fff; border-radius: 30%; width:14px; height:14px; animation: pulse 8s infinite;" class="fine" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg style="background-color: #fff; border-radius: 30%; width:14px; height:14px; animation: pulse 4s infinite;" class="fine" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g id="fine-emotion" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g id="fine">
                             <g class="matrix" transform="translate(22.000000, 32.000000)">

@@ -626,8 +626,8 @@ function createTypingContainer() {
 box.style.height = 'auto';
 
 // Add 40px margins to the top and bottom
-box.style.marginTop = '40px';
-box.style.marginBottom = '40px';
+box.style.marginTop = '10px';
+box.style.marginBottom = '10px';
 
   // Text Content Element
   const textContent = document.createElement('div');
