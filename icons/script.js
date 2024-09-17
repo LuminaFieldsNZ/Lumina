@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'face', label: 'Face', index: 9 },
         { id: 'list/index', label: 'TikTok', index: 10 },
         { id: 'quiz/narc2', label: 'Narcissism', index: 11 },
-        { id: 'face/index', label: 'Watcher', index: 12 }
+        { id: '../face/index', label: 'Watcher', index: 12 }
         // Add more checkboxes here as needed
     ];
 
