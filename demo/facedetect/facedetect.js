@@ -150,7 +150,7 @@ async function main() {
   showLoader('compiling models');
   await human.warmup();
   showLoader('loading images');
-  const images = ['group-1.jpg', 'group-2.jpg', 'group-3.jpg', 'group-4.jpg', 'group-5.jpg', 'group-6.jpg', 'group-7.jpg', 'solvay1927.jpg', 'stock-group-1.jpg', 'stock-group-2.jpg', 'stock-models-6.jpg', 'stock-models-7.jpg'];
+  const images = ['Micheal.png', 'Ideology1.png', 'Ideology2.png', 'Ideology3.png', 'Ideology4.png'];
   const imageUris = images.map((a) => `../../samples/in/${a}`);
   for (let i = 0; i < imageUris.length; i++) addImage(imageUris[i]);
   initDragAndDrop();
