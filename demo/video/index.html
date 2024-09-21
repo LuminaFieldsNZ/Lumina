@@ -2,12 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Human</title>
+    <title>Lumie</title>
     <meta name="viewport" content="width=device-width" id="viewport">
-    <meta name="keywords" content="Human">
-    <meta name="description" content="Human: Demo; Author: Vladimir Mandic <https://github.com/vladmandic>">
+    <meta name="keywords" content="Lumie">
+    <meta name="description" content="Lumie: Demo; Author Micheal Salmon">
     <link rel="manifest" href="../manifest.webmanifest">
-    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../pics/lumie.png" type="image/x-icon">
     <style>
       @font-face { font-family: 'Lato'; font-display: swap; font-style: normal; font-weight: 100; src: local('Lato'), url('../../assets/lato-light.woff2') }
       body { font-family: 'Lato', 'Segoe UI'; font-size: 16px; font-variant: small-caps; margin: 0; background: black; color: white; overflow: hidden; width: 100vw; height: 100vh; }
@@ -17,7 +17,7 @@
     <canvas id="canvas" style="margin: 0 auto; width: 100%"></canvas>
     <pre id="log" style="padding: 8px; position: fixed; bottom: 0"></pre>
     <script type="module">
-      import * as H from '../../dist/human.esm.js'; // equivalent of import @vladmandic/Human
+      import * as H from '../../dist/human.esm.js';
 
       const humanConfig = { // user configuration for human, used to fine-tune behavior
         modelBasePath: '../../models', // models can be loaded directly from cdn as well
