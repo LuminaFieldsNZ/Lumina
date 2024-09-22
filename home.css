@@ -1044,7 +1044,7 @@ svg.happy .face {
           animation: upAndDown 0.8s ease infinite;  
 }
 
-svg.happy .scaleFace {
+svg.happy {
   transform-origin: 35px 20px;
   transform: rotate(12deg);
 }
@@ -1294,29 +1294,32 @@ svg.fine .left-eye, svg.fine .right-eye {
 /* Falling animation */
 .falling {
   position: absolute;
+  border-radius: 50%;
   animation: fall var(--animation-duration) ease-in forwards;
   --horizontal-distance: 0px; /* Default value */
-  border-radius: 30%; /* Adds a radius for rounded corners */
   box-shadow: 0 0 10px rgba(247, 24, 198, 0.658); /* White glow effect */
 }
 
 @keyframes fall {
   0% {
     opacity: 1; /* Fully visible at the start */
+    border-radius: 50%;
     box-shadow: 0 0 10px rgba(247, 24, 198, 0.658); /* White glow at the start */
   }
   70% {
     opacity: 0; /* Fully transparent at the end */
+    border-radius: 50%;
     box-shadow: 0 0 20px rgba(247, 24, 198, 0); /* Fade out glow */
   }
   100% {
     transform: translateY(100vh) translateX(var(--horizontal-distance));
+    border-radius: 50%;
     opacity: 0; /* Fully transparent at the end */
     box-shadow: 0 0 20px rgba(247, 24, 198, 0); /* Fade out glow */
   }
 }
 
-@keyframes spin {
+@keyframes rotate {
   from {
     transform: rotate(0deg);
   }
@@ -1324,6 +1327,11 @@ svg.fine .left-eye, svg.fine .right-eye {
     transform: rotate(360deg);
   }
 }
+
+.rotating {
+  animation: rotate linear infinite;
+}
+
 
 
 
@@ -1334,6 +1342,7 @@ svg.fine .left-eye, svg.fine .right-eye {
   display: inline-block;
   overflow: hidden; /* Ensure the SVG doesn't overflow the container */
   position: absolute; /* Required for absolute positioning of SVG inside */
+  border-radius: 50%;
 }
 
 
