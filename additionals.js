@@ -254,7 +254,7 @@ function createEmotes(x, y) {
 
       document.body.appendChild(container2);
     }
-  }
+  } 
 
   document.addEventListener('click', (event) => {
     const x = event.clientX;

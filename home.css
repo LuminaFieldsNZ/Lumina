@@ -533,6 +533,7 @@ margin-left: 5px;
 .project-box {
   --main-color-card: #dbf6fd;
   border-radius: 30px;
+  border: 3px solid #000; /* Adjust the color as needed */
   padding: 16px;
   background-color: var(--main-color-card);
   animation: pulse2 8s infinite;
@@ -910,19 +911,19 @@ margin-left: 5px;
 
       @keyframes pulse2 {
         0% {
-          box-shadow:0px 0px 4px 0px rgba(0, 0, 0, 0.35);
+          box-shadow:0px 0px 6px 0px rgba(247, 6, 255, 0.479);
         }
   
         33% {
-        box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.55);
+        box-shadow:0px 0px 10px 0px rgba(247, 6, 255, 0.479);
         }
   
         66% {
-        box-shadow:0px 0px 5px 0px rgba(0, 0, 0, 0.35);
+        box-shadow:0px 0px 8px 0px rgba(247, 6, 255, 0.479);
         }
   
         100%{
-          box-shadow:0px 0px 4px 0px rgba(0, 0, 0, 0.35);
+          box-shadow:0px 0px 6px 0px rgba(247, 6, 255, 0.479);
         }
         }
 
@@ -1296,22 +1297,31 @@ svg.fine .left-eye, svg.fine .right-eye {
   animation: fall var(--animation-duration) ease-in forwards;
   --horizontal-distance: 0px; /* Default value */
   border-radius: 30%; /* Adds a radius for rounded corners */
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* White glow effect */
+  box-shadow: 0 0 10px rgba(247, 24, 198, 0.658); /* White glow effect */
 }
 
 @keyframes fall {
   0% {
     opacity: 1; /* Fully visible at the start */
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* White glow at the start */
+    box-shadow: 0 0 10px rgba(247, 24, 198, 0.658); /* White glow at the start */
   }
   70% {
     opacity: 0; /* Fully transparent at the end */
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0); /* Fade out glow */
+    box-shadow: 0 0 20px rgba(247, 24, 198, 0); /* Fade out glow */
   }
   100% {
     transform: translateY(100vh) translateX(var(--horizontal-distance));
     opacity: 0; /* Fully transparent at the end */
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0); /* Fade out glow */
+    box-shadow: 0 0 20px rgba(247, 24, 198, 0); /* Fade out glow */
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -1325,6 +1335,7 @@ svg.fine .left-eye, svg.fine .right-eye {
   overflow: hidden; /* Ensure the SVG doesn't overflow the container */
   position: absolute; /* Required for absolute positioning of SVG inside */
 }
+
 
 .svg-container3 {
   z-index: 9999999999; /* Adjust z-index to a reasonable value */
