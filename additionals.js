@@ -165,7 +165,7 @@ function getExample(fallacyType) {
 
 
 const emoteClasses = ['sad', 'neutral', 'fine'];
-const EMOTE_LIFETIME_MS = 5000;
+const EMOTE_LIFETIME_MS = 7800;
 
 function getRandomEmote() {
   const randomIndex = Math.floor(Math.random() * emoteClasses.length);
