@@ -54,7 +54,6 @@ const svgTemplates = {
   happy: `
     <svg class="happy" width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
       <g id="Happy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(0, 0)">
-          <circle id="Body" fill="#248C37" cx="22" cy="22" r="22"></circle>
         <g class="scaleFace">
           <g class="face">  
             <ellipse id="Eye-right" fill="#2C0E0F" cx="29.0875" cy="21.75" rx="1.89926471" ry="1.75"></ellipse>
