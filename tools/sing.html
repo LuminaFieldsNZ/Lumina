@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Improved Audio Frequency Visualizer</title>
+    <style>
+        body { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background: #222; font-family: Arial, sans-serif; }
+        canvas { border: 1px solid #fff; margin-top: 20px; width: 800px; height: 200px; }
+        #message { color: white; font-size: 2em; opacity: 0; transition: opacity 0.5s; }
+        #frequencyDisplay { color: yellow; font-size: 1.5em; margin-top: 10px; }
+        #startButton, #nextButton, #octaveLockButton { padding: 10px 20px; font-size: 1.2em; cursor: pointer; margin-top: 10px; }
+        #nextButton { display: none; }
+        #timerDisplay { color: white; font-size: 1.5em; margin-top: 10px; }
+        .canvas-container { display: flex; }
+        #confidenceDisplay { color: cyan; font-size: 1.5em; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <button id="startButton">Start Tuning</button>
+    <button id="octaveLockButton">Toggle Octave Lock</button>
+    <div id="timerDisplay">Time Remaining: 180s</div>
+    <div class="canvas-container">
+        <canvas id="visualizer"></canvas>
+    </div>
+    <div id="frequencyDisplay">Detected Frequency: 0 Hz | Target Frequency: 0 Hz</div>
+    <div id="confidenceDisplay">Confidence: 0%</div>
+    <div id="message">Tuning Complete! Move to the Next Note!</div>
+    <button id="nextButton">Move to Next Note</button>
+
+    <script>
+        const canvas = document.getElementById('visualizer');
+        const ctx = canvas.getContext('2d');
+        const message = document.getElementById('message');
+        const frequencyDisplay = document.getElementById('frequencyDisplay');
+        const confidenceDisplay = document.getElementById('confidenceDisplay');
+        const startButton = document.getElementById('startButton');
+        const nextButton = document.getElementById('nextButton');
+        const octaveLockButton = document.getElementById('octaveLockButton');
+        const timerDisplay = document.getElementById('timerDisplay');
+
+        const NOTES = [160, 170.81, 186.83, 194.81, 206, 220, 246.94, 261.63, 293.66];
+        const AMPLITUDE_THRESHOLD = 30;
+        const ANALYSIS_INTERVAL = 100;
+        const HOLD_DURATION = 1000;
+        const TUNE_THRESHOLD = 5;
+
+        let audioContext, analyser, dataArray, timeDomainData;
+        let currentNoteIndex = 0;
+        let holdTimer = null;
+        let isInTune = false;
+        let inTuneStartTime = null;
+        let timerDuration = 180;
+        let timerInterval;
+        let octaveLocked = false;
+        let lastStablePitch = null;
+        let pitchHistory = [];
+
+        startButton.addEventListener('click', async () => {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioContext.createAnalyser();
+            analyser.fftSize = 2048;
+            dataArray = new Uint8Array(analyser.frequencyBinCount);
+            timeDomainData = new Float32Array(analyser.fftSize);
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            const source = audioContext.createMediaStreamSource(stream);
+            source.connect(analyser);
+            draw();
+            setInterval(analyzeFrequency, ANALYSIS_INTERVAL);
+            startButton.style.display = 'none';
+            startTimer();
+        });
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timerDuration--;
+                timerDisplay.innerText = `Time Remaining: ${timerDuration}s`;
+                if (timerDuration <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Failed! You didn't complete all notes in time.");
+                    location.reload();
+                }
+            }, 1000);
+        }
+
+        function autocorrelation(buffer) {
+            const correlations = new Float32Array(buffer.length);
+            for (let lag = 0; lag < buffer.length; lag++) {
+                let sum = 0;
+                for (let i = 0; i < buffer.length - lag; i++) {
+                    sum += buffer[i] * buffer[i + lag];
+                }
+                correlations[lag] = sum;
+            }
+            return correlations;
+        }
+
+        function findFundamentalFrequency(correlations, sampleRate) {
+            let maxCorrelation = -Infinity;
+            let maxLag = -1;
+            for (let lag = 20; lag < correlations.length; lag++) {
+                if (correlations[lag] > maxCorrelation) {
+                    maxCorrelation = correlations[lag];
+                    maxLag = lag;
+                }
+            }
+            return sampleRate / maxLag;
+        }
+
+        function calculateConfidence(correlations, maxLag) {
+            const peakValue = correlations[maxLag];
+            const meanValue = correlations.reduce((sum, val) => sum + val, 0) / correlations.length;
+            return (peakValue - meanValue) / meanValue;
+        }
+
+        function improvedPitchDetection(timeDomainData, sampleRate) {
+            const correlations = autocorrelation(timeDomainData);
+            const detectedPitch = findFundamentalFrequency(correlations, sampleRate);
+            const confidence = calculateConfidence(correlations, Math.floor(sampleRate / detectedPitch));
+
+            if (octaveLocked && lastStablePitch !== null) {
+                const allowedDeviation = lastStablePitch * 0.3;
+                if (Math.abs(detectedPitch - lastStablePitch) > allowedDeviation) {
+                    return { pitch: lastStablePitch, confidence };
+                }
+            }
+
+            pitchHistory.push(detectedPitch);
+            if (pitchHistory.length > 5) pitchHistory.shift();
+            const smoothedPitch = median(pitchHistory);
+
+            if (confidence > 0.7) {
+                lastStablePitch = smoothedPitch;
+            }
+
+            return { pitch: smoothedPitch, confidence };
+        }
+
+        function median(values) {
+            const sorted = values.slice().sort((a, b) => a - b);
+            const middle = Math.floor(sorted.length / 2);
+            return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+        }
+
+        function analyzeFrequency() {
+            analyser.getFloatTimeDomainData(timeDomainData);
+            const sampleRate = audioContext.sampleRate;
+            const targetFreq = NOTES[currentNoteIndex];
+
+            const { pitch: detectedFreq, confidence } = improvedPitchDetection(timeDomainData, sampleRate);
+
+            frequencyDisplay.innerText = `Detected Frequency: ${detectedFreq.toFixed(2)} Hz | Target Frequency: ${targetFreq} Hz`;
+            confidenceDisplay.innerText = `Confidence: ${(confidence * 100).toFixed(2)}%`;
+
+            if (confidence > 0.7 && Math.abs(detectedFreq - targetFreq) <= TUNE_THRESHOLD) {
+                if (inTuneStartTime === null) {
+                    inTuneStartTime = Date.now();
+                } else if (Date.now() - inTuneStartTime >= HOLD_DURATION) {
+                    showCompleteMessage();
+                }
+            } else {
+                resetMessage();
+            }
+        }
+
+        function showCompleteMessage() {
+            message.innerText = `Tuning Complete! Move to the Next Note!`;
+            message.style.opacity = 1;
+            nextButton.style.display = 'inline-block';
+            inTuneStartTime = null;
+            isInTune = true;
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (isInTune) {
+                currentNoteIndex++;
+                if (currentNoteIndex < NOTES.length) {
+                    resetMessage();
+                } else {
+                    message.innerText = "You've completed all notes!";
+                    nextButton.style.display = 'none';
+                    clearInterval(timerInterval);
+                    alert("Congrats! You've completed all notes.");
+                }
+            }
+        });
+
+        octaveLockButton.addEventListener('click', () => {
+            octaveLocked = !octaveLocked;
+            octaveLockButton.innerText = octaveLocked ? "Unlock Octave" : "Lock Octave";
+            if (!octaveLocked) lastStablePitch = null;
+        });
+
+        function draw() {
+            requestAnimationFrame(draw);
+            analyser.getByteFrequencyData(dataArray);
+            ctx.fillStyle = '#222';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const barWidth = (canvas.width / dataArray.length) * 2.5;
+            let x = 0;
+
+            for (let i = 0; i < dataArray.length; i++) {
+                const barHeight = dataArray[i];
+                ctx.fillStyle = `hsl(${i / dataArray.length * 360}, 100%, 50%)`;
+                ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+                x += barWidth + 1;
+            }
+        }
+
+        function resetMessage() {
+            inTuneStartTime = null;
+            message.style.opacity = 0;
+            nextButton.style.display = 'none';
+            isInTune = false;
+        }
+    </script>
+</body>
+</html>
