@@ -7,7 +7,7 @@
   <style>
     #game-container {
       width: 100%;
-      height: 100vh;
+      height: 93vh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -42,29 +42,27 @@
     }
 
     .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      opacity: 0.7;
-      pointer-events: none;
-      animation: confetti-fall 2s forwards;
-    }
+    position: absolute;
+    border-radius: 4px;
+    opacity: 1;
+    pointer-events: none;
+    animation: confetti-fall 2s forwards;
+  }
 
-    @keyframes confetti-fall {
-      0% {
-        transform: translateY(0) translateX(0) scale(1);
-        opacity: 1;
-      }
-      30% {
-        transform: translateY(-100px) translateX(var(--random-x)) scale(1.2);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(200px) translateX(var(--random-x)) scale(0.8);
-        opacity: 0;
-      }
+  @keyframes confetti-fall {
+    0% {
+      transform: translateY(0) translateX(0) scale(1);
+      opacity: 1;
     }
+    30% {
+      transform: translateY(-100px) translateX(var(--random-x)) scale(1.2);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(var(--random-height)) translateX(var(--random-x)) rotate(var(--random-rotate)) scale(0.8);
+      opacity: 0;
+    }
+  }
   </style>
 </head>
 <body>
@@ -89,45 +87,93 @@
     let offsetX, offsetY;
     let originalX, originalY; // To store the original position of a shape if not dropped correctly
 
-    const emoteClasses = ['#ff0000', '#00ff00', '#0000ff', '#ff00ff', '#00ffff', '#ffff00']; // Colors for confetti
+    const emoteClasses = [
+    '#FFB3BA', // Pastel Pink
+    '#FFDFBA', // Pastel Peach
+    '#FFEBBA', // Pastel Yellow
+    '#FFFFBA', // Pastel Cream
+    '#BAFFC9', // Pastel Mint Green
+    '#BAE1FF'  // Pastel Blue
+]; // Pastel colors for confetti
 
-    // Randomize the colors of the confetti particles
-    function getRandomColor() {
-      const randomIndex = Math.floor(Math.random() * emoteClasses.length);
-      return emoteClasses[randomIndex];
-    }
+function getRandomColor() {
+    const randomIndex = Math.floor(Math.random() * emoteClasses.length);
+    return emoteClasses[randomIndex];
+}
 
-    // Create a confetti burst at the shape's position
+
+ 
+
+
     function createConfettiBurst(x, y) {
-      for (let i = 0; i < 50; i++) {
-        const delay = Math.random() * 1000; // Random delay between 0ms and 1000ms
+    for (let i = 0; i < 80; i++) {
+        const delay = Math.random() * 50; // Fast burst creation
         setTimeout(() => createConfettiParticle(x, y), delay);
-      }
     }
+}
 
-    // Create a single confetti particle
-    function createConfettiParticle(x, y) {
-      const confetti = document.createElement('div');
-      confetti.classList.add('confetti');
-      confetti.style.left = `${x}px`;
-      confetti.style.top = `${y}px`;
+function createConfettiParticle(x, y) {
+    const confetti = document.createElement('div');
+    confetti.classList.add('confetti');
 
-      const color = getRandomColor();
-      confetti.style.backgroundColor = color;
+    // Start from the position of the shape with a random vertical offset
+    const randomVerticalOffset = Math.random() * 50 + 20; // Height between 20px and 70px above the shape
+    confetti.style.left = `${x}px`;
+    confetti.style.top = `${y - randomVerticalOffset}px`; // Start above the shape
 
-      const horizontalDistance = Math.random() * 200 - 100; // Random horizontal burst range (fan)
-      const fallDuration = Math.random() * 2 + 2; // Duration of fall (between 2s and 4s)
+    const color = getRandomColor();
+    confetti.style.backgroundColor = color;
 
-      confetti.style.setProperty('--random-x', `${horizontalDistance}px`);
+    // Random angle and distance for explosion
+    const angle = Math.random() * 2 * Math.PI; // Random angle in radians
+    const distance = Math.random() * 150 + 20; // Random distance from 50px to 150px
+    const fallDuration = Math.random() * 1.5 + 1; // Fall duration (between 1s and 2.5s)
+    const randomSize = Math.random() * 10 + 5; // Size between 5px and 15px
 
-      // Append to the game container
-      gameContainer.appendChild(confetti);
+    confetti.style.width = `${randomSize}px`;
+    confetti.style.height = `${randomSize}px`;
 
-      // Remove the confetti after the animation completes
-      setTimeout(() => {
+    // Append to the game container
+    gameContainer.appendChild(confetti);
+
+    // Calculate the x and y movement based on the angle
+    const xMovement = Math.cos(angle) * distance; // Horizontal movement
+    const yMovement = Math.sin(angle) * distance; // Vertical movement
+
+    // Animate the initial explosion
+    confetti.animate([
+        { transform: `translate(0, 0)` },
+        { transform: `translate(${xMovement}px, ${yMovement}px)` } // Move in all directions
+    ], {
+        duration: fallDuration * 800,
+        easing: 'ease-out',
+        fill: 'forwards'
+    });
+
+    // Gravity simulation: use setInterval to apply gravity after the explosion
+    const gravityEffect = setInterval(() => {
+        // Get the current top position and increase it to simulate falling
+        const currentTop = parseFloat(confetti.style.top);
+        confetti.style.top = `${currentTop + 1}px`; // Increase y position to simulate gravity
+
+        // Optional: Stop the effect if it goes beyond a certain height (e.g., bottom of the container)
+        if (currentTop > window.innerHeight) {
+            clearInterval(gravityEffect);
+            confetti.remove(); // Clean up the element once it falls out of view
+        }
+    }, 15); // Adjust the interval for smoother gravity (20ms for smoothness)
+
+    // Remove the confetti after the initial animation completes
+    setTimeout(() => {
+        clearInterval(gravityEffect); // Stop gravity effect if still running
         confetti.remove();
-      }, fallDuration * 1000);
-    }
+    }, fallDuration * 200 + 1200); // Allow time for gravity before removal
+}
+
+
+
+
+
 
     // Function to check if two elements overlap
     function checkCollision(shape, matchingShape) {
@@ -234,7 +280,7 @@
           
           // Check if all shapes are matched
           if (allShapesMatched()) {
-            setTimeout(resetGame, 2000); // Reset after 2 seconds to show the confetti
+            setTimeout(resetGame, 1000); // Reset after 2 seconds to show the confetti
           }
         } else {
           // Keep the shape where it was dropped (stay at new position, no reset)
