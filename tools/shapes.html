@@ -134,6 +134,8 @@
 
         // Drag and Drop Event Handlers for shapes
         shapes.forEach((shape) => {
+            let offsetX, offsetY;
+
             shape.addEventListener('touchstart', handleDragStart);
             shape.addEventListener('mousedown', handleDragStart);
 
@@ -141,8 +143,15 @@
                 event.preventDefault();
                 shape.style.position = 'absolute';
                 shape.style.zIndex = 1;
-                shape.style.top = event.clientY - 50 + 'px';
-                shape.style.left = event.clientX - 50 + 'px';
+
+                // For touch events, we need to track the touch position
+                if (event.touches) {
+                    offsetX = event.touches[0].pageX - shape.offsetLeft;
+                    offsetY = event.touches[0].pageY - shape.offsetTop;
+                } else {
+                    offsetX = event.clientX - shape.offsetLeft;
+                    offsetY = event.clientY - shape.offsetTop;
+                }
 
                 document.addEventListener('touchmove', handleDragMove);
                 document.addEventListener('mousemove', handleDragMove);
@@ -152,8 +161,19 @@
 
             function handleDragMove(event) {
                 event.preventDefault();
-                shape.style.top = event.clientY - 50 + 'px';
-                shape.style.left = event.clientX - 50 + 'px';
+                let clientX, clientY;
+
+                // For touch events
+                if (event.touches) {
+                    clientX = event.touches[0].pageX;
+                    clientY = event.touches[0].pageY;
+                } else {
+                    clientX = event.clientX;
+                    clientY = event.clientY;
+                }
+
+                shape.style.left = clientX - offsetX + 'px';
+                shape.style.top = clientY - offsetY + 'px';
             }
 
             function handleDragEnd(event) {
