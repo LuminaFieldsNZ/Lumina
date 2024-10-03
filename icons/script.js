@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const checkboxes = [
-        { id: 'quiz/quiz', label: 'Learn', index: 0 },
+        { id: 'flip/deep', label: 'HDWYG', index: 0 },
         { id: 'gifs', label: 'Humor', index: 1 },
         { id: 'games', label: 'Lumie', index: 2 },
         { id: 'scales', label: 'Sexism', index: 3 },
@@ -20,7 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'quiz/narc2', label: 'Narcissism', index: 11 },
         { id: '../demo/index', label: 'Watcher', index: 12 },
         { id: '../demo/facedetect/index', label: 'Detector', index: 13 },
-        { id: 'sing', label: 'Pitch Match', index: 14 }
+        { id: 'sing', label: 'Pitch Match', index: 14 },
+        { id: 'quiz/quiz', label: 'Learn', index: 15 },
+        { id: 'shapes', label: 'Shapes', index: 16 },
+
+
 
         // Add more checkboxes here as needed
     ];

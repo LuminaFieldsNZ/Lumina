@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag Shapes & Letters Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 20px;
+        }
+        .shape, .shadow {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .shadow {
+            background-color: #e0e0e0;
+            border: 2px dashed #888;
+        }
+        .shape {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Shapes -->
+        <div id="shape1" class="shape" style="background-color: #ff6666; border-radius: 50%;">A</div>
+        <div id="shape2" class="shape" style="background-color: #66ccff;">2</div>
+        <div id="shape3" class="shape" style="background-color: #66ff66; border-radius: 50%;">B</div>
+
+        <!-- Shadows -->
+        <div id="shadow1" class="shadow" style="background-color: #f0f0f0;"></div>
+        <div id="shadow2" class="shadow"></div>
+        <div id="shadow3" class="shadow"></div>
+    </div>
+
+    <script>
+        const shapes = document.querySelectorAll('.shape');
+        const shadows = document.querySelectorAll('.shadow');
+
+        let draggedShape = null;
+
+        shapes.forEach(shape => {
+            shape.addEventListener('mousedown', startDrag);
+            shape.addEventListener('touchstart', startDrag, { passive: true });
+        });
+
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', drop);
+        document.addEventListener('touchmove', drag, { passive: true });
+        document.addEventListener('touchend', drop);
+
+        function startDrag(e) {
+            e.preventDefault();
+            draggedShape = e.target;
+            draggedShape.style.position = 'absolute';
+            draggedShape.style.zIndex = 1000;
+
+            const shiftX = e.clientX - draggedShape.getBoundingClientRect().left;
+            const shiftY = e.clientY - draggedShape.getBoundingClientRect().top;
+
+            function moveAt(pageX, pageY) {
+                draggedShape.style.left = pageX - shiftX + 'px';
+                draggedShape.style.top = pageY - shiftY + 'px';
+            }
+
+            function onMouseMove(e) {
+                moveAt(e.pageX, e.pageY);
+            }
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', () => {
+                document.removeEventListener('mousemove', onMouseMove);
+                drop();
+            });
+        }
+
+        function drag(e) {
+            if (!draggedShape) return;
+
+            const pageX = e.touches ? e.touches[0].pageX : e.pageX;
+            const pageY = e.touches ? e.touches[0].pageY : e.pageY;
+
+            draggedShape.style.left = pageX - draggedShape.clientWidth / 2 + 'px';
+            draggedShape.style.top = pageY - draggedShape.clientHeight / 2 + 'px';
+        }
+
+        function drop() {
+            if (!draggedShape) return;
+
+            const shapeRect = draggedShape.getBoundingClientRect();
+            let shapeDropped = false;
+
+            shadows.forEach(shadow => {
+                const shadowRect = shadow.getBoundingClientRect();
+
+                if (
+                    shapeRect.left > shadowRect.left &&
+                    shapeRect.top > shadowRect.top &&
+                    shapeRect.right < shadowRect.right &&
+                    shapeRect.bottom < shadowRect.bottom
+                ) {
+                    shapeDropped = true;
+                    shadow.style.backgroundColor = '#c8e6c9';
+                    shadow.appendChild(draggedShape);
+                }
+            });
+
+            if (!shapeDropped) {
+                draggedShape.style.position = 'static';
+            }
+
+            draggedShape = null;
+        }
+    </script>
+</body>
+</html>

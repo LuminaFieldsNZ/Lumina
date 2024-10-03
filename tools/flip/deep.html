@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Conversation Questions</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        #question {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            color: black;
+            background-color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="question">Press the button to get a question!</div>
+    <button id="randomQuestionBtn">Get Random Question</button>
+
+    <script>
+        const questions = [
+            "What do you think is the meaning of life?",
+            "If you could change one thing about the world, what would it be?",
+            "What is your biggest fear, and how do you deal with it?",
+            "If you could have dinner with anyone, dead or alive, who would it be?",
+            "What is something you’ve learned about yourself in the past year?",
+            "If you could relive one moment in your life, what would it be?",
+            "What is a belief you hold that many people disagree with?",
+            "What do you think is the most important quality in a friend?",
+            "What is a lesson you learned the hard way?",
+            "If you could ask your future self one question, what would it be?",
+            "What is your biggest regret, and what did you learn from it?",
+    "How do you define success?",
+    "What is your most cherished memory?",
+    "If you could change one decision in your life, what would it be?",
+    "What does love mean to you?",
+    "What are the three things you are most grateful for?",
+    "How do you handle stress and pressure?",
+    "What do you believe is the key to happiness?",
+    "What role does family play in your life?",
+    "What is your favorite way to express yourself creatively?",
+    "If you had the power to change one law, what would it be?",
+    "What is something you wish you knew more about?",
+    "How do you want to be remembered after you’re gone?",
+    "What is a personal challenge you’ve overcome?",
+    "What is your greatest source of inspiration?",
+    "How do you cope with failure?",
+    "What does friendship mean to you?",
+    "If you could travel anywhere in the world, where would you go?",
+    "What is your definition of true happiness?",
+    "How do you feel about vulnerability?",
+    "What is something you've always wanted to learn?",
+    "If you could meet your younger self, what would you tell them?",
+    "What do you think is the most pressing issue in the world today?",
+    "How has your perspective on life changed over the years?",
+    "What is the most valuable lesson you’ve learned from a relationship?",
+    "What are the qualities you admire most in others?",
+    "How do you handle conflicts with others?",
+    "What do you believe is the purpose of art?",
+    "What is a dream you have yet to achieve?",
+    "How do you stay motivated during tough times?",
+    "What are your thoughts on forgiveness?",
+    "What do you believe happens after we die?",
+    "How important is it for you to be understood by others?",
+    "What is something that has shaped your worldview?",
+    "What makes you feel most alive?",
+    "How do you define loyalty?",
+    "What is your favorite way to connect with others?",
+    "What is one belief you hold that has changed over time?",
+    "What role does spirituality play in your life?",
+    "How do you approach making difficult decisions?",
+    "What are your thoughts on self-care?",
+    "What do you think is the biggest misconception about you?",
+    "What legacy do you want to leave behind?",
+    "How do you handle uncertainty in life?",
+    "What is something that makes you feel vulnerable?",
+    "What is the best advice you’ve ever received?",
+    "How do you navigate relationships with differing opinions?",
+    "What does it mean to you to live authentically?",
+    "What is something you would like to change about yourself?",
+    "How do you define integrity?",
+    "What is a cause you are passionate about?",
+    "What is a pivotal moment that changed your life?",
+    "How do you find balance in your life?",
+    "What does it mean to have a fulfilling life?",
+    "How do you express gratitude?",
+    "What are the most important values you try to uphold?",
+    "How do you approach setting and achieving goals?"
+        ];
+
+        document.getElementById('randomQuestionBtn').addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * questions.length);
+            document.getElementById('question').innerText = questions[randomIndex];
+        });
+    </script>
+
+</body>
+</html>
