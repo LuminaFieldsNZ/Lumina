@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'flip/deep', label: 'HDWYG', index: 0 },
         { id: 'gifs', label: 'Humor', index: 1 },
         { id: 'games', label: 'Lumie', index: 2 },
-        { id: 'scales', label: 'Sexism', index: 3 },
-        { id: 'model/index', label: 'VRM Avatar', index: 4 },
+        { id: 'games/gorillas/index', label: 'Gorillas', index: 3 },
+        { id: 'shapes', label: 'Shapes', index: 4 },
         { id: 'logic', label: 'Hearing', index: 5 },
         { id: '../peepBasic', label: 'Agents', index: 6 },
         { id: 'readGLB', label: 'GLB Reader', index: 7 },
@@ -19,10 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'list/index', label: 'TikTok', index: 10 },
         { id: 'quiz/narc2', label: 'Narcissism', index: 11 },
         { id: '../demo/index', label: 'Watcher', index: 12 },
-        { id: '../demo/facedetect/index', label: 'Detector', index: 13 },
+        { id: 'scales', label: 'Sexism', index: 13 },
         { id: 'sing', label: 'Pitch Match', index: 14 },
-        { id: 'quiz/quiz', label: 'Learn', index: 15 },
-        { id: 'shapes', label: 'Shapes', index: 16 },
+        { id: 'quiz/quiz', label: 'Learn', index: 15 }
 
 
 
