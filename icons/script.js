@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'games', label: 'Lumie', index: 2 },
         { id: 'games/gorillas/index', label: 'Gorillas', index: 3 },
         { id: 'shapes', label: 'Shapes', index: 4 },
-        { id: 'logic', label: 'Hearing', index: 5 },
+        { id: 'games/tictactoe/index', label: 'TicTacToe', index: 5 },
         { id: '../peepBasic', label: 'Agents', index: 6 },
         { id: 'readGLB', label: 'GLB Reader', index: 7 },
         { id: 'avatar', label: 'GLB Avatar', index: 8 },
@@ -21,7 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: '../demo/index', label: 'Watcher', index: 12 },
         { id: 'scales', label: 'Sexism', index: 13 },
         { id: 'sing', label: 'Pitch Match', index: 14 },
-        { id: 'quiz/quiz', label: 'Learn', index: 15 }
+        { id: 'quiz/quiz', label: 'Learn', index: 15 },
+        { id: 'logic', label: 'Hearing', index: 16 }
+
 
 
 
