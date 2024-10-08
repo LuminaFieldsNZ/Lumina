@@ -13,16 +13,22 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'shapes', label: 'Shapes', index: 4 },
         { id: 'games/tictactoe/index', label: 'TicTacToe', index: 5 },
         { id: '../peepBasic', label: 'Agents', index: 6 },
-        { id: 'readGLB', label: 'GLB Reader', index: 7 },
-        { id: 'avatar', label: 'GLB Avatar', index: 8 },
-        { id: 'face', label: 'Face', index: 9 },
+        { id: 'games/memory/index', label: 'Memory', index: 7 },
+        { id: 'games/crossy/index', label: 'Crossy', index: 8 },
+        { id: 'games/match/index', label: 'Match', index: 9 },
         { id: 'list/index', label: 'TikTok', index: 10 },
         { id: 'quiz/narc2', label: 'Narcissism', index: 11 },
         { id: '../demo/index', label: 'Watcher', index: 12 },
         { id: 'scales', label: 'Sexism', index: 13 },
         { id: 'sing', label: 'Pitch Match', index: 14 },
         { id: 'quiz/quiz', label: 'Learn', index: 15 },
-        { id: 'logic', label: 'Hearing', index: 16 }
+        { id: 'logic', label: 'Hearing', index: 16 },
+        { id: 'readGLB', label: 'GLB Reader', index: 17 },
+        { id: 'avatar', label: 'GLB Avatar', index: 18 },
+        { id: 'face', label: 'Face', index: 19 }
+
+
+
 
 
 
