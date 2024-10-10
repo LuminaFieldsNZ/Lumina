@@ -37,9 +37,20 @@
             align-items: center;
             margin: 10px;
             cursor: grab;
+            position: relative;
+            touch-action: none; /* Prevent default touch actions */
         }
-        .draggable:hover {
-            background-color: #f0f0f0;
+        .active {
+            background-color: lightgreen;
+        }
+        #drag-area {
+            display: flex;
+            justify-content: space-between;
+            width: 320px;
+            margin-top: 20px;
+        }
+        .container {
+            position: relative;
         }
     </style>
 </head>
@@ -48,9 +59,15 @@
 <h1>3-Person Tic Tac Toe</h1>
 <div id="board"></div>
 <div id="drag-area">
-    <div class="draggable" draggable="true" id="X">X</div>
-    <div class="draggable" draggable="true" id="O">O</div>
-    <div class="draggable" draggable="true" id="N">N</div>
+    <div class="container">
+        <div class="draggable" id="X" draggable="true">X</div>
+    </div>
+    <div class="container">
+        <div class="draggable" id="O" draggable="true">O</div>
+    </div>
+    <div class="container">
+        <div class="draggable" id="N" draggable="true">N</div>
+    </div>
 </div>
 <div id="message"></div>
 
@@ -59,6 +76,8 @@
     const message = document.getElementById('message');
     let currentPlayer = 'X';
     const grid = Array(4).fill(null).map(() => Array(4).fill(null));
+    let availablePieces = { 'X': 0, 'O': 0, 'N': 0 };
+    const maxHold = 2;
 
     // Create the board
     for (let i = 0; i < 16; i++) {
@@ -70,22 +89,73 @@
         board.appendChild(cell);
     }
 
-    // Drag and drop functionality
+    // Enable pieces every 2 seconds
+    setInterval(() => {
+        if (availablePieces['X'] < maxHold) availablePieces['X']++;
+        if (availablePieces['O'] < maxHold) availablePieces['O']++;
+        if (availablePieces['N'] < maxHold) availablePieces['N']++;
+        updateDraggableStates();
+    }, 2000);
+
+    function updateDraggableStates() {
+        document.querySelectorAll('.draggable').forEach(item => {
+            const id = item.id;
+            item.textContent = id + ' '.repeat(maxHold - availablePieces[id]);
+            item.classList.toggle('active', availablePieces[id] > 0);
+        });
+    }
+
     document.querySelectorAll('.draggable').forEach(item => {
         item.addEventListener('dragstart', (e) => {
-            e.dataTransfer.setData('text/plain', item.id);
+            if (!item.classList.contains('active')) {
+                e.preventDefault();
+            } else {
+                e.dataTransfer.setData('text/plain', item.id);
+                item.classList.remove('active');
+            }
+        });
+
+        item.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (!item.classList.contains('active')) return;
+            
+            const id = item.id;
+            item.classList.remove('active');
+
+            const moveHandler = (moveEvent) => {
+                moveEvent.preventDefault();
+            };
+
+            const endHandler = (endEvent) => {
+                endEvent.preventDefault();
+                const touch = endEvent.changedTouches[0];
+                const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+                if (dropTarget && dropTarget.classList.contains('cell')) {
+                    placePiece(id, dropTarget);
+                } else {
+                    // If not dropped on a valid cell, reactivate the piece
+                    item.classList.add('active');
+                }
+                
+                document.removeEventListener('touchmove', moveHandler);
+                document.removeEventListener('touchend', endHandler);
+            };
+
+            document.addEventListener('touchmove', moveHandler, { passive: false });
+            document.addEventListener('touchend', endHandler);
         });
     });
 
-    function drop(e, cell) {
-        const id = e.dataTransfer.getData('text/plain');
-        const index = cell.dataset.index;
+    function placePiece(id, cell) {
+        const index = parseInt(cell.dataset.index);
         const row = Math.floor(index / 4);
         const col = index % 4;
 
-        if (!grid[row][col]) {
+        if (!grid[row][col] && availablePieces[id] > 0) {
             grid[row][col] = id;
             cell.textContent = id;
+            availablePieces[id]--;
+            updateDraggableStates();
             if (checkWin(id)) {
                 message.textContent = `${id} wins!`;
                 resetGame();
@@ -93,6 +163,12 @@
                 currentPlayer = currentPlayer === 'X' ? 'O' : currentPlayer === 'O' ? 'N' : 'X';
             }
         }
+    }
+
+    // Modify the drop function for mouse events
+    function drop(e, cell) {
+        const id = e.dataTransfer.getData('text/plain');
+        placePiece(id, cell);
     }
 
     function checkWin(player) {
@@ -122,6 +198,8 @@
             document.querySelectorAll('.cell').forEach(cell => cell.textContent = '');
             message.textContent = '';
             currentPlayer = 'X';
+            availablePieces = { 'X': 0, 'O': 0, 'N': 0 };
+            updateDraggableStates();
         }, 2000);
     }
 </script>
