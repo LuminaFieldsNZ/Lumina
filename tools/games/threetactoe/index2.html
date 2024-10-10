@@ -10,42 +10,27 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 10px;
-            padding: 0;
-            background-color: #f0f0f0;
+            margin-top: 20px;
         }
-
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
         #board {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(4, 1fr);
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: repeat(4, 100px);
             gap: 5px;
-            width: 100%;
-            max-width: 400px;
-            aspect-ratio: 1; /* Make the board square */
         }
-
         .cell {
-            width: 100%;
-            height: 100%;
+            width: 100px;
+            height: 100px;
             border: 1px solid #000;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 24px;
             cursor: pointer;
-            touch-action: none;
-            box-sizing: border-box;
         }
-
         .draggable {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             border: 1px solid #000;
             display: flex;
             justify-content: center;
@@ -53,43 +38,19 @@
             margin: 10px;
             cursor: grab;
             position: relative;
-            touch-action: none;
-            background-color: #fff;
+            touch-action: none; /* Prevent default touch actions */
         }
-
         .active {
             background-color: lightgreen;
         }
-
         #drag-area {
             display: flex;
             justify-content: space-between;
-            width: 100%;
-            max-width: 400px;
+            width: 320px;
             margin-top: 20px;
         }
-
         .container {
             position: relative;
-        }
-
-        /* Make sure the board adjusts for mobile screens */
-        @media (max-width: 600px) {
-            #board {
-                grid-template-columns: repeat(4, 1fr);
-                grid-template-rows: repeat(4, 1fr);
-                max-width: 100%;
-            }
-
-            .cell {
-                font-size: 18px;
-            }
-
-            .draggable {
-                width: 60px;
-                height: 60px;
-                font-size: 18px;
-            }
         }
     </style>
 </head>
@@ -125,7 +86,6 @@
         cell.dataset.index = i;
         cell.addEventListener('dragover', (e) => e.preventDefault());
         cell.addEventListener('drop', (e) => drop(e, cell));
-        cell.addEventListener('touchstart', (e) => handleTouchStart(e, cell)); // Mobile touch start
         board.appendChild(cell);
     }
 
@@ -154,6 +114,46 @@
                 item.classList.remove('active');
             }
         });
+
+        // Handle touch events
+        item.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (!item.classList.contains('active')) return;
+
+            const id = item.id;
+            const touch = e.touches[0];
+            const touchX = touch.pageX;
+            const touchY = touch.pageY;
+
+            // Position the item based on touch coordinates
+            item.style.position = 'absolute';
+            item.style.left = `${touchX - item.offsetWidth / 2}px`;
+            item.style.top = `${touchY - item.offsetHeight / 2}px`;
+
+            // Move the item as the touch moves
+            const moveHandler = (moveEvent) => {
+                const touchMove = moveEvent.touches[0];
+                item.style.left = `${touchMove.pageX - item.offsetWidth / 2}px`;
+                item.style.top = `${touchMove.pageY - item.offsetHeight / 2}px`;
+            };
+
+            // When touch ends, drop the piece
+            const endHandler = (endEvent) => {
+                const touchEnd = endEvent.changedTouches[0];
+                const targetCell = document.elementFromPoint(touchEnd.pageX, touchEnd.pageY);
+
+                if (targetCell && targetCell.classList.contains('cell')) {
+                    drop(endEvent, targetCell);
+                }
+
+                item.style.position = '';  // Reset item position
+                document.removeEventListener('touchmove', moveHandler);
+                document.removeEventListener('touchend', endHandler);
+            };
+
+            document.addEventListener('touchmove', moveHandler);
+            document.addEventListener('touchend', endHandler);
+        });
     });
 
     function drop(e, cell) {
@@ -177,12 +177,16 @@
     }
 
     function checkWin(player) {
+        // Check for three in a row in rows, columns, and diagonals
         for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 2; j++) {
+                // Check rows
                 if (grid[i][j] === player && grid[i][j + 1] === player && grid[i][j + 2] === player) return true;
+                // Check columns
                 if (grid[j][i] === player && grid[j + 1][i] === player && grid[j + 2][i] === player) return true;
             }
         }
+        // Check diagonals
         for (let i = 0; i < 2; i++) {
             for (let j = 0; j < 2; j++) {
                 if (grid[i][j] === player && grid[i + 1][j + 1] === player && grid[i + 2][j + 2] === player) return true;
@@ -193,6 +197,7 @@
     }
 
     function resetGame() {
+        // Reset the grid and clear the message after a win
         setTimeout(() => {
             grid.forEach(row => row.fill(null));
             document.querySelectorAll('.cell').forEach(cell => cell.textContent = '');
@@ -201,46 +206,6 @@
             availablePieces = { 'X': 0, 'O': 0, 'N': 0 };
             updateDraggableStates();
         }, 2000);
-    }
-
-    // For touch start event (support for touch devices)
-    function handleTouchStart(e, cell) {
-        e.preventDefault();
-        const touch = e.touches[0];
-        const draggedItem = e.target;
-        const id = draggedItem.id;
-
-        if (!availablePieces[id] > 0) return; // Only if piece is active
-
-        // Position the piece exactly at touch start
-        draggedItem.style.position = 'absolute';
-        draggedItem.style.left = `${touch.pageX}px`;
-        draggedItem.style.top = `${touch.pageY}px`;
-
-        draggedItem.classList.add('active');
-
-        // Move the piece as user touches and drags
-        const movePiece = (moveEvent) => {
-            moveEvent.preventDefault();
-            const newTouch = moveEvent.touches[0];
-            draggedItem.style.left = `${newTouch.pageX}px`;
-            draggedItem.style.top = `${newTouch.pageY}px`;
-        };
-
-        // When touch ends, drop the piece
-        const dropPiece = (dropEvent) => {
-            dropEvent.preventDefault();
-            const targetCell = document.elementFromPoint(dropEvent.touches[0].clientX, dropEvent.touches[0].clientY);
-            if (targetCell && targetCell.classList.contains('cell')) {
-                drop(dropEvent, targetCell);
-            }
-            draggedItem.classList.remove('active');
-            document.removeEventListener('touchmove', movePiece);
-            document.removeEventListener('touchend', dropPiece);
-        };
-
-        document.addEventListener('touchmove', movePiece);
-        document.addEventListener('touchend', dropPiece);
     }
 </script>
 
