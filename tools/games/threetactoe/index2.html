@@ -141,7 +141,7 @@
                 const touch = e.changedTouches[0];
                 const dropTarget = document.elementFromPoint(touch.pageX, touch.pageY);
                 if (dropTarget && dropTarget.classList.contains('cell')) {
-                    drop({ dataTransfer: { getData: () => id } }, dropTarget);
+                    drop({ type: 'touch', id: id }, dropTarget);
                 }
                 document.body.removeChild(dragItem);
                 item.style.opacity = '1'; // Restore original opacity
@@ -155,8 +155,14 @@
     });
 
     function drop(e, cell) {
-        const id = e.dataTransfer.getData('text/plain') || e.target.textContent.trim();
-        const index = cell.dataset.index;
+        let id;
+        if (e.type === 'touch') {
+            id = e.id;
+        } else {
+            id = e.dataTransfer.getData('text/plain');
+        }
+        
+        const index = parseInt(cell.dataset.index);
         const row = Math.floor(index / 4);
         const col = index % 4;
 
