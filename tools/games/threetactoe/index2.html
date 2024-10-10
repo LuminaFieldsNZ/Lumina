@@ -10,27 +10,42 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 20px;
+            margin: 10px;
+            padding: 0;
+            background-color: #f0f0f0;
         }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
         #board {
             display: grid;
-            grid-template-columns: repeat(4, 100px);
-            grid-template-rows: repeat(4, 100px);
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
             gap: 5px;
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1; /* Make the board square */
         }
+
         .cell {
-            width: 100px;
-            height: 100px;
+            width: 100%;
+            height: 100%;
             border: 1px solid #000;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 24px;
             cursor: pointer;
+            touch-action: none;
+            box-sizing: border-box;
         }
+
         .draggable {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border: 1px solid #000;
             display: flex;
             justify-content: center;
@@ -38,19 +53,43 @@
             margin: 10px;
             cursor: grab;
             position: relative;
-            touch-action: none; /* Prevent default touch actions */
+            touch-action: none;
+            background-color: #fff;
         }
+
         .active {
             background-color: lightgreen;
         }
+
         #drag-area {
             display: flex;
             justify-content: space-between;
-            width: 320px;
+            width: 100%;
+            max-width: 400px;
             margin-top: 20px;
         }
+
         .container {
             position: relative;
+        }
+
+        /* Make sure the board adjusts for mobile screens */
+        @media (max-width: 600px) {
+            #board {
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+                max-width: 100%;
+            }
+
+            .cell {
+                font-size: 18px;
+            }
+
+            .draggable {
+                width: 60px;
+                height: 60px;
+                font-size: 18px;
+            }
         }
     </style>
 </head>
@@ -86,6 +125,7 @@
         cell.dataset.index = i;
         cell.addEventListener('dragover', (e) => e.preventDefault());
         cell.addEventListener('drop', (e) => drop(e, cell));
+        cell.addEventListener('touchstart', (e) => handleTouchStart(e, cell)); // Mobile touch start
         board.appendChild(cell);
     }
 
@@ -119,17 +159,15 @@
             e.preventDefault();
             if (!item.classList.contains('active')) return;
             const id = item.id;
-            e.dataTransfer.setData('text/plain', id);
-            item.classList.remove('active');
             const touch = e.touches[0];
             const dragItem = document.createElement('div');
             dragItem.textContent = id;
-            dragItem.classList.add('draggable', 'active');
+            dragItem.classList.add('draggable');
             dragItem.style.position = 'absolute';
             dragItem.style.left = `${touch.pageX}px`;
             dragItem.style.top = `${touch.pageY}px`;
             document.body.appendChild(dragItem);
-            item.style.display = 'none'; // Hide original while dragging
+            item.style.display = 'none';
 
             function touchMoveHandler(e) {
                 const touch = e.touches[0];
@@ -140,7 +178,7 @@
             function touchEndHandler(e) {
                 drop(e, dragItem);
                 document.body.removeChild(dragItem);
-                item.style.display = ''; // Show original again
+                item.style.display = '';
                 window.removeEventListener('touchmove', touchMoveHandler);
                 window.removeEventListener('touchend', touchEndHandler);
             }
@@ -171,16 +209,12 @@
     }
 
     function checkWin(player) {
-        // Check for three in a row in rows, columns, and diagonals
         for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 2; j++) {
-                // Check rows
                 if (grid[i][j] === player && grid[i][j + 1] === player && grid[i][j + 2] === player) return true;
-                // Check columns
                 if (grid[j][i] === player && grid[j + 1][i] === player && grid[j + 2][i] === player) return true;
             }
         }
-        // Check diagonals
         for (let i = 0; i < 2; i++) {
             for (let j = 0; j < 2; j++) {
                 if (grid[i][j] === player && grid[i + 1][j + 1] === player && grid[i + 2][j + 2] === player) return true;
@@ -191,7 +225,6 @@
     }
 
     function resetGame() {
-        // Reset the grid and clear the message after a win
         setTimeout(() => {
             grid.forEach(row => row.fill(null));
             document.querySelectorAll('.cell').forEach(cell => cell.textContent = '');
@@ -200,6 +233,23 @@
             availablePieces = { 'X': 0, 'O': 0, 'N': 0 };
             updateDraggableStates();
         }, 2000);
+    }
+
+    // For touch start event (support for touch devices)
+    function handleTouchStart(e, cell) {
+        e.preventDefault();
+        const id = e.target.id;
+        if (availablePieces[id] > 0) {
+            e.target.classList.remove('active');
+            const touch = e.touches[0];
+            const dragItem = document.createElement('div');
+            dragItem.textContent = id;
+            dragItem.classList.add('draggable');
+            dragItem.style.position = 'absolute';
+            dragItem.style.left = `${touch.pageX}px`;
+            dragItem.style.top = `${touch.pageY}px`;
+            document.body.appendChild(dragItem);
+        }
     }
 </script>
 
