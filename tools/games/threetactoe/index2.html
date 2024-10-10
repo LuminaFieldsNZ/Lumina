@@ -118,50 +118,35 @@
         item.addEventListener('touchstart', (e) => {
             e.preventDefault();
             if (!item.classList.contains('active')) return;
+            
             const id = item.id;
-            const touch = e.touches[0];
-            const dragItem = document.createElement('div');
-            dragItem.textContent = id;
-            dragItem.classList.add('draggable', 'active');
-            dragItem.style.position = 'absolute';
-            dragItem.style.left = `${touch.pageX}px`;
-            dragItem.style.top = `${touch.pageY}px`;
-            document.body.appendChild(dragItem);
-            item.style.opacity = '0.5'; // Make original semi-transparent while dragging
+            item.classList.remove('active');
 
-            function touchMoveHandler(e) {
-                e.preventDefault();
-                const touch = e.touches[0];
-                dragItem.style.left = `${touch.pageX - 50}px`;
-                dragItem.style.top = `${touch.pageY - 50}px`;
-            }
+            const moveHandler = (moveEvent) => {
+                moveEvent.preventDefault();
+            };
 
-            function touchEndHandler(e) {
-                e.preventDefault();
-                const touch = e.changedTouches[0];
-                const dropTarget = document.elementFromPoint(touch.pageX, touch.pageY);
+            const endHandler = (endEvent) => {
+                endEvent.preventDefault();
+                const touch = endEvent.changedTouches[0];
+                const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
                 if (dropTarget && dropTarget.classList.contains('cell')) {
-                    drop({ type: 'touch', id: id }, dropTarget);
+                    placePiece(id, dropTarget);
+                } else {
+                    // If not dropped on a valid cell, reactivate the piece
+                    item.classList.add('active');
                 }
-                document.body.removeChild(dragItem);
-                item.style.opacity = '1'; // Restore original opacity
-                window.removeEventListener('touchmove', touchMoveHandler);
-                window.removeEventListener('touchend', touchEndHandler);
-            }
+                
+                document.removeEventListener('touchmove', moveHandler);
+                document.removeEventListener('touchend', endHandler);
+            };
 
-            window.addEventListener('touchmove', touchMoveHandler, { passive: false });
-            window.addEventListener('touchend', touchEndHandler);
+            document.addEventListener('touchmove', moveHandler, { passive: false });
+            document.addEventListener('touchend', endHandler);
         });
     });
 
-    function drop(e, cell) {
-        let id;
-        if (e.type === 'touch') {
-            id = e.id;
-        } else {
-            id = e.dataTransfer.getData('text/plain');
-        }
-        
+    function placePiece(id, cell) {
         const index = parseInt(cell.dataset.index);
         const row = Math.floor(index / 4);
         const col = index % 4;
@@ -178,6 +163,12 @@
                 currentPlayer = currentPlayer === 'X' ? 'O' : currentPlayer === 'O' ? 'N' : 'X';
             }
         }
+    }
+
+    // Modify the drop function for mouse events
+    function drop(e, cell) {
+        const id = e.dataTransfer.getData('text/plain');
+        placePiece(id, cell);
     }
 
     function checkWin(player) {
