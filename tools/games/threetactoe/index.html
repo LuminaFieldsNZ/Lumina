@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-Person Tic Tac Toe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        #board {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: repeat(4, 100px);
+            gap: 5px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .draggable {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            cursor: grab;
+        }
+        .draggable:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>3-Person Tic Tac Toe</h1>
+<div id="board"></div>
+<div id="drag-area">
+    <div class="draggable" draggable="true" id="X">X</div>
+    <div class="draggable" draggable="true" id="O">O</div>
+    <div class="draggable" draggable="true" id="N">N</div>
+</div>
+<div id="message"></div>
+
+<script>
+    const board = document.getElementById('board');
+    const message = document.getElementById('message');
+    let currentPlayer = 'X';
+    const grid = Array(4).fill(null).map(() => Array(4).fill(null));
+
+    // Create the board
+    for (let i = 0; i < 16; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.dataset.index = i;
+        cell.addEventListener('dragover', (e) => e.preventDefault());
+        cell.addEventListener('drop', (e) => drop(e, cell));
+        board.appendChild(cell);
+    }
+
+    // Drag and drop functionality
+    document.querySelectorAll('.draggable').forEach(item => {
+        item.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', item.id);
+        });
+    });
+
+    function drop(e, cell) {
+        const id = e.dataTransfer.getData('text/plain');
+        const index = cell.dataset.index;
+        const row = Math.floor(index / 4);
+        const col = index % 4;
+
+        if (!grid[row][col]) {
+            grid[row][col] = id;
+            cell.textContent = id;
+            if (checkWin(id)) {
+                message.textContent = `${id} wins!`;
+                resetGame();
+            } else {
+                currentPlayer = currentPlayer === 'X' ? 'O' : currentPlayer === 'O' ? 'N' : 'X';
+            }
+        }
+    }
+
+    function checkWin(player) {
+        // Check for three in a row in rows, columns, and diagonals
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 2; j++) {
+                // Check rows
+                if (grid[i][j] === player && grid[i][j + 1] === player && grid[i][j + 2] === player) return true;
+                // Check columns
+                if (grid[j][i] === player && grid[j + 1][i] === player && grid[j + 2][i] === player) return true;
+            }
+        }
+        // Check diagonals
+        for (let i = 0; i < 2; i++) {
+            for (let j = 0; j < 2; j++) {
+                if (grid[i][j] === player && grid[i + 1][j + 1] === player && grid[i + 2][j + 2] === player) return true;
+                if (grid[i][j + 2] === player && grid[i + 1][j + 1] === player && grid[i + 2][j] === player) return true;
+            }
+        }
+        return false;
+    }
+
+    function resetGame() {
+        // Reset the grid and clear the message after a win
+        setTimeout(() => {
+            grid.forEach(row => row.fill(null));
+            document.querySelectorAll('.cell').forEach(cell => cell.textContent = '');
+            message.textContent = '';
+            currentPlayer = 'X';
+        }, 2000);
+    }
+</script>
+
+</body>
+</html>

@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'games/crossy/index', label: 'Crossy', index: 8 },
         { id: 'games/match/index', label: 'Match', index: 9 },
         { id: 'games/alphabet/index', label: 'Alphabet', index: 10 },
-        { id: 'quiz/narc2', label: 'Narcissism', index: 11 },
+        { id: 'games/threetactoe/index2', label: 'ThreeTacToe', index: 11 },
         { id: '../demo/index', label: 'Watcher', index: 12 },
         { id: 'scales', label: 'Sexism', index: 13 },
         { id: 'sing', label: 'Pitch Match', index: 14 },

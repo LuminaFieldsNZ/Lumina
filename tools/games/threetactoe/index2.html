@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-Person Tic Tac Toe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        #board {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: repeat(4, 100px);
+            gap: 5px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .draggable {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            cursor: grab;
+            position: relative;
+            touch-action: none; /* Prevent default touch actions */
+        }
+        .active {
+            background-color: lightgreen;
+        }
+        #drag-area {
+            display: flex;
+            justify-content: space-between;
+            width: 320px;
+            margin-top: 20px;
+        }
+        .container {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+<h1>3-Person Tic Tac Toe</h1>
+<div id="board"></div>
+<div id="drag-area">
+    <div class="container">
+        <div class="draggable" id="X" draggable="true">X</div>
+    </div>
+    <div class="container">
+        <div class="draggable" id="O" draggable="true">O</div>
+    </div>
+    <div class="container">
+        <div class="draggable" id="N" draggable="true">N</div>
+    </div>
+</div>
+<div id="message"></div>
+
+<script>
+    const board = document.getElementById('board');
+    const message = document.getElementById('message');
+    let currentPlayer = 'X';
+    const grid = Array(4).fill(null).map(() => Array(4).fill(null));
+    let availablePieces = { 'X': 0, 'O': 0, 'N': 0 };
+    const maxHold = 2;
+
+    // Create the board
+    for (let i = 0; i < 16; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.dataset.index = i;
+        cell.addEventListener('dragover', (e) => e.preventDefault());
+        cell.addEventListener('drop', (e) => drop(e, cell));
+        board.appendChild(cell);
+    }
+
+    // Enable pieces every 2 seconds
+    setInterval(() => {
+        if (availablePieces['X'] < maxHold) availablePieces['X']++;
+        if (availablePieces['O'] < maxHold) availablePieces['O']++;
+        if (availablePieces['N'] < maxHold) availablePieces['N']++;
+        updateDraggableStates();
+    }, 2000);
+
+    function updateDraggableStates() {
+        document.querySelectorAll('.draggable').forEach(item => {
+            const id = item.id;
+            item.textContent = id + ' '.repeat(maxHold - availablePieces[id]);
+            item.classList.toggle('active', availablePieces[id] > 0);
+        });
+    }
+
+    document.querySelectorAll('.draggable').forEach(item => {
+        item.addEventListener('dragstart', (e) => {
+            if (!item.classList.contains('active')) {
+                e.preventDefault();
+            } else {
+                e.dataTransfer.setData('text/plain', item.id);
+                item.classList.remove('active');
+            }
+        });
+
+        item.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (!item.classList.contains('active')) return;
+            const id = item.id;
+            e.dataTransfer.setData('text/plain', id);
+            item.classList.remove('active');
+            const touch = e.touches[0];
+            const dragItem = document.createElement('div');
+            dragItem.textContent = id;
+            dragItem.classList.add('draggable', 'active');
+            dragItem.style.position = 'absolute';
+            dragItem.style.left = `${touch.pageX}px`;
+            dragItem.style.top = `${touch.pageY}px`;
+            document.body.appendChild(dragItem);
+            item.style.display = 'none'; // Hide original while dragging
+
+            function touchMoveHandler(e) {
+                const touch = e.touches[0];
+                dragItem.style.left = `${touch.pageX}px`;
+                dragItem.style.top = `${touch.pageY}px`;
+            }
+
+            function touchEndHandler(e) {
+                drop(e, dragItem);
+                document.body.removeChild(dragItem);
+                item.style.display = ''; // Show original again
+                window.removeEventListener('touchmove', touchMoveHandler);
+                window.removeEventListener('touchend', touchEndHandler);
+            }
+
+            window.addEventListener('touchmove', touchMoveHandler);
+            window.addEventListener('touchend', touchEndHandler);
+        });
+    });
+
+    function drop(e, cell) {
+        const id = e.dataTransfer.getData('text/plain') || e.target.textContent.trim();
+        const index = cell.dataset.index;
+        const row = Math.floor(index / 4);
+        const col = index % 4;
+
+        if (!grid[row][col] && availablePieces[id] > 0) {
+            grid[row][col] = id;
+            cell.textContent = id;
+            availablePieces[id]--;
+            updateDraggableStates();
+            if (checkWin(id)) {
+                message.textContent = `${id} wins!`;
+                resetGame();
+            } else {
+                currentPlayer = currentPlayer === 'X' ? 'O' : currentPlayer === 'O' ? 'N' : 'X';
+            }
+        }
+    }
+
+    function checkWin(player) {
+        // Check for three in a row in rows, columns, and diagonals
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 2; j++) {
+                // Check rows
+                if (grid[i][j] === player && grid[i][j + 1] === player && grid[i][j + 2] === player) return true;
+                // Check columns
+                if (grid[j][i] === player && grid[j + 1][i] === player && grid[j + 2][i] === player) return true;
+            }
+        }
+        // Check diagonals
+        for (let i = 0; i < 2; i++) {
+            for (let j = 0; j < 2; j++) {
+                if (grid[i][j] === player && grid[i + 1][j + 1] === player && grid[i + 2][j + 2] === player) return true;
+                if (grid[i][j + 2] === player && grid[i + 1][j + 1] === player && grid[i + 2][j] === player) return true;
+            }
+        }
+        return false;
+    }
+
+    function resetGame() {
+        // Reset the grid and clear the message after a win
+        setTimeout(() => {
+            grid.forEach(row => row.fill(null));
+            document.querySelectorAll('.cell').forEach(cell => cell.textContent = '');
+            message.textContent = '';
+            currentPlayer = 'X';
+            availablePieces = { 'X': 0, 'O': 0, 'N': 0 };
+            updateDraggableStates();
+        }, 2000);
+    }
+</script>
+
+</body>
+</html>
