@@ -115,44 +115,42 @@
             }
         });
 
-        // Handle touch events
         item.addEventListener('touchstart', (e) => {
             e.preventDefault();
             if (!item.classList.contains('active')) return;
-
             const id = item.id;
             const touch = e.touches[0];
-            const touchX = touch.pageX;
-            const touchY = touch.pageY;
+            const dragItem = document.createElement('div');
+            dragItem.textContent = id;
+            dragItem.classList.add('draggable', 'active');
+            dragItem.style.position = 'absolute';
+            dragItem.style.left = `${touch.pageX}px`;
+            dragItem.style.top = `${touch.pageY}px`;
+            document.body.appendChild(dragItem);
+            item.style.opacity = '0.5'; // Make original semi-transparent while dragging
 
-            // Position the item based on touch coordinates
-            item.style.position = 'absolute';
-            item.style.left = `${touchX - item.offsetWidth / 2}px`;
-            item.style.top = `${touchY - item.offsetHeight / 2}px`;
+            function touchMoveHandler(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                dragItem.style.left = `${touch.pageX - 50}px`;
+                dragItem.style.top = `${touch.pageY - 50}px`;
+            }
 
-            // Move the item as the touch moves
-            const moveHandler = (moveEvent) => {
-                const touchMove = moveEvent.touches[0];
-                item.style.left = `${touchMove.pageX - item.offsetWidth / 2}px`;
-                item.style.top = `${touchMove.pageY - item.offsetHeight / 2}px`;
-            };
-
-            // When touch ends, drop the piece
-            const endHandler = (endEvent) => {
-                const touchEnd = endEvent.changedTouches[0];
-                const targetCell = document.elementFromPoint(touchEnd.pageX, touchEnd.pageY);
-
-                if (targetCell && targetCell.classList.contains('cell')) {
-                    drop(endEvent, targetCell);
+            function touchEndHandler(e) {
+                e.preventDefault();
+                const touch = e.changedTouches[0];
+                const dropTarget = document.elementFromPoint(touch.pageX, touch.pageY);
+                if (dropTarget && dropTarget.classList.contains('cell')) {
+                    drop({ dataTransfer: { getData: () => id } }, dropTarget);
                 }
+                document.body.removeChild(dragItem);
+                item.style.opacity = '1'; // Restore original opacity
+                window.removeEventListener('touchmove', touchMoveHandler);
+                window.removeEventListener('touchend', touchEndHandler);
+            }
 
-                item.style.position = '';  // Reset item position
-                document.removeEventListener('touchmove', moveHandler);
-                document.removeEventListener('touchend', endHandler);
-            };
-
-            document.addEventListener('touchmove', moveHandler);
-            document.addEventListener('touchend', endHandler);
+            window.addEventListener('touchmove', touchMoveHandler, { passive: false });
+            window.addEventListener('touchend', touchEndHandler);
         });
     });
 
