@@ -154,38 +154,6 @@
                 item.classList.remove('active');
             }
         });
-
-        item.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            if (!item.classList.contains('active')) return;
-            const id = item.id;
-            const touch = e.touches[0];
-            const dragItem = document.createElement('div');
-            dragItem.textContent = id;
-            dragItem.classList.add('draggable');
-            dragItem.style.position = 'absolute';
-            dragItem.style.left = `${touch.pageX}px`;
-            dragItem.style.top = `${touch.pageY}px`;
-            document.body.appendChild(dragItem);
-            item.style.display = 'none';
-
-            function touchMoveHandler(e) {
-                const touch = e.touches[0];
-                dragItem.style.left = `${touch.pageX}px`;
-                dragItem.style.top = `${touch.pageY}px`;
-            }
-
-            function touchEndHandler(e) {
-                drop(e, dragItem);
-                document.body.removeChild(dragItem);
-                item.style.display = '';
-                window.removeEventListener('touchmove', touchMoveHandler);
-                window.removeEventListener('touchend', touchEndHandler);
-            }
-
-            window.addEventListener('touchmove', touchMoveHandler);
-            window.addEventListener('touchend', touchEndHandler);
-        });
     });
 
     function drop(e, cell) {
@@ -238,18 +206,41 @@
     // For touch start event (support for touch devices)
     function handleTouchStart(e, cell) {
         e.preventDefault();
-        const id = e.target.id;
-        if (availablePieces[id] > 0) {
-            e.target.classList.remove('active');
-            const touch = e.touches[0];
-            const dragItem = document.createElement('div');
-            dragItem.textContent = id;
-            dragItem.classList.add('draggable');
-            dragItem.style.position = 'absolute';
-            dragItem.style.left = `${touch.pageX}px`;
-            dragItem.style.top = `${touch.pageY}px`;
-            document.body.appendChild(dragItem);
-        }
+        const touch = e.touches[0];
+        const draggedItem = e.target;
+        const id = draggedItem.id;
+
+        if (!availablePieces[id] > 0) return; // Only if piece is active
+
+        // Position the piece exactly at touch start
+        draggedItem.style.position = 'absolute';
+        draggedItem.style.left = `${touch.pageX}px`;
+        draggedItem.style.top = `${touch.pageY}px`;
+
+        draggedItem.classList.add('active');
+
+        // Move the piece as user touches and drags
+        const movePiece = (moveEvent) => {
+            moveEvent.preventDefault();
+            const newTouch = moveEvent.touches[0];
+            draggedItem.style.left = `${newTouch.pageX}px`;
+            draggedItem.style.top = `${newTouch.pageY}px`;
+        };
+
+        // When touch ends, drop the piece
+        const dropPiece = (dropEvent) => {
+            dropEvent.preventDefault();
+            const targetCell = document.elementFromPoint(dropEvent.touches[0].clientX, dropEvent.touches[0].clientY);
+            if (targetCell && targetCell.classList.contains('cell')) {
+                drop(dropEvent, targetCell);
+            }
+            draggedItem.classList.remove('active');
+            document.removeEventListener('touchmove', movePiece);
+            document.removeEventListener('touchend', dropPiece);
+        };
+
+        document.addEventListener('touchmove', movePiece);
+        document.addEventListener('touchend', dropPiece);
     }
 </script>
 
