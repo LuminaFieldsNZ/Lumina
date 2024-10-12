@@ -527,7 +527,7 @@ function removeCanvasListeners() {
 }
 
 // Update the capture button event listener
-document.getElementById('captureBtn').addEventListener('click', (e) => {
+function handleCaptureButtonClick(e) {
     e.preventDefault(); // Prevent default behavior
     e.stopPropagation(); // Prevent triggering drag when clicking the capture button
     
@@ -592,7 +592,12 @@ document.getElementById('captureBtn').addEventListener('click', (e) => {
     setTimeout(() => {
         imgElement.src = '';
     }, 3000);
-});
+}
+
+// Add event listeners for both click and touch events
+const captureBtn = document.getElementById('captureBtn');
+captureBtn.addEventListener('click', handleCaptureButtonClick);
+captureBtn.addEventListener('touchstart', handleCaptureButtonClick);
 
 </script>
 </body>
