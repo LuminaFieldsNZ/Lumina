@@ -368,18 +368,24 @@ function startGame() {
     availablePeeps = [...allPeeps];
     initCrowd();
 
-    canvas.addEventListener('pointerdown', handleCanvasClick);
+    addCanvasListeners();
     document.getElementById('continueBtn').style.display = 'none';
     document.getElementById('draggableBox').style.display = 'flex';
     makeDraggable(document.getElementById('draggableBox'));
 }
 
 function handleCanvasClick(event) {
+    event.preventDefault(); // Prevent default touch behavior
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
-    const clickX = (event.clientX - rect.left) * scaleX;
-    const clickY = (event.clientY - rect.top) * scaleY;
+    
+    // Use clientX/Y for mouse events, and touches[0].clientX/Y for touch events
+    const clientX = event.clientX || (event.touches && event.touches[0].clientX);
+    const clientY = event.clientY || (event.touches && event.touches[0].clientY);
+    
+    const clickX = (clientX - rect.left) * scaleX;
+    const clickY = (clientY - rect.top) * scaleY;
 
     console.log(`Click coordinates: (${clickX}, ${clickY})`);
 
@@ -416,7 +422,7 @@ function handleCanvasClick(event) {
                     if (foundCount >= peepsToFind) {
                         document.getElementById('continueBtn').style.display = 'block';
                         alert("Congratulations! You've found all the peeps!");
-                        canvas.removeEventListener('pointerdown', handleCanvasClick); // Remove the listener after winning
+                        removeCanvasListeners();
                     } else {
                         addPeepToCrowd(); // Add a new peep after one is removed
                     }
@@ -494,6 +500,7 @@ function makeDraggable(element) {
 
     function drag(e) {
         if (!isDragging) return;
+        e.preventDefault(); // Prevent scrolling on touch devices
         let clientX = e.clientX || e.touches[0].clientX;
         let clientY = e.clientY || e.touches[0].clientY;
         element.style.left = (clientX - startX) + 'px';
@@ -508,9 +515,22 @@ function makeDraggable(element) {
     }
 }
 
+// Update event listeners for the canvas
+function addCanvasListeners() {
+    canvas.addEventListener('mousedown', handleCanvasClick);
+    canvas.addEventListener('touchstart', handleCanvasClick);
+}
+
+function removeCanvasListeners() {
+    canvas.removeEventListener('mousedown', handleCanvasClick);
+    canvas.removeEventListener('touchstart', handleCanvasClick);
+}
+
 // Update the capture button event listener
 document.getElementById('captureBtn').addEventListener('click', (e) => {
+    e.preventDefault(); // Prevent default behavior
     e.stopPropagation(); // Prevent triggering drag when clicking the capture button
+    
     const box = document.getElementById('draggableBox');
     const imgElement = document.getElementById('screenshotImg');
 
@@ -554,7 +574,7 @@ document.getElementById('captureBtn').addEventListener('click', (e) => {
         if (foundCount >= peepsToFind) {
             document.getElementById('continueBtn').style.display = 'block';
             alert("Congratulations! You've found all the peeps!");
-            canvas.removeEventListener('pointerdown', handleCanvasClick);
+            removeCanvasListeners();
         }
     } else {
         alert('No match, try again!');
