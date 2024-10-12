@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Where's Waldo Counting Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* For Webkit browsers like Chrome, Safari */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        /* For Firefox */
+        html {
+            scrollbar-width: none;
+            overflow: -moz-scrollbars-none;
+        }
+        /* For IE and Edge */
+        body {
+            -ms-overflow-style: none;
+        }
+        #canvas {
+            position: absolute;
+            width: 99vw;
+            height: 99vh;
+            z-index: 3;
+        }
+        #info {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        #continueBtn {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        #difficultyBtn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="info"></div>
+    <canvas id="canvas"></canvas>
+    <button id="continueBtn" onclick="resetGame()">Continue</button>
+    <button id="difficultyBtn">Switch to Easy Mode</button>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js'></script>
+    <script>
+
+const config = {
+    src: 'https://luminafieldsnz.github.io/Lumina/peeps.png',
+    rows: 15,
+    cols: 7
+};
+
+// UTILS
+const randomRange = (min, max) => min + Math.random() * (max - min);
+const randomIndex = array => randomRange(0, array.length) | 0;
+const removeFromArray = (array, i) => array.splice(i, 1)[0];
+const removeItemFromArray = (array, item) => removeFromArray(array, array.indexOf(item));
+const removeRandomFromArray = array => removeFromArray(array, randomIndex(array));
+const getRandomFromArray = array => array[randomIndex(array) | 0];
+
+// TWEEN FACTORIES
+const resetPeep = ({ stage, peep }) => {
+    const direction = Math.random() > 0.5 ? 1 : -1;
+    const offsetY = 100 - 250 * gsap.parseEase('power2.in')(Math.random());
+    const startY = stage.height - peep.height + offsetY;
+    let startX, endX;
+
+    if (direction === 1) {
+        startX = -peep.width;
+        endX = stage.width;
+        peep.scaleX = 1;
+    } else {
+        startX = stage.width + peep.width;
+        endX = 0;
+        peep.scaleX = -1;
+    }
+
+    peep.x = startX;
+    peep.y = startY;
+    peep.anchorY = startY;
+
+    return { startX, startY, endX, direction };
+};
+
+const normalWalk = ({ peep, props }) => {
+    const { startX, startY, endX } = props;
+    const xDuration = 10;
+    const yDuration = 0.25;
+
+    const tl = gsap.timeline();
+    tl.timeScale(randomRange(0.5, 1.5));
+    tl.to(peep, { duration: xDuration, x: endX, ease: 'none' }, 0);
+    tl.to(peep, { duration: yDuration, repeat: xDuration / yDuration, yoyo: true, y: startY - 10 }, 0);
+
+    return tl;
+};
+
+const walks = [normalWalk];
+
+// CLASSES
+class Peep {
+    constructor({ image, rect }) {
+        this.id = peepIdCounter++;
+        this.image = image;
+        this.setRect(rect);
+        this.x = 0;
+        this.y = 0;
+        this.anchorY = 0;
+        this.scaleX = 1;
+        this.walk = null;
+        this.isTarget = false;
+        this.clicked = false;
+        this.highlightUntil = 0;
+    }
+
+    setRect(rect) {
+        this.rect = rect;
+        this.width = rect[2];
+        this.height = rect[3];
+        this.drawArgs = [this.image, ...rect, 0, 0, this.width, this.height];
+    }
+
+    render(ctx, currentTime) {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.scale(this.scaleX, 1);
+        ctx.drawImage(...this.drawArgs);
+        ctx.restore();
+
+        if (this.isTarget && currentTime < this.highlightUntil) {
+            ctx.save();
+            ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(this.x, this.y, this.width, this.height);
+            ctx.restore();
+        }
+    }
+
+    getCenter() {
+        return {
+            x: this.x + (this.width * Math.abs(this.scaleX)) / 2,
+            y: this.y + this.height / 2
+        };
+    }
+}
+
+// MAIN
+const img = document.createElement('img');
+img.crossOrigin = 'anonymous';
+img.onload = init;
+img.src = config.src;
+
+const canvas = document.querySelector('#canvas');
+const ctx = canvas.getContext('2d');
+
+const stage = { width: 0, height: 0 };
+const allPeeps = [];
+let availablePeeps = [];
+const crowd = [];
+let targetPeep;
+let selectedPeeps = [];
+const peepsToFind = 4;
+let foundCount = 0;
+let isEasyMode = false;
+const normalCrowdSize = 30;
+const easyCrowdSize = normalCrowdSize / 2;
+let peepIdCounter = 0;
+
+function init() {
+    createPeeps();
+    resize();
+    requestAnimationFrame(render);
+    window.addEventListener('resize', resize);
+    document.getElementById('difficultyBtn').addEventListener('click', toggleDifficulty);
+    startGame();
+}
+
+function createPeeps() {
+    const { rows, cols } = config;
+    const { naturalWidth: width, naturalHeight: height } = img;
+    const total = rows * cols;
+    const rectWidth = width / rows;
+    const rectHeight = height / cols;
+
+    for (let i = 0; i < total; i++) {
+        allPeeps.push(new Peep({
+            image: img,
+            rect: [
+                (i % rows) * rectWidth,
+                Math.floor(i / rows) * rectHeight,
+                rectWidth,
+                rectHeight
+            ]
+        }));
+    }
+}
+
+function resize() {
+    stage.width = canvas.clientWidth;
+    stage.height = canvas.clientHeight;
+    canvas.width = stage.width * devicePixelRatio;
+    canvas.height = stage.height * devicePixelRatio;
+
+    crowd.forEach(peep => {
+        if (peep.walk) {
+            peep.walk.kill();
+        }
+    });
+
+    crowd.length = 0;
+    availablePeeps = [...allPeeps];
+
+    initCrowd();
+}
+
+function initCrowd() {
+    const targetCrowdSize = isEasyMode ? easyCrowdSize : normalCrowdSize;
+    while (crowd.length < targetCrowdSize && availablePeeps.length) {
+        const peep = addPeepToCrowd();
+        if (peep.walk) {
+            peep.walk.progress(Math.random());
+        }
+    }
+}
+
+function addPeepToCrowd() {
+    let peep;
+
+    if (!targetPeep) {
+        targetPeep = getRandomFromArray(allPeeps);
+    }
+
+    if (crowd.filter(p => p.isTarget).length < peepsToFind) {
+        peep = new Peep({
+            image: img,
+            rect: targetPeep.rect
+        });
+        peep.isTarget = true;
+        console.log('Adding new target peep to crowd');
+    } else {
+        if (availablePeeps.length === 0) {
+            availablePeeps = [...allPeeps];
+        }
+        peep = new Peep({
+            image: img,
+            rect: removeRandomFromArray(availablePeeps).rect
+        });
+        console.log('Adding new non-target peep to crowd');
+    }
+
+    const props = resetPeep({ stage, peep });
+    peep.scaleX = props.direction;
+    console.log(`Adding peep to crowd: direction = ${peep.scaleX === 1 ? 'right' : 'left'}`);
+
+    const walk = getRandomFromArray(walks)({ peep, props: props });
+
+    walk.eventCallback('onComplete', () => {
+        console.log(`Peep completed walk: ${peep.isTarget ? 'Target' : 'Non-target'}`);
+        removePeepFromCrowd(peep);
+        addPeepToCrowd();
+    });
+
+    peep.walk = walk;
+    crowd.push(peep);
+    crowd.sort((a, b) => a.anchorY - b.anchorY);
+
+    return peep;
+}
+
+function removePeepFromCrowd(peep) {
+    const index = crowd.indexOf(peep);
+    if (index > -1) {
+        crowd.splice(index, 1);
+        console.log(`Peep removed from crowd: ${peep.isTarget ? 'Target' : 'Non-target'}`);
+        if (!peep.isTarget) {
+            availablePeeps.push(peep);
+        }
+    }
+}
+
+function startGame() {
+    selectedPeeps = [];
+    targetPeep = getRandomFromArray(allPeeps);
+    updateInfoDisplay();
+    foundCount = 0;
+
+    crowd.length = 0;
+    availablePeeps = [...allPeeps];
+    initCrowd();
+
+    canvas.addEventListener('pointerdown', handleCanvasClick);
+    document.getElementById('continueBtn').style.display = 'none';
+}
+
+function handleCanvasClick(event) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const clickX = (event.clientX - rect.left) * scaleX;
+    const clickY = (event.clientY - rect.top) * scaleY;
+
+    console.log(`Click coordinates: (${clickX}, ${clickY})`);
+
+    for (let peep of crowd) {
+        // Calculate the peep's bounding box
+        const peepX = peep.x * devicePixelRatio;
+        const peepY = peep.y * devicePixelRatio;
+        const peepWidth = peep.width * devicePixelRatio; // Use absolute width
+        const peepHeight = peep.height * devicePixelRatio;
+
+        // Adjusted X position based on scale
+        const hitboxX = peep.scaleX < 0 ? peepX - peepWidth : peepX;
+
+        // Check for click within the bounding box
+        if (
+            clickX >= hitboxX && 
+            clickX < hitboxX + peepWidth &&
+            clickY >= peepY && 
+            clickY < peepY + peepHeight
+        ) {
+            console.log(`Peep clicked: ID ${peep.id}, isTarget: ${peep.isTarget}`);
+
+            if (peep.isTarget && !peep.clicked) {
+                peep.clicked = true; // Mark as clicked
+                foundCount++;
+                peep.highlightUntil = performance.now() + 1000;
+
+                // Remove the peep after a brief highlight
+                setTimeout(() => {
+                    console.log(`Removing clicked peep from crowd: ID ${peep.id}`);
+                    removePeepFromCrowd(peep);
+
+                    // Check if all peeps are found
+                    if (foundCount >= peepsToFind) {
+                        document.getElementById('continueBtn').style.display = 'block';
+                        alert("Congratulations! You've found all the peeps!");
+                        canvas.removeEventListener('pointerdown', handleCanvasClick); // Remove the listener after winning
+                    } else {
+                        addPeepToCrowd(); // Add a new peep after one is removed
+                    }
+                }, 1000);
+
+                updateInfoDisplay(); // Update the display info
+            }
+            return; // Exit after processing the first detected peep
+        }
+    }
+}
+
+
+
+function updateInfoDisplay() {
+    const infoDiv = document.getElementById('info');
+    infoDiv.innerHTML = `Find ${peepsToFind} Peeps!<br>Clicked: ${foundCount}<br>`;
+
+    if (targetPeep) {
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCanvas.width = targetPeep.width;
+        tempCanvas.height = targetPeep.height;
+        tempCtx.drawImage(img, targetPeep.rect[0], targetPeep.rect[1], targetPeep.width, targetPeep.height, 0, 0, targetPeep.width, targetPeep.height);
+
+        const targetPeepImage = document.createElement('img');
+        targetPeepImage.src = tempCanvas.toDataURL();
+        targetPeepImage.style.width = '100px';
+        targetPeepImage.style.height = 'auto';
+        infoDiv.appendChild(targetPeepImage);
+    }
+}
+
+function resetGame() {
+    foundCount = 0;
+    location.reload();
+}
+
+function render(time) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+
+    crowd.forEach(peep => {
+        peep.render(ctx, time);
+        console.log(`Rendering peep: x=${peep.x}, y=${peep.y}, scaleX=${peep.scaleX}`);
+    });
+
+    ctx.restore();
+    requestAnimationFrame(render);
+}
+
+function toggleDifficulty() {
+    isEasyMode = !isEasyMode;
+    const difficultyBtn = document.getElementById('difficultyBtn');
+    difficultyBtn.textContent = isEasyMode ? 'Switch to Normal Mode' : 'Switch to Easy Mode';
+    resetGame();
+}
+
+</script>
+</body>
+</html>

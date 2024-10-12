@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'games/gorillas/index', label: 'Gorillas', index: 3 },
         { id: 'shapes', label: 'Shapes', index: 4 },
         { id: 'games/tictactoe/index', label: 'TicTacToe', index: 5 },
-        { id: '../peepBasic', label: 'Agents', index: 6 },
+        { id: 'games/peep/count2', label: 'FindPeep', index: 6 },
         { id: 'games/memory/index', label: 'Memory', index: 7 },
         { id: 'games/crossy/index', label: 'Crossy', index: 8 },
         { id: 'games/match/index', label: 'Match', index: 9 },

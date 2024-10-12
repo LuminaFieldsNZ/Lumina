@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Text Converter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+    <script>
+        // Set the correct workerSrc for PDF.js
+        window.pdfjsLib = window['pdfjs-dist/build/pdf'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
+    </script>
+</head>
+<body>
+    <input type="file" id="pdfInput" multiple>
+    <button onclick="convertPDFsToText()">Convert PDFs to Text</button>
+    <textarea id="outputText" rows="10" cols="50"></textarea>
+
+    <script>
+        function convertPDFsToText() {
+            const pdfInput = document.getElementById('pdfInput');
+            const outputText = document.getElementById('outputText');
+
+            outputText.value = ''; // Clear the output text area
+
+            for (let i = 0; i < pdfInput.files.length; i++) {
+                const file = pdfInput.files[i];
+                const reader = new FileReader();
+
+                reader.onload = function(event) {
+                    const pdfData = new Uint8Array(event.target.result);
+
+                    // Debug: Log to ensure the file is read
+                    console.log(`Processing PDF file: ${file.name}`);
+
+                    // Load the PDF using pdfjsLib
+                    pdfjsLib.getDocument({ data: pdfData }).promise.then(pdf => {
+                        const pagesPromises = [];
+
+                        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                            pagesPromises.push(pdf.getPage(pageNum).then(page => {
+                                return page.getTextContent().then(content => {
+                                    const pageText = content.items.map(item => item.str).join(' ');
+                                    
+                                    // Debug: Log page text for each page
+                                    console.log(`Extracted text from page ${pageNum}: ${pageText}`);
+                                    
+                                    return pageText;
+                                });
+                            }));
+                        }
+
+                        // Process all pages' text after they are loaded
+                        Promise.all(pagesPromises).then(pagesText => {
+                            const fullText = pagesText.join('\n\n');
+                            
+                            // Debug: Log the entire text
+                            console.log(`Full extracted text: ${fullText}`);
+                            
+                            outputText.value += fullText; // Append text to the textarea
+                        });
+                    }).catch(error => {
+                        console.error(`Error processing PDF: ${error.message}`);
+                    });
+                };
+
+                reader.readAsArrayBuffer(file); // Read the file
+            }
+        }
+    </script>
+</body>
+</html>
