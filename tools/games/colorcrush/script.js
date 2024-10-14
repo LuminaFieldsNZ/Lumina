@@ -1,9 +1,10 @@
-
 var ColorMatch = Sketch.create({
       fullscreen: false,
       height: 500,
       width: 500,
-      container: document.getElementById('container')
+      container: document.getElementById('container'),
+      autopause: false, // Prevent auto-pausing on blur
+      retina: 'auto' // Enable retina support for sharper graphics on high-DPI screens
     }),
     i = w = h = 0;
 
@@ -144,14 +145,20 @@ ColorMatch.setup = function() {
 
   this.normalizeMouse = {x: 0, y: 0};
 
+  this.comboTimer = 0;
+  this.comboMultiplier = 1;
+  this.lastClickSize = 0;
+
   this.setScore = function(score) {
-    this.score += score;
+    var multipliedScore = score * this.comboMultiplier;
+    this.score += multipliedScore;
     this.scoreContainer.style.color = this.currentColor;
 
+    var comboText = this.comboMultiplier > 1 ? ` (Combo x${this.comboMultiplier})` : '';
     this.scoreParticles[(this.scoreParticlesIndex++)%this.scoreParticlesMax] = new Score({
       x: this.mouse.x,
       y: this.mouse.y,
-      text: score,
+      text: multipliedScore + comboText,
       color: this.currentColor
     });
 
@@ -275,6 +282,36 @@ ColorMatch.setup = function() {
     this.can.push(node);
   };
 
+  // Add touch event listeners
+  this.canvas.addEventListener('touchstart', this.touchStart.bind(this), false);
+  this.canvas.addEventListener('touchmove', this.touchMove.bind(this), false);
+  this.canvas.addEventListener('touchend', this.touchEnd.bind(this), false);
+
+};
+
+// New touch event handlers
+ColorMatch.touchStart = function(e) {
+  e.preventDefault();
+  this.updateTouchPosition(e);
+  this.click(); // Trigger click on touch start
+};
+
+ColorMatch.touchMove = function(e) {
+  e.preventDefault();
+  this.updateTouchPosition(e);
+};
+
+ColorMatch.touchEnd = function(e) {
+  e.preventDefault();
+  // You can add specific touch end behavior here if needed
+};
+
+ColorMatch.updateTouchPosition = function(e) {
+  var touch = e.touches[0];
+  var rect = this.canvas.getBoundingClientRect();
+  this.mouse.x = touch.clientX - rect.left;
+  this.mouse.y = touch.clientY - rect.top;
+  this.normalizeMouse = normalize(this.mouse.x, this.mouse.y, this.gridSize);
 };
 
 //Pathfinder
@@ -314,6 +351,7 @@ ColorMatch.find = function(start) {
 
 
 ColorMatch.mousemove = function() {
+  if (!this.mouse) return; // Exit if mouse position is not available (touch devices)
   this.normalizeMouse = normalize(this.mouse.x, this.mouse.y, this.gridSize);
 
   //check if the tile exist and look for color match when the mouse is over a different tile
@@ -415,6 +453,18 @@ ColorMatch.click = function() {
 
   }
 
+  if(this.can.length > 1) {
+    // Update combo
+    if (this.comboTimer > 0 && this.can.length > this.lastClickSize) {
+      this.comboTimer = 1000; // Reset to 1 second
+      this.comboMultiplier++;
+    } else if (this.comboTimer <= 0) {
+      this.comboMultiplier = 1;
+    }
+    this.comboTimer = Math.max(this.comboTimer, 1000); // Set to at least 1 second
+    this.lastClickSize = this.can.length;
+  }
+
 };
 
 ColorMatch.update = function() {
@@ -438,6 +488,14 @@ ColorMatch.update = function() {
   for (i = this.scoreParticles.length - 1; i >= 0; i--) {
     this.scoreParticles[i].update();
   };
+
+  // Update combo timer
+  if (this.comboTimer > 0) {
+    this.comboTimer -= this.dt; // Assuming dt is the time elapsed since last frame
+    if (this.comboTimer <= 0) {
+      this.comboMultiplier = 1;
+    }
+  }
 
 };
 
@@ -474,5 +532,15 @@ ColorMatch.draw = function() {
     this.scoreParticles[i].draw();
   };
 
+  // Draw combo timer
+  if (this.comboTimer > 0) {
+    this.fillStyle = 'white';
+    this.font = "bold 24px sans-serif";
+    this.fillText(`Combo x${this.comboMultiplier}`, 10, 30);
+    
+    // Draw timer bar
+    this.fillStyle = 'rgba(255, 255, 255, 0.5)';
+    this.fillRect(10, 40, (this.comboTimer / 1000) * 100, 10);
+  }
 
 };

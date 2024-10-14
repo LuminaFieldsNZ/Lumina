@@ -38,7 +38,7 @@ body, html {
   color: white;
   font-size: 24px !important;
   width: 50% !important;
-  text-align: center;
+  text-align: left;
 }
 
 .modal-content label {
@@ -58,7 +58,7 @@ body, html {
 }
 
 .detailsLeft {
-  width: 130px;
+  width: 170px;
   position: relative;
   height: 90vh;
   margin: 0% 2%;
@@ -117,22 +117,26 @@ body, html {
   text-decoration: none;
 }
 
-@media (max-width: 920px), (max-height: 800px) {
+@media (max-width: 600px) {
   body, html {
-    font-size: 16px;
-    margin: 0px !important;
+    font-size: 8px;
+    margin: 0 !important;
+    min-width: 320px;
+  }
+
+  .wrapper {
+    padding: 0;
+    transform: scale(0.5);
+    transform-origin: top center;
+    width: 200%;
+    margin-left: -50%;
   }
 
   .modal {
-    width: 25vw !important;
-    margin-top: 20vh !important;
-    border: solid 0.05em #fff;
-    box-shadow: -15px 20px 20px rgba(0, 0, 0, 0.75) !important;
-    min-width: 500px;
-  }
-
-  .modal-content {
-    background: #202028;
+    transform: scale(0.5);
+    transform-origin: center;
+    width: 100vw !important;
+    margin-top: 10vh !important;
   }
 
   .modal-content .btn {
@@ -140,68 +144,27 @@ body, html {
   }
 
   .modal-content input {
-    color: white;
     font-size: 12px !important;
-    width: 50% !important;
-    text-align: center;
   }
 
   .modal-content label {
     font-size: 14px !important;
   }
 
-  .wrapper {
-    display: inline-flex;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.5) !important;
-    padding: 0% 0%;
-    background: rgba(0, 0, 0, 0.65);
-    margin: 0px !important;
-    height: 100%;
-    width: 100%;
-  }
-
-  .detailsLeft {
-    height: 80vh;
-    width: 110px;
-    margin: 5% 1% 0% 0%;
-    font-size: 14px;
-  }
-
-  .score-title {
-    font-size: 14px;
-  }
-
-  .highScores {
-    line-height: 8px;
-    font-size: 12px;
-  }
-
-  .detailsRight {
-    height: 80vh;
-    width: 120px;
-    margin: 5% 0% 0% 1%;
-    text-align: left;
-  }
-
-  .next {
-    border: solid 0.1em #fff;
-    height: 12vh;
-  }
-
-  .controls {
-    line-height: 8px;
-    font-size: 12px;
+  .detailsLeft, .detailsRight {
+    margin: 1%;
   }
 
   .tetris {
-    height: 85vh;
-    border: solid 0.25em #fff;
-    margin-bottom: 2%;
-    margin-top: 2%;
+    height: 90vh;
+    margin: 1% 0;
   }
 
   .footer {
-    font-size: 12px;
+    font-size: 10px;
+    transform: scale(0.5);
+    transform-origin: bottom center;
+    width: 200%;
+    left: -50%;
   }
 }
