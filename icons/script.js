@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'flip/deep', label: 'HDWYG', index: 0 },
         { id: 'gifs', label: 'Humor', index: 1 },
         { id: 'games', label: 'Lumie', index: 2 },
-        { id: 'games/gorillas/index', label: 'Gorillas', index: 3 },
+        { id: 'games/sling/index', label: 'Slingshot', index: 3 },
         { id: 'shapes', label: 'Shapes', index: 4 },
         { id: 'games/tictactoe/index', label: 'TicTacToe', index: 5 },
         { id: 'games/peep/count2', label: 'FindPeep', index: 6 },
@@ -18,15 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'games/match/index', label: 'Match', index: 9 },
         { id: 'games/alphabet/index', label: 'Alphabet', index: 10 },
         { id: 'games/threetactoe/index2', label: 'ThreeTacToe', index: 11 },
-        { id: '../demo/index', label: 'Watcher', index: 12 },
-        { id: 'scales', label: 'Sexism', index: 13 },
+        { id: 'games/connect4/index', label: 'Connect4', index: 12 },
+        { id: 'games/stacker/index', label: 'Stacker', index: 13 },
         { id: 'sing', label: 'Pitch Match', index: 14 },
-        { id: 'quiz/quiz', label: 'Learn', index: 15 },
+        { id: 'games/colorcrush/index', label: 'ColorCrush', index: 15 },
         { id: 'logic', label: 'Hearing', index: 16 },
-        { id: 'readGLB', label: 'GLB Reader', index: 17 },
+        { id: 'games/minesweeper/index', label: 'Minesweeper', index: 17 },
         { id: 'avatar', label: 'GLB Avatar', index: 18 },
-        { id: 'list/index', label: 'TikTok', index: 19 },
-        { id: 'face', label: 'Face', index: 20 }
+        { id: 'face', label: 'Face', index: 19 },
+        { id: 'games/ninja/index', label: 'Ninja', index: 20 },
+        { id: 'games/jackpot/index', label: 'Jackpot', index: 21 },
+        { id: 'games/tetris/index', label: 'Tetris', index: 22 },
+        { id: 'games/marble/index', label: 'Marble', index: 23 }
+
 
 
 
