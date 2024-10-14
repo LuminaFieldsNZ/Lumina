@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shape Matching Game</title>
+  <style>
+    #game-container {
+      width: 100%;
+      height: 93vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background-color: #f0f0f0;
+    }
+
+    .shape, .matching-shape {
+      width: 100px;
+      height: 100px;
+      cursor: pointer;
+      position: absolute;
+    }
+
+    .square {
+      background-color: blue;
+    }
+
+    .circle {
+      background-color: red;
+      border-radius: 50%;
+    }
+
+    .triangle {
+      background-color: green;
+      width: 0;
+      height: 0;
+      border-left: 50px solid transparent;
+      border-right: 50px solid transparent;
+      border-bottom: 100px solid yellow;
+    }
+
+    .confetti {
+      position: absolute;
+      border-radius: 4px;
+      opacity: 1;
+      pointer-events: none;
+      animation: confetti-fall 2s forwards;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(0) translateX(0) scale(1);
+        opacity: 1;
+      }
+      30% {
+        transform: translateY(-100px) translateX(var(--random-x)) scale(1.2);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(var(--random-height)) translateX(var(--random-x)) rotate(var(--random-rotate)) scale(0.8);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <div id="shapes-container">
+      <div id="shape1" class="shape square" style="top: 100px; left: 100px;"></div>
+      <div id="shape2" class="shape circle" style="top: 100px; left: 250px;"></div>
+      <div id="shape3" class="shape triangle" style="top: 100px; left: 400px;"></div>
+    </div>
+    <div id="matching-shapes-container">
+      <div id="matching-shape1" class="matching-shape square" style="top: 400px; left: 100px;"></div>
+      <div id="matching-shape2" class="matching-shape circle" style="top: 400px; left: 250px;"></div>
+      <div id="matching-shape3" class="matching-shape triangle" style="top: 400px; left: 400px;"></div>
+    </div>
+  </div>
+
+  <script>
+const shapes = document.querySelectorAll('.shape');
+const matchingShapes = document.querySelectorAll('.matching-shape');
+const gameContainer = document.getElementById('game-container');
+let mainShape = null; // Renamed from draggedShape
+let offsetX, offsetY;
+
+const emoteClasses = ['#FFB3BA', '#FFDFBA', '#FFEBBA', '#FFFFBA', '#BAFFC9', '#BAE1FF'];
+
+function getRandomColor() {
+  const randomIndex = Math.floor(Math.random() * emoteClasses.length);
+  return emoteClasses[randomIndex];
+}
+
+function createConfettiBurst(x, y) {
+  for (let i = 0; i < 80; i++) {
+    const delay = Math.random() * 50;
+    setTimeout(() => createConfettiParticle(x, y), delay);
+  }
+}
+
+function createConfettiParticle(x, y) {
+  const confetti = document.createElement('div');
+  confetti.classList.add('confetti');
+  const randomVerticalOffset = Math.random() * 50 + 20;
+  confetti.style.left = `${x}px`;
+  confetti.style.top = `${y - randomVerticalOffset}px`;
+  const color = getRandomColor();
+  confetti.style.backgroundColor = color;
+
+  const angle = Math.random() * 2 * Math.PI;
+  const distance = Math.random() * 150 + 20;
+  const fallDuration = Math.random() * 1.5 + 1;
+  const randomSize = Math.random() * 10 + 5;
+
+  confetti.style.width = `${randomSize}px`;
+  confetti.style.height = `${randomSize}px`;
+
+  gameContainer.appendChild(confetti);
+
+  const xMovement = Math.cos(angle) * distance;
+  const yMovement = Math.sin(angle) * distance;
+
+  confetti.animate([
+    { transform: `translate(0, 0)` },
+    { transform: `translate(${xMovement}px, ${yMovement}px)` }
+  ], {
+    duration: fallDuration * 800,
+    easing: 'ease-out',
+    fill: 'forwards'
+  });
+
+  const gravityEffect = setInterval(() => {
+    const currentTop = parseFloat(confetti.style.top);
+    confetti.style.top = `${currentTop + 1}px`;
+    if (currentTop > window.innerHeight) {
+      clearInterval(gravityEffect);
+      confetti.remove();
+    }
+  }, 15);
+
+  setTimeout(() => {
+    clearInterval(gravityEffect);
+    confetti.remove();
+  }, fallDuration * 200 + 1200);
+}
+
+function checkCollision(shape1, shape2) {
+  const shape1Rect = shape1.getBoundingClientRect();
+  const shape2Rect = shape2.getBoundingClientRect();
+  return !(
+    shape1Rect.right < shape2Rect.left ||
+    shape1Rect.left > shape2Rect.right ||
+    shape1Rect.bottom < shape2Rect.top ||
+    shape1Rect.top > shape2Rect.bottom
+  );
+}
+
+function allShapesMatched() {
+  return Array.from(shapes).every((shape) => shape.style.display === 'none');
+}
+
+function resetGame() {
+  shapes.forEach((shape, index) => {
+    shape.style.left = `${100 + index * 150}px`;
+    shape.style.top = '100px';
+    shape.style.display = 'block';
+  });
+
+  matchingShapes.forEach((shape) => {
+    shape.style.display = 'block';
+  });
+}
+
+function handleDragStart(event) {
+  event.preventDefault();
+
+  let target = event.target;
+  while (target && !target.classList.contains('shape')) {
+    target = target.parentElement;
+  }
+
+  if (!target) return;
+
+  mainShape = target;
+  mainShape.style.position = 'absolute';
+  mainShape.style.zIndex = 1;
+
+  const clientX = event.touches ? event.touches[0].pageX : event.clientX;
+  const clientY = event.touches ? event.touches[0].pageY : event.clientY;
+  offsetX = clientX - mainShape.offsetLeft;
+  offsetY = clientY - mainShape.offsetTop;
+
+  document.addEventListener('touchmove', handleDragMove);
+  document.addEventListener('mousemove', handleDragMove);
+  document.addEventListener('touchend', handleDragEnd);
+  document.addEventListener('mouseup', handleDragEnd);
+}
+
+function handleMatchingShapeDragStart(event) {
+  event.preventDefault();
+
+  let target = event.target;
+  while (target && !target.classList.contains('matching-shape')) {
+    target = target.parentElement;
+  }
+
+  if (!target) return;
+
+  mainShape = target;
+  mainShape.style.position = 'absolute';
+  mainShape.style.zIndex = 1;
+
+  const clientX = event.touches ? event.touches[0].pageX : event.clientX;
+  const clientY = event.touches ? event.touches[0].pageY : event.clientY;
+  offsetX = clientX - mainShape.offsetLeft;
+  offsetY = clientY - mainShape.offsetTop;
+
+  document.addEventListener('touchmove', handleDragMove);
+  document.addEventListener('mousemove', handleDragMove);
+  document.addEventListener('touchend', handleMatchingShapeDragEnd);
+  document.addEventListener('mouseup', handleMatchingShapeDragEnd);
+}
+
+function handleDragMove(event) {
+  event.preventDefault();
+  const clientX = event.touches ? event.touches[0].pageX : event.clientX;
+  const clientY = event.touches ? event.touches[0].pageY : event.clientY;
+
+  const containerRect = gameContainer.getBoundingClientRect();
+  const shapeRect = mainShape.getBoundingClientRect();
+  const newX = clientX - offsetX;
+  const newY = clientY - offsetY;
+
+  if (newX >= containerRect.left && newX + shapeRect.width <= containerRect.right) {
+    mainShape.style.left = `${newX}px`;
+  }
+  if (newY >= containerRect.top && newY + shapeRect.height <= containerRect.bottom) {
+    mainShape.style.top = `${newY}px`;
+  }
+}
+
+function handleDragEnd() {
+  // Ensure mainShape has a valid reference
+  if (!mainShape) return;
+
+  // Check for collisions with all visible matching shapes
+  const matchingShapesArray = Array.from(matchingShapes).filter(ms => ms.style.display !== 'none');
+
+  for (const matchingShape of matchingShapesArray) {
+    console.log('Checking collision between:', mainShape, matchingShape);
+    if (checkCollision(mainShape, matchingShape)) {
+      console.log('Match found!');
+      completeMatch(mainShape, matchingShape);
+      break; // Match found, exit loop
+    }
+  }
+
+  // Clean up event listeners and reset mainShape reference after the drag ends
+  document.removeEventListener('touchmove', handleDragMove);
+  document.removeEventListener('mousemove', handleDragMove);
+  document.removeEventListener('touchend', handleDragEnd);
+  document.removeEventListener('mouseup', handleDragEnd);
+
+  // Reset mainShape reference
+  mainShape = null;
+}
+
+function handleMatchingShapeDragEnd() {
+  // Ensure mainShape has a valid reference
+  if (!mainShape) return;
+
+  // Check for collisions with all visible shapes
+  const shapesArray = Array.from(shapes).filter(s => s.style.display !== 'none');
+
+  for (const shape of shapesArray) {
+    if (checkCollision(mainShape, shape)) {
+      completeMatch(shape, mainShape);
+      break; // Match found, exit loop
+    }
+  }
+
+  // Clean up event listeners and reset mainShape reference after the drag ends
+  document.removeEventListener('touchmove', handleDragMove);
+  document.removeEventListener('mousemove', handleDragMove);
+  document.removeEventListener('touchend', handleMatchingShapeDragEnd);
+  document.removeEventListener('mouseup', handleMatchingShapeDragEnd);
+
+  // Reset mainShape reference
+  mainShape = null;
+}
+
+function completeMatch(shape1, shape2) {
+  shape1.style.display = 'none';
+  shape2.style.display = 'none';
+
+  createConfettiBurst(parseInt(shape2.style.left) + 50, parseInt(shape2.style.top) + 50);
+
+  if (allShapesMatched()) {
+    setTimeout(resetGame, 1000);
+  }
+}
+
+// Allow dragging of shapes
+shapes.forEach(shape => {
+  shape.addEventListener('touchstart', handleDragStart);
+  shape.addEventListener('mousedown', handleDragStart);
+});
+
+// Allow matching shapes to be dragged
+matchingShapes.forEach(matchingShape => {
+  matchingShape.addEventListener('touchstart', handleMatchingShapeDragStart);
+  matchingShape.addEventListener('mousedown', handleMatchingShapeDragStart);
+});
+  </script>
+</body>
+</html>
