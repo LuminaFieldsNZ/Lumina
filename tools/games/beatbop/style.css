@@ -1,0 +1,50 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #333;
+    margin: 0;
+}
+
+#game-container {
+    position: relative;
+    width: 600px;
+    height: 800px;
+    overflow: hidden;
+    border: 2px solid white;
+}
+
+#note-indicators {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.indicator {
+    width: 50px;
+    height: 50px;
+    border: 2px solid white;
+    border-radius: 50%;
+    opacity: 0.5;
+    transition: background-color 0.2s;
+}
+
+.falling-note {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.Q { background-color: red; }
+.W { background-color: orange; }
+.E { background-color: yellow; }
+.R { background-color: green; }
+.U { background-color: blue; }
+.I { background-color: indigo; }
+.O { background-color: violet; }
+.P { background-color: pink; }

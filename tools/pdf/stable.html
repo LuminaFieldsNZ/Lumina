@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Text Converter with OCR Only</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.1/dist/tesseract.min.js"></script>
+    <script>
+        window.pdfjsLib = window['pdfjs-dist/build/pdf'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
+    </script>
+</head>
+<body>
+    <input type="file" id="pdfInput" multiple>
+    <button onclick="convertPDFsToText()">Convert PDFs to Text (OCR Only)</button>
+    <textarea id="outputText" rows="10" cols="50"></textarea>
+
+    <script>
+        function convertPDFsToText() {
+            const pdfInput = document.getElementById('pdfInput');
+            const outputText = document.getElementById('outputText');
+
+            outputText.value = ''; // Clear the output text area
+
+            for (let i = 0; i < pdfInput.files.length; i++) {
+                const file = pdfInput.files[i];
+                const reader = new FileReader();
+
+                reader.onload = function(event) {
+                    const pdfData = new Uint8Array(event.target.result);
+
+                    // Load the PDF using pdfjsLib
+                    pdfjsLib.getDocument({ data: pdfData }).promise.then(pdf => {
+                        const pagesPromises = [];
+
+                        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                            pagesPromises.push(pdf.getPage(pageNum).then(page => {
+                                // Render the page as an image for OCR
+                                const viewport = page.getViewport({ scale: 2 }); // Higher scale for better OCR accuracy
+                                const canvas = document.createElement('canvas');
+                                const context = canvas.getContext('2d');
+
+                                canvas.height = viewport.height;
+                                canvas.width = viewport.width;
+
+                                return page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
+                                    // Use Tesseract.js to perform OCR on the canvas
+                                    return Tesseract.recognize(canvas, 'eng')
+                                        .then(({ data: { text } }) => {
+                                            console.log(`Page ${pageNum} OCR result:`, text);
+                                            return text; // Return the recognized text from OCR
+                                        });
+                                });
+                            }));
+                        }
+
+                        // Process all pages' text after they are loaded
+                        Promise.all(pagesPromises).then(pagesText => {
+                            const fullText = pagesText.join('\n\n');
+                            console.log('Full extracted text:', fullText); // Debugging
+                            outputText.value += fullText; // Append text to the textarea
+                        });
+                    }).catch(error => {
+                        console.error(`Error processing PDF: ${error.message}`);
+                    });
+                };
+
+                reader.readAsArrayBuffer(file); // Read the file as an array buffer
+            }
+        }
+    </script>
+</body>
+</html>
