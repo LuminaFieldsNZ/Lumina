@@ -37,3 +37,16 @@ window.addEventListener('message', function(event) {
     }
 }, false);
 
+document.getElementById("Lumi").addEventListener("click", function() {
+  const navbar = document.querySelector(".navbar");
+
+  // Toggle the "hidden" class to show or hide the navbar
+  navbar.classList.toggle("hidden");
+
+  // Set a timer to hide the navbar after 4 seconds
+  setTimeout(function() {
+    navbar.classList.add("hidden");
+  }, 4000); // 4000ms = 4 seconds
+});
+
+

@@ -103,86 +103,86 @@ let mainHeading = {
     downloadAnchorNode.remove();
   }
   
-  // Function to handle user messages
-  function sendMessage() {
 
-
-    const inputElem = document.getElementById('userInput');
-    const message = inputElem.value;
-    inputElem.value = '';
-  
-    const chatWindow = document.getElementById('chatWindow');
-    chatWindow.innerHTML += `<p>${userId}: ${message}</p>`;
-    scrollToBottom();
-  
-    // Preprocess and tokenize the message
-    const tokens = preprocessAndTokenize(message);
-
+  // Flag to indicate if we are awaiting the username input
+let isAwaitingUsername = false;
 
 // Function to handle user messages
-function handleMessage(message) {
-  const trimmedMessage = message.trim().toLowerCase();
-  
-  conditions.forEach(({ keyword, action }) => {
-    if (trimmedMessage.includes(keyword)) {
-      action();
+function sendMessage() {
+  const inputElem = document.getElementById('userInput');
+  const message = inputElem.value;
+  inputElem.value = '';
+
+  const chatWindow = document.getElementById('chatWindow');
+
+  // If we're awaiting username input, set the userId to the new username
+  if (isAwaitingUsername) {
+    // Set new username to the message if it's not empty
+    if (message.trim() !== '') {
+      userId = message.trim();  // Set the new username
+      chatWindow.innerHTML += `<p><font style="color:lightgreen;">Username updated to: ${userId}</font></p>`;
+    } else {
+      // If the username is empty, remind the user
+      chatWindow.innerHTML += `<p><font style="color:red;">Username cannot be empty. Please enter a valid username.</font></p>`;
     }
-  });
+    isAwaitingUsername = false;  // Reset flag
+    scrollToBottom();
+  }
+
+  // Regular message processing
+  chatWindow.innerHTML += `<p>${userId}: ${message}</p>`;
+  scrollToBottom();
+
+  // Preprocess and tokenize the message
+  const tokens = preprocessAndTokenize(message);
+
+  // Handle message fallacies
+  const detectedFallacies = checkForFallacies(tokens);
+  if (detectedFallacies.length > 0) {
+    let fallacyMessages = detectedFallacies.map(f => `${f.fallacy}:<br>${f.description} ex. "${f.example}"`).join('<br>');
+    let fallacyName = detectedFallacies.map(f => `${f.name}`).join('');
+    chatWindow.innerHTML += `<p>${fallacyName}: Possible fallacies detected: <br>${fallacyMessages}</p>`;
+    scrollToBottom();
+  }
+
+  if (message.trim().toLowerCase().startsWith('@faxium')) {
+    sendFaxiumMessage(message, 'User');
+    return; // Return early to prevent further processing
+  }
+
+  setTimeout(() => {
+    if (currentStep == -1 || currentStep == 4) {
+      let response = getResponse(message);
+
+      // Create the typing container with a random emotion
+      let typingContainer = createTypingContainer();
+      
+      // Append response to the text content within the container
+      typingContainer.querySelector('#text-content').innerHTML = response;
+      
+      // Append the container to the chat window
+      chatWindow.appendChild(typingContainer);
+
+      scrollToBottom();
+    }
+
+    scrollToBottom();
+
+    const timestamp = new Date().toISOString();
+    const newEntry = [message, formatResponse(), timestamp];
+    conversationData.push(newEntry);
+
+    updateJSONDisplay();
+    scanForEmotionWords();
+    testData();
+    totalPopulation = getTotalPopulation(populations);
+    document.getElementById('mainHeadingAverage').innerHTML = totalPopulation;
+
+  }, 50);
 }
 
-handleMessage(message);
 
 
-    // Check for fallacies in the user message
-    const detectedFallacies = checkForFallacies(tokens);
-    if (detectedFallacies.length > 0) {
-      let fallacyMessages = detectedFallacies.map(f => `${f.fallacy}:<br>${f.description} ex. "${f.example}"`).join('<br>');
-      let fallacyName = detectedFallacies.map(f => `${f.name}`).join('');
-      chatWindow.innerHTML += `<p>${fallacyName}: Possible fallacies detected: <br>${fallacyMessages}</p>`;
-      scrollToBottom();
-    }
-  
-    if (message.trim().toLowerCase().startsWith('@faxium')) {
-      sendFaxiumMessage(message, 'User');
-      return; // Return early to prevent further processing
-    }
-  
-    setTimeout(() => {
-
-      if (currentStep == -1 || currentStep == 4) {
-        let response = getResponse(message);
-      
-        // Create the typing container with the random emotion
-        let typingContainer = createTypingContainer();
-      
-        // Append response to the text content within the container
-        typingContainer.querySelector('#text-content').innerHTML = response;
-      
-        // Append the container to the chat window
-        chatWindow.appendChild(typingContainer);
-      
-        scrollToBottom();
-      }
-      
-
-
-      scrollToBottom();
-  
-      const timestamp = new Date().toISOString();
-  
-      // Prepare updated conversation data
-      const newEntry = [message, formatResponse(), timestamp];
-      conversationData.push(newEntry);
-
-  
-      updateJSONDisplay();
-      scanForEmotionWords();
-      testData();
-      totalPopulation = getTotalPopulation(populations);
-      document.getElementById('mainHeadingAverage').innerHTML = totalPopulation;
-  
-    }, 50);
-  }
   
   // Function to format the response (excluding conversationData)
   function formatResponse() {
@@ -423,18 +423,20 @@ handleMessage(message);
   
 
   
-  // Function to check username
-  function checkUsername() {
-    if (userId === "Guest") {
-      let newUsername = prompt("Your current username is 'Guest'. Please enter a new username:");
-      if (newUsername) {
-        userId = newUsername;
-      } else {
-        alert("Username cannot be empty. Please enter a valid username.");
-      }
-      updateJSONDisplay();
-    }
+// Function to check and change the username
+function checkUsername() {
+  if (userId === "Guest") {
+    const chatWindow = document.getElementById('chatWindow');
+    
+    // Display a message in the chat window asking the user to provide a new username
+    chatWindow.innerHTML += `<p><font style="color:lightred;">Your current username is 'Guest'. Please enter a new username:</font></p>`;
+    scrollToBottom();
+    
+    // Flag to capture the next input as the new username
+    isAwaitingUsername = true;
   }
+}
+
   
 
 // Function to update a module

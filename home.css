@@ -113,7 +113,7 @@ body {
 
 
         .chat-window {
-            width: 100%;
+            width: 90vw;
             height: 90vh;
             overflow-y: scroll;
             color: var(--main-color);
@@ -163,7 +163,7 @@ body {
   --message-btn: rgba(195, 207, 244, 0.1);
 }
 
-html, body {
+html {
   width: 100%;
   height: 100vh;
   margin: 0;
@@ -171,7 +171,6 @@ html, body {
 
 body {
   font-family: "DM Sans", sans-serif;
-  overflow: hidden;
   display: flex;
   color: var(--main-color);
   justify-content: center;
@@ -183,9 +182,11 @@ button, a {
 }
 
 .navbar {
-  width: 50px;
-  display: flex;
-margin-left: 5px;
+  width: 0px;
+position: absolute;
+z-index: 999999999;
+left: 5px;
+top: 60px;
   flex-direction: column;
   height: 100%;
   background-color: var(--app-container);
@@ -193,15 +194,18 @@ margin-left: 5px;
 
 }
 
+.hidden {
+  display: none;
+}
+
 .app-container {
   width: 100%;
   display: flex;
-  left: 60px;
+  left: 0px;
   flex-direction: column;
   height: 100%;
   background-color: var(--app-container);
   transition: 0.2s;
-  max-width: 1800px;
 }
 .app-container button, .app-container input, .app-container optgroup, .app-container select, .app-container textarea {
   font-family: "DM Sans", sans-serif;
@@ -209,9 +213,8 @@ margin-left: 5px;
 .app-content {
   display: flex;
   height: 100%;
-  overflow: hidden;
-  padding: 16px 24px 24px 0;
 }
+
 .app-header {
   display: flex;
   justify-content: space-between;
@@ -335,9 +338,7 @@ margin-left: 5px;
 .projects-section {
   flex: 2;
   background-color: var(--projects-section);
-  border-radius: 22px;
-  padding: 0px 4px 4px 10px;
-  overflow: hidden;
+  overflow: scroll;
   height: 100%;
   display: flex;
   flex-direction: column;

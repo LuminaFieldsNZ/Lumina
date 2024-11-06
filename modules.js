@@ -83,12 +83,16 @@ const modules = [
     content: `Once you've downloaded your profile.json file, you should navigate to settings <span id="svgIcon"></span>.
                Click the [CHOOSE FILE] button, and select your profile.json file to upload.
                Here you can see and modify all of the data inside your profile.
-               After upload navigate to <b>[EDIT]</b> <span id="lumIcon"></span> to design your unique avatar.`
+               After upload navigate to <b>[EDIT]</b>
+               <div style="position:relative; display:inline-block;">
+                 <img src="head.png" style="position:absolute; top:50%; right:70%; transform:translate(-50%, -50%); height: 60px; width: 60px; margin:0;">
+                 <span style="padding-left:10px; padding-right:20px;">to design your unique avatar.</span>
+               </div>`
   },
   {
     id: 'module3',
     header: 'Getting Started',
-    content: `You're ready to apply yourself. We Lumies <span id="msgIcon"></span> will navigate you through everything <b>[QUEST]</b> related. 
+    content: `You're ready to apply yourself. We <span id="lumIcon"></span> Lumies will navigate you through everything <b>[QUEST]</b> related. 
     You can use your voice or the standard keyobard, try telling the Lumies a little about your day and why you chose to be exactly where you are now. 
     Once you've done that you can start tracking your <span id="audIcon"></span><b>[Heading]</b>.`,
     buttonAction: 'oneQuest();',

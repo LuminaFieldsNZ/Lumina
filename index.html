@@ -21,31 +21,32 @@
 
             </head>
             <body>
-
-              <div class="navbar"> 
-
-              </a>
-              <a id="navLumi" onclick="peepMake();addCompletedModule(2);" target="_SEJ" rel="noreferrer" class="app-sidebar-link">
-                  <svg style="background-color: #f8db82; border-radius: 8px;   border: 2px solid #000; animation: pulse2 8s infinite;" class="fine" width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <g>
-                      <g class="face">
-                        <g transform="translate(13.000000, 20.000000)" fill="#2C0E0F">
-                          <g class="mouth">
-                            <g transform="translate(9, 5)">
-                              <rect x="-8" y="5" width="18" height="2" rx="2"></rect>
-                            </g>
+              <a id="Lumi" onclick="" target="_SEJ" rel="noreferrer" class="app-sidebar-link" style="position: absolute; top: 5px; left: 5px; z-index: 99999999999999999999999999;">
+                <svg style="background-color: #f8db82; border-radius: 8px;   border: 2px solid #000; animation: pulse2 8s infinite;" class="fine" width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                  <g>
+                    <g class="face">
+                      <g transform="translate(13.000000, 20.000000)" fill="#2C0E0F">
+                        <g class="mouth">
+                          <g transform="translate(9, 5)">
+                            <rect x="-8" y="5" width="18" height="2" rx="2"></rect>
                           </g>
-                          <line x1="15" y1="-2" x2="15" y2="4" stroke="#2C0E0F" stroke-width="2"/>
-                          <line x1="12" y1="1" x2="18" y2="1" stroke="#2C0E0F" stroke-width="2"/>
-                          <ellipse class="left-eye" 
-                          cx="1.90588235" 
-                          cy="1.75" 
-                          rx="3.8117647"
-                          ry="3.5"></ellipse></g>
-                      </g>
+                        </g>
+                        <line x1="15" y1="-2" x2="15" y2="4" stroke="#2C0E0F" stroke-width="2"/>
+                        <line x1="12" y1="1" x2="18" y2="1" stroke="#2C0E0F" stroke-width="2"/>
+                        <ellipse class="left-eye" 
+                        cx="1.90588235" 
+                        cy="1.75" 
+                        rx="3.8117647"
+                        ry="3.5"></ellipse></g>
                     </g>
-                  </svg>
-              </a>
+                  </g>
+                </svg>
+            </a>
+              <div class="navbar hidden"> 
+
+                <a id="navLumi" onclick="peepMake();addCompletedModule(2);" class="app-sidebar-link">
+                  <img src="head.png" style="margin-top: 25px; height: 120px; width: 120px;">
+                </a>
 
                 <a id="navHome" onclick="splashActive();" class="app-sidebar-link">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
@@ -556,7 +557,7 @@ function toggleCompletedModules() {
   <div class="projects-section-line">
           <div class="projects-status" style="justify-content: center;">
             <div class="item-status">
-              <button class="open-modal" onclick="toggleCompletedModules()">Sort Lumies</button>
+              <button class="open-modal" onclick="toggleCompletedModules()" style="margin-left: 60px; margin-top: 15px;">Sort Lumies</button>
             </div>
           </div>
         </div>
@@ -579,13 +580,13 @@ function toggleCompletedModules() {
 
 <div id="schedule" style="display: none;">
 
-<div style="width: 75vw; height: 95vh; position: absolute; background-color: rgba(255, 255, 255, 0.678); border-radius: 20px;">
+<div style="position: absolute; background-color: rgba(255, 255, 255, 0.678);">
 
 
     <div class="chat-window" id="chatWindow"></div>
 
     <div class="button-container">
-    <input class="open-modal button flexible" type="text" id="userInput" placeholder="Type message..." style="background-color: rgba(255, 255, 255, 0.88);">
+    <input class="open-modal button flexible" type="text" id="userInput" placeholder="Type message..." style="background-color: rgba(255, 255, 255, 0.88); margin-left: 60px;">
     <button id="passcode"class="open-modal button fixed-width"  style="background-color: rgba(248, 219, 130, 0.86);"   oninput="checkPasscode();" onclick="sendMessage()">Send</button>
     </div>
 
@@ -606,14 +607,14 @@ function toggleCompletedModules() {
 
 <div id="hugs" style="display: none;">
 
-  <iframe id="bookFrame7" src="" style="width: 100%; height:96vh; border-radius: 22px;"></iframe>
+  <iframe id="bookFrame7" src="" style="width: 100%; height:100vh;"></iframe>
 
 
 </div>
 
 <div id="peeps" style="display: none;">
 
-    <iframe id="bookFrame6" src="" style="width: 100%; height:96vh; border-radius: 22px;"></iframe>
+    <iframe id="bookFrame6" src="" style="width: 100%; height:100vh;"></iframe>
   
   
   </div>
