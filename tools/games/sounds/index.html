@@ -121,41 +121,32 @@
             n: ['sounds/n.mp3', 'sounds/n.webm'],
             o: ['sounds/o.mp3', 'sounds/o.webm'],
             p: ['sounds/p.mp3', 'sounds/p.webm']
-            // Add more sounds if necessary
         };
 
         let isSoundEnabled = true;
 
-        // Toggle sound on/off based on user preference
         const soundToggle = document.getElementById('sound-toggle');
         soundToggle.addEventListener('change', (event) => {
             isSoundEnabled = event.target.checked;
         });
 
+        // Function to play sound
         function playSound(letter) {
             if (isSoundEnabled) {
                 const soundFilesForLetter = soundFiles[letter];
-                let audioPlayed = false;
 
-                // Trigger an alert to force user interaction
-                alert('Sound will play now!');
-                
                 soundFilesForLetter.forEach(file => {
                     const audio = new Audio(file);
-                    audio.play().then(() => {
-                        audioPlayed = true;
-                    }).catch(error => {
+                    
+                    // Play the sound immediately when the user interacts
+                    audio.play().catch(error => {
                         console.log(`Error playing sound ${file}:`, error);
                     });
                 });
-
-                // Fallback if no audio played
-                if (!audioPlayed) {
-                    console.log(`No audio played for ${letter}`);
-                }
             }
         }
 
+        // Ensure that the letters are randomly positioned and visible
         function getRandomPosition(letterWidth, letterHeight) {
             const maxX = window.innerWidth - letterWidth;
             const maxY = window.innerHeight - letterHeight;
@@ -205,7 +196,7 @@
                 letterElement.style.top = `${position.y}px`;
                 letterElement.style.transform = `rotate(${getRandomRotation()}deg)`;
 
-                // Add both click and touchend event listeners
+                // Add click and touchend event listeners for sound play
                 letterElement.addEventListener('click', () => playSound(letter));
                 letterElement.addEventListener('touchend', (event) => {
                     event.preventDefault(); // Prevent default touch behavior (like scrolling)
@@ -226,6 +217,7 @@
             });
         }
 
+        // Redraw letters if the window is resized
         window.addEventListener('resize', () => {
             document.body.innerHTML = ''; // Clear the screen
             displayLetters(); // Redraw the letters
