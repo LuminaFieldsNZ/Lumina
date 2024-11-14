@@ -105,22 +105,22 @@
 
     <script>
         const soundFiles = {
-            a: 'sounds/a.mp3',
-            b: 'sounds/b.mp3',
-            c: 'sounds/c.mp3',
-            d: 'sounds/d.mp3',
-            e: 'sounds/e.mp3',
-            f: 'sounds/f.mp3',
-            g: 'sounds/g.mp3',
-            h: 'sounds/h.mp3',
-            i: 'sounds/i.mp3',
-            j: 'sounds/j.mp3',
-            k: 'sounds/k.mp3',
-            l: 'sounds/l.mp3',
-            m: 'sounds/m.mp3',
-            n: 'sounds/n.mp3',
-            o: 'sounds/o.mp3',
-            p: 'sounds/p.mp3'
+            a: ['sounds/a.mp3', 'sounds/a.webm'],
+            b: ['sounds/b.mp3', 'sounds/b.webm'],
+            c: ['sounds/c.mp3', 'sounds/c.webm'],
+            d: ['sounds/d.mp3', 'sounds/d.webm'],
+            e: ['sounds/e.mp3', 'sounds/e.webm'],
+            f: ['sounds/f.mp3', 'sounds/f.webm'],
+            g: ['sounds/g.mp3', 'sounds/g.webm'],
+            h: ['sounds/h.mp3', 'sounds/h.webm'],
+            i: ['sounds/i.mp3', 'sounds/i.webm'],
+            j: ['sounds/j.mp3', 'sounds/j.webm'],
+            k: ['sounds/k.mp3', 'sounds/k.webm'],
+            l: ['sounds/l.mp3', 'sounds/l.webm'],
+            m: ['sounds/m.mp3', 'sounds/m.webm'],
+            n: ['sounds/n.mp3', 'sounds/n.webm'],
+            o: ['sounds/o.mp3', 'sounds/o.webm'],
+            p: ['sounds/p.mp3', 'sounds/p.webm']
             // Add more sounds if necessary
         };
 
@@ -132,12 +132,32 @@
             isSoundEnabled = event.target.checked;
         });
 
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
         function playSound(letter) {
             if (isSoundEnabled) {
-                const audio = new Audio(soundFiles[letter]);
-                audio.play().catch(error => {
-                    console.log('Error playing sound:', error);
+                const soundFilesForLetter = soundFiles[letter];
+                let audioPlayed = false;
+
+                soundFilesForLetter.forEach(file => {
+                    const audio = new Audio(file);
+                    audio.play().then(() => {
+                        audioPlayed = true;
+                    }).catch(error => {
+                        console.log(`Error playing sound ${file}:`, error);
+                    });
+
+                    if (audioContext.state === 'suspended') {
+                        audioContext.resume().then(() => {
+                            console.log('Audio context resumed');
+                        });
+                    }
                 });
+
+                // Fallback if none of the audio files were played
+                if (!audioPlayed) {
+                    console.log(`No audio played for ${letter}`);
+                }
             }
         }
 
