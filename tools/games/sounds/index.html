@@ -132,13 +132,14 @@
             isSoundEnabled = event.target.checked;
         });
 
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
         function playSound(letter) {
             if (isSoundEnabled) {
                 const soundFilesForLetter = soundFiles[letter];
                 let audioPlayed = false;
 
+                // Trigger an alert to force user interaction
+                alert('Sound will play now!');
+                
                 soundFilesForLetter.forEach(file => {
                     const audio = new Audio(file);
                     audio.play().then(() => {
@@ -146,15 +147,9 @@
                     }).catch(error => {
                         console.log(`Error playing sound ${file}:`, error);
                     });
-
-                    if (audioContext.state === 'suspended') {
-                        audioContext.resume().then(() => {
-                            console.log('Audio context resumed');
-                        });
-                    }
                 });
 
-                // Fallback if none of the audio files were played
+                // Fallback if no audio played
                 if (!audioPlayed) {
                     console.log(`No audio played for ${letter}`);
                 }
