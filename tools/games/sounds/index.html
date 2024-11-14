@@ -23,6 +23,7 @@
             white-space: nowrap;
             transform-origin: center;
             user-select: none; /* Prevent text selection on double-click */
+            touch-action: none; /* Prevent touch gestures from interfering */
         }
     </style>
 </head>
@@ -107,7 +108,7 @@
                 // Add both click and touchstart event listeners
                 letterElement.addEventListener('click', () => playSound(letter));
                 letterElement.addEventListener('touchstart', (event) => {
-                    event.preventDefault(); // Prevents default touch behavior
+                    event.preventDefault(); // Prevents default touch behavior (like scrolling)
                     playSound(letter);
                 });
 
