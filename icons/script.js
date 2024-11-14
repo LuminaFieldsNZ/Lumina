@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const checkboxes = [
-        { id: 'flip/deep', label: 'HDWYG', index: 0 },
+        { id: 'games/sounds/index', label: 'Sounds', index: 0 },
         { id: 'gifs', label: 'Humor', index: 1 },
         { id: 'games', label: 'Lumie', index: 2 },
         { id: 'games/sling/index', label: 'Slingshot', index: 3 },
@@ -29,7 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'games/ninja/index', label: 'Ninja', index: 20 },
         { id: 'games/jackpot/index', label: 'Jackpot', index: 21 },
         { id: 'games/tetris/index', label: 'Tetris', index: 22 },
-        { id: 'games/marble/index', label: 'Marble', index: 23 }
+        { id: 'games/marble/index', label: 'Marble', index: 23 },
+        { id: 'flip/deep', label: 'HDWYG', index: 24 }
+
 
 
 

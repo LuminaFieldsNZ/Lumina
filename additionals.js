@@ -47,41 +47,7 @@ function getClosestCategory(input) {
     return minDistance <= 2 ? closestCategory : null; // Only accept if the distance is 2 or less
 }
 
-function handleAction(action, value, category) {
-    if (populations.hasOwnProperty(category)) {
-        switch (action.toLowerCase()) {
-            case "add":
-                populations[category] += value;
-                break;
-            case "subtract":
-                populations[category] -= value;
-                break;
-            case "set":
-                populations[category] = value;
-                break;
-            default:
-                console.error("Invalid action:", action);
-        }
-        postMessageToParent(populations[category], category);
-    } else if (mainHeading.hasOwnProperty(category)) {
-        switch (action.toLowerCase()) {
-            case "add":
-                mainHeading[category] += value;
-                break;
-            case "subtract":
-                mainHeading[category] -= value;
-                break;
-            case "set":
-                mainHeading[category] = value;
-                break;
-            default:
-                console.error("Invalid action:", action);
-        }
-        postMessageToParent(mainHeading[category], category);
-    } else {
-        console.error("Invalid category:", category);
-    }
-}
+
 
 
 

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sound Letters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+            background-color: #f0f0f0; /* Light background for better contrast */
+        }
+        .letter {
+            position: absolute;
+            font-size: 8vw; /* Responsive font size based on viewport width */
+            cursor: pointer;
+            white-space: nowrap;
+            transform-origin: center;
+            user-select: none; /* Prevent text selection on double-click */
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Define the available sounds
+        const soundFiles = {
+            a: 'sounds/a.webm',
+            b: 'sounds/b.webm',
+            c: 'sounds/c.webm',
+            d: 'sounds/d.webm',
+            e: 'sounds/e.webm',
+            f: 'sounds/f.webm',
+            g: 'sounds/g.webm',
+            h: 'sounds/h.webm',
+            i: 'sounds/i.webm',
+            j: 'sounds/j.webm',
+            k: 'sounds/k.webm',
+            l: 'sounds/l.webm',
+            m: 'sounds/m.webm',
+            n: 'sounds/n.webm',
+            o: 'sounds/o.webm',
+            p: 'sounds/p.webm'
+            // Add more sounds here if needed
+        };
+
+        function playSound(letter) {
+            const audio = new Audio(soundFiles[letter]);
+            audio.play().catch(error => {
+                console.log('Error playing sound:', error);
+            });
+        }
+
+        function getRandomPosition(letterWidth, letterHeight) {
+            const maxX = window.innerWidth - letterWidth;
+            const maxY = window.innerHeight - letterHeight;
+            return {
+                x: Math.random() * maxX,
+                y: Math.random() * maxY
+            };
+        }
+
+        function getRandomRotation() {
+            return Math.random() * 360; // Rotation angle in degrees
+        }
+
+        function isOverlapping(rect1, rect2) {
+            return !(rect1.right < rect2.left || 
+                     rect1.left > rect2.right || 
+                     rect1.bottom < rect2.top || 
+                     rect1.top > rect2.bottom);
+        }
+
+        function displayLetters() {
+            const body = document.body;
+            const keys = Object.keys(soundFiles);
+            const letterWidth = 120; // Approximate width of each letter
+            const letterHeight = 120; // Approximate height of each letter
+            const letters = [];
+
+            keys.forEach(letter => {
+                let position, overlaps;
+
+                do {
+                    position = getRandomPosition(letterWidth, letterHeight);
+                    const newRect = {
+                        left: position.x,
+                        top: position.y,
+                        right: position.x + letterWidth,
+                        bottom: position.y + letterHeight
+                    };
+                    overlaps = letters.some(({ rect }) => isOverlapping(rect, newRect));
+                } while (overlaps);
+
+                const letterElement = document.createElement('div');
+                letterElement.textContent = letter.toUpperCase();
+                letterElement.className = 'letter';
+                letterElement.style.left = `${position.x}px`;
+                letterElement.style.top = `${position.y}px`;
+                letterElement.style.transform = `rotate(${getRandomRotation()}deg)`;
+
+                // Add both click and touchstart event listeners
+                letterElement.addEventListener('click', () => playSound(letter));
+                letterElement.addEventListener('touchstart', (event) => {
+                    event.preventDefault(); // Prevents default touch behavior
+                    playSound(letter);
+                });
+
+                body.appendChild(letterElement);
+
+                letters.push({ element: letterElement, rect: {
+                    left: position.x,
+                    top: position.y,
+                    right: position.x + letterWidth,
+                    bottom: position.y + letterHeight
+                }});
+            });
+        }
+
+        window.addEventListener('resize', () => {
+            document.body.innerHTML = '';
+            displayLetters();
+        });
+
+        document.addEventListener('DOMContentLoaded', displayLetters);
+    </script>
+</body>
+</html>

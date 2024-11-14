@@ -299,6 +299,8 @@ function lumie(module) {
 }
 
 
+// Big Grey word Lumie
+
 const freeModule = {
   id: 'freeModule',
   content: '<div id="addWordSection"><input class="open-modal button flexible" type="text" id="newWordInput" placeholder="Word Tracking"><button class="open-modal button fixed-width" id="addWordButton">Add Word</button></div><div id="counters"></div><div style="display: none;" id="history"></div><div style="display: none;" id="countHistory"></div>',
