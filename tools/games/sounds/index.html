@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Sound Letters</title>
     <style>
         body {
@@ -26,7 +28,6 @@
             user-select: none;
             touch-action: none;
             transition: transform 0.2s ease;
-            /* Add visual feedback for touch */
             -webkit-tap-highlight-color: rgba(0,0,0,0);
         }
 
@@ -109,63 +110,83 @@
     </div>
 
     <script>
+        // iOS detection
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                     (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const audioBuffers = new Map();
         let isSoundEnabled = true;
+        let hasUserInteracted = false;
 
-// Update the sound files object to use the correct URL pattern
-const soundFiles = {
-    a: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/A.mp3',
-    b: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/B.mp3',
-    c: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/C.mp3',
-    d: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/D.mp3',
-    e: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/E.mp3',
-    f: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/F.mp3',
-    g: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/G.mp3',
-    h: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/H.mp3',
-    i: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/I.mp3',
-    j: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/J.mp3',
-    k: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/K.mp3',
-    l: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/L.mp3',
-    m: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/M.mp3',
-    n: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/N.mp3',
-    o: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/O.mp3',
-    p: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/P.mp3'
-};
+        const soundFiles = {
+            a: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/A.mp3',
+            b: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/B.mp3',
+            c: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/C.mp3',
+            d: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/D.mp3',
+            e: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/E.mp3',
+            f: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/F.mp3',
+            g: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/G.mp3',
+            h: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/H.mp3',
+            i: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/I.mp3',
+            j: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/J.mp3',
+            k: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/K.mp3',
+            l: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/L.mp3',
+            m: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/M.mp3',
+            n: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/N.mp3',
+            o: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/O.mp3',
+            p: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/P.mp3'
+        };
 
-// Simplified preload function since we only have MP3 files now
-async function preloadAudio() {
-    for (const [letter, url] of Object.entries(soundFiles)) {
-        try {
-            const response = await fetch(url);
-            const arrayBuffer = await response.arrayBuffer();
-            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-            audioBuffers.set(letter, audioBuffer);
-        } catch (error) {
-            console.error(`Failed to load audio for letter ${letter}:`, error);
-        }
-    }
-}
-
-        // Initialize audio context on first user interaction
-        function initAudio() {
+        // iOS-specific initialization
+        function initializeAudioForIOS() {
+            if (!hasUserInteracted) {
+                const silentBuffer = audioContext.createBuffer(1, 1, 22050);
+                const source = audioContext.createBufferSource();
+                source.buffer = silentBuffer;
+                source.connect(audioContext.destination);
+                source.start(0);
+                source.stop(0.001);
+                hasUserInteracted = true;
+            }
+            
             if (audioContext.state === 'suspended') {
                 audioContext.resume();
             }
         }
 
-        // Play sound using Web Audio API
+        async function preloadAudio() {
+            for (const [letter, url] of Object.entries(soundFiles)) {
+                try {
+                    const response = await fetch(url);
+                    const arrayBuffer = await response.arrayBuffer();
+                    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                    audioBuffers.set(letter, audioBuffer);
+                } catch (error) {
+                    console.error(`Failed to load audio for letter ${letter}:`, error);
+                }
+            }
+        }
+
         function playSound(letter) {
             if (!isSoundEnabled) return;
             
-            initAudio();
+            if (isIOS) {
+                initializeAudioForIOS();
+            } else if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
             
             const buffer = audioBuffers.get(letter);
             if (buffer) {
                 const source = audioContext.createBufferSource();
                 source.buffer = buffer;
                 source.connect(audioContext.destination);
-                source.start(0);
+                try {
+                    source.start(0);
+                } catch (e) {
+                    console.error('Error playing sound:', e);
+                }
             }
         }
 
@@ -222,11 +243,18 @@ async function preloadAudio() {
                 letterElement.style.top = `${position.y}px`;
                 letterElement.style.transform = `rotate(${getRandomRotation()}deg)`;
 
-                // Use pointerdown instead of click/touch events
-                letterElement.addEventListener('pointerdown', (event) => {
+                const handleInteraction = (event) => {
                     event.preventDefault();
+                    if (isIOS) {
+                        initializeAudioForIOS();
+                    }
                     playSound(letter);
-                });
+                };
+
+                // Add multiple event listeners for better iOS compatibility
+                letterElement.addEventListener('touchstart', handleInteraction, { passive: false });
+                letterElement.addEventListener('mousedown', handleInteraction);
+                letterElement.addEventListener('pointerdown', handleInteraction);
 
                 body.appendChild(letterElement);
 
@@ -242,18 +270,24 @@ async function preloadAudio() {
             });
         }
 
+        // Add a one-time initialization for iOS
+        if (isIOS) {
+            document.body.addEventListener('touchstart', function iosInit() {
+                initializeAudioForIOS();
+                document.body.removeEventListener('touchstart', iosInit);
+            }, { once: true });
+        }
+
         window.addEventListener('resize', () => {
             document.body.innerHTML = '';
             displayLetters();
         });
 
-        // Start loading audio files when the page loads
         document.addEventListener('DOMContentLoaded', async () => {
             await preloadAudio();
             displayLetters();
         });
 
-        // Handle page visibility changes
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 audioContext.suspend();
