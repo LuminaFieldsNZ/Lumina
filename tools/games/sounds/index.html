@@ -113,46 +113,39 @@
         const audioBuffers = new Map();
         let isSoundEnabled = true;
 
-        const soundFiles = {
-            a: ['sounds/a.mp3', 'sounds/a.webm'],
-            b: ['sounds/b.mp3', 'sounds/b.webm'],
-            c: ['sounds/c.mp3', 'sounds/c.webm'],
-            d: ['sounds/d.mp3', 'sounds/d.webm'],
-            e: ['sounds/e.mp3', 'sounds/e.webm'],
-            f: ['sounds/f.mp3', 'sounds/f.webm'],
-            g: ['sounds/g.mp3', 'sounds/g.webm'],
-            h: ['sounds/h.mp3', 'sounds/h.webm'],
-            i: ['sounds/i.mp3', 'sounds/i.webm'],
-            j: ['sounds/j.mp3', 'sounds/j.webm'],
-            k: ['sounds/k.mp3', 'sounds/k.webm'],
-            l: ['sounds/l.mp3', 'sounds/l.webm'],
-            m: ['sounds/m.mp3', 'sounds/m.webm'],
-            n: ['sounds/n.mp3', 'sounds/n.webm'],
-            o: ['sounds/o.mp3', 'sounds/o.webm'],
-            p: ['sounds/p.mp3', 'sounds/p.webm']
-        };
+// Update the sound files object to use the correct URL pattern
+const soundFiles = {
+    a: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/A.mp3',
+    b: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/B.mp3',
+    c: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/C.mp3',
+    d: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/D.mp3',
+    e: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/E.mp3',
+    f: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/F.mp3',
+    g: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/G.mp3',
+    h: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/H.mp3',
+    i: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/I.mp3',
+    j: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/J.mp3',
+    k: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/K.mp3',
+    l: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/L.mp3',
+    m: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/M.mp3',
+    n: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/N.mp3',
+    o: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/O.mp3',
+    p: 'https://luminafieldsnz.github.io/Lumina/tools/games/sounds/sounds/P.mp3'
+};
 
-        // Preload audio files
-        async function preloadAudio() {
-            for (const [letter, files] of Object.entries(soundFiles)) {
-                try {
-                    const response = await fetch(files[0]); // Try mp3 first
-                    const arrayBuffer = await response.arrayBuffer();
-                    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-                    audioBuffers.set(letter, audioBuffer);
-                } catch (error) {
-                    console.log(`Failed to load mp3 for ${letter}, trying webm`);
-                    try {
-                        const response = await fetch(files[1]); // Try webm as fallback
-                        const arrayBuffer = await response.arrayBuffer();
-                        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-                        audioBuffers.set(letter, audioBuffer);
-                    } catch (err) {
-                        console.error(`Failed to load audio for letter ${letter}:`, err);
-                    }
-                }
-            }
+// Simplified preload function since we only have MP3 files now
+async function preloadAudio() {
+    for (const [letter, url] of Object.entries(soundFiles)) {
+        try {
+            const response = await fetch(url);
+            const arrayBuffer = await response.arrayBuffer();
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            audioBuffers.set(letter, audioBuffer);
+        } catch (error) {
+            console.error(`Failed to load audio for letter ${letter}:`, error);
         }
+    }
+}
 
         // Initialize audio context on first user interaction
         function initAudio() {
