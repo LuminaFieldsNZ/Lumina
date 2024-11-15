@@ -26,6 +26,12 @@
             user-select: none;
             touch-action: none;
             transition: transform 0.2s ease;
+            /* Add visual feedback for touch */
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+
+        .letter:active {
+            transform: scale(0.95);
         }
 
         .switch-container {
@@ -88,13 +94,12 @@
 
         @media (max-width: 768px) {
             .letter {
-                font-size: 12vw; /* Adjust font size for smaller devices */
+                font-size: 12vw;
             }
         }
     </style>
 </head>
 <body>
-
     <div class="switch-container">
         <label class="switch">
             <input type="checkbox" id="sound-toggle" checked>
@@ -104,6 +109,10 @@
     </div>
 
     <script>
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const audioBuffers = new Map();
+        let isSoundEnabled = true;
+
         const soundFiles = {
             a: ['sounds/a.mp3', 'sounds/a.webm'],
             b: ['sounds/b.mp3', 'sounds/b.webm'],
@@ -123,30 +132,55 @@
             p: ['sounds/p.mp3', 'sounds/p.webm']
         };
 
-        let isSoundEnabled = true;
+        // Preload audio files
+        async function preloadAudio() {
+            for (const [letter, files] of Object.entries(soundFiles)) {
+                try {
+                    const response = await fetch(files[0]); // Try mp3 first
+                    const arrayBuffer = await response.arrayBuffer();
+                    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                    audioBuffers.set(letter, audioBuffer);
+                } catch (error) {
+                    console.log(`Failed to load mp3 for ${letter}, trying webm`);
+                    try {
+                        const response = await fetch(files[1]); // Try webm as fallback
+                        const arrayBuffer = await response.arrayBuffer();
+                        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                        audioBuffers.set(letter, audioBuffer);
+                    } catch (err) {
+                        console.error(`Failed to load audio for letter ${letter}:`, err);
+                    }
+                }
+            }
+        }
+
+        // Initialize audio context on first user interaction
+        function initAudio() {
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+        }
+
+        // Play sound using Web Audio API
+        function playSound(letter) {
+            if (!isSoundEnabled) return;
+            
+            initAudio();
+            
+            const buffer = audioBuffers.get(letter);
+            if (buffer) {
+                const source = audioContext.createBufferSource();
+                source.buffer = buffer;
+                source.connect(audioContext.destination);
+                source.start(0);
+            }
+        }
 
         const soundToggle = document.getElementById('sound-toggle');
         soundToggle.addEventListener('change', (event) => {
             isSoundEnabled = event.target.checked;
         });
 
-        // Function to play sound
-        function playSound(letter) {
-            if (isSoundEnabled) {
-                const soundFilesForLetter = soundFiles[letter];
-
-                soundFilesForLetter.forEach(file => {
-                    const audio = new Audio(file);
-                    
-                    // Play the sound immediately when the user interacts
-                    audio.play().catch(error => {
-                        console.log(`Error playing sound ${file}:`, error);
-                    });
-                });
-            }
-        }
-
-        // Ensure that the letters are randomly positioned and visible
         function getRandomPosition(letterWidth, letterHeight) {
             const maxX = window.innerWidth - letterWidth;
             const maxY = window.innerHeight - letterHeight;
@@ -157,7 +191,7 @@
         }
 
         function getRandomRotation() {
-            return Math.random() * 360; // Random rotation between 0-360 degrees
+            return Math.random() * 360;
         }
 
         function isOverlapping(rect1, rect2) {
@@ -170,14 +204,13 @@
         function displayLetters() {
             const body = document.body;
             const keys = Object.keys(soundFiles);
-            const letterWidth = 120; // Approximate width of each letter
-            const letterHeight = 120; // Approximate height of each letter
+            const letterWidth = 120;
+            const letterHeight = 120;
             const letters = [];
 
             keys.forEach(letter => {
                 let position, overlaps;
 
-                // Prevent letters from overlapping
                 do {
                     position = getRandomPosition(letterWidth, letterHeight);
                     const newRect = {
@@ -196,10 +229,9 @@
                 letterElement.style.top = `${position.y}px`;
                 letterElement.style.transform = `rotate(${getRandomRotation()}deg)`;
 
-                // Add click and touchend event listeners for sound play
-                letterElement.addEventListener('click', () => playSound(letter));
-                letterElement.addEventListener('touchend', (event) => {
-                    event.preventDefault(); // Prevent default touch behavior (like scrolling)
+                // Use pointerdown instead of click/touch events
+                letterElement.addEventListener('pointerdown', (event) => {
+                    event.preventDefault();
                     playSound(letter);
                 });
 
@@ -217,14 +249,27 @@
             });
         }
 
-        // Redraw letters if the window is resized
         window.addEventListener('resize', () => {
-            document.body.innerHTML = ''; // Clear the screen
-            displayLetters(); // Redraw the letters
+            document.body.innerHTML = '';
+            displayLetters();
         });
 
-        document.addEventListener('DOMContentLoaded', displayLetters);
-    </script>
+        // Start loading audio files when the page loads
+        document.addEventListener('DOMContentLoaded', async () => {
+            await preloadAudio();
+            displayLetters();
+        });
 
+        // Handle page visibility changes
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                audioContext.suspend();
+            } else {
+                if (isSoundEnabled) {
+                    audioContext.resume();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
