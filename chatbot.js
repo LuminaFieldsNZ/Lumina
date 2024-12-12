@@ -637,7 +637,7 @@ box.style.marginBottom = '10px';
   textContent.id = 'text-content'; // Add an ID for easy access
   
   // Set intro message here
-  textContent.innerHTML = `We <b>Lumies</b> are singularity neurons connecting humans with AI.`;
+  textContent.innerHTML = `Welcome to Lumina Fields. <button class="open-modal" onclick="window.location.href='tools/school/index.html'">Schedule</button>`;
 
   // Add text content to the box
   box.appendChild(textContent);

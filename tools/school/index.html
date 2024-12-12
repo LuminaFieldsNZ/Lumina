@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .schedule-container {
+            max-width: 800px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        .schedule-table th, .schedule-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        .schedule-table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        .upload-section {
+            text-align: center;
+            margin: 20px;
+        }
+        .upload-section input[type="file"] {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="schedule-container">
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                </tr>
+            </thead>
+            <tbody id="schedule-body">
+                <!-- Schedule rows will be dynamically populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="upload-section">
+        <h3>Upload Student Profile</h3>
+        <input type="file" id="fileInput" accept="application/json">
+        <button onclick="loadJSON()">Load Profile</button>
+        <button onclick="readFile()">Digitize</button>
+    </div>
+
+    <script src="schedule.js"></script>
+
+    <script>
+
+        function populateSchedule() {
+            scheduleBody.innerHTML = "";
+            for (const time in scheduleData) {
+                const row = document.createElement('tr');
+                const timeCell = document.createElement('td');
+                timeCell.textContent = time;
+                row.appendChild(timeCell);
+
+                ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].forEach(day => {
+                    const cell = document.createElement('td');
+                    cell.textContent = scheduleData[time][day] || "";
+                    row.appendChild(cell);
+                });
+
+                scheduleBody.appendChild(row);
+            }
+        }
+
+        function loadJSON() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        scheduleData = JSON.parse(e.target.result);
+                        populateSchedule();
+                        alert("Schedule loaded successfully!");
+                    } catch (err) {
+                        alert("Error parsing JSON file.");
+                    }
+                };
+                reader.readAsText(file);
+            } else {
+                alert("Please select a JSON file.");
+            }
+        }
+
+        function readFile() {
+  window.location.href = "../pdf/stable.html";
+}
+
+        function startTimers() {
+            const now = new Date();
+            const currentTime = `${now.getHours()}:${now.getMinutes()}`;
+            for (const time in scheduleData) {
+                const timeParts = time.split(/[:\s]/);
+                const scheduleHours = parseInt(timeParts[0]);
+                const scheduleMinutes = parseInt(timeParts[1]);
+                const isPM = timeParts[2] === 'PM';
+
+                const scheduleTime = new Date();
+                scheduleTime.setHours(isPM ? scheduleHours + 12 : scheduleHours);
+                scheduleTime.setMinutes(scheduleMinutes);
+                scheduleTime.setSeconds(0);
+
+                const timeout = scheduleTime - now;
+                if (timeout > 0) {
+                    setTimeout(() => {
+                        alert(`It's ${time}! Reminder: ${Object.values(scheduleData[time]).join(' / ')}`);
+                    }, timeout);
+                }
+            }
+        }
+
+        populateSchedule();
+        startTimers();
+    </script>
+</body>
+</html>
