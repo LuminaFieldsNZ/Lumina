@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iCal to JSON Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #jsonOutput {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll;
+            white-space: pre-wrap;
+            background: #f4f4f4;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>iCal to JSON Converter</h1>
+        <input type="file" id="fileInput" />
+        <button class="button" id="convertButton" onclick="convertToJSON()">Convert to JSON</button>
+        
+        <h3>Output:</h3>
+        <textarea id="jsonOutput" readonly></textarea>
+    </div>
+
+    <script>
+        function convertToJSON() {
+            const fileInput = document.getElementById('fileInput');
+            const jsonOutput = document.getElementById('jsonOutput');
+
+            if (fileInput.files.length === 0) {
+                alert('Please upload an iCal (.ics) file first.');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const icalData = event.target.result;
+
+                try {
+                    const events = parseICAL(icalData);
+                    jsonOutput.value = JSON.stringify(events, null, 4);  // Display formatted JSON
+                } catch (error) {
+                    alert("Error parsing the iCal file: " + error.message);
+                }
+            };
+
+            reader.readAsText(file);  // Read the file as text
+        }
+
+        function parseICAL(icalData) {
+            // Regular expressions to extract the necessary details from the iCal file
+            const eventRegex = /BEGIN:VEVENT([\s\S]+?)END:VEVENT/g;
+            const dateTimeRegex = /DTSTART(?:;[^:]+)?:(\d{8}T\d{6})/;
+            const endDateTimeRegex = /DTEND(?:;[^:]+)?:(\d{8}T\d{6})/;
+            const summaryRegex = /SUMMARY:([^\r\n]+)/;
+            const descriptionRegex = /DESCRIPTION:([^\r\n]+)/;
+            const locationRegex = /LOCATION:([^\r\n]+)/;
+            const uidRegex = /UID:([^\r\n]+)/;
+
+            const events = [];
+            let match;
+            
+            while (match = eventRegex.exec(icalData)) {
+                const eventData = match[1];
+
+                // Extract variables for each field
+                const startMatch = dateTimeRegex.exec(eventData);
+                const endMatch = endDateTimeRegex.exec(eventData);
+                const summaryMatch = summaryRegex.exec(eventData);
+                const descriptionMatch = descriptionRegex.exec(eventData);
+                const locationMatch = locationRegex.exec(eventData);
+                const uidMatch = uidRegex.exec(eventData);
+
+                // Function to convert the time format from "T150" to "15:00"
+                const formatTime = (timeString) => {
+                    if (!timeString) return "Unknown";
+                    const hours = timeString.slice(1, 3);
+                    const minutes = timeString.slice(3, 5);
+                    return `${hours}:${minutes}`;
+                };
+
+                const event = {
+                    subject: summaryMatch ? summaryMatch[1] : "No Title",
+                    start_date: startMatch ? startMatch[1].substring(0, 8) : "Unknown",
+                    start_time: formatTime(startMatch ? startMatch[1].substring(8, 12) : null),
+                    end_date: endMatch ? endMatch[1].substring(0, 8) : "Unknown",
+                    end_time: formatTime(endMatch ? endMatch[1].substring(8, 12) : null),
+                    all_day_event: false,
+                    description: descriptionMatch ? descriptionMatch[1].replace(/\r\n|\n|\r/g, ' ') : "No Description",
+                    location: locationMatch ? locationMatch[1].replace(/\r\n|\n|\r/g, ' ') : "No Location",
+                    uid: uidMatch ? uidMatch[1] : "No UID",
+                    private: false  // Adjust as needed
+                };
+
+                // Add event only if it has either a start date or summary (in case both are missing, skip event)
+                if (startMatch || summaryMatch) {
+                    events.push(event);
+                }
+            }
+
+            return events;
+        }
+    </script>
+
+</body>
+</html>

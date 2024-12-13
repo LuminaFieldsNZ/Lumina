@@ -1,0 +1,39 @@
+Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private
+"Wore a yellow dress",11/05/2023,10:00 AM,11/05/2023,10:30 AM,False,"Felix wore a yellow dress and twirled around joyfully.",Home,True
+"Experienced frustration at building blocks",11/15/2023,11:00 AM,11/15/2023,11:30 AM,False,"Felix became frustrated while building blocks and needed support to calm down.",Home,True
+"Chose a sparkly pink dress",12/01/2023,02:00 PM,12/01/2023,02:30 PM,False,"Felix chose a sparkly pink dress to wear to a tea party.",Friend's House,True
+"Had a tantrum at the park",12/10/2023,01:00 PM,12/10/2023,01:30 PM,False,"Felix experienced a tantrum when leaving the park.",Park,False
+"Wore a purple dress to a family dinner",12/25/2023,06:00 PM,12/25/2023,09:00 PM,False,"Felix attended a family dinner wearing a purple dress.",Grandparents' House,False
+"Overwhelmed at the grocery store",01/05/2024,04:00 PM,01/05/2024,04:30 PM,False,"Felix was overwhelmed by noise at the grocery store and needed a quiet space to recover.",Grocery Store,True
+"Picked a floral dress for the day",01/15/2024,09:00 AM,01/15/2024,09:30 AM,False,"Felix picked a floral dress to wear to daycare.",Daycare,True
+"Had difficulty sharing toys",01/25/2024,11:00 AM,01/25/2024,11:30 AM,False,"Felix struggled to share toys during playtime, leading to emotional dysregulation.",Daycare,True
+"Twirled in a red dress",02/01/2024,03:00 PM,02/01/2024,03:30 PM,False,"Felix enjoyed twirling in a red dress during playtime.",Home,True
+"Upset at nap time",02/10/2024,01:00 PM,02/10/2024,01:30 PM,False,"Felix became upset at nap time, expressing emotions loudly.",Daycare,True
+"Selected a blue dress for storytime",02/20/2024,06:00 PM,02/20/2024,06:30 PM,False,"Felix chose a blue dress to wear during evening storytime.",Home,True
+"Frustrated during puzzle activity",03/01/2024,10:00 AM,03/01/2024,10:30 AM,False,"Felix showed frustration while completing a puzzle and needed guidance to calm down.",Daycare,True
+"Attended a playdate in a pink tutu",03/10/2024,02:00 PM,03/10/2024,03:30 PM,False,"Felix wore a pink tutu to a playdate and enjoyed dancing with friends.",Friend's House,False
+"Upset after spilling juice",03/20/2024,12:00 PM,03/20/2024,12:30 PM,False,"Felix experienced emotional dysregulation after spilling juice at lunch.",Home,True
+"Admired herself in a green dress",03/25/2024,09:30 AM,03/25/2024,10:00 AM,False,"Felix admired herself in the mirror while wearing a green dress.",Home,True
+"Cried when leaving a friend's house",04/01/2024,05:00 PM,04/01/2024,05:30 PM,False,"Felix cried when it was time to leave a friend's house after playtime.",Friend's House,True
+"Wore a princess dress for pretend play",04/10/2024,02:00 PM,04/10/2024,03:00 PM,False,"Felix wore a princess dress and pretended to host a royal ball.",Home,True
+"Had a meltdown during cleanup",04/15/2024,11:30 AM,04/15/2024,12:00 PM,False,"Felix had a meltdown when asked to clean up toys.",Daycare,True
+"Danced in a glittery dress",04/25/2024,03:00 PM,04/25/2024,03:30 PM,False,"Felix danced around the living room wearing a glittery dress.",Home,True
+"Upset over a broken crayon",05/01/2024,10:00 AM,05/01/2024,10:15 AM,False,"Felix became upset when a crayon broke while drawing.",Daycare,True
+"Wore a flower crown and dress",05/10/2024,01:00 PM,05/10/2024,01:30 PM,False,"Felix wore a flower crown and a matching dress during a picnic.",Park,True
+"Cried when a sibling took a toy",05/20/2024,11:00 AM,05/20/2024,11:30 AM,False,"Felix cried when a sibling took a favorite toy.",Home,True
+"Chose a rainbow dress for the party",06/01/2024,02:00 PM,06/01/2024,03:00 PM,False,"Felix chose a rainbow dress for a friend's birthday party.",Friend's House,True
+"Frustrated at building blocks again",06/10/2024,09:00 AM,06/10/2024,09:30 AM,False,"Felix showed frustration when building blocks fell down.",Daycare,True
+"Spun around in a butterfly dress",06/15/2024,04:00 PM,06/15/2024,04:30 PM,False,"Felix enjoyed spinning around in a butterfly dress.",Home,True
+"Upset after losing a game",06/20/2024,03:00 PM,06/20/2024,03:30 PM,False,"Felix became upset after losing a board game during playtime.",Daycare,True
+"Wore a sunflower dress to the park",07/01/2024,10:30 AM,07/01/2024,11:00 AM,False,"Felix wore a sunflower dress while playing at the park.",Park,True
+"Tears after dropping an ice cream cone",07/10/2024,01:00 PM,07/10/2024,01:30 PM,False,"Felix cried after dropping an ice cream cone at the park.",Park,False
+"Chose a polka dot dress for daycare",07/15/2024,08:00 AM,07/15/2024,08:30 AM,False,"Felix picked a polka dot dress to wear to daycare.",Daycare,True
+"Frustrated at a drawing activity",07/20/2024,02:00 PM,07/20/2024,02:30 PM,False,"Felix showed frustration while drawing and asked for help.",Daycare,True
+"Wore a purple dress for a picnic",08/01/2024,11:00 AM,08/01/2024,12:00 PM,False,"Felix wore a purple dress and enjoyed a picnic with family.",Park,False
+"Upset over a missing puzzle piece",08/05/2024,03:00 PM,08/05/2024,03:30 PM,False,"Felix became upset when a puzzle piece was missing.",Home,True
+"Wore a sparkling dress to a family reunion",08/10/2024,06:00 PM,08/10/2024,09:00 PM,False,"Felix wore a sparkling dress and enjoyed meeting relatives.",Grandparents' House,False
+"Cried when a pet ran away",08/15/2024,09:00 AM,08/15/2024,09:30 AM,False,"Felix cried when the family pet ran out the door briefly.",Home,True
+"Wore a dress with stars for bedtime",08/20/2024,07:00 PM,08/20/2024,07:30 PM,False,"Felix picked a dress with stars for bedtime reading.",Home,True
+"Had a tantrum about a bedtime story",08/25/2024,08:00 PM,08/25/2024,08:30 PM,False,"Felix had a tantrum when a bedtime story ended too soon.",Home,True
+"Admired herself in a shiny dress",09/01/2024,10:00 AM,09/01/2024,10:30 AM,False,"Felix admired her reflection while wearing a shiny dress.",Home,True
+"Upset after losing a toy",09/05/2024,02:00 PM,09/05/2024,02:30 PM,False,"Felix became upset after misplacing a favorite toy.",Home,True

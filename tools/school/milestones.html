@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milestones Timeline</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .timeline {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+        }
+
+        .timeline-item .timestamp {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .timeline-item .description {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-item .description p {
+            margin: 0;
+        }
+
+        .upload-btn {
+            margin-bottom: 20px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Milestones Timeline</h1>
+    
+    <!-- Upload Button -->
+    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">Upload JSON File</button>
+    <input type="file" id="fileInput" accept=".json" onchange="handleFileUpload(event)" />
+    
+    <!-- Timeline Display -->
+    <ul class="timeline" id="timeline"></ul>
+
+    <script>
+        // Function to handle file upload
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+
+            if (!file) {
+                alert("No file selected.");
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const fileContent = e.target.result;
+                try {
+                    const data = JSON.parse(fileContent);
+                    displayMilestones(data);
+                } catch (error) {
+                    alert("Error reading the file. Please make sure it's a valid JSON.");
+                    console.error(error);
+                }
+            };
+
+            reader.readAsText(file);
+        }
+
+        // Function to display milestones
+        function displayMilestones(data) {
+    const milestones = data.userData.milestones;
+    if (!milestones || milestones.length === 0) {
+        alert("No milestones found in the file.");
+        return;
+    }
+
+    // Helper function to format date and time properly
+    function formatDateAndTime(dateStr, timeStr) {
+        // Ensure the time has proper HH:mm format
+        const [hours, minutes] = timeStr.split(':').map(num => num.padStart(2, '0'));
+        // Construct and return a valid ISO string
+        return `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(6, 8)}T${hours}:${minutes}:00`;
+    }
+
+    // Sort milestones by start_date and start_time
+    milestones.sort((a, b) => {
+        const dateA = new Date(formatDateAndTime(a.start_date, a.start_time));
+        const dateB = new Date(formatDateAndTime(b.start_date, b.start_time));
+        return dateA - dateB;
+    });
+
+    const timelineElement = document.getElementById('timeline');
+    timelineElement.innerHTML = ''; // Clear previous content
+
+    // Loop through each milestone and create a timeline item
+    milestones.forEach(milestone => {
+        const timelineItem = document.createElement('li');
+        timelineItem.classList.add('timeline-item');
+
+        const startDate = new Date(formatDateAndTime(milestone.start_date, milestone.start_time));
+        const endDate = new Date(formatDateAndTime(milestone.end_date, milestone.end_time));
+
+        // Format date and time for display
+        const startDateTime = startDate.toLocaleString();
+        const endDateTime = endDate.toLocaleString();
+
+        const timestampElement = document.createElement('div');
+        timestampElement.classList.add('timestamp');
+        timestampElement.textContent = `${startDateTime} - ${endDateTime}`;
+
+        const descriptionElement = document.createElement('div');
+        descriptionElement.classList.add('description');
+        descriptionElement.innerHTML = `
+            <p>${milestone.description}</p>
+            <p><strong>Location:</strong> ${milestone.location || 'N/A'}</p>
+        `;
+
+        timelineItem.appendChild(timestampElement);
+        timelineItem.appendChild(descriptionElement);
+        timelineElement.appendChild(timelineItem);
+    });
+}
+
+
+    </script>
+
+</body>
+</html>

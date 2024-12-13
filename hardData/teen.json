@@ -1,0 +1,53 @@
+
+{
+    "teen": [
+        {
+            "topic": "Critical Thinking",
+            "instruction": "Engage the teen in a discussion about real-world problems. Use open-ended questions to encourage critical thinking. This activity does not require a game.",
+            "examples": [
+                {"question": "What would you do to improve your school environment?", "answer": "Teen shares ideas such as reducing waste or starting a club."},
+                {"question": "Why do you think teamwork is important?", "answer": "Teen explains how teamwork can achieve goals faster."}
+            ]
+        },
+        {
+            "topic": "Time Management",
+            "instruction": "Navigate to the Lumina Fields web app, open the games section, and select the 'Time Management Game.' Encourage the teen to practice organizing tasks and prioritizing effectively.",
+            "examples": [
+                {"question": "What should you do first when planning your day?", "answer": "Teen selects the most important task in the game."},
+                {"question": "How can you balance homework and relaxation?", "answer": "Teen completes a game challenge to allocate time for both."}
+            ]
+        },
+        {
+            "topic": "Digital Literacy",
+            "instruction": "Navigate to the Lumina Fields web app, open the games section, and select the 'Digital Safety Game.' Use this game to teach the teen about online safety, privacy, and responsible use of technology.",
+            "examples": [
+                {"question": "Why is it important to create strong passwords?", "answer": "Teen learns about password security through the game."},
+                {"question": "What information should you avoid sharing online?", "answer": "Teen identifies examples like personal addresses and passwords."}
+            ]
+        },
+        {
+            "topic": "Self-Reflection",
+            "instruction": "Have the teen journal or discuss their feelings and experiences. Encourage self-awareness and emotional processing. This activity does not require a game.",
+            "examples": [
+                {"question": "What made you feel proud this week?", "answer": "Teen reflects on achievements like completing a tough project."},
+                {"question": "What is something you'd like to improve?", "answer": "Teen identifies areas for personal growth, such as communication."}
+            ]
+        },
+        {
+            "topic": "Civic Responsibility",
+            "instruction": "Navigate to the Lumina Fields web app, open the games section, and select the 'Civic Responsibility Game.' Use this game to explore concepts like voting, volunteering, and community involvement.",
+            "examples": [
+                {"question": "Why is voting important?", "answer": "Teen learns how voting impacts their community through the game."},
+                {"question": "What are ways you can help your community?", "answer": "Teen identifies volunteering opportunities in the game."}
+            ]
+        },
+        {
+            "topic": "Communication Skills",
+            "instruction": "Practice role-playing conversations to improve communication and empathy. This activity does not require a game.",
+            "examples": [
+                {"question": "How would you explain a difficult idea to someone younger than you?", "answer": "Teen practices simplifying complex concepts."},
+                {"question": "What would you say to someone who disagrees with your opinion?", "answer": "Teen role-plays a respectful discussion."}
+            ]
+        }
+    ]
+}

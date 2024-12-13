@@ -65,77 +65,253 @@
         <button onclick="readFile()">Digitize</button>
     </div>
 
-    <script src="schedule.js"></script>
+
 
     <script>
 
-        function populateSchedule() {
-            scheduleBody.innerHTML = "";
-            for (const time in scheduleData) {
-                const row = document.createElement('tr');
-                const timeCell = document.createElement('td');
-                timeCell.textContent = time;
-                row.appendChild(timeCell);
+const scheduleBody = document.getElementById('schedule-body');
 
-                ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].forEach(day => {
-                    const cell = document.createElement('td');
-                    cell.textContent = scheduleData[time][day] || "";
-                    row.appendChild(cell);
-                });
 
-                scheduleBody.appendChild(row);
-            }
-        }
+let scheduleData = {
+    "7:00 AM": {
+        "Mon": "Drop-off begins",
+        "Tue": "Drop-off begins",
+        "Wed": "Drop-off begins",
+        "Thu": "Drop-off begins",
+        "Fri": "Drop-off begins"
+    },
+    "7:30 AM": {
+        "Mon": "Playtime",
+        "Tue": "Playtime",
+        "Wed": "Playtime",
+        "Thu": "Playtime",
+        "Fri": "Playtime"
+    },
+    "8:00 AM": {
+        "Mon": "Playtime",
+        "Tue": "Playtime",
+        "Wed": "Playtime",
+        "Thu": "Playtime",
+        "Fri": "Playtime"
+    },
+    "8:30 AM": {
+        "Mon": "Drop-off ends",
+        "Tue": "Drop-off ends",
+        "Wed": "Drop-off ends",
+        "Thu": "Drop-off ends",
+        "Fri": "Drop-off ends"
+    },
+    "9:00 AM": {
+        "Mon": "Music",
+        "Tue": "Rhythmic Exercises",
+        "Wed": "Karate",
+        "Thu": "Music",
+        "Fri": "Art"
+    },
+    "9:30 AM": {
+        "Mon": "Playtime",
+        "Tue": "Playtime",
+        "Wed": "Playtime",
+        "Thu": "Playtime",
+        "Fri": "Playtime"
+    },
+    "10:00 AM": {
+        "Mon": "Playtime",
+        "Tue": "Playtime",
+        "Wed": "Playtime",
+        "Thu": "Playtime",
+        "Fri": "Playtime"
+    },
+    "10:30 AM": {
+        "Mon": "Playtime",
+        "Tue": "Playtime",
+        "Wed": "Playtime",
+        "Thu": "Playtime",
+        "Fri": "Playtime"
+    },
+    "11:00 AM": {
+        "Mon": "Morning Snack\nCircle Time",
+        "Tue": "Morning Snack\nCircle Time",
+        "Wed": "Morning Snack\nCircle Time",
+        "Thu": "Morning Snack\nCircle Time",
+        "Fri": "Morning Snack\nCircle Time"
+    },
+    "11:30 AM": {
+        "Mon": "Circle Time",
+        "Tue": "Circle Time",
+        "Wed": "Circle Time",
+        "Thu": "Circle Time",
+        "Fri": "Circle Time"
+    },
+    "12:00 PM": {
+        "Mon": "Lunch",
+        "Tue": "Lunch",
+        "Wed": "Lunch",
+        "Thu": "Lunch",
+        "Fri": "Lunch"
+    },
+    "12:30 PM": {
+        "Mon": "Lunch",
+        "Tue": "Lunch",
+        "Wed": "Lunch",
+        "Thu": "Lunch",
+        "Fri": "Lunch"
+    },
+    "1:00 PM": {
+        "Mon": "Playtime",
+        "Tue": "Playtime",
+        "Wed": "Playtime",
+        "Thu": "Playtime",
+        "Fri": "Playtime"
+    },
+    "1:30 PM": {
+        "Mon": "Nap Time",
+        "Tue": "Nap Time",
+        "Wed": "Nap Time",
+        "Thu": "Nap Time",
+        "Fri": "Nap Time"
+    },
+    "2:00 PM": {
+        "Mon": "Nap Time",
+        "Tue": "Nap Time",
+        "Wed": "Nap Time",
+        "Thu": "Nap Time",
+        "Fri": "Nap Time"
+    },
+    "2:30 PM": {
+        "Mon": "Nap Time",
+        "Tue": "Nap Time",
+        "Wed": "Nap Time",
+        "Thu": "Nap Time",
+        "Fri": "Nap Time"
+    },
+    "3:00 PM": {
+        "Mon": "Afternoon Snack\nPlaytime",
+        "Tue": "Afternoon Snack\nPlaytime",
+        "Wed": "Afternoon Snack\nPlaytime",
+        "Thu": "Afternoon Snack\nPlaytime",
+        "Fri": "Afternoon Snack\nPlaytime"
+    },
+    "3:30 PM": {
+        "Mon": "Playtime",
+        "Tue": "Playtime",
+        "Wed": "Playtime",
+        "Thu": "Playtime",
+        "Fri": "Playtime"
+    },
+    "4:00 PM": {
+        "Mon": "Pickup Begins",
+        "Tue": "Pickup Begins",
+        "Wed": "Pickup Begins",
+        "Thu": "Pickup Begins",
+        "Fri": "Pickup Begins"
+    },
+    "4:30 PM": {
+        "Mon": "Pickup Begins",
+        "Tue": "Pickup Begins",
+        "Wed": "Pickup Begins",
+        "Thu": "Pickup Begins",
+        "Fri": "Pickup Begins"
+    },
+    "5:00 PM": {
+        "Mon": "School Closes",
+        "Tue": "School Closes",
+        "Wed": "School Closes",
+        "Thu": "School Closes",
+        "Fri": "School Closes"
+    },
+    "5:30 PM": {
+        "Mon": "School Closes",
+        "Tue": "School Closes",
+        "Wed": "School Closes",
+        "Thu": "School Closes",
+        "Fri": "School Closes"
+    }
+};
 
-        function loadJSON() {
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    try {
-                        scheduleData = JSON.parse(e.target.result);
-                        populateSchedule();
-                        alert("Schedule loaded successfully!");
-                    } catch (err) {
-                        alert("Error parsing JSON file.");
-                    }
-                };
-                reader.readAsText(file);
-            } else {
-                alert("Please select a JSON file.");
-            }
-        }
+    
 
-        function readFile() {
-  window.location.href = "../pdf/stable.html";
+function populateSchedule() {
+    scheduleBody.innerHTML = ""; // Clear previous schedule
+    for (const time in scheduleData) {
+        const row = document.createElement('tr');
+        const timeCell = document.createElement('td');
+        timeCell.textContent = time;
+        row.appendChild(timeCell);
+
+        // Create a cell for each day (Mon to Fri)
+        ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].forEach(day => {
+            const cell = document.createElement('td');
+            cell.textContent = scheduleData[time][day] || ""; // Display the schedule or empty string
+            row.appendChild(cell);
+        });
+
+        scheduleBody.appendChild(row); // Append the row to the table
+    }
 }
 
-        function startTimers() {
-            const now = new Date();
-            const currentTime = `${now.getHours()}:${now.getMinutes()}`;
-            for (const time in scheduleData) {
-                const timeParts = time.split(/[:\s]/);
-                const scheduleHours = parseInt(timeParts[0]);
-                const scheduleMinutes = parseInt(timeParts[1]);
-                const isPM = timeParts[2] === 'PM';
+function loadJSON() {
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                // Parse the JSON file
+                const jsonData = JSON.parse(e.target.result);
 
-                const scheduleTime = new Date();
-                scheduleTime.setHours(isPM ? scheduleHours + 12 : scheduleHours);
-                scheduleTime.setMinutes(scheduleMinutes);
-                scheduleTime.setSeconds(0);
+                // Extract the schedule data from the loaded JSON
+                const schedule = jsonData.userData.schedule;
 
-                const timeout = scheduleTime - now;
-                if (timeout > 0) {
-                    setTimeout(() => {
-                        alert(`It's ${time}! Reminder: ${Object.values(scheduleData[time]).join(' / ')}`);
-                    }, timeout);
+                // Check if schedule exists before updating scheduleData
+                if (schedule) {
+                    scheduleData = schedule; // Update global scheduleData with the new data
+                    populateSchedule(); // Call populateSchedule to update the table
+                    alert("Schedule loaded successfully!");
+                } else {
+                    alert("No schedule data found in the file.");
                 }
+            } catch (err) {
+                alert("Error parsing JSON file.");
             }
-        }
+        };
+        reader.readAsText(file);
+    } else {
+        alert("Please select a JSON file.");
+    }
+}
 
-        populateSchedule();
-        startTimers();
+function readFile() {
+    window.location.href = "../pdf/stable.html"; // Redirection (not related to schedule)
+}
+
+function startTimers() {
+    const now = new Date();
+    const currentTime = `${now.getHours()}:${now.getMinutes()}`;
+    for (const time in scheduleData) {
+        const timeParts = time.split(/[:\s]/);
+        const scheduleHours = parseInt(timeParts[0]);
+        const scheduleMinutes = parseInt(timeParts[1]);
+        const isPM = timeParts[2] === 'PM';
+
+        const scheduleTime = new Date();
+        scheduleTime.setHours(isPM ? scheduleHours + 12 : scheduleHours);
+        scheduleTime.setMinutes(scheduleMinutes);
+        scheduleTime.setSeconds(0);
+
+        const timeout = scheduleTime - now;
+        if (timeout > 0) {
+            setTimeout(() => {
+                alert(`It's ${time}! Reminder: ${Object.values(scheduleData[time]).join(' / ')}`);
+            }, timeout);
+        }
+    }
+}
+
+// Initial call to populate schedule and start timers (optional, depending on your use case)
+// populateSchedule();
+// startTimers();
     </script>
+    
 </body>
 </html>

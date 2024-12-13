@@ -1,0 +1,53 @@
+
+{
+    "adult": [
+        {
+            "topic": "Goal Setting",
+            "instruction": "Engage the adult in a structured conversation about personal or professional goals. Use open-ended questions to encourage reflection and planning. This activity does not require a game.",
+            "examples": [
+                {"question": "What is one personal goal you'd like to achieve this year?", "answer": "Adult shares a goal like improving fitness or learning a skill."},
+                {"question": "What steps can you take to achieve your career aspirations?", "answer": "Adult outlines a plan, such as taking courses or networking."}
+            ]
+        },
+        {
+            "topic": "Time Management",
+            "instruction": "Navigate to the Lumina Fields web app, open the games section, and select the 'Time Management Game.' Use the game to practice prioritizing and organizing daily tasks effectively.",
+            "examples": [
+                {"question": "What should you prioritize when you have multiple deadlines?", "answer": "Adult completes a game scenario prioritizing tasks by importance."},
+                {"question": "How can you reduce procrastination?", "answer": "Adult identifies strategies like breaking tasks into smaller steps in the game."}
+            ]
+        },
+        {
+            "topic": "Financial Literacy",
+            "instruction": "Navigate to the Lumina Fields web app, open the games section, and select the 'Budgeting Game.' Use the game to teach concepts like saving, spending, and managing finances responsibly.",
+            "examples": [
+                {"question": "How can you save for a long-term goal?", "answer": "Adult allocates a portion of income to savings in the game."},
+                {"question": "What is the importance of tracking expenses?", "answer": "Adult practices creating a budget in the game."}
+            ]
+        },
+        {
+            "topic": "Self-Care and Well-Being",
+            "instruction": "Discuss the importance of self-care and mental health. Encourage adults to explore mindfulness or physical activity practices. This activity does not require a game.",
+            "examples": [
+                {"question": "What activity helps you relax after a stressful day?", "answer": "Adult reflects on activities like reading, exercising, or meditation."},
+                {"question": "How can you create a better work-life balance?", "answer": "Adult discusses setting boundaries and planning downtime."}
+            ]
+        },
+        {
+            "topic": "Leadership and Collaboration",
+            "instruction": "Navigate to the Lumina Fields web app, open the games section, and select the 'Leadership Game.' Use the game to develop skills in teamwork, decision-making, and effective communication.",
+            "examples": [
+                {"question": "How can you encourage teamwork in a group project?", "answer": "Adult practices assigning roles and setting goals in the game."},
+                {"question": "What makes a good leader?", "answer": "Adult learns about traits like empathy and accountability through the game."}
+            ]
+        },
+        {
+            "topic": "Civic Engagement",
+            "instruction": "Engage the adult in a conversation about their role in the community. Discuss volunteering, voting, or activism opportunities. This activity does not require a game.",
+            "examples": [
+                {"question": "What local issue matters most to you?", "answer": "Adult shares concerns like education, environment, or public safety."},
+                {"question": "How can you contribute to your community's well-being?", "answer": "Adult reflects on actions like volunteering or attending community meetings."}
+            ]
+        }
+    ]
+}

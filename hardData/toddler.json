@@ -1,0 +1,52 @@
+{
+    "toddler": [
+        {
+            "topic": "Colors",
+            "instruction": "Navigate to the Lumina Fields web app, open the games section, and select the 'Color Game.' Encourage the child to interact with the game by identifying and sorting colors.",
+            "examples": [
+                {"question": "Can you find the color blue?", "answer": "Child selects the blue object in the game."},
+                {"question": "What color is the apple in the game?", "answer": "The apple is red."}
+            ]
+        },
+        {
+            "topic": "Shapes",
+            "instruction": "Navigate to the Lumina Fields web app, open the games section, and select the 'Shape Game.' Use the game to help the child identify, sort, and match shapes.",
+            "examples": [
+                {"question": "What shape is the object on the screen?", "answer": "The object is a square."},
+                {"question": "Can you match all the circles?", "answer": "Child matches the circle shapes in the game."}
+            ]
+        },
+        {
+            "topic": "Numbers",
+            "instruction": "Navigate to the Lumina Fields web app, open the games section, and select the 'Number Game.' Encourage the child to count objects and engage with numbers interactively.",
+            "examples": [
+                {"question": "How many stars do you see?", "answer": "Child counts the stars in the game."},
+                {"question": "Can you find the number 3?", "answer": "Child selects the number 3 from the game."}
+            ]
+        },
+        {
+            "topic": "Self-Care",
+            "instruction": "Navigate to the Lumina Fields web app, open the games section, and select the 'Self-Care Game.' Use the game to teach basic hygiene and independence skills interactively.",
+            "examples": [
+                {"question": "What do you do before eating?", "answer": "Wash hands with soap and water, demonstrated in the game."},
+                {"question": "Why should you brush your teeth?", "answer": "To keep them clean and healthy, explained in the game."}
+            ]
+        },
+        {
+            "topic": "Visual Activities",
+            "instruction": "Navigate to the Lumina Fields web app, open the games section, and select the 'Visual Activity Game.' Encourage the child to sort and identify colors using interactive tasks.",
+            "examples": [
+                {"question": "Can you find all the green blocks?", "answer": "Child sorts the blocks by color in the game."},
+                {"question": "What color is the largest block?", "answer": "The largest block is blue."}
+            ]
+        },
+        {
+            "topic": "Phonological Awareness",
+            "instruction": "Navigate to the Lumina Fields web app, open the games section, and select the 'Sound Game.' Encourage the child to identify rhyming words and break words into sounds.",
+            "examples": [
+                {"question": "What word rhymes with cat in the game?", "answer": "Hat, bat, sat."},
+                {"question": "Can you say the sounds in 'dog'?", "answer": "Child says /d/ /o/ /g/ as shown in the game."}
+            ]
+        }
+    ]
+}
