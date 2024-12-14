@@ -64,6 +64,14 @@ let mainHeading = {
   let userCompletedProjects = [];
   let conversationData = [];
   let totalPopulation = 0;
+let milestones = [];
+let scheduleData = [];
+
+// Ensure scheduleModule is properly initialized
+const scheduleModule = {
+  id: 'scheduleModule',
+  content: ''  // Make sure the content property is initialized as an empty string
+};
 
 
   function getTotalPopulation(populations) {
@@ -314,6 +322,10 @@ function sendMessage() {
           document.getElementById('loginPlace').style.display = 'none';
           const chatWindow = document.getElementById('chatWindow');
           chatWindow.innerHTML += `<font style="color:lightgreen;">${userId} is logged in.</font><br>`;
+        
+         // After data is loaded, inject into the schedule module
+         injectDataIntoScheduleModule();
+        
         } else {
           alert('Invalid data format.');
         }
@@ -323,6 +335,52 @@ function sendMessage() {
     };
     reader.readAsText(files[0]);
   }
+
+
+  // Function to inject global data into the schedule module's HTML content
+function injectDataIntoScheduleModule() {
+  // Fetch the HTML content of the schedule module
+  fetch('https://luminafieldsnz.github.io/Lumina/tools/school/index.html')  // Adjust path if necessary
+    .then(response => response.text())
+    .then(html => {
+      // Inject global variables into the HTML content
+      html = html.replace('</body>', `
+        <script>
+          // Injected Global Data
+          const userId = "${userId}";
+          const state = ${JSON.stringify(state)};
+          const populations = ${JSON.stringify(populations)};
+          // Other global data...
+
+          // You can also attach this data to the window or document if necessary
+          window.globalData = {
+            userId,
+            state,
+            populations
+          };
+
+          // Event listener for sync data button (example)
+          document.getElementById('syncDataBtn').addEventListener('click', () => {
+            alert('Syncing Data...');
+            // You can now use global data in your event listener or elsewhere in this script.
+            console.log('Global Data:', window.globalData);
+            // Example: Do something with the global data here.
+          });
+        </script>
+      </body>`);  // Append the script before closing the </body> tag to include the JavaScript
+
+      // Assign the modified HTML content to the scheduleModule object
+      scheduleModule.content = html;
+
+      // Append the modified HTML content to the chat window
+      document.getElementById('chatWindow').appendChild(lumie(scheduleModule));
+
+    })
+    .catch(error => {
+      console.error('Error loading the HTML file:', error);
+    });
+}
+
   
   // Function to scroll the chat window to the bottom
   function scrollToBottom() {

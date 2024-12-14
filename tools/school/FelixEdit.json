@@ -1,0 +1,94 @@
+{
+  "conversationData": [],
+  "userData": {
+    "id": "Felix",
+    "state": {
+      "hair": "./hair/hair0.png",
+      "glasses": "./glasses/glasses0.png",
+      "body": "./body/body0.png",
+      "outer": "./outer/outer0.png"
+    },
+    "mainHeading": {
+      "explorer": 1,
+      "voyager": 1,
+      "captain": 1,
+      "merchant": 1,
+      "shipwright": 1,
+      "fisherman": 1,
+      "smuggler": 1,
+      "arbiter": 1,
+      "sailor": 1
+    },
+    "populations": {
+      "progressive": 10,
+      "socialist": 10,
+      "idealist": 10,
+      "globalist": 10,
+      "conservative": 10,
+      "economist": 10,
+      "realist": 10,
+      "nationalist": 10,
+      "populist": 10
+    },
+    "completedProjects": [
+      1
+    ],
+    "milestones": [
+      {
+        "subject": "Begins following simple commands",
+        "start_date": "20240215",
+        "start_time": "15:0",
+        "end_date": "20240215",
+        "end_time": "15:3",
+        "all_day_event": false,
+        "description": "Felix began following simple commands like 'come here' and 'sit",
+        "location": "Home",
+        "uid": "CSVConvert005710a6f305118c7377fca913a84828",
+        "private": false
+    },
+    {
+        "subject": "First bike ride",
+        "start_date": "20240810",
+        "start_time": "15:0",
+        "end_date": "20240810",
+        "end_time": "16:0",
+        "all_day_event": false,
+        "description": "Felix rode a bike for the first time.",
+        "location": "Park",
+        "uid": "CSVConvert062a31a87248aa8ffcd69b15bac043e3",
+        "private": false
+    }
+
+    ],
+    "schedule": {
+      "7:00 AM": {
+        "Mon": "Drop-off begins",
+        "Tue": "Drop-off begins",
+        "Wed": "Drop-off begins",
+        "Thu": "Drop-off begins",
+        "Fri": "Drop-off begins"
+      },
+      "7:30 AM": {
+        "Mon": "Playtime",
+        "Tue": "Playtime",
+        "Wed": "Playtime",
+        "Thu": "Playtime",
+        "Fri": "Playtime"
+      },
+      "5:00 PM": {
+        "Mon": "School Closes",
+        "Tue": "School Closes",
+        "Wed": "School Closes",
+        "Thu": "School Closes",
+        "Fri": "School Closes"
+      },
+      "5:30 PM": {
+        "Mon": "School Closes",
+        "Tue": "School Closes",
+        "Wed": "School Closes",
+        "Thu": "School Closes",
+        "Fri": "School Closes"
+      }
+    }
+  }
+}
