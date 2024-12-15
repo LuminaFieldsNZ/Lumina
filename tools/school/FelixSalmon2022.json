@@ -1,7 +1,7 @@
 {
   "conversationData": [],
   "userData": {
-    "id": "Felix",
+    "id": "FelixSalmon2022",
     "state": {
       "hair": "./hair/hair0.png",
       "glasses": "./glasses/glasses0.png",
@@ -1249,159 +1249,54 @@
     ],
     "schedule": {
       "7:00 AM": {
-        "Mon": "Drop-off begins",
-        "Tue": "Drop-off begins",
-        "Wed": "Drop-off begins",
-        "Thu": "Drop-off begins",
-        "Fri": "Drop-off begins"
-      },
-      "7:30 AM": {
-        "Mon": "Playtime",
-        "Tue": "Playtime",
-        "Wed": "Playtime",
-        "Thu": "Playtime",
-        "Fri": "Playtime"
-      },
-      "8:00 AM": {
-        "Mon": "Playtime",
-        "Tue": "Playtime",
-        "Wed": "Playtime",
-        "Thu": "Playtime",
-        "Fri": "Playtime"
-      },
-      "8:30 AM": {
-        "Mon": "Drop-off ends",
-        "Tue": "Drop-off ends",
-        "Wed": "Drop-off ends",
-        "Thu": "Drop-off ends",
-        "Fri": "Drop-off ends"
-      },
-      "9:00 AM": {
-        "Mon": "Music",
-        "Tue": "Rhythmic Exercises",
-        "Wed": "Karate",
-        "Thu": "Music",
-        "Fri": "Art"
-      },
-      "9:30 AM": {
-        "Mon": "Playtime",
-        "Tue": "Playtime",
-        "Wed": "Playtime",
-        "Thu": "Playtime",
-        "Fri": "Playtime"
-      },
-      "10:00 AM": {
-        "Mon": "Playtime",
-        "Tue": "Playtime",
-        "Wed": "Playtime",
-        "Thu": "Playtime",
-        "Fri": "Playtime"
-      },
-      "10:30 AM": {
-        "Mon": "Playtime",
-        "Tue": "Playtime",
-        "Wed": "Playtime",
-        "Thu": "Playtime",
-        "Fri": "Playtime"
-      },
-      "11:00 AM": {
-        "Mon": "Morning Snack\nCircle Time",
-        "Tue": "Morning Snack\nCircle Time",
-        "Wed": "Morning Snack\nCircle Time",
-        "Thu": "Morning Snack\nCircle Time",
-        "Fri": "Morning Snack\nCircle Time"
-      },
-      "11:30 AM": {
-        "Mon": "Circle Time",
-        "Tue": "Circle Time",
-        "Wed": "Circle Time",
-        "Thu": "Circle Time",
-        "Fri": "Circle Time"
-      },
-      "12:00 PM": {
-        "Mon": "Lunch",
-        "Tue": "Lunch",
-        "Wed": "Lunch",
-        "Thu": "Lunch",
-        "Fri": "Lunch"
-      },
-      "12:30 PM": {
-        "Mon": "Lunch",
-        "Tue": "Lunch",
-        "Wed": "Lunch",
-        "Thu": "Lunch",
-        "Fri": "Lunch"
-      },
-      "1:00 PM": {
-        "Mon": "Playtime",
-        "Tue": "Playtime",
-        "Wed": "Playtime",
-        "Thu": "Playtime",
-        "Fri": "Playtime"
-      },
-      "1:30 PM": {
+        "Mon": "Breakfast and stretching - Snack: Banana slices with peanut butter - Activity: Gentle toddler yoga (Cosmic Kids Yoga video).",
+        "Tue": "Breakfast and stretching - Snack: Apple slices with almond butter - Activity: Stretching with nursery rhymes.",
+        "Wed": "Breakfast and stretching - Snack: Yogurt with granola - Activity: Morning walk around Roe Park Trail in Overland Park.",
+        "Thu": "Breakfast and stretching - Snack: Whole grain toast with mashed avocado - Activity: Indoor toddler dance session (YouTube).",
+        "Fri": "Breakfast and stretching - Snack: Sliced strawberries with cottage cheese - Activity: Light stretches with calming music."
+    },
+    "9:00 AM": {
+        "Mon": "Music - Activity: Visit Overland Park Library's toddler storytime/music session.",
+        "Tue": "Rhythmic Exercises - Activity: Rhythmic clapping and dancing at home with drums or kitchen items.",
+        "Wed": "Karate - Activity: Simple movement games like 'Simon Says' or toddler-friendly kicks in the living room.",
+        "Thu": "Music - Activity: Attend a toddler-friendly music class at Kindermusik in Overland Park.",
+        "Fri": "Art - Activity: Finger painting or coloring using washable, non-toxic paints."
+    },
+    "11:00 AM": {
+        "Mon": "Snack and Cuddle Time - Snack: Graham crackers with cream cheese and blueberries.",
+        "Tue": "Snack and Cuddle Time - Snack: Sliced cucumbers with hummus.",
+        "Wed": "Snack and Cuddle Time - Snack: Cheese cubes with whole-grain crackers.",
+        "Thu": "Snack and Cuddle Time - Snack: Banana mini muffins (pre-prepped).",
+        "Fri": "Snack and Cuddle Time - Snack: Hard-boiled egg slices with cherry tomatoes."
+    },
+    "12:00 PM": {
+        "Mon": "Lunch - Activity: Free play with building blocks or toys.",
+        "Tue": "Lunch - Activity: Storytime with a favorite picture book.",
+        "Wed": "Lunch - Activity: Indoor 'hide and seek' with soft toys.",
+        "Thu": "Lunch - Activity: Quiet bonding time with puzzles.",
+        "Fri": "Lunch - Activity: Sing-along to favorite songs during cleanup."
+    },
+    "1:30 PM": {
         "Mon": "Nap Time",
         "Tue": "Nap Time",
         "Wed": "Nap Time",
         "Thu": "Nap Time",
         "Fri": "Nap Time"
-      },
-      "2:00 PM": {
-        "Mon": "Nap Time",
-        "Tue": "Nap Time",
-        "Wed": "Nap Time",
-        "Thu": "Nap Time",
-        "Fri": "Nap Time"
-      },
-      "2:30 PM": {
-        "Mon": "Nap Time",
-        "Tue": "Nap Time",
-        "Wed": "Nap Time",
-        "Thu": "Nap Time",
-        "Fri": "Nap Time"
-      },
-      "3:00 PM": {
-        "Mon": "Afternoon Snack\nPlaytime",
-        "Tue": "Afternoon Snack\nPlaytime",
-        "Wed": "Afternoon Snack\nPlaytime",
-        "Thu": "Afternoon Snack\nPlaytime",
-        "Fri": "Afternoon Snack\nPlaytime"
-      },
-      "3:30 PM": {
-        "Mon": "Playtime",
-        "Tue": "Playtime",
-        "Wed": "Playtime",
-        "Thu": "Playtime",
-        "Fri": "Playtime"
-      },
-      "4:00 PM": {
-        "Mon": "Pickup Begins",
-        "Tue": "Pickup Begins",
-        "Wed": "Pickup Begins",
-        "Thu": "Pickup Begins",
-        "Fri": "Pickup Begins"
-      },
-      "4:30 PM": {
-        "Mon": "Pickup Begins",
-        "Tue": "Pickup Begins",
-        "Wed": "Pickup Begins",
-        "Thu": "Pickup Begins",
-        "Fri": "Pickup Begins"
-      },
-      "5:00 PM": {
+    },
+    "3:00 PM": {
+        "Mon": "Afternoon Snack and Playtime - Snack: Orange wedges with pretzels - Activity: Outdoor play at Thompson Park playground.",
+        "Tue": "Afternoon Snack and Playtime - Snack: Toddler trail mix (Cheerios, raisins, and mini pretzels) - Activity: Visit Deanna Rose Children's Farmstead.",
+        "Wed": "Afternoon Snack and Playtime - Snack: Peanut butter banana wrap - Activity: Indoor balloon toss game.",
+        "Thu": "Afternoon Snack and Playtime - Snack: Carrot sticks with ranch dip - Activity: Playdough sculpting with safe, homemade dough.",
+        "Fri": "Afternoon Snack and Playtime - Snack: Yogurt popsicles (prepped ahead) - Activity: Visit Wonderscope Children's Museum for interactive fun."
+    },
+    "5:00 PM": {
         "Mon": "School Closes",
         "Tue": "School Closes",
         "Wed": "School Closes",
         "Thu": "School Closes",
         "Fri": "School Closes"
-      },
-      "5:30 PM": {
-        "Mon": "School Closes",
-        "Tue": "School Closes",
-        "Wed": "School Closes",
-        "Thu": "School Closes",
-        "Fri": "School Closes"
-      }
+    }
     }
   }
 }

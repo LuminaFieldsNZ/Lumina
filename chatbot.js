@@ -64,14 +64,41 @@ let mainHeading = {
   let userCompletedProjects = [];
   let conversationData = [];
   let totalPopulation = 0;
-let milestones = [];
-let scheduleData = [];
 
-// Ensure scheduleModule is properly initialized
-const scheduleModule = {
-  id: 'scheduleModule',
-  content: ''  // Make sure the content property is initialized as an empty string
-};
+
+
+// Global variable to hold schedule data
+let scheduleData = {};
+
+// Function to populate the schedule table
+function populateSchedule() {
+  const scheduleBody = document.getElementById('schedule-body');
+  if (!scheduleBody) {
+    console.error("Element with ID 'schedule-body' not found.");
+    return;
+  }
+
+  scheduleBody.innerHTML = ""; // Clear any existing rows
+
+  // Populate table with schedule data
+  Object.keys(scheduleData).forEach((time) => {
+    const row = document.createElement('tr');
+
+    // Add time cell
+    const timeCell = document.createElement('td');
+    timeCell.textContent = time;
+    row.appendChild(timeCell);
+
+    // Add schedule cells for each day
+    ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].forEach((day) => {
+      const cell = document.createElement('td');
+      cell.textContent = scheduleData[time][day] || ""; // Handle missing data gracefully
+      row.appendChild(cell);
+    });
+
+    scheduleBody.appendChild(row);
+  });
+}
 
 
   function getTotalPopulation(populations) {
@@ -291,94 +318,71 @@ function sendMessage() {
     }
   }
   
-  // Function to import base data set from a file
-  function importBaseDataSet(event) {
-    const files = event.target.files;
-    if (files.length === 0) {
-      return;
-    }
-  
-    const reader = new FileReader();
-  
-    reader.onload = function (event) {
-      try {
-        const data = JSON.parse(event.target.result);
-  
-        if (isValidDataFormat(data)) {
-          // Update global variables
-          conversationData = data.conversationData;
-          userId = data.userData.id;
-          state = data.userData.state;
-          mainHeading = data.userData.mainHeading;
-          populations = data.userData.populations;
-          completedProjects = data.userData.completedProjects || [];
-  
-          // Apply completed projects
-          applyCompletedProjects(completedProjects);
-  
-          updateCharacterFromState();
-          updateJSONDisplay();
-          parent.postMessage({ action: 'openHome', value: 'openHome' }, '*');
-          document.getElementById('loginPlace').style.display = 'none';
-          const chatWindow = document.getElementById('chatWindow');
-          chatWindow.innerHTML += `<font style="color:lightgreen;">${userId} is logged in.</font><br>`;
-        
-         // After data is loaded, inject into the schedule module
-         injectDataIntoScheduleModule();
-        
-        } else {
-          alert('Invalid data format.');
-        }
-      } catch (error) {
-        alert('Error reading the file: ' + error.message);
-      }
-    };
-    reader.readAsText(files[0]);
+// Function to import base data set from a file
+function importBaseDataSet(event) {
+  const files = event.target.files;
+  if (files.length === 0) {
+    return; // No file selected
   }
 
+  const reader = new FileReader();
 
-  // Function to inject global data into the schedule module's HTML content
-function injectDataIntoScheduleModule() {
-  // Fetch the HTML content of the schedule module
-  fetch('https://luminafieldsnz.github.io/Lumina/tools/school/index.html')  // Adjust path if necessary
-    .then(response => response.text())
-    .then(html => {
-      // Inject global variables into the HTML content
-      html = html.replace('</body>', `
-        <script>
-          // Injected Global Data
-          const userId = "${userId}";
-          const state = ${JSON.stringify(state)};
-          const populations = ${JSON.stringify(populations)};
-          // Other global data...
+  reader.onload = function (event) {
+    try {
+      const data = JSON.parse(event.target.result);
 
-          // You can also attach this data to the window or document if necessary
-          window.globalData = {
-            userId,
-            state,
-            populations
-          };
+      if (isValidDataFormat(data)) {
+        // Update global variables
+        conversationData = data.conversationData;
+        userId = data.userData.id;
+        state = data.userData.state;
+        mainHeading = data.userData.mainHeading;
+        populations = data.userData.populations;
+        completedProjects = data.userData.completedProjects || [];
 
-          // Event listener for sync data button (example)
-          document.getElementById('syncDataBtn').addEventListener('click', () => {
-            alert('Syncing Data...');
-            // You can now use global data in your event listener or elsewhere in this script.
-            console.log('Global Data:', window.globalData);
-            // Example: Do something with the global data here.
-          });
-        </script>
-      </body>`);  // Append the script before closing the </body> tag to include the JavaScript
+        // Apply completed projects
+        applyCompletedProjects(completedProjects);
 
-      // Assign the modified HTML content to the scheduleModule object
-      scheduleModule.content = html;
+        // Update character appearance from state
+        updateCharacterFromState();
 
-      // Append the modified HTML content to the chat window
-      document.getElementById('chatWindow').appendChild(lumie(scheduleModule));
+        // Update the JSON display (assuming it updates the JSON editor or visualizes the data)
+        updateJSONDisplay();
 
-    })
-    .catch(error => {
-      console.error('Error loading the HTML file:', error);
-    });
+        // Notify the parent window to open home (specific to your integration)
+        parent.postMessage({ action: 'openHome', value: 'openHome' }, '*');
+
+        // Hide login section if present
+        const loginPlace = document.getElementById('loginPlace');
+        if (loginPlace) {
+          loginPlace.style.display = 'none';
+        } else {
+          console.warn("Element with ID 'loginPlace' not found.");
+        }
+
+        // Log the user in and notify in the chat window
+        const chatWindow = document.getElementById('chatWindow');
+        if (chatWindow) {
+          chatWindow.innerHTML += `<font style="color:lightgreen;">${userId} is logged in.</font><br>`;
+          document.getElementById('scheButton').style.display = "block";
+document.getElementById('scheButton').onclick = function() {
+  window.location.href = `tools/school/${userId}.html`;
+
+};
+
+        } else {
+          console.error("Element with ID 'chatWindow' not found.");
+        }
+      } else {
+        alert("Invalid data format.");
+      }
+    } catch (error) {
+      alert("Error reading the file: " + error.message);
+    }
+  };
+
+  // Read the selected file as text
+  reader.readAsText(files[0]);
 }
 
   
@@ -695,7 +699,7 @@ box.style.marginBottom = '10px';
   textContent.id = 'text-content'; // Add an ID for easy access
   
   // Set intro message here
-  textContent.innerHTML = `Welcome to Lumina Fields. <button class="open-modal" onclick="window.location.href='tools/school/index.html'">Schedule</button>`;
+  textContent.innerHTML = `Welcome to Lumina Fields.`;
 
   // Add text content to the box
   box.appendChild(textContent);

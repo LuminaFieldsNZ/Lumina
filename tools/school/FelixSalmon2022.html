@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Weekly Schedule Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin: 20px auto;
+            background: #fff;
+            padding: 15px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            max-width: 800px;
+            text-align: left;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input, select {
+            width: 100%;
+            padding: 6px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .day-section {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .day-header {
+            font-size: 18px;
+            color: #333;
+        }
+        #output {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weekly Schedule</h1>
+    <label for="weekSelector">Select Week:</label>
+    <select id="weekSelector"></select>
+
+    <form id="scheduleForm">
+        <div id="scheduleFields"></div>
+    </form>
+    <button id="generateButton">Generate and Download CSV</button>
+    <div id="output"></div>
+
+    <script>
+const scheduleData = {
+    "7:00 AM": {
+        "Mon": "Breakfast and stretching - Snack: Banana slices with peanut butter - Activity: Gentle toddler yoga (Cosmic Kids Yoga video).",
+        "Tue": "Breakfast and stretching - Snack: Apple slices with almond butter - Activity: Stretching with nursery rhymes.",
+        "Wed": "Breakfast and stretching - Snack: Yogurt with granola - Activity: Morning walk around Roe Park Trail in Overland Park.",
+        "Thu": "Breakfast and stretching - Snack: Whole grain toast with mashed avocado - Activity: Indoor toddler dance session (YouTube).",
+        "Fri": "Breakfast and stretching - Snack: Sliced strawberries with cottage cheese - Activity: Light stretches with calming music."
+    },
+    "9:00 AM": {
+        "Mon": "Music - Activity: Visit Overland Park Library's toddler storytime/music session.",
+        "Tue": "Rhythmic Exercises - Activity: Rhythmic clapping and dancing at home with drums or kitchen items.",
+        "Wed": "Karate - Activity: Simple movement games like 'Simon Says' or toddler-friendly kicks in the living room.",
+        "Thu": "Music - Activity: Attend a toddler-friendly music class at Kindermusik in Overland Park.",
+        "Fri": "Art - Activity: Finger painting or coloring using washable, non-toxic paints."
+    },
+    "11:00 AM": {
+        "Mon": "Snack and Cuddle Time - Snack: Graham crackers with cream cheese and blueberries.",
+        "Tue": "Snack and Cuddle Time - Snack: Sliced cucumbers with hummus.",
+        "Wed": "Snack and Cuddle Time - Snack: Cheese cubes with whole-grain crackers.",
+        "Thu": "Snack and Cuddle Time - Snack: Banana mini muffins (pre-prepped).",
+        "Fri": "Snack and Cuddle Time - Snack: Hard-boiled egg slices with cherry tomatoes."
+    },
+    "12:00 PM": {
+        "Mon": "Lunch - Activity: Free play with building blocks or toys.",
+        "Tue": "Lunch - Activity: Storytime with a favorite picture book.",
+        "Wed": "Lunch - Activity: Indoor 'hide and seek' with soft toys.",
+        "Thu": "Lunch - Activity: Quiet bonding time with puzzles.",
+        "Fri": "Lunch - Activity: Sing-along to favorite songs during cleanup."
+    },
+    "1:30 PM": {
+        "Mon": "Nap Time",
+        "Tue": "Nap Time",
+        "Wed": "Nap Time",
+        "Thu": "Nap Time",
+        "Fri": "Nap Time"
+    },
+    "3:00 PM": {
+        "Mon": "Afternoon Snack and Playtime - Snack: Orange wedges with pretzels - Activity: Outdoor play at Thompson Park playground.",
+        "Tue": "Afternoon Snack and Playtime - Snack: Toddler trail mix (Cheerios, raisins, and mini pretzels) - Activity: Visit Deanna Rose Children's Farmstead.",
+        "Wed": "Afternoon Snack and Playtime - Snack: Peanut butter banana wrap - Activity: Indoor balloon toss game.",
+        "Thu": "Afternoon Snack and Playtime - Snack: Carrot sticks with ranch dip - Activity: Playdough sculpting with safe, homemade dough.",
+        "Fri": "Afternoon Snack and Playtime - Snack: Yogurt popsicles (prepped ahead) - Activity: Visit Wonderscope Children's Museum for interactive fun."
+    },
+    "5:00 PM": {
+        "Mon": "School Closes",
+        "Tue": "School Closes",
+        "Wed": "School Closes",
+        "Thu": "School Closes",
+        "Fri": "School Closes"
+    }
+};
+
+const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+const scheduleFields = document.getElementById('scheduleFields');
+const weekSelector = document.getElementById('weekSelector');
+
+populateWeeksDropdown();
+buildForm();
+
+function populateWeeksDropdown() {
+    weekSelector.innerHTML = ""; // Clear any existing options
+
+    const today = new Date();
+    const currentMonday = getMonday(today); // Always get the Monday of the current week
+
+    for (let i = 0; i < 4; i++) { // Generate 4 weeks starting from this Monday
+        const monday = new Date(currentMonday);
+        monday.setDate(currentMonday.getDate() + (i * 7)); // Increment by weeks
+
+        const friday = new Date(monday);
+        friday.setDate(monday.getDate() + 4); // Calculate Friday of the same week
+
+        const option = document.createElement('option');
+        option.value = monday.toISOString().split('T')[0];
+        option.textContent = `${formatDate(monday)} to ${formatDate(friday)}`;
+        weekSelector.appendChild(option);
+    }
+}
+
+function getMonday(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust to get Monday
+    return new Date(d.setDate(diff));
+}
+
+function buildForm() {
+    scheduleFields.innerHTML = "";
+    for (const [time, activities] of Object.entries(scheduleData)) {
+        const timeSection = document.createElement('div');
+        timeSection.classList.add('day-section');
+        timeSection.innerHTML = `<div class="day-header">${time}</div>`;
+
+        days.forEach(day => {
+            timeSection.innerHTML += `
+                <label>${day}:</label>
+                <input type="text" name="${time}-${day}" value="${activities[day] || ''}">
+            `;
+        });
+
+        scheduleFields.appendChild(timeSection);
+    }
+}
+
+document.getElementById('generateButton').addEventListener('click', generateCSV);
+
+function generateCSV() {
+    const csvRows = [];
+    csvRows.push("Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private");
+
+    const selectedWeekStart = new Date(weekSelector.value);
+    const inputs = document.querySelectorAll('#scheduleForm input');
+
+    inputs.forEach(input => {
+        const [time, day] = input.name.split('-');
+        const subject = input.value.trim(); // Trim to handle any excess whitespace
+        if (!subject) return; // Skip empty fields
+
+        const startTime = time;
+        const endTime = incrementTime(startTime);
+        const startDate = formatDate(addDays(selectedWeekStart, days.indexOf(day)));
+        const endDate = startDate;
+
+        csvRows.push(`"${subject}",${startDate},${startTime},${endDate},${endTime},False,"${subject}",School,True`);
+    });
+
+    const csvContent = csvRows.join("\n");
+    downloadCSV(csvContent, "weekly_schedule.csv");
+    document.getElementById("output").innerText = "CSV generated successfully!";
+}
+
+function addDays(date, days) {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + days);
+    return newDate;
+}
+
+function formatDate(date) {
+    const dd = String(date.getDate()).padStart(2, "0");
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const yyyy = date.getFullYear();
+    return `${mm}/${dd}/${yyyy}`;
+}
+
+function incrementTime(time) {
+    let [hours, minutes] = time.split(' ')[0].split(':').map(Number);
+    let ampm = time.includes("PM") ? "PM" : "AM";
+
+    hours += 1;
+    if (hours === 12) {
+        ampm = ampm === "AM" ? "PM" : "AM";
+    } else if (hours > 12) {
+        hours -= 12;
+    }
+
+    return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+}
+
+function downloadCSV(content, filename) {
+    const blob = new Blob([content], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+}
+
+    </script>
+</body>
+</html>
