@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Schedule Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #output {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weekly Schedule CSV Generator</h1>
+    <p>Click the button below to download Felix's weekly schedule CSV for the current week.</p>
+    <button id="generateButton">Generate and Download CSV</button>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('generateButton').addEventListener('click', generateCSV);
+
+        function generateCSV() {
+            const schedule = [
+                { day: "Monday", activity: "Music" },
+                { day: "Tuesday", activity: "Rhythmic Exercises" },
+                { day: "Wednesday", activity: "Karate" },
+                { day: "Thursday", activity: "Music" },
+                { day: "Friday", activity: "Art" }
+            ];
+
+            const startDate = getMonday(new Date());
+            const csvRows = [];
+            csvRows.push("Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private");
+
+            schedule.forEach((item, index) => {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + index);
+                const formattedDate = formatDate(date);
+
+                csvRows.push(`"Morning Breakfast",${formattedDate},07:00 AM,${formattedDate},08:30 AM,False,"Light Fruit, Starch, and Juice to begin the day.",Home,True`);
+                csvRows.push(`"${item.activity}",${formattedDate},09:00 AM,${formattedDate},10:00 AM,False,"${item.activity} activity session.",School,True`);
+                csvRows.push(`"Morning Snack & Circle Time",${formattedDate},11:00 AM,${formattedDate},12:00 PM,False,"Morning snack and circle time.",School,True`);
+                csvRows.push(`"Lunch",${formattedDate},12:00 PM,${formattedDate},01:00 PM,False,"Lunch break.",School,True`);
+                csvRows.push(`"Nap Time",${formattedDate},01:30 PM,${formattedDate},03:00 PM,False,"Nap time for rest.",School,True`);
+                csvRows.push(`"Afternoon Snack & Playtime",${formattedDate},03:00 PM,${formattedDate},04:00 PM,False,"Snack and playtime.",School,True`);
+                csvRows.push(`"Computer Science",${formattedDate},04:00 PM,${formattedDate},05:30 PM,False,"Device centered independent play time.",School,True`);
+                csvRows.push(`"School Closes",${formattedDate},05:30 PM,${formattedDate},06:00 PM,False,"School closes for the day.",School,True`);
+            });
+
+            const csvContent = csvRows.join("\n");
+            downloadCSV(csvContent, "weekly_schedule.csv");
+            document.getElementById('output').innerText = `CSV file generated for the week starting ${formatDate(startDate)}.`;
+        }
+
+        function getMonday(d) {
+            d = new Date(d);
+            const day = d.getDay(),
+                diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust to Monday
+            return new Date(d.setDate(diff));
+        }
+
+        function formatDate(date) {
+            const dd = String(date.getDate()).padStart(2, '0');
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            const yyyy = date.getFullYear();
+            return `${mm}/${dd}/${yyyy}`;
+        }
+
+        function downloadCSV(content, filename) {
+            const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
