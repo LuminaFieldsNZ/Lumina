@@ -3,206 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class Schedule</title>
+    <title>Weekly Schedule Generator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             margin: 0;
-            padding: 0;
-        }
-        .schedule-container {
-            max-width: 800px;
-            margin: 20px auto;
-            border: 1px solid #ccc;
-            border-collapse: collapse;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
+            padding: 20px;
             text-align: center;
         }
-        .schedule-table th, .schedule-table td {
-            border: 1px solid #ccc;
-            padding: 8px;
+        h1 {
+            color: #333;
         }
-        .schedule-table th {
-            background-color: #f4f4f4;
-            font-weight: bold;
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
         }
-        .upload-section {
-            text-align: center;
-            margin: 20px;
+        button:hover {
+            background-color: #45a049;
+        }
+        #output {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
         }
     </style>
 </head>
 <body>
+    <h1>Weekly Schedule CSV Generator</h1>
+    <p>Click the button below to download Felix's weekly schedule CSV for the current week.</p>
+    <button id="generateButton">Generate and Download CSV</button>
+    <div id="output"></div>
 
-    <div class="upload-section">
-        <h3>Uploaded Profile Data</h3>
-        <!-- Removed redundant buttons -->
-    </div>
-    
-    <div id="milestoneModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; background: white; padding: 20px; border: 1px solid #ccc; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
-        <h3>Add Milestone</h3>
-        <label for="manualDescription">Description:</label><br>
-        <input type="text" id="manualDescription" style="width: 100%; margin-bottom: 10px;"><br>
-        <button onclick="saveMilestone()">Save</button>
-        <button onclick="closeMilestoneModal()">Cancel</button>
-    </div>
-    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
-    
-
-    <div class="schedule-container">
-        <table class="schedule-table">
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                </tr>
-            </thead>
-            <tbody id="schedule-body">
-                <!-- Schedule rows will be dynamically populated here -->
-            </tbody>
-        </table>
-    </div>
-
- 
     <script>
-        const scheduleBody = document.getElementById('schedule-body');
-        let milestones = [];
-        let scheduleData = {};
+        document.getElementById('generateButton').addEventListener('click', generateCSV);
 
-        // Simulating the data pushed earlier (this could come from the importBaseDataSet function)
-        const conversationData = {};  // Example placeholder for conversation data
-        const userId = '12345';  // Example user ID
-        const state = 'active';  // Example state
-        const populations = {};  // Example placeholder for populations
-        const completedProjects = [];  // Example placeholder for completed projects
+        function generateCSV() {
+            const schedule = [
+                { day: "Monday", activity: "Music" },
+                { day: "Tuesday", activity: "Rhythmic Exercises" },
+                { day: "Wednesday", activity: "Karate" },
+                { day: "Thursday", activity: "Music" },
+                { day: "Friday", activity: "Art" }
+            ];
 
-        // Example of data initialization (you can replace this with the actual pushed data)
-        scheduleData = {
-            "09:00": { "Mon": "Math", "Tue": "History", "Wed": "Science", "Thu": "English", "Fri": "PE" },
-            "10:00": { "Mon": "History", "Tue": "Math", "Wed": "PE", "Thu": "Science", "Fri": "English" }
-        };
-        milestones = [
-            { subject: "Math", start_date: "2024-12-15", start_time: "09:00", end_date: "2024-12-15", end_time: "10:00", description: "Math exam", location: "Room 101", uid: "1" }
-        ];
+            const startDate = getMonday(new Date());
+            const csvRows = [];
+            csvRows.push("Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private");
 
-        // Function to populate schedule in the table
-        function populateSchedule() {
-            scheduleBody.innerHTML = ""; // Clear previous schedule
-            for (const time in scheduleData) {
-                const row = document.createElement('tr');
-                const timeCell = document.createElement('td');
-                timeCell.textContent = time;
-                row.appendChild(timeCell);
-    
-                // Create a cell for each day (Mon to Fri)
-                ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].forEach(day => {
-                    const cell = document.createElement('td');
-                    cell.textContent = scheduleData[time][day] || ""; // Display the schedule or empty string
-                    cell.dataset.day = day; // Add data-day attribute for easy reference
-                    row.appendChild(cell);
-                });
-    
-                scheduleBody.appendChild(row); // Append the row to the table
-            }
+            schedule.forEach((item, index) => {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + index);
+                const formattedDate = formatDate(date);
+
+                csvRows.push(`"Drop-off begins",${formattedDate},07:00 AM,${formattedDate},08:30 AM,False,"Drop-off begins for the day.",Home,True`);
+                csvRows.push(`"${item.activity}",${formattedDate},09:00 AM,${formattedDate},10:00 AM,False,"${item.activity} activity session.",School,True`);
+                csvRows.push(`"Morning Snack & Circle Time",${formattedDate},11:00 AM,${formattedDate},12:00 PM,False,"Morning snack and circle time.",School,True`);
+                csvRows.push(`"Lunch",${formattedDate},12:00 PM,${formattedDate},01:00 PM,False,"Lunch break.",School,True`);
+                csvRows.push(`"Nap Time",${formattedDate},01:30 PM,${formattedDate},03:00 PM,False,"Nap time for rest.",School,True`);
+                csvRows.push(`"Afternoon Snack & Playtime",${formattedDate},03:00 PM,${formattedDate},04:00 PM,False,"Snack and playtime.",School,True`);
+                csvRows.push(`"Pickup Begins",${formattedDate},04:00 PM,${formattedDate},05:30 PM,False,"Pickup begins.",School,True`);
+                csvRows.push(`"School Closes",${formattedDate},05:30 PM,${formattedDate},06:00 PM,False,"School closes for the day.",School,True`);
+            });
+
+            const csvContent = csvRows.join("\n");
+            downloadCSV(csvContent, "weekly_schedule.csv");
+            document.getElementById('output').innerText = `CSV file generated for the week starting ${formatDate(startDate)}.`;
         }
 
-        // Function to open milestone modal
-        function openMilestoneModal(subject = "Unknown Event", location = "Unknown", time = "Unknown") {
-            const modal = document.getElementById('milestoneModal');
-            modal.dataset.subject = subject;
-            modal.dataset.location = location;
-            modal.dataset.time = time;
-    
-            // Show the modal
-            modal.style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
+        function getMonday(d) {
+            d = new Date(d);
+            const day = d.getDay(),
+                diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust to Monday
+            return new Date(d.setDate(diff));
         }
 
-        // Close milestone modal
-        function closeMilestoneModal() {
-            document.getElementById('milestoneModal').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
+        function formatDate(date) {
+            const dd = String(date.getDate()).padStart(2, '0');
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            const yyyy = date.getFullYear();
+            return `${mm}/${dd}/${yyyy}`;
         }
 
-        // Save milestone function
-        function saveMilestone() {
-            const modal = document.getElementById('milestoneModal');
-            const description = document.getElementById('manualDescription').value;
-
-            if (!description) {
-                alert("Description is required.");
-                return;
-            }
-
-            const subject = modal.dataset.subject;
-            const location = modal.dataset.location;
-            const time = modal.dataset.time;
-
-            const uid = crypto.randomUUID();
-            const milestone = {
-                subject: subject,
-                start_date: new Date().toISOString().split('T')[0],
-                start_time: time,
-                end_date: new Date().toISOString().split('T')[0],
-                end_time: time,
-                all_day_event: false,
-                description: description,
-                location: location || "Unknown",
-                uid: uid,
-                private: false
-            };
-
-            milestones.push(milestone);
-            alert("Milestone added successfully!");
-            updateAndDownloadJSON(); // Trigger file download.
-            populateSchedule();
-            closeMilestoneModal();
-        }
-
-        // Handle event click on schedule
-        function handleEventClick(event) {
-            const cell = event.target;
-            const time = cell.parentNode.firstChild.textContent; // Get time from row
-            const subject = cell.textContent || "Default Event";
-            const location = prompt("Enter the location for this milestone:", "Default Location");
-            openMilestoneModal(subject, location, time);
-        }
-
-        // Listen for clicks on schedule table cells
-        scheduleBody.addEventListener('click', function(event) {
-            if (event.target.tagName === 'TD') {
-                handleEventClick(event);
-            }
-        });
-
-        // Update and download updated JSON
-        function updateAndDownloadJSON() {
-            const updatedJSON = JSON.stringify({
-                userData: {
-                    schedule: scheduleData,
-                    milestones: milestones
-                }
-            }, null, 2);
-
-            const blob = new Blob([updatedJSON], { type: 'application/json' });
-            const link = document.createElement('a');
+        function downloadCSV(content, filename) {
+            const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = 'updated_schedule.json';
+            link.download = filename;
+            document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
         }
-
-        // Automatically populate the schedule based on the pushed data
-        populateSchedule();
-
     </script>
-    
 </body>
 </html>
