@@ -62,13 +62,13 @@
                 date.setDate(startDate.getDate() + index);
                 const formattedDate = formatDate(date);
 
-                csvRows.push(`"Drop-off begins",${formattedDate},07:00 AM,${formattedDate},08:30 AM,False,"Drop-off begins for the day.",Home,True`);
+                csvRows.push(`"Morning Breakfast",${formattedDate},07:00 AM,${formattedDate},08:30 AM,False,"Light Fruit, Starch, and Juice to begin the day.",Home,True`);
                 csvRows.push(`"${item.activity}",${formattedDate},09:00 AM,${formattedDate},10:00 AM,False,"${item.activity} activity session.",School,True`);
                 csvRows.push(`"Morning Snack & Circle Time",${formattedDate},11:00 AM,${formattedDate},12:00 PM,False,"Morning snack and circle time.",School,True`);
                 csvRows.push(`"Lunch",${formattedDate},12:00 PM,${formattedDate},01:00 PM,False,"Lunch break.",School,True`);
                 csvRows.push(`"Nap Time",${formattedDate},01:30 PM,${formattedDate},03:00 PM,False,"Nap time for rest.",School,True`);
                 csvRows.push(`"Afternoon Snack & Playtime",${formattedDate},03:00 PM,${formattedDate},04:00 PM,False,"Snack and playtime.",School,True`);
-                csvRows.push(`"Pickup Begins",${formattedDate},04:00 PM,${formattedDate},05:30 PM,False,"Pickup begins.",School,True`);
+                csvRows.push(`"Computer Science",${formattedDate},04:00 PM,${formattedDate},05:30 PM,False,"Device centered independent play time.",School,True`);
                 csvRows.push(`"School Closes",${formattedDate},05:30 PM,${formattedDate},06:00 PM,False,"School closes for the day.",School,True`);
             });
 
