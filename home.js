@@ -46,7 +46,7 @@ document.getElementById("Lumi").addEventListener("click", function() {
   // Set a timer to hide the navbar after 4 seconds
   setTimeout(function() {
     navbar.classList.add("hidden");
-  }, 4000); // 4000ms = 4 seconds
+  }, 6000); // 6000ms = 6 seconds
 });
 
 

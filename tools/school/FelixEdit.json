@@ -60,35 +60,15 @@
     }
 
     ],
-    "schedule": {
-      "7:00 AM": {
-        "Mon": "Drop-off begins",
-        "Tue": "Drop-off begins",
-        "Wed": "Drop-off begins",
-        "Thu": "Drop-off begins",
-        "Fri": "Drop-off begins"
-      },
-      "7:30 AM": {
-        "Mon": "Playtime",
-        "Tue": "Playtime",
-        "Wed": "Playtime",
-        "Thu": "Playtime",
-        "Fri": "Playtime"
-      },
-      "5:00 PM": {
-        "Mon": "School Closes",
-        "Tue": "School Closes",
-        "Wed": "School Closes",
-        "Thu": "School Closes",
-        "Fri": "School Closes"
-      },
-      "5:30 PM": {
-        "Mon": "School Closes",
-        "Tue": "School Closes",
-        "Wed": "School Closes",
-        "Thu": "School Closes",
-        "Fri": "School Closes"
-      }
+"capacity": {
+    "STEM": {
+        "10/2/2023": "Successfully navigating through apple products",
+        "7/22/2024": "Successfully completed first 3D Object in stem blocks"
+    },
+    "Physical": {
+        "12/07/2023": "Broke leg playing outside with the dogs.",
+        "2/07/2024": "Made full recovery from broken leg, Dad cut off cast in Branson, MO."
+    }
     }
   }
 }

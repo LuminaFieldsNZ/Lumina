@@ -64,41 +64,8 @@ let mainHeading = {
   let userCompletedProjects = [];
   let conversationData = [];
   let totalPopulation = 0;
-
-
-
-// Global variable to hold schedule data
-let scheduleData = {};
-
-// Function to populate the schedule table
-function populateSchedule() {
-  const scheduleBody = document.getElementById('schedule-body');
-  if (!scheduleBody) {
-    console.error("Element with ID 'schedule-body' not found.");
-    return;
-  }
-
-  scheduleBody.innerHTML = ""; // Clear any existing rows
-
-  // Populate table with schedule data
-  Object.keys(scheduleData).forEach((time) => {
-    const row = document.createElement('tr');
-
-    // Add time cell
-    const timeCell = document.createElement('td');
-    timeCell.textContent = time;
-    row.appendChild(timeCell);
-
-    // Add schedule cells for each day
-    ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].forEach((day) => {
-      const cell = document.createElement('td');
-      cell.textContent = scheduleData[time][day] || ""; // Handle missing data gracefully
-      row.appendChild(cell);
-    });
-
-    scheduleBody.appendChild(row);
-  });
-}
+  let milestones = [];
+  let capacity = [];
 
 
   function getTotalPopulation(populations) {
@@ -132,7 +99,7 @@ function populateSchedule() {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(document.getElementById('jsonEditor').value);
     const downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", "profile.json");
+    downloadAnchorNode.setAttribute("download", userId + ".json");
     document.body.appendChild(downloadAnchorNode);
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
@@ -208,8 +175,7 @@ function sendMessage() {
     conversationData.push(newEntry);
 
     updateJSONDisplay();
-    scanForEmotionWords();
-    testData();
+
     totalPopulation = getTotalPopulation(populations);
     document.getElementById('mainHeadingAverage').innerHTML = totalPopulation;
 
@@ -222,12 +188,11 @@ function sendMessage() {
   // Function to format the response (excluding conversationData)
   function formatResponse() {
     return JSON.stringify({
-      userId: userId,
-      state: state,
-      populations: populations,
-      mainHeading: mainHeading,
-      completedProjects: completedProjects,
-      userCompletedProjects: userCompletedProjects
+      id: userId,
+          state: state,
+          mainHeading: mainHeading,
+          populations: populations,
+          completedProjects: completedProjects
     }, null, 2);
   }
   
@@ -273,7 +238,9 @@ function sendMessage() {
           state: state,
           mainHeading: mainHeading,
           populations: populations,
-          completedProjects: completedProjects
+          completedProjects: completedProjects,
+          milestones: milestones,
+        capacity: capacity
         }
       };
   
@@ -331,7 +298,7 @@ function importBaseDataSet(event) {
     try {
       const data = JSON.parse(event.target.result);
 
-      if (isValidDataFormat(data)) {
+      if (isValidDataFormat(data)) { 
         // Update global variables
         conversationData = data.conversationData;
         userId = data.userData.id;
@@ -339,6 +306,8 @@ function importBaseDataSet(event) {
         mainHeading = data.userData.mainHeading;
         populations = data.userData.populations;
         completedProjects = data.userData.completedProjects || [];
+        milestones = data.userData.milestones || [];
+        capacity = data.userData.capacity || {};
 
         // Apply completed projects
         applyCompletedProjects(completedProjects);
@@ -376,6 +345,10 @@ document.getElementById('mileButton').style.display = "block";
 document.getElementById('mileButton').onclick = function() {
   window.open('tools/school/milestones.html', '_blank');
 };
+
+// Make the 'Button' visible and set its functionality
+document.getElementById('updateButton').style.display = "block";
+
 
 
         } else {
