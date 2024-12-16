@@ -1,38 +1,68 @@
 {
-  "conversationData": [],
-  "userData": {
-    "id": "FelixSalmon2022",
-    "state": {
-      "hair": "./hair/hair0.png",
-      "glasses": "./glasses/glasses0.png",
-      "body": "./body/body0.png",
-      "outer": "./outer/outer0.png"
-    },
-    "mainHeading": {
-      "explorer": 1,
-      "voyager": 1,
-      "captain": 1,
-      "merchant": 1,
-      "shipwright": 1,
-      "fisherman": 1,
-      "smuggler": 1,
-      "arbiter": 1,
-      "sailor": 1
-    },
-    "populations": {
-      "progressive": 10,
-      "socialist": 10,
-      "idealist": 10,
-      "globalist": 10,
-      "conservative": 10,
-      "economist": 10,
-      "realist": 10,
-      "nationalist": 10,
-      "populist": 10
-    },
-    "completedProjects": [
-      1
-    ],
+    "conversationData": [
+        [
+          "what is a lumie",
+          "{\n  \"userId\": \"FelixSalmon2022\",\n  \"state\": {\n    \"hair\": \"./hair/hair0.png\",\n    \"glasses\": \"./glasses/glasses0.png\",\n    \"body\": \"./body/body0.png\",\n    \"outer\": \"./outer/outer0.png\"\n  },\n  \"populations\": {\n    \"progressive\": 10,\n    \"socialist\": 10,\n    \"idealist\": 10,\n    \"globalist\": 10,\n    \"conservative\": 10,\n    \"economist\": 10,\n    \"realist\": 10,\n    \"nationalist\": 10,\n    \"populist\": 10\n  },\n  \"mainHeading\": {\n    \"explorer\": 1,\n    \"voyager\": 1,\n    \"captain\": 1,\n    \"merchant\": 1,\n    \"shipwright\": 1,\n    \"fisherman\": 1,\n    \"smuggler\": 1,\n    \"arbiter\": 1,\n    \"sailor\": 1\n  },\n  \"completedProjects\": [\n    1\n  ],\n  \"userCompletedProjects\": []\n}",
+          "2024-12-16T12:25:09.889Z"
+        ],
+        [
+          "You drag your eyes open to investigate the room and the person you can hear. Its better to get a bit of help from those around you. Enthusiast",
+          "{\n  \"userId\": \"FelixSalmon2022\",\n  \"state\": {\n    \"hair\": \"./hair/hair25.png\",\n    \"glasses\": \"./glasses/glasses4.png\",\n    \"body\": \"./body/body2.png\",\n    \"outer\": \"./outer/outer6.png\"\n  },\n  \"populations\": {\n    \"progressive\": 0,\n    \"socialist\": 0,\n    \"idealist\": 12,\n    \"globalist\": 0,\n    \"conservative\": 8,\n    \"economist\": 10,\n    \"realist\": 14,\n    \"nationalist\": 0,\n    \"populist\": 0\n  },\n  \"mainHeading\": {\n    \"explorer\": 1270,\n    \"voyager\": 2970,\n    \"captain\": 3750,\n    \"merchant\": 1690,\n    \"shipwright\": 810,\n    \"fisherman\": 590,\n    \"smuggler\": 2200,\n    \"arbiter\": 2900,\n    \"sailor\": 1450\n  },\n  \"completedProjects\": [\n    1,\n    2\n  ],\n  \"userCompletedProjects\": []\n}",
+          "2024-12-16T12:26:41.153Z"
+        ],
+        [
+          "I don’t know if I can trust this stranger yet. I might tell him later but for now, I’m going to say nothing and just see what I can learn. Loyalist",
+          "{\n  \"userId\": \"FelixSalmon2022\",\n  \"state\": {\n    \"hair\": \"./hair/hair25.png\",\n    \"glasses\": \"./glasses/glasses4.png\",\n    \"body\": \"./body/body2.png\",\n    \"outer\": \"./outer/outer6.png\"\n  },\n  \"populations\": {\n    \"progressive\": 0,\n    \"socialist\": 0,\n    \"idealist\": 18,\n    \"globalist\": 0,\n    \"conservative\": 12,\n    \"economist\": 19,\n    \"realist\": 23,\n    \"nationalist\": 0,\n    \"populist\": 250\n  },\n  \"mainHeading\": {\n    \"explorer\": 3550,\n    \"voyager\": 12710,\n    \"captain\": 9500,\n    \"merchant\": 7300,\n    \"shipwright\": 3170,\n    \"fisherman\": 4240,\n    \"smuggler\": 6870,\n    \"arbiter\": 9950,\n    \"sailor\": 5200\n  },\n  \"completedProjects\": [\n    1,\n    2\n  ],\n  \"userCompletedProjects\": []\n}",
+          "2024-12-16T12:26:41.832Z"
+        ],
+        [
+          "Turn around and look for hospital staff or more patients to group up with. Helper",
+          "{\n  \"userId\": \"FelixSalmon2022\",\n  \"state\": {\n    \"hair\": \"./hair/hair25.png\",\n    \"glasses\": \"./glasses/glasses4.png\",\n    \"body\": \"./body/body2.png\",\n    \"outer\": \"./outer/outer6.png\"\n  },\n  \"populations\": {\n    \"progressive\": 0,\n    \"socialist\": 0,\n    \"idealist\": 45,\n    \"globalist\": 0,\n    \"conservative\": 266,\n    \"economist\": 36,\n    \"realist\": 32,\n    \"nationalist\": 0,\n    \"populist\": 250\n  },\n  \"mainHeading\": {\n    \"explorer\": 6580,\n    \"voyager\": 22610,\n    \"captain\": 17010,\n    \"merchant\": 14130,\n    \"shipwright\": 6340,\n    \"fisherman\": 8680,\n    \"smuggler\": 11520,\n    \"arbiter\": 16560,\n    \"sailor\": 10050\n  },\n  \"completedProjects\": [\n    1,\n    2\n  ],\n  \"userCompletedProjects\": []\n}",
+          "2024-12-16T12:26:42.451Z"
+        ],
+        [
+          "Stay and attempt to help the injured around you. Helper",
+          "{\n  \"userId\": \"FelixSalmon2022\",\n  \"state\": {\n    \"hair\": \"./hair/hair25.png\",\n    \"glasses\": \"./glasses/glasses4.png\",\n    \"body\": \"./body/body2.png\",\n    \"outer\": \"./outer/outer6.png\"\n  },\n  \"populations\": {\n    \"progressive\": 0,\n    \"socialist\": 250,\n    \"idealist\": 51,\n    \"globalist\": 0,\n    \"conservative\": 270,\n    \"economist\": 45,\n    \"realist\": 37,\n    \"nationalist\": 0,\n    \"populist\": 250\n  },\n  \"mainHeading\": {\n    \"explorer\": 8070,\n    \"voyager\": 28420,\n    \"captain\": 20610,\n    \"merchant\": 17410,\n    \"shipwright\": 8050,\n    \"fisherman\": 10940,\n    \"smuggler\": 14310,\n    \"arbiter\": 20710,\n    \"sailor\": 12350\n  },\n  \"completedProjects\": [\n    1,\n    2,\n    3,\n    4,\n    5\n  ],\n  \"userCompletedProjects\": []\n}",
+          "2024-12-16T12:26:44.472Z"
+        ]
+      ],
+      "userData": {
+        "id": "FelixSalmon2022",
+        "state": {
+          "hair": "./hair/hair25.png",
+          "glasses": "./glasses/glasses4.png",
+          "body": "./body/body2.png",
+          "outer": "./outer/outer6.png"
+        },
+        "mainHeading": {
+          "explorer": 9270,
+          "voyager": 33520,
+          "captain": 23960,
+          "merchant": 21100,
+          "shipwright": 9970,
+          "fisherman": 13510,
+          "smuggler": 16420,
+          "arbiter": 23840,
+          "sailor": 14820
+        },
+        "populations": {
+          "progressive": 0,
+          "socialist": 500,
+          "idealist": 55,
+          "globalist": 0,
+          "conservative": 274,
+          "economist": 50,
+          "realist": 42,
+          "nationalist": 0,
+          "populist": 250
+        },
+        "completedProjects": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
     "milestones": [
       {
         "subject": "Begins following simple commands",
@@ -1247,56 +1277,112 @@
       "private": false
   }
     ],
-    "schedule": {
-      "7:00 AM": {
-        "Mon": "Breakfast and stretching - Snack: Banana slices with peanut butter - Activity: Gentle toddler yoga (Cosmic Kids Yoga video).",
-        "Tue": "Breakfast and stretching - Snack: Apple slices with almond butter - Activity: Stretching with nursery rhymes.",
-        "Wed": "Breakfast and stretching - Snack: Yogurt with granola - Activity: Morning walk around Roe Park Trail in Overland Park.",
-        "Thu": "Breakfast and stretching - Snack: Whole grain toast with mashed avocado - Activity: Indoor toddler dance session (YouTube).",
-        "Fri": "Breakfast and stretching - Snack: Sliced strawberries with cottage cheese - Activity: Light stretches with calming music."
+"capacity": {
+    "STEM": {
+        "10/2/2023": "Successfully navigating through apple products",
+        "7/22/2024": "Successfully completed first 3D Object in stem blocks",
+        "9/22/2024": "Successfully completed all toddler iq games in Lumina Fields platform",
+        "12/15/2024": "Completed first coding puzzle using block-based coding game",
+        "1/10/2025": "Successfully built and solved a simple circuit with batteries and light bulb",
+        "3/25/2025": "Completed first virtual science experiment in Lumina Fields platform"
     },
-    "9:00 AM": {
-        "Mon": "Music - Activity: Visit Overland Park Library's toddler storytime/music session.",
-        "Tue": "Rhythmic Exercises - Activity: Rhythmic clapping and dancing at home with drums or kitchen items.",
-        "Wed": "Karate - Activity: Simple movement games like 'Simon Says' or toddler-friendly kicks in the living room.",
-        "Thu": "Music - Activity: Attend a toddler-friendly music class at Kindermusik in Overland Park.",
-        "Fri": "Art - Activity: Finger painting or coloring using washable, non-toxic paints."
+    "Physical": {
+        "12/07/2023": "Broke leg playing outside with the dogs.",
+        "2/07/2024": "Made full recovery from broken leg, Dad cut off cast in Branson, MO.",
+        "3/12/2024": "Completed first .25 mile hike.",
+        "5/22/2024": "Successfully climbed a tree by himself in the backyard",
+        "6/12/2024": "Learned to ride a tricycle",
+        "8/19/2024": "Completed a 1-mile walk through a nature reserve"
     },
-    "11:00 AM": {
-        "Mon": "Snack and Cuddle Time - Snack: Graham crackers with cream cheese and blueberries.",
-        "Tue": "Snack and Cuddle Time - Snack: Sliced cucumbers with hummus.",
-        "Wed": "Snack and Cuddle Time - Snack: Cheese cubes with whole-grain crackers.",
-        "Thu": "Snack and Cuddle Time - Snack: Banana mini muffins (pre-prepped).",
-        "Fri": "Snack and Cuddle Time - Snack: Hard-boiled egg slices with cherry tomatoes."
+    "Cognitive": {
+        "10/25/2023": "Successfully identified all primary colors",
+        "12/13/2023": "Completed memory game with 10 items",
+        "3/03/2024": "Successfully completed 10-piece jigsaw puzzle",
+        "6/15/2024": "Mastered recognizing alphabet letters in upper and lowercase",
+        "9/10/2024": "Successfully completed 100-piece puzzle independently",
+        "11/30/2024": "Started forming 3-word sentences and engaging in complex conversations"
     },
-    "12:00 PM": {
-        "Mon": "Lunch - Activity: Free play with building blocks or toys.",
-        "Tue": "Lunch - Activity: Storytime with a favorite picture book.",
-        "Wed": "Lunch - Activity: Indoor 'hide and seek' with soft toys.",
-        "Thu": "Lunch - Activity: Quiet bonding time with puzzles.",
-        "Fri": "Lunch - Activity: Sing-along to favorite songs during cleanup."
+    "Language": {
+        "11/15/2023": "Started recognizing words in simple picture books",
+        "1/02/2024": "Can identify first 50 sight words",
+        "3/17/2024": "Started stringing 3-5 words together to form short sentences",
+        "5/25/2024": "Completed phonics puzzle and correctly matched sounds to letters",
+        "8/01/2024": "Started reading short stories with guidance",
+        "10/18/2024": "Read first full book independently"
     },
-    "1:30 PM": {
-        "Mon": "Nap Time",
-        "Tue": "Nap Time",
-        "Wed": "Nap Time",
-        "Thu": "Nap Time",
-        "Fri": "Nap Time"
+    "Artistic": {
+        "10/15/2023": "Experimented with finger painting and color mixing",
+        "2/03/2024": "Completed first crayon sketch of family members",
+        "4/11/2024": "Started drawing shapes and objects with more detail",
+        "6/22/2024": "Created a mixed-media collage using various materials",
+        "9/01/2024": "Successfully completed first water color painting",
+        "11/14/2024": "Made a hand-carved clay sculpture with supervision"
     },
-    "3:00 PM": {
-        "Mon": "Afternoon Snack and Playtime - Snack: Orange wedges with pretzels - Activity: Outdoor play at Thompson Park playground.",
-        "Tue": "Afternoon Snack and Playtime - Snack: Toddler trail mix (Cheerios, raisins, and mini pretzels) - Activity: Visit Deanna Rose Children's Farmstead.",
-        "Wed": "Afternoon Snack and Playtime - Snack: Peanut butter banana wrap - Activity: Indoor balloon toss game.",
-        "Thu": "Afternoon Snack and Playtime - Snack: Carrot sticks with ranch dip - Activity: Playdough sculpting with safe, homemade dough.",
-        "Fri": "Afternoon Snack and Playtime - Snack: Yogurt popsicles (prepped ahead) - Activity: Visit Wonderscope Children's Museum for interactive fun."
+    "Social": {
+        "11/30/2023": "Started sharing toys with friends during playdates",
+        "1/05/2024": "Successfully engaged in a group activity with other toddlers",
+        "3/15/2024": "Started participating in cooperative games with peers",
+        "5/18/2024": "Initiated conversations with unfamiliar children",
+        "7/28/2024": "Successfully resolved a conflict with a peer using words",
+        "10/10/2024": "Began understanding the concept of empathy, showing concern for others"
     },
-    "5:00 PM": {
-        "Mon": "School Closes",
-        "Tue": "School Closes",
-        "Wed": "School Closes",
-        "Thu": "School Closes",
-        "Fri": "School Closes"
+    "Emotional": {
+        "10/10/2023": "Started identifying emotions in self and others",
+        "12/25/2023": "Successfully expressed frustration through words, not actions",
+        "2/20/2024": "Demonstrated self-regulation during moments of stress",
+        "5/03/2024": "Started recognizing when he is overwhelmed and asks for breaks",
+        "7/12/2024": "Began demonstrating independence in making choices for play activities",
+        "9/29/2024": "Started understanding delayed gratification through small tasks"
+    },
+    "Motor Skills": {
+        "11/18/2023": "Successfully used a fork and spoon independently",
+        "2/08/2024": "Completed first 5-piece tower building with small blocks",
+        "4/16/2024": "Became proficient at stacking blocks to create taller structures",
+        "6/03/2024": "Mastered tying shoelaces with minimal assistance",
+        "8/22/2024": "Successfully learned to cut with safety scissors",
+        "11/11/2024": "Independently dressed self in the morning without help"
+    },
+    "Self-Help": {
+        "10/14/2023": "Started brushing teeth with minimal help",
+        "1/10/2024": "Successfully made his own sandwich with guidance",
+        "3/28/2024": "Started cleaning up toys after playtime without reminders",
+        "5/30/2024": "Successfully put on own jacket and shoes",
+        "8/05/2024": "Learned to wash own hands without reminders",
+        "10/01/2024": "Began cleaning and organizing personal space independently"
+    },
+    "Cultural Awareness": {
+        "11/21/2023": "Successfully identified three different animal species from around the world",
+        "2/18/2024": "Started recognizing different countries' flags",
+        "4/23/2024": "Learned about different global holidays and their traditions",
+        "7/01/2024": "Created a world map showing continents and their locations",
+        "9/14/2024": "Listened to and mimicked traditional songs from various cultures",
+        "12/01/2024": "Began participating in discussions about different cultures and foods"
+    },
+    "Science": {
+        "10/19/2023": "Started observing the weather and identifying weather patterns",
+        "12/05/2023": "Completed a simple plant-growing experiment",
+        "2/22/2024": "Learned to identify common insects in the yard",
+        "5/14/2024": "Started experimenting with basic physics concepts, like rolling objects",
+        "7/27/2024": "Completed a water cycle project using craft materials",
+        "10/04/2024": "Conducted a simple gravity experiment with supervision"
+    },
+    "Leadership": {
+        "12/13/2023": "Helped organize toys for playtime activities",
+        "3/01/2024": "Initiated and led a simple group game with peers",
+        "5/22/2024": "Successfully helped clean up after group play activities",
+        "8/10/2024": "Took responsibility for guiding a peer during an activity",
+        "10/21/2024": "Helped plan a small classroom event or celebration",
+        "12/01/2024": "Started taking on leadership roles in group learning activities"
+    },
+    "Creativity": {
+        "10/05/2023": "Started exploring different materials to create crafts",
+        "1/18/2024": "Made first collage using fabric and paper",
+        "3/26/2024": "Created first simple origami design",
+        "6/14/2024": "Invented a game and explained the rules to peers",
+        "8/09/2024": "Successfully designed a new playground structure with blocks",
+        "10/19/2024": "Created a personalized storybook with drawings and words"
     }
-    }
+}
+
   }
 }

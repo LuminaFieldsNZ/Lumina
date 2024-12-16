@@ -364,11 +364,19 @@ function importBaseDataSet(event) {
         const chatWindow = document.getElementById('chatWindow');
         if (chatWindow) {
           chatWindow.innerHTML += `<font style="color:lightgreen;">${userId} is logged in.</font><br>`;
-          document.getElementById('scheButton').style.display = "block";
-document.getElementById('scheButton').onclick = function() {
-  window.location.href = `tools/school/${userId}.html`;
 
+          // Make the 'scheButton' visible and update its functionality
+document.getElementById('scheButton').style.display = "block";
+document.getElementById('scheButton').onclick = function() {
+  window.open(`tools/school/${userId}.html`, '_blank');
 };
+
+// Make the 'mileButton' visible and set its functionality
+document.getElementById('mileButton').style.display = "block";
+document.getElementById('mileButton').onclick = function() {
+  window.open('tools/school/milestones.html', '_blank');
+};
+
 
         } else {
           console.error("Element with ID 'chatWindow' not found.");
