@@ -351,6 +351,9 @@ document.getElementById('updateButton').style.display = "block";
 
 
 
+scanForEmotionWords();
+testData();
+
         } else {
           console.error("Element with ID 'chatWindow' not found.");
         }

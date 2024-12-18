@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Signing App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.15.349/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #pdf-container {
+            position: relative;
+            width: 100%;
+            border: 1px solid #ccc;
+        }
+        .page-container {
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .page-container canvas {
+            max-width: 100%;
+            display: block;
+        }
+        .signature-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        .signature-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: auto;
+        }
+        #controls {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        #video {
+            width: 300px;
+            height: 200px;
+            background: #000;
+        }
+        #photo {
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>PDF Signing Application</h1>
+    
+    <input type="file" id="pdf-upload" accept="application/pdf">
+    
+    <div id="pdf-container"></div>
+    
+    <div id="controls">
+        <button id="toggle-signing">Start Signing</button>
+        <button id="camera-permission">Enable Camera</button>
+        <button id="capture-photo">Capture Photo</button>
+    </div>
+    
+    <div>
+        <video id="video" autoplay></video>
+        <img id="photo" alt="Captured photo">
+    </div>
+    
+    <button id="finish-signing">Finish and Save</button>
+
+    <script>
+        // DOM Elements
+        const pdfContainer = document.getElementById('pdf-container');
+        const pdfUpload = document.getElementById('pdf-upload');
+        const toggleSigningBtn = document.getElementById('toggle-signing');
+        const cameraPermissionBtn = document.getElementById('camera-permission');
+        const capturePhotoBtn = document.getElementById('capture-photo');
+        const finishSigningBtn = document.getElementById('finish-signing');
+        const videoElement = document.getElementById('video');
+        const photoElement = document.getElementById('photo');
+
+        // Application State
+        let pdfDocument = null;
+        let isSigningMode = false;
+        let photoDataUrl = null;
+        let pageSignatures = {};
+
+        // PDF Rendering
+        async function renderPDF(file) {
+            // Clear previous renders
+            pdfContainer.innerHTML = '';
+            pageSignatures = {};
+
+            const pdfjsLib = window['pdfjs-dist/build/pdf'];
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.15.349/pdf.worker.min.js';
+
+            const pdf = await pdfjsLib.getDocument(URL.createObjectURL(file)).promise;
+            pdfDocument = pdf;
+
+            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const viewport = page.getViewport({ scale: 1.5 });
+
+                // Create page container
+                const pageContainer = document.createElement('div');
+                pageContainer.className = 'page-container';
+                pageContainer.style.width = `${viewport.width}px`;
+                pageContainer.style.height = `${viewport.height}px`;
+
+                // Main canvas for PDF content
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                // Signature canvas for drawing
+                const signatureOverlay = document.createElement('canvas');
+                signatureOverlay.width = viewport.width;
+                signatureOverlay.height = viewport.height;
+                signatureOverlay.className = 'signature-overlay';
+                
+                // Render PDF page
+                await page.render({ canvasContext: context, viewport }).promise;
+
+                // Add canvases to container
+                pageContainer.appendChild(canvas);
+                pageContainer.appendChild(signatureOverlay);
+                pdfContainer.appendChild(pageContainer);
+
+                // Setup signature drawing
+                setupSignatureDrawing(signatureOverlay, pageNum);
+            }
+        }
+
+        // Signature Drawing Setup
+        function setupSignatureDrawing(canvas, pageNum) {
+            let isDrawing = false;
+            let lastX = 0, lastY = 0;
+
+            // Initialize signatures for this page
+            pageSignatures[pageNum] = pageSignatures[pageNum] || [];
+
+            function startDrawing(e) {
+                if (!isSigningMode) return;
+                isDrawing = true;
+                const rect = canvas.getBoundingClientRect();
+                lastX = e.clientX - rect.left;
+                lastY = e.clientY - rect.top;
+            }
+
+            function draw(e) {
+                if (!isDrawing || !isSigningMode) return;
+                
+                const ctx = canvas.getContext('2d');
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(x, y);
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+
+                // Store signature points
+                pageSignatures[pageNum].push({ x1: lastX, y1: lastY, x2: x, y2: y });
+
+                lastX = x;
+                lastY = y;
+            }
+
+            function stopDrawing() {
+                isDrawing = false;
+            }
+
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+        }
+
+        // Toggle Signing Mode
+        toggleSigningBtn.addEventListener('click', () => {
+            isSigningMode = !isSigningMode;
+            toggleSigningBtn.textContent = isSigningMode ? 'Stop Signing' : 'Start Signing';
+            
+            // Change pointer-events to enable/disable drawing
+            const signatureOverlays = document.querySelectorAll('.signature-overlay');
+            signatureOverlays.forEach(overlay => {
+                overlay.style.pointerEvents = isSigningMode ? 'auto' : 'none';
+            });
+        });
+
+        // Camera Permission
+        cameraPermissionBtn.addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                videoElement.srcObject = stream;
+            } catch (error) {
+                alert('Camera access denied');
+                console.error(error);
+            }
+        });
+
+        // Capture Photo
+        capturePhotoBtn.addEventListener('click', () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+            
+            photoDataUrl = canvas.toDataURL('image/png');
+            photoElement.src = photoDataUrl;
+        });
+
+        // Finish and Save PDF
+        finishSigningBtn.addEventListener('click', async () => {
+            if (!pdfDocument) {
+                alert('Please upload a PDF first');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            for (let pageNum = 1; pageNum <= pdfDocument.numPages; pageNum++) {
+                const page = await pdfDocument.getPage(pageNum);
+                const viewport = page.getViewport({ scale: 1.5 });
+
+                // Render original PDF page
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                await page.render({ canvasContext: context, viewport }).promise;
+
+                // Add page to PDF
+                const imgData = canvas.toDataURL('image/jpeg');
+                doc.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+
+                // Add signatures if any
+                if (pageSignatures[pageNum] && pageSignatures[pageNum].length > 0) {
+                    const sigCanvas = document.createElement('canvas');
+                    sigCanvas.width = viewport.width;
+                    sigCanvas.height = viewport.height;
+                    const sigCtx = sigCanvas.getContext('2d');
+                    
+                    sigCtx.strokeStyle = 'black';
+                    sigCtx.lineWidth = 2;
+                    sigCtx.lineCap = 'round';
+
+                    pageSignatures[pageNum].forEach(sig => {
+                        sigCtx.beginPath();
+                        sigCtx.moveTo(sig.x1, sig.y1);
+                        sigCtx.lineTo(sig.x2, sig.y2);
+                        sigCtx.stroke();
+                    });
+
+                    const sigImgData = sigCanvas.toDataURL('image/png');
+                    doc.addImage(sigImgData, 'PNG', 0, 0, 210, 297);
+                }
+
+                // Add new page if not the last page
+                if (pageNum < pdfDocument.numPages) {
+                    doc.addPage();
+                }
+            }
+
+            // Add captured photo if exists
+            if (photoDataUrl) {
+                doc.addPage();
+                doc.addImage(photoDataUrl, 'PNG', 10, 10, 50, 50);
+            }
+
+            doc.save('signed-document.pdf');
+        });
+
+        // PDF Upload Listener
+        pdfUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type === 'application/pdf') {
+                renderPDF(file);
+            } else {
+                alert('Please upload a valid PDF');
+            }
+        });
+    </script>
+</body>
+</html>
