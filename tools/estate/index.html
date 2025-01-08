@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Customization - 4120 Adams St</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gallery img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+
+        .color-wheel {
+            position: fixed;
+            bottom: 20px;
+            left: 5%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .email-button {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .email-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="dropdown">
+        <label for="room-select">Choose a room:</label>
+        <select id="room-select">
+            <option value="living-room">Living Room</option>
+            <option value="kitchen">Kitchen</option>
+            <option value="bedroom">Bedroom</option>
+            <option value="bathroom">Bathroom</option>
+        </select>
+    </div>
+
+    <div class="gallery" id="gallery">
+        <img src="living-room.jpg" alt="Living Room" id="living-room" class="room-image">
+        <img src="kitchen.png" alt="Kitchen" id="kitchen" class="room-image">
+        <img src="bedroom.jpg" alt="Bedroom" id="bedroom" class="room-image">
+        <img src="bathroom.jpg" alt="Bathroom" id="bathroom" class="room-image">
+    </div>
+
+    <div class="color-wheel">
+        <label for="color-picker">Choose Wall Color:</label>
+        <input type="color" id="color-picker">
+    </div>
+
+    <button class="email-button" id="send-email">Contact me about 7408 E 57th St. KCMO</button>
+
+    <script>
+        const roomImages = document.querySelectorAll('.room-image');
+        const colorPicker = document.getElementById('color-picker');
+        const roomSelect = document.getElementById('room-select');
+        const colorChoices = {};
+
+        roomSelect.addEventListener('change', () => {
+            const selectedRoom = roomSelect.value;
+            roomImages.forEach(img => img.style.display = img.id === selectedRoom ? 'block' : 'none');
+        });
+
+        colorPicker.addEventListener('input', (event) => {
+            const selectedRoom = roomSelect.value;
+            const color = event.target.value;
+            colorChoices[selectedRoom] = color;
+            document.getElementById(selectedRoom).style.backgroundColor = color;
+        });
+
+        document.getElementById('send-email').addEventListener('click', () => {
+            const emailBody = Object.entries(colorChoices)
+                .map(([room, color]) => `${room}: ${color}`)
+                .join('%0A');
+
+            const mailtoLink = `mailto:?subject=I'm Interested in 4120 Adams St&body=${emailBody}`;
+            window.location.href = mailtoLink;
+        });
+
+        // Initialize first room
+        roomSelect.dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>

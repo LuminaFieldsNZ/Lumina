@@ -111,7 +111,7 @@ const storylineFaxium = [
 function displayQuestion() {
 
 // Main function to handle game logic
-function handleBattleStep(currentStep, totalPopulation) {
+function handleBattleStep(currentStep) {
   if (currentStep !== 0) {
       checkPopulationAndHandleModule(); // Checks population and handles module display
   }
@@ -119,12 +119,13 @@ function handleBattleStep(currentStep, totalPopulation) {
 
 // Function to check population and display the module
 function checkPopulationAndHandleModule() {
+  scanForEmotionWords();
+  testData();
   let totPop = Number(document.getElementById('mainHeadingAverage').innerHTML);
   if (totPop > 700) {
       displayModule('module5xx');
       alert('Completed Module');
       hideDynamicBoss1();
-
   }
 }
 
