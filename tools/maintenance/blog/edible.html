@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Breathe better with Bramble Twist">
+<meta name="keywords" content="Earth Venue, Plantscape, plant. plantscape, breathe better, BreatheBetter, Kansas City, MO">
+<meta name="author" content="Bramble Twist">
+<title>Bramble Twist</title>
+<meta property="og:title" content="Bramble Twist">
+<meta property="og:description" content="Breathe better with Bramble Twist">
+<link rel="apple-touch-icon" sizes="180x180" href="../pics/pretzel.png">
+<link rel="icon" type="image/png" href="../pics/pretzel.png" sizes="32x32">
+<link rel="icon" type="image/png" href="../pics/pretzel.png" sizes="16x16">
+<link rel="mask-icon" href="../pics/pretzel.png" color="#fff">
+<link rel="shortcut icon" href="../pics/pretzel.png">
+<meta property="og:image" content="../pics/pretzel.png">
+<meta property="og:url" content="brambletwist.com">
+<meta property="og:type" content="website">  
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Inknut+Antiqua:600|Roboto|Roboto+Condensed:700'>
+</head>
+
+<body>
+<style>
+
+*, *:before, *:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+p {
+  margin: 85px;
+  color: white;
+  font-size: 24px;
+}
+
+h2 {
+  margin: 45px;
+  color: white;
+  font-size: 34px;
+}
+
+.content {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-clip-path: border-box;
+          clip-path: border-box;
+  transform: translateZ(0);
+}
+
+.block {
+  position: relative;
+  height: 100vh;
+}
+
+[class*=item-parallax] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease-out;
+  will-change: transform;
+}
+
+.item-parallax-media {
+  z-index: 1;
+}
+.item-parallax-media img {
+  will-change: transform;
+}
+
+.item-parallax-content {
+  z-index: 2;
+}
+
+.block:nth-child(1) .item-parallax-content {
+  transform: translateY(calc( var(--yBlock-1) * 0.5px ));
+}
+
+.block:nth-child(1) .item-parallax-media img {
+  transform: translateY(calc( var(--yBlock-1) * 0.1px ));
+}
+
+.block:nth-child(2) .item-parallax-content {
+  transform: translateY(calc( var(--yBlock-2) * 0.5px ));
+}
+
+.block:nth-child(2) .item-parallax-media img {
+  transform: translateY(calc( var(--yBlock-2) * 0.1px ));
+}
+
+.block:nth-child(3) .item-parallax-content {
+  transform: translateY(calc( var(--yBlock-3) * 0.5px ));
+}
+
+.block:nth-child(3) .item-parallax-media img {
+  transform: translateY(calc( var(--yBlock-3) * 0.1px ));
+}
+
+.block:nth-child(4) .item-parallax-content {
+  transform: translateY(calc( var(--yBlock-4) * 0.5px ));
+}
+
+.block:nth-child(4) .item-parallax-media img {
+  transform: translateY(calc( var(--yBlock-4) * 0.1px ));
+}
+
+.block:nth-child(5) .item-parallax-content {
+  transform: translateY(calc( var(--yBlock-5) * 0.5px ));
+}
+
+.block:nth-child(5) .item-parallax-media img {
+  transform: translateY(calc( var(--yBlock-5) * 0.1px ));
+}
+
+html {
+  background-color: #00171f;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.centered-content {
+  margin: auto;
+}
+
+.head-large {
+  margin-bottom: 5vw;
+  font-size: 10vw;
+  line-height: 1.2em;
+  font-family: "Inknut Antiqua", serif;
+  color: white;
+}
+
+.head-small {
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+  line-height: 1.2em;
+  font-family: "Roboto Condensed", sans-serif;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.head-centered {
+  text-align: center;
+}
+
+.copy {
+  display: block;
+  max-width: 500px;
+  margin-right: auto;
+  margin-bottom: 1.5rem;
+  margin-left: auto;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  line-height: 1.8em;
+  text-align: center;
+}
+
+.copy-white {
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.copy2 {
+  display: block;
+  max-width: 500px;
+  margin-right: auto;
+  margin-bottom: 1.5rem;
+  margin-left: auto;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.8em;
+  text-align: center;
+}
+
+.copy-white2 {
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.item-parallax-media {
+  overflow: hidden;
+}
+.item-parallax-media img {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.section-landing:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 24%;
+  width: 10px;
+  height: 80%;
+  background-color: white;
+  z-index: 3;
+  transform: translateY(-13vw);
+}
+
+.section-landing .item-parallax-media {
+  opacity: calc( 1 - (var(--y) * 0.0009) );
+}
+
+.landing-content {
+  padding-left: 30%;
+}
+
+.section-intro:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 80%;
+  background-color: #054950;
+  transform: translateX(-50%) translateY(-50%) rotate(calc( (var(--y) * 0.1deg) ));
+  will-change: transform;
+  -webkit-backface-visibility: visible;
+          backface-visibility: visible;
+}
+
+.img-grid {
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.img-gridItem {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.img-gridItem img {
+  display: block;
+  width: 50%;
+  height: 40vh;
+  -o-object-fit: cover;
+     object-fit: cover;
+  will-change: transform;
+  -webkit-backface-visibility: visible;
+          backface-visibility: visible;
+}
+.img-gridItem.type-left img {
+  margin-right: auto;
+}
+.img-gridItem.type-right img {
+  margin-left: auto;
+}
+
+.img-gridItem:nth-child(1) img {
+  transform: translateX(calc( var(--yBlock-4) * -0.03% ));
+}
+.img-gridItem:nth-child(2) img {
+  transform: translateX(calc( var(--yBlock-4) * 0.03% ));
+}
+
+.img-caption {
+  position: absolute;
+  top: 50%;
+  width: 50%;
+  transform: translateY(-50%);
+}
+.img-caption * {
+  text-align: left;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+}
+.type-left .img-caption {
+  right: 0;
+}
+.type-right .img-caption {
+  left: 0;
+}
+
+.section-end:before {
+  content: "";
+  position: absolute;
+  bottom: 50%;
+  left: 24%;
+  width: 10px;
+  height: 80%;
+  background-color: white;
+  z-index: 3;
+  transform: translateY(8vw);
+}
+
+.custom-properties-ftw {
+  padding: 2.5rem 1.5rem;
+}
+.custom-properties-ftw .head-small {
+  margin-bottom: 0;
+}
+
+
+
+:root {
+  --text-color: hsla(210, 50%, 85%, 1);
+  --shadow-color: hsla(210, 40%, 52%, .4);
+  --btn-color: hsl(186, 94%, 31%);
+  --bg-color: #141218;
+}
+
+
+button {
+  position:relative;
+  padding: 10px 20px;  
+  border: none;
+  background: none;
+  cursor: pointer;
+  
+  font-family: "Source Code Pro";
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 30px;  
+  color: var(--text-color);
+  margin: 10px 20px 20px 0px;
+  background-color: var(--btn-color);
+  box-shadow: var(--shadow-color) 2px 2px 22px;
+  border-radius: 4px; 
+  z-index: 0;  
+  overflow: hidden;   
+}
+
+button:focus {
+  outline-color: transparent;
+  box-shadow: var(--btn-color) 2px 2px 22px;
+}
+
+.right::after, button::after {
+  content: var(--content);
+  display: block;
+  position: absolute;
+  white-space: nowrap;
+  padding: 40px 40px;
+  pointer-events:none;
+}
+
+button::after{
+  font-weight: 200;
+  top: -30px;
+  left: -20px;
+} 
+
+.right, .left {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+.right {
+  left: 66%;
+}
+.left {
+  right: 66%;
+}
+.right::after {
+  top: -30px;
+  left: calc(-66% - 20px);
+  
+  background-color: var(--bg-color);
+  color:transparent;
+  transition: transform .4s ease-out;
+  transform: translate(0, -90%) rotate(0deg)
+}
+
+button:hover .right::after {
+  transform: translate(0, -47%) rotate(0deg)
+}
+
+button .right:hover::after {
+  transform: translate(0, -50%) rotate(-7deg)
+}
+
+button .left:hover ~ .right::after {
+  transform: translate(0, -50%) rotate(7deg)
+}
+
+/* bubbles */
+button::before {
+  content: '';
+  pointer-events: none;
+  opacity: .3;
+  background:
+  url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBVcGxvYWRlZCB0bzogU1ZHIFJlcG8sIHd3dy5zdmdyZXBvLmNvbSwgR2VuZXJhdG9yOiBTVkcgUmVwbyBNaXhlciBUb29scyAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIGZpbGw9IiMwMDAwMDAiIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgDQoJIHdpZHRoPSI4MDBweCIgaGVpZ2h0PSI4MDBweCIgdmlld0JveD0iMCAwIDU1MS4zOTEgNTUxLjM5MSINCgkgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8Zz4NCgk8cGF0aCBkPSJNNDEzLjY5NSwwYzAsMC00NS4zNjYsNDQuMDE0LTk0LjQzLDYxLjc1OUMtNDQuMDY4LDE5My4xNzgsMTA5LjE2NSw0NDkuMjc3LDExNC4xNjQsNDUwLjEyMQ0KCQljMCwwLDIwLjM3NC0zNS40OCw0Ny44OTYtNTUuNzE3YzE3NC42NDQtMTI4LjM4OSwyMTAuMTQtMjc2LjE3MSwyMTAuMTQtMjc2LjE3MXMtMzkuMTksMTc3LjgyOS0xOTQuNTYyLDI4OC40NzkNCgkJYy0zNC4zMTYsMjQuNDI2LTU3LjU1Miw4NC41NjgtNjcuMzg4LDE0NC42NzljMCwwLDI0LjMyNS05LjgyOCwzNC43ODUtMTIuNDljNC4wNzktMjYuNjE4LDEyLjYwNy01Mi4xMDYsMjcuMDI1LTc0Ljg3NQ0KCQljMjE3LjE1MSwyNS44NTQsMjg4LjI3Mi0xNDkuMTIzLDI5Ny41NjMtMjEwLjEzNkM0OTEuNTUyLDEwOS43OSw0MTMuNjk1LDAsNDEzLjY5NSwweiIvPg0KPC9nPg0KPC9zdmc+') 90% 50%/15% 15% no-repeat,
+  url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBVcGxvYWRlZCB0bzogU1ZHIFJlcG8sIHd3dy5zdmdyZXBvLmNvbSwgR2VuZXJhdG9yOiBTVkcgUmVwbyBNaXhlciBUb29scyAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIGZpbGw9IiMwMDAwMDAiIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgDQoJIHdpZHRoPSI4MDBweCIgaGVpZ2h0PSI4MDBweCIgdmlld0JveD0iMCAwIDU1MS4zOTEgNTUxLjM5MSINCgkgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8Zz4NCgk8cGF0aCBkPSJNNDEzLjY5NSwwYzAsMC00NS4zNjYsNDQuMDE0LTk0LjQzLDYxLjc1OUMtNDQuMDY4LDE5My4xNzgsMTA5LjE2NSw0NDkuMjc3LDExNC4xNjQsNDUwLjEyMQ0KCQljMCwwLDIwLjM3NC0zNS40OCw0Ny44OTYtNTUuNzE3YzE3NC42NDQtMTI4LjM4OSwyMTAuMTQtMjc2LjE3MSwyMTAuMTQtMjc2LjE3MXMtMzkuMTksMTc3LjgyOS0xOTQuNTYyLDI4OC40NzkNCgkJYy0zNC4zMTYsMjQuNDI2LTU3LjU1Miw4NC41NjgtNjcuMzg4LDE0NC42NzljMCwwLDI0LjMyNS05LjgyOCwzNC43ODUtMTIuNDljNC4wNzktMjYuNjE4LDEyLjYwNy01Mi4xMDYsMjcuMDI1LTc0Ljg3NQ0KCQljMjE3LjE1MSwyNS44NTQsMjg4LjI3Mi0xNDkuMTIzLDI5Ny41NjMtMjEwLjEzNkM0OTEuNTUyLDEwOS43OSw0MTMuNjk1LDAsNDEzLjY5NSwweiIvPg0KPC9nPg0KPC9zdmc+') 60% 80%/20% 20% no-repeat,
+    url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBVcGxvYWRlZCB0bzogU1ZHIFJlcG8sIHd3dy5zdmdyZXBvLmNvbSwgR2VuZXJhdG9yOiBTVkcgUmVwbyBNaXhlciBUb29scyAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIGZpbGw9IiMwMDAwMDAiIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgDQoJIHdpZHRoPSI4MDBweCIgaGVpZ2h0PSI4MDBweCIgdmlld0JveD0iMCAwIDU1MS4zOTEgNTUxLjM5MSINCgkgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8Zz4NCgk8cGF0aCBkPSJNNDEzLjY5NSwwYzAsMC00NS4zNjYsNDQuMDE0LTk0LjQzLDYxLjc1OUMtNDQuMDY4LDE5My4xNzgsMTA5LjE2NSw0NDkuMjc3LDExNC4xNjQsNDUwLjEyMQ0KCQljMCwwLDIwLjM3NC0zNS40OCw0Ny44OTYtNTUuNzE3YzE3NC42NDQtMTI4LjM4OSwyMTAuMTQtMjc2LjE3MSwyMTAuMTQtMjc2LjE3MXMtMzkuMTksMTc3LjgyOS0xOTQuNTYyLDI4OC40NzkNCgkJYy0zNC4zMTYsMjQuNDI2LTU3LjU1Miw4NC41NjgtNjcuMzg4LDE0NC42NzljMCwwLDI0LjMyNS05LjgyOCwzNC43ODUtMTIuNDljNC4wNzktMjYuNjE4LDEyLjYwNy01Mi4xMDYsMjcuMDI1LTc0Ljg3NQ0KCQljMjE3LjE1MSwyNS44NTQsMjg4LjI3Mi0xNDkuMTIzLDI5Ny41NjMtMjEwLjEzNkM0OTEuNTUyLDEwOS43OSw0MTMuNjk1LDAsNDEzLjY5NSwweiIvPg0KPC9nPg0KPC9zdmc+') 20% 30%/30% 30% no-repeat;
+
+  width: 100%;
+  height: 300%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  animation: bubbles 16s linear infinite both;
+}
+
+@keyframes bubbles {
+  from {
+    transform: translate(0, -90%);
+  }
+  to {
+    transform: translate(0, 10%);
+  }
+}
+
+@media (max-width: 800px) {
+  .copy {
+    font-size: 0.75rem; /* Decrease font size by 50% */
+  }
+  .shrunk-font {
+    font-size: 0.75rem;
+  }
+  
+}
+
+form {
+  font: 600;
+  color: #fff;
+  display: inline-block;
+  text-align: left;
+}
+
+input[type="text"], input[type="email"], select {
+  font-size: 1em;
+  padding: 0.5em;
+  margin-bottom: 1em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  font-size: 1em;
+  padding: 0.5em 1em;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.image-container {
+      margin: 120px;
+      position: relative;
+      top: -450px;
+
+    }
+
+
+img {
+      width: 400px;
+      height: 300px;
+      border-radius: 25px;
+      position: absolute;
+      opacity: .6;
+    }
+
+    .img1 {
+      top: -300px;
+      right: 50px;
+      opacity: .2;
+
+    }
+
+    .img2 {
+      top: -100px;
+      right: 50px;
+      opacity: .2;
+
+    }
+
+    .img3 {
+      top: 100px;
+      right: 50px;
+      opacity: .2;
+
+    }
+
+    .img4 {
+      top: 300px;
+      right: 50px;
+      opacity: .2;
+
+    }
+
+</style>
+
+<button style="position: absolute; bottom: 20px; right: 20px; z-index: 999;" onclick="window.open('../cart/index.html')">Shop</button>
+
+
+  <main class="content js-content">
+  
+  <section class="block section-landing">
+    <figure class="item-parallax-media">
+      <img src="../pics/edible.jpg" alt="No Mow May" />
+    </figure>
+    <div class="item-parallax-content flex-container">
+      <div class="landing-content centered-content">
+        <h1 class="head-large">#Edible<br>Lawns</h1>
+      </div>
+    </div>
+  </section>
+  <section class="block section-intro">
+    <div class="item-parallax-content flex-container">
+      <div class="centered-content">
+        <h2 class="head-small head-centered">Growing Food, Not Grass: Exploring the Principles of Permaculture</h2>
+
+
+
+
+
+<p><h2>Introduction:</h2>
+  <p>
+  In an era marked by environmental consciousness and sustainable living, the concept of permaculture has emerged as a beacon of hope for a harmonious coexistence between humans and nature. But what exactly is permaculture, and why is it gaining traction in today's world?
+<br> </p>
+
+<h2>Defining Permaculture:</h2><p>
+Permaculture, a portmanteau of "Permanent Agriculture," has evolved into much more than its agricultural roots. Originating around 50 years ago, permaculture has blossomed into a multifaceted community and practice centered around sustainable design principles.
+<br> </p>
+
+<h2>Beyond Agriculture:</h2><p>
+At its core, permaculture is a sustainable design science that seeks to emulate natural ecosystems in human environments. This holistic approach, also known as "ecological design," aims to cultivate productive ecosystems that regenerate the natural world rather than deplete it.
+<br> </p>
+
+<h2>Growing Food, Not Grass:</h2><p>
+One of the fundamental tenets of permaculture is the concept of "growing food, not grass." This mantra underscores the importance of utilizing natural materials and organic gardening techniques to create ecosystems that fulfill human needs sustainably.
+<br>  </p>
+
+
+<h2>Practical Implementation:</h2><p>
+Permaculture employs various strategies such as agroforestry and food forests to cultivate diverse plant species like fruit and nut trees. By mimicking natural ecosystems, these permaculture gardens provide food, water, shelter, and energy while fostering environmental resilience.
+<br>  </p>
+
+
+<h2>Working with Nature:</h2><p>
+Central to permaculture is the belief that humans can collaborate with nature to create self-sustaining systems that benefit both society and the environment. By embracing this ethos, individuals can reduce their ecological footprint while enhancing their quality of life.
+<br>  </p>
+
+
+<div class="image-container">
+  <img class="img1" src="../pics/perm1.jpg"></div>
+<h2>Ethical Foundations:</h2> <p>
+To guide the practice of permaculture, a set of ecological ethics is upheld. These include Earth Care, People Care, and various interpretations of Fair Share, emphasizing the responsible stewardship of natural resources and equitable distribution of wealth.
+<br> </p>
+
+
+<div class="image-container">
+  <img class="img2" src="../pics/perm2.jpg"></div>
+<h2>A Journey, Not a Destination:</h2> <p>
+It's essential to recognize that permaculture is not merely a set of techniques or practices but a continuous journey of learning and adaptation. As a process-oriented approach, permaculture encourages experimentation and innovation in sustainable living.
+<br> </p>
+
+
+<div class="image-container">
+  <img class="img3" src="../pics/perm3.jpg"></div>
+<h2>Conclusion:</h2><p>
+In a world grappling with environmental challenges, permaculture offers a holistic framework for regenerative design and harmonious coexistence with nature. By embracing the principles of permaculture and growing food, not grass, individuals can cultivate thriving ecosystems that sustain both humanity and the planet.
+<br>  </p>
+
+
+<div class="image-container">
+  <img class="img4" src="../pics/perm4.jpg"></div> <p>
+Permaculture isn't just about agriculture; it's about fostering a deeper connection with the natural world and creating a more resilient and equitable future for all.
+</p>
+ 
+  <p class="copy copy-white">Phone: 785.214.9030 | Brambletwist@gmail.com <br> 1311c East 13th Street, KCMO 64106</p>
+  <button onclick="window.open('../index.html')">Back Home</button>   
+  <button onclick="window.open('../blog/nomowmay.html')">Next Article</button>   
+
+      </div>
+    </div>
+  </section>
+  
+
+  
+
+
+
+</main>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>

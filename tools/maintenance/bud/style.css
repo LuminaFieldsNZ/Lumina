@@ -1,0 +1,74 @@
+@import url('https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css');
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+
+.overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+}
+
+
+
+button.neumorphic {
+  container-type: inline-size;
+  aspect-ratio: 4/1; /* Adjust aspect ratio for a more rectangular shape */
+  border: 0.5rem solid transparent;
+  border-radius: 1rem;
+  color: hsl(0 0% 10%);
+  background: none;
+  
+  display: flex; /* Change to flexbox layout */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+  gap: 1rem;
+
+  /* Add padding to the button to ensure space around the content */
+  padding: 0.5rem 1rem; /* Adjust padding as needed */
+  
+  --shadow: 
+    -.5rem -.5rem 1rem hsl(0 0% 100% / .75),
+    .5rem .5rem 1rem hsl(0 0% 50% / .5);
+  box-shadow: var(--shadow);
+  outline: none;  
+  transition: all 0.1s;
+  
+  &:hover, &:focus-visible {
+    color: hsl(10 80% 50%);
+    scale: 1.1;
+  }
+  &:active, &.active{
+    box-shadow:
+      var(--shadow),
+      inset .5rem .5rem 1rem hsl(0 0% 50% / .5),
+      inset -.5rem -.5rem 1rem hsl(0 0% 100% / .75);
+    color: hsl(10 80% 50%);
+  }
+
+  > i {
+    font-size: 2rem; /* Larger font size for icon */
+  }
+  > span {
+    font-family: system-ui, sans-serif;
+    font-size: 1.6rem; /* Larger font size for text */
+  }
+}
+
+h1 {
+  text-align: center;
+  color: hsl(0 0% 10%);
+  font-family: system-ui, sans-serif;
+  font-size: 3rem;
+}
+.buttons {
+  display: flex;
+  width: min(75rem, 100%);
+  margin-inline: auto;
+  gap: 2rem;
+}
