@@ -104,7 +104,7 @@ function init() {
     scene.add(pointLight);
 
     let loader = new THREE.GLTFLoader();
-    loader.load('https://luminafields.com/micheal.glb', function (gltf) {
+    loader.load('https://luminafieldsnz.github.io/Lumina/tools/maintenance/Micheal/micheal.glb', function (gltf) {
         model = gltf.scene;
         scene.add(model);
         model.position.y = -1.2;
