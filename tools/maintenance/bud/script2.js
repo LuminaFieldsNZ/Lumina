@@ -188,7 +188,7 @@ function init() {
   scene.add(pointLight);
 
   let loader = new THREE.GLTFLoader();
-  loader.load('https://luminafields.com/bud.glb', function (gltf) {
+  loader.load('https://luminafieldsnz.github.io/Lumina/tools/maintenance/pinkpolo.glb', function (gltf) {
     model = gltf.scene;
     scene.add(model);
     model.position.set(-0.5, 0, 0); // Adjust x-coordinate for positioning
