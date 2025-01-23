@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GLB Viewer</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; background: transparent; z-index: 9999; } /* Ensure canvas background is transparent */
+    </style>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script>
+
+
+let scene3, camera, renderer, controls, model;
+let inventory;
+
+init3();
+animate3();
+
+function init3() {
+    scene3 = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 0.5;
+
+    // Create a container div and append it to the body
+    const container = document.createElement('div');
+    container.id = 'canvas-container';
+    document.body.appendChild(container);
+
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    
+    // Append the renderer's canvas to the container
+    container.appendChild(renderer.domElement);
+
+    // Ambient Light
+    let ambientLight3 = new THREE.AmbientLight(0xffffff, 3.5);
+    scene3.add(ambientLight3);
+
+    // Directional Light
+    let directionalLight3 = new THREE.DirectionalLight(0xffffff, 3.8);
+    directionalLight3.position.set(50, 100, 50);
+    scene3.add(directionalLight3);
+
+    // Adjust Spotlight
+    let spotlight3 = new THREE.SpotLight(0xffffff, 1, 10000, Math.PI / 4, 0.5, 2);
+    spotlight3.position.set(0, 100, 0);
+    let spotlightTarget3 = new THREE.Object3D();
+    spotlightTarget3.position.set(0, 0, 0);
+    scene3.add(spotlightTarget3);
+    spotlight3.target = spotlightTarget3;
+    scene3.add(spotlight3);
+
+    inventory = 'https://luminafields.com/candles.glb';
+
+    const loader6 = new THREE.GLTFLoader();
+    loader6.load(inventory, function (gltf) {
+        model = gltf.scene;
+        scene3.add(model);
+    });
+
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+}
+
+function animate3() {
+    requestAnimationFrame(animate3);
+    controls.update();
+    renderer.render(scene3, camera);
+}
+
+// Resize canvas when window is resized
+window.addEventListener('resize', function () {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// Function for slide 3
+function initSlide3() {
+    let scene3 = new THREE.Scene();
+    let camera3 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera3.position.z = 0.5;
+
+    let renderer3 = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer3.setSize(window.innerWidth, window.innerHeight);
+
+    // Specify the ID of the div where you want to add the Three.js scene for slide 3
+    const canvasContainer3 = document.getElementById('carousel-slide-3');
+
+    // Append the renderer's canvas to the specified div
+    const canvasElement3 = renderer3.domElement;
+    canvasContainer3.appendChild(canvasElement3);
+
+    // Ambient Light
+    let ambientLight3 = new THREE.AmbientLight(0xffffff, 3.5);
+    scene3.add(ambientLight3);
+
+    // Directional Light
+    let directionalLight3 = new THREE.DirectionalLight(0xffffff, 3.8);
+    directionalLight3.position.set(50, 100, 50);
+    scene3.add(directionalLight3);
+
+    // Adjust Spotlight
+    let spotlight3 = new THREE.SpotLight(0xffffff, 1, 10000, Math.PI / 4, 0.5, 2);
+    spotlight3.position.set(0, 100, 0);
+    let spotlightTarget3 = new THREE.Object3D();
+    spotlightTarget3.position.set(0, 0, 0);
+    scene3.add(spotlightTarget3);
+    spotlight3.target = spotlightTarget3;
+    scene3.add(spotlight3);
+
+    let inventory3 = 'https://luminafields.com/altar.glb';
+
+    const loader3 = new THREE.GLTFLoader();
+    loader3.load(inventory3, function (gltf) {
+        let model3 = gltf.scene;
+
+        // Move the model to the left by 0.2 units for slide 3
+        model3.position.x -= 0.2;
+
+        scene3.add(model3);
+    });
+
+    let controls3 = new THREE.OrbitControls(camera3, canvasElement3);
+
+    function animate3() {
+        requestAnimationFrame(animate3);
+        controls3.update();
+        renderer3.render(scene3, camera3);
+    }
+
+    animate3();
+
+    // Resize canvas when window is resized
+    window.addEventListener('resize', function () {
+        camera3.aspect = window.innerWidth / window.innerHeight;
+        camera3.updateProjectionMatrix();
+        renderer3.setSize(window.innerWidth, window.innerHeight);
+    });
+}
+
+// Function for slide 4
+function initSlide4() {
+    let scene4 = new THREE.Scene();
+    let camera4 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera4.position.z = 0.5;
+
+    let renderer4 = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer4.setSize(window.innerWidth, window.innerHeight);
+
+    // Specify the ID of the div where you want to add the Three.js scene for slide 4
+    const canvasContainer4 = document.getElementById('carousel-slide-4');
+
+    // Append the renderer's canvas to the specified div
+    const canvasElement4 = renderer4.domElement;
+    canvasContainer4.appendChild(canvasElement4);
+
+    // Ambient Light
+    let ambientLight4 = new THREE.AmbientLight(0xffffff, 3.5);
+    scene4.add(ambientLight4);
+
+    // Directional Light
+    let directionalLight4 = new THREE.DirectionalLight(0xffffff, 3.8);
+    directionalLight4.position.set(50, 100, 50);
+    scene4.add(directionalLight4);
+
+    // Adjust Spotlight
+    let spotlight4 = new THREE.SpotLight(0xffffff, 1, 10000, Math.PI / 4, 0.5, 2);
+    spotlight4.position.set(0, 100, 0);
+    let spotlightTarget4 = new THREE.Object3D();
+    spotlightTarget4.position.set(0, 0, 0);
+    scene4.add(spotlightTarget4);
+    spotlight4.target = spotlightTarget4;
+    scene4.add(spotlight4);
+
+    let inventory4 = 'https://luminafields.com/gateway.glb';
+
+    const loader4 = new THREE.GLTFLoader();
+    loader4.load(inventory4, function (gltf) {
+        let model4 = gltf.scene;
+
+        // Move the model to the left by 0.2 units for slide 4
+        model4.position.x -= 0.2;
+
+        scene4.add(model4);
+    });
+
+    let controls4 = new THREE.OrbitControls(camera4, canvasElement4);
+
+    function animate4() {
+        requestAnimationFrame(animate4);
+        controls4.update();
+        renderer4.render(scene4, camera4);
+    }
+
+    animate4();
+
+    // Resize canvas when window is resized
+    window.addEventListener('resize', function () {
+        camera4.aspect = window.innerWidth / window.innerHeight;
+        camera4.updateProjectionMatrix();
+        renderer4.setSize(window.innerWidth, window.innerHeight);
+    });
+}
+    </script>
+</body>
+</html>

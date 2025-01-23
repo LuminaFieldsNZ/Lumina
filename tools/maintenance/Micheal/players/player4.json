@@ -1,0 +1,30 @@
+{
+  "conversationData": [],
+  "userData": {
+    "id": "Avery Warner",
+    "state": "00014",
+    "mainHeading": {
+      "explorer": 1,
+      "voyager": 0,
+      "captain": 2,
+      "merchant": 0,
+      "shipwright": 3,
+      "fisherman": 0,
+      "smuggler": 2,
+      "arbiter": 1,
+      "sailor": 0
+    },
+    "populations": {
+      "progressive": 100,
+      "socialist": 100,
+      "idealist": 100,
+      "globalist": 1000,
+      "conservative": 100,
+      "economist": 1000,
+      "realist": 1000,
+      "nationalist": 100,
+      "populist": 1000
+    },
+    "completedProjects": []
+  }
+}
