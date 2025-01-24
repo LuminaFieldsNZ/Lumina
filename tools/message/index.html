@@ -190,58 +190,41 @@
     }
   
     // Handle file upload
-    async function searchGitHubPosts() {
-  const container = document.getElementById('postContainer');
-  container.innerHTML = ''; // Clear previous results
-
-  try {
-    // Log the current hashGroups in jsonData
-    console.log('Searching with the following hash groups:', jsonData.hashGroups);
-
-    // Loop through all hashGroups in the JSON data
-    for (const group of jsonData.hashGroups) {
-      // Construct the search query based on multiple fields
-      const searchQuery = `${encodeURIComponent(group.hash)}+${encodeURIComponent(group.key)}+type:issue+in:title`;
-      console.log('Search Query:', searchQuery); // Log the search query for debugging
-
-      // Perform the search on GitHub API
-      const url = `https://api.github.com/search/issues?q=${searchQuery}`;
-      console.log('Fetching GitHub posts from URL:', url); // Log the API request URL
-
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      // Log the response status and check if it's successful
-      console.log('GitHub API Response Status:', response.status);
-      if (response.status === 401) {
-        alert("Unauthorized! Please check your GitHub token.");
-        return;
-      }
-
-      const data = await response.json();
-
-      // Log the response data to check the results
-      console.log('GitHub API Response Data:', data);
-
-      if (data.items && data.items.length > 0) {
-        displayPosts(data.items); // Display posts if any are found
+    function handleFileUpload() {
+      const fileInput = document.getElementById('jsonUpload');
+      const file = fileInput.files[0];
+      if (file && file.type === 'application/json') {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          try {
+            jsonData = JSON.parse(event.target.result);
+            console.log("Uploaded JSON:", jsonData);
+  
+            token = jsonData.monthAccess; // Set token from uploaded JSON
+  
+            if (!token) {
+              alert('No valid GitHub token found in the JSON file.');
+              return;
+            }
+  
+            document.getElementById('jsonEditor').value = JSON.stringify(jsonData, null, 2);
+  
+            if (jsonData.hashGroups && jsonData.hashGroups.length > 0) {
+              document.getElementById('hashGroup').value = jsonData.hashGroups[0].hash;
+              searchGitHubPosts(); // Automatically search after upload
+            }
+  
+            alert('JSON data uploaded successfully!');
+          } catch (e) {
+            console.error(e);
+            alert('Failed to load JSON. Please upload a valid JSON file.');
+          }
+        };
+        reader.readAsText(file);
       } else {
-        console.log('No posts found for this search query:', searchQuery); // Log if no posts found
+        alert('Please upload a valid JSON file.');
       }
     }
-
-    if (container.children.length === 0) {
-      console.log("No posts found for any hash groups.");
-      alert("No posts found for any hash groups.");
-    }
-  } catch (error) {
-    console.error('Error fetching GitHub posts:', error);
-  }
-}
-
   
     // Update JSON configuration
     function updateJsonConfiguration() {
@@ -282,88 +265,32 @@
   
     // Search GitHub posts by hash group
     async function searchGitHubPosts() {
-  const container = document.getElementById('postContainer');
-  container.innerHTML = ''; // Clear previous results
-
-  try {
-    // Loop through all hashGroups in the JSON data
-    for (const group of jsonData.hashGroups) {
-      // Construct a more specific search query based on multiple fields
-      const searchQuery = `${encodeURIComponent(group.hash)}+${encodeURIComponent(group.key)}+type:issue+in:title`;
-
-      // Perform the search on GitHub API
-      const url = `https://api.github.com/search/issues?q=${searchQuery}`;
-
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 401) {
-        alert("Unauthorized! Please check your GitHub token.");
-        return;
-      }
-
-      const data = await response.json();
-
-      if (data.items && data.items.length > 0) {
-        displayPosts(data.items); // Display posts if any are found
+      const hashGroup = document.getElementById('hashGroup').value;
+      const url = `https://api.github.com/search/issues?q=${hashGroup}+type:issue+in:title`;
+  
+      try {
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        if (response.status === 401) {
+          alert("Unauthorized! Please check your GitHub token.");
+          return;
+        }
+  
+        const data = await response.json();
+  
+        if (data.items && data.items.length > 0) {
+          displayPosts(data.items);
+        } else {
+          alert("No posts found for the given hash group.");
+        }
+      } catch (error) {
+        console.error('Error fetching GitHub posts:', error);
       }
     }
-
-    if (container.children.length === 0) {
-      alert("No posts found for any hash groups.");
-    }
-  } catch (error) {
-    console.error('Error fetching GitHub posts:', error);
-  }
-}
-
-
-async function submitGitHubIssue() {
-  const title = document.getElementById('messageSubject').value;
-  const body = document.getElementById('messageBody').value;
-  const encryptionKey = document.getElementById('encryptionKey').value;
-
-  if (!title || !body) {
-    alert('Please provide both a subject and a body for the message.');
-    return;
-  }
-
-  // Encrypt body if encryption key is provided
-  const processedBody = encryptionKey 
-    ? CryptoJS.AES.encrypt(body, encryptionKey).toString()
-    : body;
-
-  try {
-    // Create Octokit instance with the token
-    const octokit = new Octokit({ auth: token });
-
-    // Submit issue
-    const response = await octokit.request('POST /repos/{owner}/{repo}/issues', {
-      owner: 'MFGLife',      // Confirm this is exactly correct
-      repo: 'Messages',      // Note the capitalization - case sensitive!
-      title: title,
-      body: processedBody,
-      headers: {
-        'X-GitHub-Api-Version': '2022-11-28'
-      }
-    });
-
-    alert('Message submitted successfully!');
-    console.log('Created Issue:', response.data);
-
-    // Clear input fields
-    document.getElementById('messageSubject').value = '';
-    document.getElementById('messageBody').value = '';
-    document.getElementById('encryptionKey').value = '';
-
-  } catch (error) {
-    console.error('Issue submission error:', error);
-    alert(`Failed to submit message: ${error.message}`);
-  }
-}
   
     // Display GitHub posts
     function displayPosts(posts) {
@@ -388,7 +315,50 @@ async function submitGitHubIssue() {
       return decrypted.toString(CryptoJS.enc.Utf8);
     }
   
-
+    // Submit GitHub issue
+    async function submitGitHubIssue() {
+      const title = document.getElementById('messageSubject').value;
+      const body = document.getElementById('messageBody').value;
+      const encryptionKey = document.getElementById('encryptionKey').value;
+  
+      if (!title || !body) {
+        alert('Please provide both a subject and a body for the message.');
+        return;
+      }
+  
+      // Encrypt body if encryption key is provided
+      const processedBody = encryptionKey 
+        ? CryptoJS.AES.encrypt(body, encryptionKey).toString()
+        : body;
+  
+      try {
+        // Create Octokit instance with the token
+        const octokit = new Octokit({ auth: token });
+  
+        // Submit issue
+        const response = await octokit.request('POST /repos/{owner}/{repo}/issues', {
+          owner: 'MFGLife',
+          repo: 'message',
+          title: title,
+          body: processedBody,
+          headers: {
+            'X-GitHub-Api-Version': '2022-11-28'
+          }
+        });
+  
+        alert('Message submitted successfully!');
+        console.log('Created Issue:', response.data);
+  
+        // Clear input fields
+        document.getElementById('messageSubject').value = '';
+        document.getElementById('messageBody').value = '';
+        document.getElementById('encryptionKey').value = '';
+  
+      } catch (error) {
+        console.error('Issue submission error:', error);
+        alert(`Failed to submit message: ${error.message}`);
+      }
+    }
   </script>
   
   
