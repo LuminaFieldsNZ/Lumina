@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GitHub Messaging App</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@octokit/core@5.0.0/dist/index.umd.min.js"></script>
   <style>
     body { 
       font-family: Arial, sans-serif; 
@@ -95,6 +94,7 @@
   <!-- Display Posts -->
   <div id="postContainer"></div>
 
+
   <script>
     let token = ''; // Token will be dynamically set after login
     let jsonData = {
@@ -104,31 +104,9 @@
       ]
     };
   
-    // Function to retrieve client credentials securely
-    // This should be replaced with a secure way to fetch these credentials
-    async function getClientCredentials() {
-      // Example: Fetching client credentials from a secure server-side API
-      // (this should be done securely on the server and not in the client-side code)
-      try {
-        const response = await fetch('/get-client-credentials');
-        const credentials = await response.json();
-        return credentials;
-      } catch (error) {
-        console.error("Error fetching client credentials:", error);
-        alert("Failed to retrieve client credentials.");
-      }
-    }
-  
     // Handle GitHub login
-    async function handleGitHubLogin() {
-      const credentials = await getClientCredentials(); // Fetch client credentials
-  
-      if (!credentials) {
-        alert('Unable to retrieve client credentials.');
-        return;
-      }
-  
-      const clientId = credentials.client_id;  // Dynamically set client_id
+    function handleGitHubLogin() {
+      const clientId = 'Ov23liLwfabESq6mUMOq'; // Replace with your actual client ID
       const redirectUri = 'https://luminafieldsnz.github.io/Lumina/tools/message/index.html';
       const scope = 'repo'; // Access scope for private repositories
       const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=${scope}&redirect_uri=${redirectUri}`;
@@ -139,54 +117,32 @@
     // Handle GitHub OAuth callback
     async function handleOAuthCallback() {
       const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get('code'); // Retrieve the code from the URL
+      const code = urlParams.get('code');
   
       if (code) {
-        const credentials = await getClientCredentials(); // Fetch client credentials dynamically
+        const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({
+            client_id: 'Ov23liLwfabESq6mUMOq', // Client ID
+            client_secret: 'your-client-secret', // Replace with actual client secret
+            code: code,
+            redirect_uri: 'https://luminafieldsnz.github.io/Lumina/tools/message/index.html', // Must match the redirect URI registered in GitHub OAuth app
+          }),
+        });
   
-        if (!credentials) {
-          alert('Unable to retrieve client credentials.');
-          return;
-        }
+        const tokenData = await tokenResponse.json();
+        token = tokenData.access_token;
   
-        const { client_id, client_secret } = credentials; // Dynamically set client_id and client_secret
-  
-        try {
-          const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
-            method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              client_id: client_id,  // Use dynamically fetched client_id
-              client_secret: client_secret,  // Use dynamically fetched client_secret
-              code: code, // The code returned by GitHub
-              redirect_uri: 'https://luminafieldsnz.github.io/Lumina/tools/message/index.html' // Your registered redirect URI
-            })
-          });
-  
-          const tokenData = await tokenResponse.json(); // Get the response data
-  
-          if (tokenData.access_token) {
-            // If the access token is returned, store it and alert the user
-            token = tokenData.access_token;
-            localStorage.setItem('githubToken', token);
-            alert('Logged in successfully!');
-          } else {
-            // If no access token is returned, alert the user
-            alert('Failed to authenticate with GitHub.');
-          }
-        } catch (error) {
-          console.error('OAuth callback error:', error);
-          alert('Login process encountered an error.');
+        if (token) {
+          localStorage.setItem('githubToken', token);
+          alert('Logged in successfully!');
+        } else {
+          alert('Failed to authenticate with GitHub.');
         }
       }
-    }
-  
-    // Check for OAuth callback and handle token
-    if (window.location.search.includes('code=')) {
-      handleOAuthCallback(); // If the URL contains the "code" parameter, proceed with handling the callback
     }
   
     // Handle file upload
@@ -198,22 +154,24 @@
         reader.onload = function(event) {
           try {
             jsonData = JSON.parse(event.target.result);
+            
             console.log("Uploaded JSON:", jsonData);
   
-            token = jsonData.monthAccess; // Set token from uploaded JSON
-  
+            token = jsonData.monthAccess;
+            console.log("Extracted token:", token); // Debugging line
+            
             if (!token) {
               alert('No valid GitHub token found in the JSON file.');
               return;
             }
   
             document.getElementById('jsonEditor').value = JSON.stringify(jsonData, null, 2);
-  
+            
             if (jsonData.hashGroups && jsonData.hashGroups.length > 0) {
               document.getElementById('hashGroup').value = jsonData.hashGroups[0].hash;
               searchGitHubPosts(); // Automatically search after upload
             }
-  
+            
             alert('JSON data uploaded successfully!');
           } catch (e) {
             console.error(e);
@@ -231,14 +189,14 @@
       try {
         const editorContent = document.getElementById('jsonEditor').value;
         jsonData = JSON.parse(editorContent);
-  
+        
         token = jsonData.monthAccess;
-  
+        
         if (!token) {
           alert('No valid GitHub token found in the configuration.');
           return;
         }
-  
+        
         alert('Configuration updated successfully!');
       } catch (e) {
         console.error(e);
@@ -309,7 +267,33 @@
       });
     }
   
-    // AES decryption (for any encrypted posts)
+    // Decrypt messages from GitHub
+    function decryptMessages() {
+      const decryptionKey = document.getElementById('decryptionKey').value;
+      const postBoxes = document.querySelectorAll('.postBox');
+  
+      if (!decryptionKey) {
+        alert('Please enter a decryption key.');
+        return;
+      }
+  
+      postBoxes.forEach(postBox => {
+        const encryptedContent = postBox.querySelector('p:contains("Encrypted Content:")');
+        if (encryptedContent) {
+          const encryptedText = encryptedContent.textContent.replace('Encrypted Content: ', '').trim();
+          try {
+            const decryptedMessage = aesDecrypt(encryptedText, decryptionKey);
+            const decryptedElement = document.createElement('p');
+            decryptedElement.innerHTML = `<strong>Decrypted Message:</strong> ${decryptedMessage}`;
+            postBox.appendChild(decryptedElement);
+          } catch (error) {
+            console.error('Decryption error:', error);
+          }
+        }
+      });
+    }
+  
+    // AES decryption
     function aesDecrypt(encryptedMessage, key) {
       const decrypted = CryptoJS.AES.decrypt(encryptedMessage, key);
       return decrypted.toString(CryptoJS.enc.Utf8);
@@ -326,41 +310,46 @@
         return;
       }
   
-      // Encrypt body if encryption key is provided
-      const processedBody = encryptionKey 
+      const encryptedBody = encryptionKey 
         ? CryptoJS.AES.encrypt(body, encryptionKey).toString()
         : body;
   
-      try {
-        // Create Octokit instance with the token
-        const octokit = new Octokit({ auth: token });
+      const repoOwner = 'MFGLife';
+      const repoName = 'message';
+      const url = 'https://api.github.com/repos/MFGLife/message/issues';
   
-        // Submit issue
-        const response = await octokit.request('POST /repos/{owner}/{repo}/issues', {
-          owner: 'MFGLife',
-          repo: 'message',
-          title: title,
-          body: processedBody,
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
           headers: {
-            'X-GitHub-Api-Version': '2022-11-28'
-          }
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ 
+            title, 
+            body: encryptedBody 
+          })
         });
   
-        alert('Message submitted successfully!');
-        console.log('Created Issue:', response.data);
-  
-        // Clear input fields
-        document.getElementById('messageSubject').value = '';
-        document.getElementById('messageBody').value = '';
-        document.getElementById('encryptionKey').value = '';
-  
+        if (response.ok) {
+          alert('Message submitted successfully!');
+          const data = await response.json();
+          console.log('Created Issue:', data);
+        } else {
+          console.error('Error creating issue:', await response.text());
+          alert('Failed to submit message.');
+        }
       } catch (error) {
-        console.error('Issue submission error:', error);
-        alert(`Failed to submit message: ${error.message}`);
+        console.error('Error submitting GitHub issue:', error);
+        alert('Network error. Please try again.');
       }
     }
-  </script>
   
+    // Check for OAuth callback and handle token
+    if (window.location.search.includes('code=')) {
+      handleOAuthCallback();
+    }
+  </script>
   
 
 
