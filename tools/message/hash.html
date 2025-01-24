@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypt and Decrypt Utility</title>
+    <script>
+        function encryptText() {
+            const text = document.getElementById('textToEncrypt').value;
+            const key = document.getElementById('encryptionKey').value;
+
+            if (!key) {
+                alert('Encryption key is required!');
+                return;
+            }
+
+            const encrypted = btoa(
+                text.split('').map((char, index) => {
+                    return String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(index % key.length));
+                }).join('')
+            );
+
+            document.getElementById('encryptedText').value = encrypted;
+
+            const decryptFunction = `function getDecryptedToken() {\n    const encrypted = '${encrypted}';\n    const key = '${key}';\n    const decrypted = encrypted.split('').map((char, index) => {\n        return String.fromCharCode(atob(char)[0].charCodeAt(0) ^ key.charCodeAt(index % key.length));\n    }).join('');\n    return decrypted;\n}`;
+
+            document.getElementById('decryptionFunction').value = decryptFunction;
+        }
+    </script>
+</head>
+<body>
+    <h1>Encrypt and Decrypt Utility</h1>
+
+    <form onsubmit="event.preventDefault(); encryptText();">
+        <label for="textToEncrypt">Text to Encrypt:</label><br>
+        <input type="text" id="textToEncrypt" name="textToEncrypt"><br><br>
+
+        <label for="encryptionKey">Encryption Key:</label><br>
+        <input type="text" id="encryptionKey" name="encryptionKey"><br><br>
+
+        <label for="encryptedText">Encrypted Text:</label><br>
+        <input type="text" id="encryptedText" name="encryptedText" readonly><br><br>
+
+        <label for="decryptionFunction">Decryption Function:</label><br>
+        <textarea id="decryptionFunction" name="decryptionFunction" rows="5" cols="50" readonly></textarea><br><br>
+
+        <button type="submit">Encrypt</button>
+    </form>
+</body>
+</html>

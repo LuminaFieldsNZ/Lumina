@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Messaging App</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+  <h1>GitHub Messaging App</h1>
+
+  <!-- Log in with GitHub -->
+  <a id="loginButton" href="https://github.com/login/oauth/authorize?client_id=Ov23liLwfabESq6mUMOq&scope=repo&redirect_uri=https://luminafieldsnz.github.io/Lumina/tools/message/index.html">
+    Log in with GitHub
+  </a>
+  
+  <!-- JSON File Upload -->
+  <input type="file" id="jsonUpload" accept="application/json" />
+  <button onclick="handleFileUpload();searchGitHubPosts();">Upload JSON</button>
+
+  <!-- JSON Editor Textarea -->
+  <h2>JSON Editor</h2>
+  <textarea id="jsonEditor" rows="10" cols="50"></textarea>
+
+  <!-- Add a new hash group -->
+  <h2>Add a New Hash Group</h2>
+  <input type="text" id="hashGroup" placeholder="Enter hash group" value="#DefaultGroup">
+  <input type="text" id="newHashGroup" placeholder="Enter new hash group (e.g., #NewGroup)">
+  <input type="text" id="newKey" placeholder="Enter decryption key">
+  <button onclick="addHashGroup()">Add Hash Group</button>
+
+  <!-- Message Submission Form -->
+  <h2>Submit a New GitHub Issue</h2>
+  <input type="text" id="messageSubject" placeholder="Enter message subject">
+  <textarea id="messageBody" placeholder="Enter message body"></textarea>
+  <button onclick="submitGitHubIssue()">Submit Message</button>
+
+  <!-- Display Posts -->
+  <div id="postContainer"></div>
+
+  <script>
+// Updated token handling
+let token;
+let jsonData = {};
+
+function handleFileUpload() {
+  const fileInput = document.getElementById('jsonUpload');
+  const file = fileInput.files[0];
+  if (file && file.type === 'application/json') {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      try {
+        jsonData = JSON.parse(event.target.result);
+        console.log('JSON data loaded:', jsonData);
+        
+        // Securely retrieve the token
+        token = jsonData.monthAccess; 
+        if (!token) {
+          alert('Token not found in JSON.');
+          return;
+        }
+
+        // Update JSON editor
+        document.getElementById('jsonEditor').value = JSON.stringify(jsonData, null, 2);
+        alert('JSON data uploaded successfully!');
+      } catch (e) {
+        console.error('Invalid JSON file:', e);
+        alert('Failed to load JSON. Please upload a valid JSON file.');
+      }
+    };
+    reader.readAsText(file);
+  } else {
+    alert('Please upload a valid JSON file.');
+  }
+}
+
+// Modify searchGitHubPosts to use token from JSON
+async function searchGitHubPosts() {
+  const hashGroup = document.getElementById('hashGroup').value;
+
+  if (!token) {
+    alert('Please upload a valid JSON file with token first.');
+    return;
+  }
+
+  const url = `https://api.github.com/search/issues?q=${hashGroup}+type:issue+in:title`;
+
+  try {
+    const response = await fetch(url, {
+      headers: { 
+        Authorization: `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      } 
+    });
+
+    if (!response.ok) {
+      throw new Error(`GitHub API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    displayPosts(data.items);
+  } catch (error) {
+    console.error('Error fetching GitHub posts:', error);
+    alert('Failed to fetch GitHub posts. Check token and network connection.');
+  }
+}
+
+
+    // Add a new hash group to the JSON data
+    function addHashGroup() {
+      const newHashGroup = document.getElementById('newHashGroup').value;
+      const newKey = document.getElementById('newKey').value;
+
+      if (newHashGroup && newKey) {
+        const newGroup = {
+          hash: newHashGroup,
+          key: newKey
+        };
+        jsonData.hashGroups.push(newGroup);  // Add the new group to the hashGroups array
+        console.log('Added new hash group:', newGroup);
+
+        // Update the JSON editor
+        document.getElementById('jsonEditor').value = JSON.stringify(jsonData, null, 2);
+        alert('New hash group added!');
+      } else {
+        alert('Please provide both a hash group and key.');
+      }
+    }
+
+
+
+    // Display GitHub issues
+    function displayPosts(posts) {
+      const container = document.getElementById('postContainer');
+      container.innerHTML = '';
+
+      posts.forEach((post) => {
+        const postElement = document.createElement('div');
+        postElement.classList.add('postBox');
+        postElement.innerHTML = `
+          <h3><a href="${post.html_url}" target="_blank">${post.title}</a></h3>
+          <p><strong>Platform:</strong> GitHub Issue</p>
+          <p><strong>Encrypted Content:</strong> ${post.body}</p>
+        `;
+        container.appendChild(postElement);
+      });
+    }
+
+    // Submit a new GitHub issue
+    async function submitGitHubIssue() {
+      const title = document.getElementById('messageSubject').value;
+      const body = document.getElementById('messageBody').value;
+
+      if (!title || !body) {
+        alert('Please provide both a subject and a body for the message.');
+        return;
+      }
+
+      const repoOwner = 'MFGLife';
+      const repoName = 'message';
+      const url = `https://api.github.com/repos/${repoOwner}/${repoName}/issues`;
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}` // Ensure token is passed correctly here too
+          },
+          body: JSON.stringify({ title, body })
+        });
+
+        if (response.ok) {
+          alert('Issue created successfully!');
+          const data = await response.json();
+          console.log('Created Issue:', data);
+        } else {
+          console.error('Error creating issue:', await response.text());
+        }
+      } catch (error) {
+        console.error('Error submitting GitHub issue:', error);
+      }
+    }
+  </script>
+
+</body>
+</html>

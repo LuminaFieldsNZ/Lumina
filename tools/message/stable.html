@@ -1,0 +1,82 @@
+<!-- Hash Group Search Field -->
+<input type="text" id="hashGroup" placeholder="Enter hash group (e.g., #MySecretHash)">
+<button onclick="searchGitHubPosts(document.getElementById('hashGroup').value)">Search</button>
+
+
+<input type="text" id="decryptionKey" placeholder="Enter decryption key">
+<button onclick="decryptMessages()">Decrypt Messages</button>
+
+<!-- Display Posts -->
+<div id="postContainer"></div>
+
+<script>
+let token;
+
+function getDecryptedToken() {
+    const encrypted = 'AAEEN0QsIy05WUcrJhEbCUc4LFE9Xx02L1pAJ00kUzERCUc3NwtEWA==';
+    const key = 'github';
+    
+    const decrypted = atob(encrypted)
+        .split('')
+        .map((char, index) => 
+            String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(index % key.length))
+        )
+        .join('');
+    return decrypted;
+}
+
+token = getDecryptedToken();
+
+async function searchGitHubPosts(hashGroup) {
+
+    const url = `https://api.github.com/search/issues?q=${hashGroup}+type:issue+in:title`;
+
+    try {
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        const data = await response.json();
+        displayPosts(data.items);
+    } catch (error) {
+        console.error('Error fetching GitHub posts:', error);
+    }
+}
+
+function displayPosts(posts) {
+    const container = document.getElementById('postContainer');
+    container.innerHTML = ''; // Clear previous posts
+
+    posts.forEach((post) => {
+        const postElement = document.createElement('div');
+        postElement.classList.add('postBox');
+        postElement.innerHTML = `
+            <h3><a href="${post.html_url}" target="_blank">${post.title}</a></h3>
+            <p><strong>Platform:</strong> GitHub Issue</p>
+            <p><strong>Encrypted Content:</strong> ${post.body}</p>
+        `;
+        container.appendChild(postElement);
+    });
+}
+
+function decryptMessages() {
+    const key = document.getElementById('decryptionKey').value;
+    const encryptedMessage = document.querySelector('.postBox strong').innerText; // Example selector
+
+    if (!key || !encryptedMessage) {
+        alert('Please provide a valid decryption key and an encrypted message.');
+        return;
+    }
+
+    const decryptedMessage = aesDecrypt(encryptedMessage, key);
+    alert(`Decrypted Message: ${decryptedMessage}`);
+}
+
+function aesDecrypt(encryptedMessage, key) {
+    // Example AES decryption using CryptoJS (ensure CryptoJS library is included in your project)
+    const decrypted = CryptoJS.AES.decrypt(encryptedMessage, key);
+    return decrypted.toString(CryptoJS.enc.Utf8);
+}
+</script>
