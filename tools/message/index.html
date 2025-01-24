@@ -39,24 +39,15 @@
 <body>
   <h1>GitHub Messaging App</h1>
 
-  <!-- App Guide -->
   <div class="guide">
     <h2>App Usage Guide</h2>
     <ol>
-      <li><strong>Login:</strong> Click "Log in with GitHub" to authenticate</li>
-      <li><strong>Upload JSON:</strong> Upload a configuration JSON with access token and hash groups</li>
-      <li><strong>JSON Editor:</strong> Modify your configuration directly in the editor</li>
+      <li><strong>Upload JSON:</strong> Upload configuration with access token and hash groups</li>
+      <li><strong>JSON Editor:</strong> Modify configuration directly</li>
       <li><strong>Add Hash Groups:</strong> Create new hash groups for message categorization</li>
       <li><strong>Search Messages:</strong> Find messages by hash group</li>
       <li><strong>Submit Messages:</strong> Create new GitHub issues as messages</li>
     </ol>
-  </div>
-
-  <!-- GitHub Login -->
-  <div class="section">
-    <a id="loginButton" href="https://github.com/login/oauth/authorize?client_id=Ov23liLwfabESq6mUMOq&scope=repo&redirect_uri=https://luminafieldsnz.github.io/Lumina/tools/message/index.html">
-      Log in with GitHub
-    </a>
   </div>
 
   <!-- JSON File Upload -->
@@ -67,7 +58,7 @@
 
     <h3>JSON Editor</h3>
     <textarea id="jsonEditor" rows="10" placeholder="Paste your JSON configuration here"></textarea>
-    <button onclick="updateJsonConfiguration()">Update Configuration</button>
+    <button onclick="updateJsonConfiguration();searchGitHubPosts();">Update Configuration</button>
   </div>
 
   <!-- Add Hash Group -->
@@ -82,7 +73,9 @@
   <div class="section">
     <h2>Search Messages</h2>
     <input type="text" id="hashGroup" placeholder="Enter hash group" value="#DefaultGroup">
+    <input type="text" id="decryptionKey" placeholder="Decryption Key (Optional)">
     <button onclick="searchGitHubPosts()">Search Messages</button>
+    <button onclick="decryptMessages()">Decrypt Messages</button>
   </div>
 
   <!-- Message Submission -->
@@ -90,6 +83,7 @@
     <h2>Submit Message</h2>
     <input type="text" id="messageSubject" placeholder="Enter message subject">
     <textarea id="messageBody" placeholder="Enter encrypted message body"></textarea>
+    <input type="text" id="encryptionKey" placeholder="Encryption Key">
     <button onclick="submitGitHubIssue()">Submit Message</button>
   </div>
 
@@ -97,7 +91,7 @@
   <div id="postContainer"></div>
 
   <script>
-    let token;
+    let token = 'Ov23liLwfabESq6mUMOq'; // Default token (can be overridden by JSON file)
     let jsonData = {
       monthAccess: '',
       hashGroups: [
@@ -113,10 +107,27 @@
         reader.onload = function(event) {
           try {
             jsonData = JSON.parse(event.target.result);
-            token = jsonData.monthAccess; 
+            
+            console.log("Uploaded JSON:", jsonData);
+
+            token = jsonData.monthAccess;
+            console.log("Extracted token:", token); // Debugging line
+            
+            if (!token) {
+              alert('No valid GitHub token found in the JSON file.');
+              return;
+            }
+
             document.getElementById('jsonEditor').value = JSON.stringify(jsonData, null, 2);
+            
+            if (jsonData.hashGroups && jsonData.hashGroups.length > 0) {
+              document.getElementById('hashGroup').value = jsonData.hashGroups[0].hash;
+              searchGitHubPosts(); // Automatically search after upload
+            }
+            
             alert('JSON data uploaded successfully!');
           } catch (e) {
+            console.error(e);
             alert('Failed to load JSON. Please upload a valid JSON file.');
           }
         };
@@ -130,9 +141,17 @@
       try {
         const editorContent = document.getElementById('jsonEditor').value;
         jsonData = JSON.parse(editorContent);
+        
         token = jsonData.monthAccess;
+        
+        if (!token) {
+          alert('No valid GitHub token found in the configuration.');
+          return;
+        }
+        
         alert('Configuration updated successfully!');
       } catch (e) {
+        console.error(e);
         alert('Invalid JSON configuration. Please check your syntax.');
       }
     }
@@ -155,31 +174,29 @@
 
     async function searchGitHubPosts() {
       const hashGroup = document.getElementById('hashGroup').value;
-
-      if (!token) {
-        alert('Please upload a valid JSON file with token first.');
-        return;
-      }
-
       const url = `https://api.github.com/search/issues?q=${hashGroup}+type:issue+in:title`;
 
       try {
         const response = await fetch(url, {
-          headers: { 
+          headers: {
             Authorization: `Bearer ${token}`,
-            'Accept': 'application/vnd.github.v3+json'
-          } 
+          },
         });
 
-        if (!response.ok) {
-          throw new Error(`GitHub API error: ${response.status}`);
+        if (response.status === 401) {
+          alert("Unauthorized! Please check your GitHub token.");
+          return;
         }
 
         const data = await response.json();
-        displayPosts(data.items);
+
+        if (data.items && data.items.length > 0) {
+          displayPosts(data.items);
+        } else {
+          alert("No posts found for the given hash group.");
+        }
       } catch (error) {
         console.error('Error fetching GitHub posts:', error);
-        alert('Failed to fetch GitHub posts. Check token and network connection.');
       }
     }
 
@@ -199,14 +216,49 @@
       });
     }
 
+    function decryptMessages() {
+      const decryptionKey = document.getElementById('decryptionKey').value;
+      const postBoxes = document.querySelectorAll('.postBox');
+
+      if (!decryptionKey) {
+        alert('Please enter a decryption key.');
+        return;
+      }
+
+      postBoxes.forEach(postBox => {
+        const encryptedContent = postBox.querySelector('p:contains("Encrypted Content:")');
+        if (encryptedContent) {
+          const encryptedText = encryptedContent.textContent.replace('Encrypted Content: ', '').trim();
+          try {
+            const decryptedMessage = aesDecrypt(encryptedText, decryptionKey);
+            const decryptedElement = document.createElement('p');
+            decryptedElement.innerHTML = `<strong>Decrypted Message:</strong> ${decryptedMessage}`;
+            postBox.appendChild(decryptedElement);
+          } catch (error) {
+            console.error('Decryption error:', error);
+          }
+        }
+      });
+    }
+
+    function aesDecrypt(encryptedMessage, key) {
+      const decrypted = CryptoJS.AES.decrypt(encryptedMessage, key);
+      return decrypted.toString(CryptoJS.enc.Utf8);
+    }
+
     async function submitGitHubIssue() {
       const title = document.getElementById('messageSubject').value;
       const body = document.getElementById('messageBody').value;
+      const encryptionKey = document.getElementById('encryptionKey').value;
 
       if (!title || !body) {
         alert('Please provide both a subject and a body for the message.');
         return;
       }
+
+      const encryptedBody = encryptionKey 
+        ? CryptoJS.AES.encrypt(body, encryptionKey).toString()
+        : body;
 
       const repoOwner = 'MFGLife';
       const repoName = 'message';
@@ -219,7 +271,10 @@
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
           },
-          body: JSON.stringify({ title, body })
+          body: JSON.stringify({ 
+            title, 
+            body: encryptedBody 
+          })
         });
 
         if (response.ok) {
