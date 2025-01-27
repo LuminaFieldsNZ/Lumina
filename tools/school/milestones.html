@@ -51,27 +51,32 @@
 
             // Categorize and aggregate data
             data.forEach(event => {
-                const date = new Date(event['dtstart']);
-                let key;
-                switch (timeframe) {
-                    case 'day':
-                        key = date.toISOString().split('T')[0]; // YYYY-MM-DD
-                        break;
-                    case 'week':
-                        key = `${date.getFullYear()}-W${String(getWeek(date)).padStart(2, '0')}`; // YYYY-Www
-                        break;
-                    case 'month':
-                        key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`; // YYYY-MM
-                        break;
-                }
+    const date = new Date(event['dtstart']);
+    let key;
+    switch (timeframe) {
+        case 'day':
+            key = date.toISOString().split('T')[0]; // YYYY-MM-DD
+            break;
+        case 'week':
+            key = `${date.getFullYear()}-W${String(getWeek(date)).padStart(2, '0')}`; // YYYY-Www
+            break;
+        case 'month':
+            key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`; // YYYY-MM
+            break;
+    }
 
-                // Check if event is an achievement or an issue
-                if (event['summary'].toLowerCase().includes('issue') || event['description'].toLowerCase().includes('issue')) {
-                    issues[key] = (issues[key] || 0) + 1;
-                } else {
-                    achievements[key] = (achievements[key] || 0) + 1;
-                }
-            });
+    // Safely check for summary and description before processing
+    const summary = event['summary'] ? event['summary'].toLowerCase() : '';
+    const description = event['description'] ? event['description'].toLowerCase() : '';
+
+    // Check if the event is an achievement or an issue
+    if (summary.includes('issue') || description.includes('issue')) {
+        issues[key] = (issues[key] || 0) + 1;
+    } else {
+        achievements[key] = (achievements[key] || 0) + 1;
+    }
+});
+
 
             renderChart(achievements, issues, timeframe);
         }
