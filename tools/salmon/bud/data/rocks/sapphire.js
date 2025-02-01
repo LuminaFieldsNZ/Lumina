@@ -1,0 +1,19 @@
+
+
+baseData.push (
+
+    ["What is the chemical composition of Sapphire?", "Sapphire is a variety of corundum, with the chemical formula Al2O3 (aluminum oxide). It typically contains trace elements such as iron, titanium, and chromium, which give rise to its various colors, including blue, yellow, pink, and purple.", ""],
+    ["How is Sapphire formed?", "Sapphire is formed in metamorphic and igneous rock environments under high pressure and temperature conditions. It can also be found in sedimentary environments where it forms through weathering and erosion of pre-existing rocks containing corundum.", ""],
+    ["Where is Sapphire typically found?", "Sapphire deposits are found in various regions around the world, with notable sources including Sri Lanka, Myanmar (Burma), Thailand, Australia, Madagascar, and Montana (USA). They occur primarily in alluvial deposits, gem gravel, and secondary deposits derived from primary host rocks.", ""],
+    ["What are the physical properties of Sapphire?", "Sapphire is prized for its hardness (9 on the Mohs scale), brilliance, transparency, and vibrant colors. It has a trigonal crystal structure, with hexagonal prisms and pyramids commonly observed in gem-quality specimens.", ""],
+    ["Is Sapphire rare or common?", "While sapphires are relatively common gemstones, high-quality specimens with intense color saturation and clarity are rarer and more valuable. Blue sapphires are particularly prized, especially those with a rich, velvety hue known as Kashmir sapphire.", ""],
+    ["What are some common uses of Sapphire?", "Sapphire is primarily used as a gemstone in jewelry, including rings, earrings, necklaces, and bracelets. It is also valued for its industrial applications, including use as a durable and scratch-resistant material in watch crystals, optical components, and high-tech electronics such as smartphone screens and LEDs.", ""],
+    ["How can I identify Sapphire?", "Identifying sapphire involves assessing its physical properties such as color, hardness, transparency, and crystal structure. Gemological tests such as refractive index measurement, spectroscope analysis, and microscopic examination can help distinguish sapphire from other gemstones and synthetic materials.", ""],
+    ["What is the history and lore surrounding Sapphire?", "Sapphire has a rich history dating back thousands of years, with various cultures attributing mystical and healing properties to the gemstone. It has been associated with royalty, wisdom, and divine favor, and has been worn as a talisman for protection and good fortune.", ""],
+    ["How is Sapphire mined or extracted?", "Sapphire mining involves various methods depending on the geological setting and deposit type. This can include traditional methods such as alluvial mining, as well as more modern techniques such as open-pit mining and mechanized underground mining. Once extracted, sapphires are sorted, cut, and polished for use in jewelry or industrial applications.", ""],
+    ["Are there any interesting facts about Sapphire?", "Here are some fascinating facts about sapphire: Sapphires are known for their asterism phenomenon, where a star-shaped pattern of light called a 'star' or 'asterism' can be seen on the surface of the gemstone. Sapphires are also found in a range of colors beyond blue, including yellow, pink, purple, orange, green, and colorless, with each color having its own unique appeal and market demand.", ""],
+    ["What is Sapphire?", "Sapphire is a precious gemstone belonging to the corundum mineral species. It is valued for its exceptional hardness, brilliant luster, and vibrant colors. While blue is the most well-known color for sapphire, it can also occur in a range of other colors, each with its own distinctive beauty and charm.", ""],
+    
+    ["","",""]
+    
+    );
