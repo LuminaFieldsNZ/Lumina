@@ -7,7 +7,7 @@ async function loadPlayerJson() {
         const chatWindow = document.getElementById('chatWindow');
 
         const finalMessage = `
-            <h1><span class="gradient-text">Micheal</span> S.A.L.M (Smart Artificial Legal Monitoring) is Online.</h1><br>
+            <h1><span class="gradient-text">Micheal</span> Smart Artificial Legal Monitoring is Online. Use the field above to begin chatting...</h1><br>
         `;
 
         chatWindow.innerHTML += finalMessage;
@@ -47,7 +47,6 @@ function runDemo() {
         event.preventDefault(); // Prevent the default form submission
   
         const name = document.getElementById('name').value;
-        const company = document.getElementById('company').value;
         const email = document.getElementById('email').value;
         const phone = document.getElementById('phone').value;
         const issue = document.getElementById('issue').value;
@@ -55,7 +54,6 @@ function runDemo() {
   
         const subject = encodeURIComponent('Account Update Request');
         let body = `Name: ${encodeURIComponent(name)}\n`;
-        body += `Company: ${encodeURIComponent(company)}\n`;
         body += `Contact Email: ${encodeURIComponent(email)}\n`;
         body += `Contact Phone Number: ${encodeURIComponent(phone)}\n`;
         body += `Issue with Property: ${encodeURIComponent(issue)}\n`;
@@ -66,7 +64,7 @@ function runDemo() {
         window.location.href = mailtoLink;
     });
   
-    function generatePDF(name, otherName, otherAddress, caseNumber, company, email, phone, issue, immediate) {
+    function generatePDF(name, otherName, otherAddress, caseNumber, email, phone, issue, immediate) {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
   
@@ -119,7 +117,7 @@ function runDemo() {
       doc.setLineWidth(0.5);
       doc.line(20, 150, pageWidth - 20, 150);
   
-      doc.text(`Company: ${company}`, 20, 160);
+      doc.text(`Sample: Sample Document`, 20, 160);
       doc.text(`Contact Email: ${email}`, 20, 170);
       doc.text(`Contact Phone: ${phone}`, 20, 180);
   
@@ -138,13 +136,12 @@ function runDemo() {
   document.getElementById('generatePDF').addEventListener('click', function() {
     // Retrieve the values from the form inputs
     const name = document.getElementById('name').value;
-    const company = document.getElementById('company').value;
     const email = document.getElementById('email').value;
     const phone = document.getElementById('phone').value;
     const issue = document.getElementById('issue').value;
     const immediate = document.getElementById('immediate').checked ? 'Immediate attention is required' : '';
   
     // Call function to generate the PDF
-    generatePDF(name, otherAddress, otherName, caseNumber, company, email, phone, issue, immediate);
+    generatePDF(name, otherAddress, otherName, caseNumber, email, phone, issue, immediate);
   });
 

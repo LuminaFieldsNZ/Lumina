@@ -33,8 +33,8 @@ ScrollReveal().reveal("#form", {
 });
 
 function sendEmail() {
-  var emailAddress = 'woodmortar@gmail.com';
-  var subject = 'Sign me up to your newsletter';
+  var emailAddress = 'luminafieldsnz@gmail.com';
+  var subject = 'Sign me up to the Lumina Network';
   var body = 'Welcome to LuminaFields - Our newsletter will keep you up to date on everything artificial, from Camp Lumina, to what\'s new in the field. Paid members get access to private tutoring, daily mentorship, and code assistance.';
   
   var mailtoLink = 'mailto:' + encodeURIComponent(emailAddress) + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);

@@ -42,13 +42,17 @@
       opacity: 0.4;
       left: -20px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.7);"></div>
-  
+
 
       <input style="color:white;" class="input" type="text" id="userInput" placeholder="Moveable chat input field" oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
         <button style="display:none;">submit</button>
 
         <div style="color:white;" class="chat-window" id="chatWindow">
         </div>
+
+        <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)">
+
+
     </form>
 </section>
             
@@ -59,63 +63,83 @@
 
       <div class="slider">
 
+
+
+
         <div class="card" data-tilt>
           <div class="content">
             <img src="pics/blocks.jpg" alt="Connect via email" />
-            <h1>Connect via Email</h1>
             <p>
-              In a world filled with opportunities, having an Artificial mentor can make all the
-              difference. Explore why people turn to this invaluable resource to
-              unlock their potential.
+              S.A.L.M.ON is designed help you navigate the legal system and empower pro se litigants by helping them monitor the essential legal forms needed for motions and petitions.
                         </p>
                         <button class="btn" onclick="sendEmail();">
                           <span>Subscribe</span>
                           <ion-icon name="arrow-forward-outline"></ion-icon>
-                        </button>     
+                        </button>
+                        
           </div>
         </div>
 
-        
+        <div class="card" data-tilt>
+          <div class="content">
+<p>
+            <form id="maintenanceRequestForm" method="post" enctype="text/plain">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Contact Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Contact Phone Number:</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="issue">Any Immediate Issues:</label>
+                    <textarea id="issue" name="issue" required></textarea>
+                </div>
+                <div class="form-group checkbox-group">
+                    <div class="form-group checkbox-group">
+                        <label for="immediate"> Immediate attention is required</label>
+                        <input type="checkbox" id="immediate" name="timeframe" value="immediate">
+                    </div>            
+                </div>
+                <div class="form-group">
+                    <button class="btn" type="submit">Submit Email</button>
+
+                </div>
+            </form>
+          </p>
+</div>
+        </div>
 
         <div class="card" data-tilt>
           <div class="content">
             <img src="pics/ball3.jpg" alt="About Luminafields" />
-            <h1>About the Brand</h1>
+            <h1>Legal Training</h1>
             <p>
-              Learn about every byte of what we do, connect with us or join us in development.
+
+              Our paid subscribers gain access to the document review feature to ensure accuracy and provide alternative drafts.
+
+              
             </p>
-            <button class="btn" onclick="window.open('docs.html');">
-              <span>Dive in</span>
-              <ion-icon name="arrow-forward-outline"></ion-icon>
-            </button>
+            <button class="btn" id="generatePDF">Sample Form</button>
           </div>
         </div>
 
-        <div class="card" data-tilt>
-          <div class="content">
-            <img src="pics/web1.jpg" alt="Anya" />
-            <h1>Plant/Emotion Recognition</h1>
-            <p>
-              Micheal's facial and object recognition features add specialized focus and extrinsic data opportunities.
-            </p>
-            <button class="btn" onclick="window.open('https://mfglife.github.io/demo/index.html');">
-              <span>Test software</span>
-              <ion-icon name="arrow-forward-outline"></ion-icon>
-            </button>
-          </div>
-        </div>
+
 
         <div class="card" data-tilt>
           <div class="content">
             <img src="pics/ball4.jpg" alt="Anya" />
-            <h1>Image Capture Tool</h1>
+            <h1>Paid Subscribers</h1>
             <p>
-              Just name you file and capture 500 compressed photos at a time for optimized visual training.
+              Legal document management reimagined: instantly locate, cross-reference, and analyze your entire case history at machine speed.
             </p>
-            <button class="btn" onclick="window.open('tools.html')">
-              <span>Camera Tool</span>
-              <ion-icon name="arrow-forward-outline"></ion-icon>
-            </button>
+            <button class="btn" onclick="exportData()">Download JSON</button>
+
           </div>
         </div>
         
@@ -125,7 +149,7 @@
             <img src="pics/micheal1.jpg" alt="Micheal Salmon" />
             <h1>Meet the founder</h1>
             <p>
-              Micheal L Salmon, has a vision of merging nature, technology, and education through a playful LARP experience guided by Micheal.
+              Micheal S.A.L.M.ON. Smart Artificial Legal Monitoring ONline - "When traditional wasn't enough, innovation made the difference".
             </p>
             <button class="btn" onclick="window.open('https://linkedin.com/in/woodandmortar');">
               <span>Get Linkedin</span>
@@ -146,62 +170,9 @@
 
 
 
-
-      <div class="overlay">
- 
-        <div id="formSubmit">
-          <form id="maintenanceRequestForm" method="post" enctype="text/plain">
-            <h2>Create Account</h2><br><br>
-              <div class="form-group">
-                  <label for="name">Name:</label>
-                  <input type="text" id="name" name="name" required>
-              </div>
-              <div class="form-group">
-                  <label for="company">Company:</label>
-                  <input type="text" id="company" name="company">
-              </div>
-              <div class="form-group">
-                  <label for="email">Contact Email:</label>
-                  <input type="email" id="email" name="email" required>
-              </div>
-              <div class="form-group">
-                  <label for="phone">Contact Phone Number:</label>
-                  <input type="tel" id="phone" name="phone">
-              </div>
-              <div class="form-group">
-                  <label for="issue">Any Immediate Issues:</label>
-                  <textarea id="issue" name="issue" required></textarea>
-              </div>
-              <div class="form-group checkbox-group">
-                  <div class="form-group checkbox-group">
-                      <label for="immediate"> Immediate attention is required</label>
-                      <input type="checkbox" id="immediate" name="timeframe" value="immediate">
-                  </div>            
-              </div>
-              <div class="form-group">
-                  <button type="submit">Submit Email</button>
-              </div>
-          </form>
-        </div>
-        <button class="shop-button3" id="generatePDF">Sample Form</button>
-        
-        
-        
-        
-        <a id="toolMenu" style="width: 350px; height: 200px;">
+        <a id="toolMenu" style="width: 350px; height: 200px; display: none;">
           <textarea class="json-editor" id="jsonEditor" placeholder="JSON Editor Format: [question, answer, liveChange]"></textarea>
         </a>
-        
-        <button class="btn" onclick="exportData()">Download Lumina File</button>
-        <br><br>
-        <p>
-        
-          When you're ready, just upload your lumina file and Micheal will remember everything. The data in the lumina.json file is structured to add on top of the base dataset.
-          Micheal reads from the base data set, and <span class="gradient-text">every</span> uploaded lumina.json data set.
-        
-        </p>
-        <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)">
-        
         
         </div>
 
