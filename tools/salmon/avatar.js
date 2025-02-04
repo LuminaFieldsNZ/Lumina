@@ -25,18 +25,26 @@ document.addEventListener('scroll', function () {
 });
 
 // Draggable form
-let dragHandle = document.getElementById('dragHandle');
-let draggableForm = document.getElementById('draggableForm');
 let isDragging = false;
-let offsetX, offsetY;
 
+
+// Mouse events
 dragHandle.addEventListener('mousedown', function (e) {
     isDragging = true;
     offsetX = e.clientX - draggableForm.offsetLeft;
     offsetY = e.clientY - draggableForm.offsetTop;
     dragHandle.style.cursor = 'grabbing';
+    chatWindow.style.opacity = "1"; // Hide the element
+    setTimeout(function() {
+    
+        // Check if the element exists
+        if (chatWindow) {
+            chatWindow.style.opacity = ".1"; // Hide the element
+        }
+    }, 6000); // Wait for 3 seconds (3000 milliseconds)
 });
 
+// Mouse move event
 document.addEventListener('mousemove', function (e) {
     if (isDragging) {
         let newX = e.clientX - offsetX;
@@ -53,10 +61,54 @@ document.addEventListener('mousemove', function (e) {
     }
 });
 
+// Mouse up event
 document.addEventListener('mouseup', function () {
     isDragging = false;
     dragHandle.style.cursor = 'grab';
 });
+
+// Touch events for mobile/tablet
+dragHandle.addEventListener('touchstart', function (e) {
+    isDragging = true;
+    let touch = e.touches[0];
+    offsetX = touch.clientX - draggableForm.offsetLeft;
+    offsetY = touch.clientY - draggableForm.offsetTop;
+    dragHandle.style.cursor = 'grabbing';
+    e.preventDefault(); // Prevents default touch behavior
+    chatWindow.style.opacity = "1"; // Hide the element
+    setTimeout(function() {
+    
+        // Check if the element exists
+        if (chatWindow) {
+            chatWindow.style.opacity = ".1"; // Hide the element
+        }
+    }, 6000); // Wait for 3 seconds (3000 milliseconds)
+});
+
+// Touch move event
+document.addEventListener('touchmove', function (e) {
+    if (isDragging) {
+        let touch = e.touches[0];
+        let newX = touch.clientX - offsetX;
+        let newY = touch.clientY - offsetY;
+
+        // Boundaries to prevent dragging off-screen
+        newX = Math.max(0, Math.min(window.innerWidth - draggableForm.offsetWidth, newX));
+        newY = Math.max(0, Math.min(window.innerHeight - draggableForm.offsetHeight, newY));
+
+        draggableForm.style.left = newX + 'px';
+        draggableForm.style.top = newY + 'px';
+        dragPosition.x = newX;
+        dragPosition.y = newY;
+    }
+});
+
+// Touch end event
+document.addEventListener('touchend', function () {
+    isDragging = false;
+    dragHandle.style.cursor = 'grab';
+});
+
 
 // Update model tracking
 function updateModelTracking() {
@@ -125,6 +177,7 @@ function init() {
 
         // Start the random animation loop
         setTimeout(randomAnimation, 10000);
+        
     });
 
     renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -157,7 +210,7 @@ function randomAnimation() {
     mixer.addEventListener('finished', onAnimationFinished);
 
     // Set a timeout to run the next random animation after 40 seconds
-    setTimeout(randomAnimation, 40000);
+    setTimeout(randomAnimation, 400000);
 }
 
 function onAnimationFinished(event) {

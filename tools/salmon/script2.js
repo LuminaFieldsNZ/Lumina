@@ -7,33 +7,18 @@ async function loadPlayerJson() {
         const chatWindow = document.getElementById('chatWindow');
 
         const finalMessage = `
-            <h1>In this section I'll manage your documents online, let's begin chatting about your needs...</h1><br>
+            <p>In this section I'll manage your documents online, let's begin chatting about your needs...</p><br>
         `;
 
         chatWindow.innerHTML += finalMessage;
         botName = "Micheal";
-        scrollToTop();
-    }, 500);
+scrollToBottom();
+    }, 300);
 }
 
-function scrollToBottom() {
-    const chatWindow = document.getElementById('chatWindow');
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-}
-
-function scrollToTop() {
-    const chatWindow2 = document.getElementById('chatWindow');
-    chatWindow2.scrollTop = 0;
-}
 
 // Call the loadPlayerJson function on page load
 window.onload = loadPlayerJson;
-
-
-
-function runDemo() {
-    window.open('https://mfglife.github.io/demo/index.html', '_blank');
-}
 
 
 
@@ -145,3 +130,12 @@ function runDemo() {
     generatePDF(name, otherAddress, otherName, caseNumber, email, phone, issue, immediate);
   });
 
+    setTimeout(function() {
+        
+        // Check if the element exists
+        if (chatWindow) {
+            chatWindow.style.opacity = ".1"; // Hide the element
+        }
+    }, 6000); // Wait for 3 seconds (3000 milliseconds)
+ 
+  

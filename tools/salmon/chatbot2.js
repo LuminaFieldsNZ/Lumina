@@ -96,24 +96,6 @@ let baseData = [
 ];
 
 
-
-
-
-function getDeviceType() {
-    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-        return "mobile";
-    } else if (navigator.userAgent.indexOf('Mac OS X') !== -1) {
-        return "Apple";
-    } else if (navigator.appVersion.indexOf("Win") !== -1) {
-        return "Windows";
-    } else {
-        return "default";
-    }
-  }
-
-
-
-
 // Function to export data as JSON
 function exportData() {
     // Get the JSON data from the jsonEditor value
@@ -184,8 +166,17 @@ function sendMessage() {
 
     setTimeout(() => {
         response = getResponse(message);
-        chatWindow.innerHTML += '<span class="gradient-text">' + botName + '</span>: ' + response + '</p>';
+        chatWindow.innerHTML += '<span class="gradient-text">' + botName + '</span>: ' + response + '</p><br>';
         scrollToBottom();
+
+        chatWindow.style.opacity = "1"; // Hide the element
+        setTimeout(function() {
+        
+            // Check if the element exists
+            if (chatWindow) {
+                chatWindow.style.opacity = ".1"; // Hide the element
+            }
+        }, 6000); // Wait for 3 seconds (3000 milliseconds)
 
         // Update conversationData with the new message
         userData.conversationData.push([userData.id, message, response]);
@@ -201,6 +192,7 @@ function handleKeyPress(event) {
     if (event.keyCode === 13) { // Check if Enter key is pressed
         event.preventDefault();
         sendMessage();
+        scrollToBottom();
     }
 }
 

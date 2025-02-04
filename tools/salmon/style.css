@@ -476,3 +476,37 @@ label {
   top: 0;
   left: 0;
 }
+
+.chatting {
+  position: fixed;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+#chatWindow {
+  position: fixed;
+  height: auto;
+}
+
+
+
+/* For webkit browsers (Chrome, Safari, etc.) */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* For Firefox */
+scrollbar-width: none;

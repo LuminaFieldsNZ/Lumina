@@ -34,11 +34,15 @@
   <form id="draggableForm"> <div id="dragHandle" style="
     width: 20px;
     height: 20px;
+    border-radius: 10px;
     background: yellow;
     cursor: grab;
-    opacity: 0.4;
+    opacity: 0.9;
     left: -20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.7);"></div></form>
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.7);">
+    <p style="color:white;background-color: rgba(0, 0, 0, 0.6); overflow: scroll; border-radius: 10px; padding: 15px; width: 300px; max-height: 600px;" id="chatWindow">
+    </p>
+  </div></form>
 
 
 
@@ -47,27 +51,7 @@
 
 
       <div class="slider">
-
-        <div class="card" data-tilt>
-          <div class="content">
-            
-            <input style="color:white;" class="input" type="text" id="userInput" placeholder="Type here to begin..." oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
-            <button style="display:none;">submit</button>
-    
-            <div style="color:white;" class="chat-window" id="chatWindow">
-            </div>
-    
-            <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)">
-    
-
-          </div>
-        </div>
-
-
-            
-   
-
-
+        
         <div class="card" data-tilt>
           <div class="content">
             <img src="pics/blocks.jpg" alt="Connect via email" />
@@ -168,6 +152,14 @@
         <li class="next">
           <ion-icon class="arrow" name="caret-forward-outline"></ion-icon>
         </li>
+
+        <div class="chatting">
+          <input style="color:black;" type="text" id="userInput" placeholder="Type here to begin..." onkeydown="handleKeyPress(event)">
+          <button style="display:none;">submit</button>
+  
+          <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)">
+          </div>
+
       </ul>
 
 

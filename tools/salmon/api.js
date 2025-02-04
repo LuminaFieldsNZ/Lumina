@@ -1,32 +1,7 @@
-let checkLogin = false;
-let botName;
-
-
-
-function loadPlayerJson() {
-        const chatWindow = document.getElementById('chatWindow');
-        let finalMessage = "Smart Artificial Legal Monitoring";
-        chatWindow.innerHTML += finalMessage;
-        botName = "Micheal";
-        scrollToBottom();
-}
-
-function scrollToBottom() {
-    const chatWindow = document.getElementById('chatWindow');
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-}
-
-// Call the loadPlayerJson function on page load
-window.onload = loadPlayerJson;
-     
-
-function runDemo() {
-  window.open('https://mfglife.github.io/demo/index.html', '_blank');
-}
-
 
 
 document.addEventListener('DOMContentLoaded', function() {
+
 
     const form = document.getElementById('maintenanceRequestForm');
   
