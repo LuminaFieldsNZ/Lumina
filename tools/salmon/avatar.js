@@ -35,11 +35,14 @@ dragHandle.addEventListener('mousedown', function (e) {
     offsetY = e.clientY - draggableForm.offsetTop;
     dragHandle.style.cursor = 'grabbing';
     chatWindow.style.opacity = "1"; // Hide the element
+    app.style.opacity = "1"; // Hide the element
+
     setTimeout(function() {
     
         // Check if the element exists
         if (chatWindow) {
             chatWindow.style.opacity = ".1"; // Hide the element
+            app.style.opacity = ".1"; // Hide the element
         }
     }, 6000); // Wait for 3 seconds (3000 milliseconds)
 });
@@ -76,11 +79,13 @@ dragHandle.addEventListener('touchstart', function (e) {
     dragHandle.style.cursor = 'grabbing';
     e.preventDefault(); // Prevents default touch behavior
     chatWindow.style.opacity = "1"; // Hide the element
+    app.style.opacity = "1"; // Hide the element
     setTimeout(function() {
     
         // Check if the element exists
         if (chatWindow) {
             chatWindow.style.opacity = ".1"; // Hide the element
+            app.style.opacity = ".1"; // Hide the element
         }
     }, 6000); // Wait for 3 seconds (3000 milliseconds)
 });
