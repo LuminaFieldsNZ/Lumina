@@ -7,7 +7,7 @@ async function loadPlayerJson() {
         const chatWindow = document.getElementById('chatWindow');
 
         const finalMessage = `
-            <p>In this section I'll manage your documents online, let's begin chatting about your needs...</p><br>
+            <p><span class="gradient-text"> Micheal | Model Version 3.1</span> - I'll manage your documents online, let's begin chatting about your needs...</p><br>
         `;
 
         chatWindow.innerHTML += finalMessage;
