@@ -315,12 +315,15 @@ img {
 }
 
 .control {
+  width: 100vw;
+  left: 50%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   list-style: none;
   gap: 14px;
+
 }
 
 .control li {

@@ -44,7 +44,15 @@
     </p>
   </div></form>
 
-
+  <div style="position: absolute; top: 60px;">
+  <ul class="control" id="custom-control">
+    <li class="prev">
+      <ion-icon class="arrow" name="caret-back-outline"></ion-icon>
+    </li>
+    <li class="next">
+      <ion-icon class="arrow" name="caret-forward-outline"></ion-icon>
+    </li>
+  </ul></div>
 
     <section class="card-container" id="card-container">
 
@@ -145,22 +153,14 @@
         </div>
       </div>
 
-      <ul class="control" id="custom-control">
-        <li class="prev">
-          <ion-icon class="arrow" name="caret-back-outline"></ion-icon>
-        </li>
-        <li class="next">
-          <ion-icon class="arrow" name="caret-forward-outline"></ion-icon>
-        </li>
 
-        <div class="chatting">
-          <input style="color:black;" type="text" id="userInput" placeholder="Type here to begin..." onkeydown="handleKeyPress(event)">
-          <button style="display:none;">submit</button>
-  
-          <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)">
-          </div>
+      
+      <div class="chatting">
+        <input style="color:black;" type="text" id="userInput" placeholder="Type here to begin..." onkeydown="handleKeyPress(event)">
+        <button style="display:none;">submit</button>
 
-      </ul>
+        <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)">
+        </div>
 
 
 
