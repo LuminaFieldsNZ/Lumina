@@ -7,7 +7,7 @@ async function loadPlayerJson() {
         const chatWindow = document.getElementById('chatWindow');
 
         const finalMessage = `
-            <h1><span class="gradient-text">Micheal</span> Smart Artificial Legal Monitoring is Online. Use the field above to begin chatting...</h1><br>
+            <h1>In this section I'll manage your documents online, let's begin chatting about your needs...</h1><br>
         `;
 
         chatWindow.innerHTML += finalMessage;

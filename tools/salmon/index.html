@@ -30,32 +30,17 @@
 
 
 <body>
-  <section class="home">
-    
-    <form id="draggableForm">
-
-      <div id="dragHandle" style="
-      width: 20px;
-      height: 20px;
-      background: yellow;
-      cursor: grab;
-      opacity: 0.4;
-      left: -20px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.7);"></div>
-
-
-      <input style="color:white;" class="input" type="text" id="userInput" placeholder="Moveable chat input field" oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
-        <button style="display:none;">submit</button>
-
-        <div style="color:white;" class="chat-window" id="chatWindow">
-        </div>
-
-        <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)">
-
-
-    </form>
-</section>
             
+  <form id="draggableForm"> <div id="dragHandle" style="
+    width: 20px;
+    height: 20px;
+    background: yellow;
+    cursor: grab;
+    opacity: 0.4;
+    left: -20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.7);"></div></form>
+
+
 
     <section class="card-container" id="card-container">
 
@@ -63,7 +48,24 @@
 
       <div class="slider">
 
+        <div class="card" data-tilt>
+          <div class="content">
+            
+            <input style="color:white;" class="input" type="text" id="userInput" placeholder="Type here to begin..." oninput="checkPasscode();" onkeydown="handleKeyPress(event)">
+            <button style="display:none;">submit</button>
+    
+            <div style="color:white;" class="chat-window" id="chatWindow">
+            </div>
+    
+            <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)">
+    
 
+          </div>
+        </div>
+
+
+            
+   
 
 
         <div class="card" data-tilt>
@@ -179,9 +181,12 @@
 
 
     </section>
+
+      <div id="app" style="left: -40%;"></div>
+
   </body>
 
-  <div id="app"></div>
+
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js'></script>
 <script src='https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js'></script>
