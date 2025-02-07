@@ -10,17 +10,16 @@
 <META NAME="ROBOTS" CONTENT="ALL,FOLLOW">
 <meta name="description" content="Smart Artificial Learning Models Online">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="apple-touch-icon" sizes="180x180" href="pics/wm.png">
-<link rel="icon" type="image/png" href="pics/wm.png" sizes="32x32">
-<link rel="icon" type="image/png" href="pics/wm.png" sizes="16x16">
-<link rel="mask-icon" href="pics/wm.png" color="#fff">
-<link rel="shortcut icon" href="pics/wm.png">
+<link rel="apple-touch-icon" sizes="180x180" href="pics/logo.png">
+<link rel="icon" type="image/png" href="pics/logo.png" sizes="32x32">
+<link rel="icon" type="image/png" href="pics/logo.png" sizes="16x16">
+<link rel="mask-icon" href="pics/logo.png" color="#fff">
+<link rel="shortcut icon" href="pics/logo.png">
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/tiny-slider.css'>
 <link rel="stylesheet" href="./style.css">
 <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/loaders/GLTFLoader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/controls/OrbitControls.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 
 
@@ -30,11 +29,15 @@
 
 
 <body>
+
+  <select id="animationSelector" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+    <option value="">Select Animation</option>
+</select>
             
   <form id="draggableForm"> <div id="dragHandle" style="
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
     background: yellow;
     cursor: grab;
     opacity: 0.9;
@@ -42,155 +45,22 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.7);">
     <p style="color:white;background-color: rgba(0, 0, 0, 0.6); overflow: scroll; border-radius: 10px; padding: 15px; width: 300px; max-height: 600px;" id="chatWindow">
     </p>
+    <input style="color:black; opacity: .8; position: absolute; left: 40px;" type="text" id="userInput" placeholder="Type here to begin..." onkeydown="handleKeyPress(event)">
   </div></form>
 
-  <div style="position: absolute; top: 60px;">
-  <ul class="control" id="custom-control">
-    <li class="prev">
-      <ion-icon class="arrow" name="caret-back-outline"></ion-icon>
-    </li>
-    <li class="next">
-      <ion-icon class="arrow" name="caret-forward-outline"></ion-icon>
-    </li>
-  </ul></div>
+      <div id="app" style="left: -40%; z-index: -1;"></div>
 
-    <section class="card-container" id="card-container">
-
-
-
-      <div class="slider">
-        
-        <div class="card" data-tilt>
-          <div class="content">
-            <img src="pics/blocks.jpg" alt="Connect via email" />
-            <p>
-              S.A.L.M.ON models are trained to assist the everyday human in high skilled tasks based on intrinsic ideologies.
-                        </p>
-                        <button class="btn" onclick="sendEmail();">
-                          <span>Subscribe</span>
-                          <ion-icon name="arrow-forward-outline"></ion-icon>
-                        </button>
-                        
-          </div>
+  
         </div>
-
-        <div class="card" data-tilt>
-          <div class="content">
-<p>
-            <form id="maintenanceRequestForm" method="post" enctype="text/plain">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Contact Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Contact Phone Number:</label>
-                    <input type="tel" id="phone" name="phone">
-                </div>
-                <div class="form-group">
-                    <label for="issue">Any Immediate Issues:</label>
-                    <textarea id="issue" name="issue" required></textarea>
-                </div>
-                <div class="form-group checkbox-group">
-                    <div class="form-group checkbox-group">
-                        <label for="immediate"> Immediate attention is required</label>
-                        <input type="checkbox" id="immediate" name="timeframe" value="immediate">
-                    </div>            
-                </div>
-                <div class="form-group">
-                    <button class="btn" type="submit">Submit Email</button>
-
-                </div>
-            </form>
-          </p>
-</div>
-        </div>
-
-        <div class="card" data-tilt>
-          <div class="content">
-            <img src="pics/ball3.jpg" alt="About Luminafields" />
-            <h1>Paid Subscribers</h1>
-            <p>
-
-              Our subscribers gain access to the document review feature to ensure accuracy and provide alternative drafts.
-
-              
-            </p>
-            <button class="btn" id="generatePDF">Sample draft</button>
-          </div>
-        </div>
-
-
-
-        <div class="card" data-tilt>
-          <div class="content">
-            <img src="pics/ball4.jpg" alt="Anya" />
-            <h1>Fully Secure</h1>
-            <p>
-              Instantly locate, cross-reference, and analyze your entire library at machine speed with our JSON profile management system.
-            </p>
-            <button class="btn" onclick="exportData()">Download JSON</button>
-
-          </div>
-        </div>
-        
-
-        <div class="card" data-tilt>
-          <div class="content">
-            <img src="pics/micheal1.jpg" alt="Micheal Salmon" />
-            <h1>Meet the founder</h1>
-            <p>
-              Micheal S.A.L.M.ON. Smart Artificial Learning Models Online - "When traditional wasn't enough, innovation made the difference".
-            </p>
-            <button class="btn" onclick="window.open('https://linkedin.com/in/woodandmortar');">
-              <span>Get Linkedin</span>
-              <ion-icon name="arrow-forward-outline"></ion-icon>
-            </button>
-          </div>
-        </div>
-      </div>
-
-
-      
-      <div class="chatting">
-        <input style="color:black;" type="text" id="userInput" placeholder="Type here to begin..." onkeydown="handleKeyPress(event)">
-        <button style="display:none;">submit</button>
-
-        <input type="file" id="baseDataSet" onchange="importBaseDataSet(event)">
-        </div>
-
-
-
-        <a id="toolMenu" style="width: 350px; height: 200px; display: none;">
-          <textarea class="json-editor" id="jsonEditor" placeholder="JSON Editor Format: [question, answer, liveChange]"></textarea>
-        </a>
-        
-        </div>
-
-
-
-    </section>
-
-      <div id="app" style="left: -40%;"></div>
 
   </body>
 
 
-
-<script src='https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js'></script>
-<script src='https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js'></script>
-<script src='https://unpkg.com/scrollreveal'></script>
-<script  src="./script.js"></script>
-
 <script src="./chatbot2.js"></script>
-<script src="./bud/basedata.js"></script>
-<script src="./script2.js"></script>
 <script src="./avatar.js"></script>
-<script src="./bud/data/plants.js"></script>
-
+<script src="../../hardData/base.js"></script>
+<script src="../../hardData/lumie.js"></script>
+<script src="../../hardData/sex.js"></script>
 <script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>
 <script src='https://unpkg.com/gsap@3/dist/EasePack.min.js'></script>
 </body>

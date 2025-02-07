@@ -34,17 +34,6 @@ dragHandle.addEventListener('mousedown', function (e) {
     offsetX = e.clientX - draggableForm.offsetLeft;
     offsetY = e.clientY - draggableForm.offsetTop;
     dragHandle.style.cursor = 'grabbing';
-    chatWindow.style.opacity = "1"; // Hide the element
-    app.style.opacity = "1"; // Hide the element
-
-    setTimeout(function() {
-    
-        // Check if the element exists
-        if (chatWindow) {
-            chatWindow.style.opacity = ".1"; // Hide the element
-            app.style.opacity = ".1"; // Hide the element
-        }
-    }, 6000); // Wait for 3 seconds (3000 milliseconds)
 });
 
 // Mouse move event
@@ -78,16 +67,6 @@ dragHandle.addEventListener('touchstart', function (e) {
     offsetY = touch.clientY - draggableForm.offsetTop;
     dragHandle.style.cursor = 'grabbing';
     e.preventDefault(); // Prevents default touch behavior
-    chatWindow.style.opacity = "1"; // Hide the element
-    app.style.opacity = "1"; // Hide the element
-    setTimeout(function() {
-    
-        // Check if the element exists
-        if (chatWindow) {
-            chatWindow.style.opacity = ".1"; // Hide the element
-            app.style.opacity = ".1"; // Hide the element
-        }
-    }, 6000); // Wait for 3 seconds (3000 milliseconds)
 });
 
 // Touch move event
@@ -179,9 +158,6 @@ function init() {
         neck = model.getObjectByName('Neck'); // Replace 'Neck' with the actual name of the neck bone/mesh
         leftEye = model.getObjectByName('LeftEye'); // Replace 'LeftEye' with the actual name of the left eye bone/mesh
         rightEye = model.getObjectByName('RightEye'); // Replace 'RightEye' with the actual name of the right eye bone/mesh
-
-        // Start the random animation loop
-        setTimeout(randomAnimation, 10000);
         
     });
 
@@ -195,28 +171,7 @@ function init() {
     gsap.ticker.add(render);
 }
 
-function randomAnimation() {
-    // Stop the current animation and transition to the new one
-    if (action) {
-        action.crossFadeTo(mixer.clipAction(animations[currentAnimationIndex]), 0.5, true);
-    }
 
-    // Set the current animation to a random index
-    currentAnimationIndex = Math.floor(Math.random() * animations.length);
-    let nextAction = mixer.clipAction(animations[currentAnimationIndex]);
-
-    // Set the animation to play once
-    nextAction.setLoop(THREE.LoopOnce);
-    nextAction.reset();
-    nextAction.play();
-
-    // When the animation ends, revert to the idle animation
-    nextAction.clampWhenFinished = true;
-    mixer.addEventListener('finished', onAnimationFinished);
-
-    // Set a timeout to run the next random animation after 40 seconds
-    setTimeout(randomAnimation, 400000);
-}
 
 function onAnimationFinished(event) {
     if (event.action === mixer.clipAction(animations[currentAnimationIndex])) {
@@ -233,3 +188,43 @@ function onAnimationFinished(event) {
         event.action.crossFadeTo(idleAction, 0.5, false);
     }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    let animationSelector = document.getElementById('animationSelector');
+
+    function populateAnimations() {
+        if (!animations || animations.length === 0) return;
+
+        animations.forEach((anim, index) => {
+            let option = document.createElement('option');
+            option.value = index;
+            option.textContent = anim.name || `Animation ${index + 1}`;
+            animationSelector.appendChild(option);
+        });
+    }
+
+    animationSelector.addEventListener('change', function () {
+        let selectedIndex = parseInt(this.value);
+        if (!isNaN(selectedIndex)) {
+            playAnimation(selectedIndex);
+        }
+    });
+
+    function playAnimation(index) {
+        if (mixer && animations[index]) {
+            if (action) {
+                action.fadeOut(0.5);
+            }
+            action = mixer.clipAction(animations[index]);
+            action.reset().fadeIn(0.5).play();
+        }
+    }
+
+    // Wait for model to load and populate animations
+    let checkModel = setInterval(() => {
+        if (animations) {
+            populateAnimations();
+            clearInterval(checkModel);
+        }
+    }, 500);
+});

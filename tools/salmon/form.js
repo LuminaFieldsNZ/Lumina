@@ -1,25 +1,3 @@
-let checkLogin = false;
-let botName;
-
-
-async function loadPlayerJson() {
-    setTimeout(async function() {
-        const chatWindow = document.getElementById('chatWindow');
-
-        const finalMessage = `
-            <p><span class="gradient-text"> Micheal | Model Version 3.1</span> - I'll manage your documents online, let's begin chatting about your needs...</p><br>
-        `;
-
-        chatWindow.innerHTML += finalMessage;
-        botName = "Micheal";
-scrollToBottom();
-    }, 300);
-}
-
-
-// Call the loadPlayerJson function on page load
-window.onload = loadPlayerJson;
-
 
 
     const form = document.getElementById('maintenanceRequestForm');
@@ -130,12 +108,5 @@ window.onload = loadPlayerJson;
     generatePDF(name, otherAddress, otherName, caseNumber, email, phone, issue, immediate);
   });
 
-    setTimeout(function() {
-        
-        // Check if the element exists
-        if (chatWindow) {
-            chatWindow.style.opacity = ".1"; // Hide the element
-        }
-    }, 6000); // Wait for 3 seconds (3000 milliseconds)
- 
+
   
