@@ -4,7 +4,7 @@ setTimeout(async function() {
     const chatWindow = document.getElementById('chatWindow');
 
     const finalMessage = `
-        <p><span class="gradient-text"> Micheal | Model Version 3.1</span> - I'll manage your documents online, let's begin chatting about your needs...</p><br>
+        <p><span class="gradient-text"> Micheal | Model Version 3.1</span> - Let's begin chatting ...</p><br>
     `;
 
     chatWindow.innerHTML += finalMessage;
@@ -13,7 +13,7 @@ scrollToBottom();
 }, 300);
 
 // Global variable to store the user ID
-let userId = "Newcomer";
+let userId = "Guest";
 
 // Initialize base data
 let baseData = [
@@ -56,6 +56,7 @@ function getClosestQuestion(input, data) {
 
 
 
+
 function sendMessage() {
     const inputElem = document.getElementById('userInput');
     const message = inputElem.value;
@@ -64,14 +65,19 @@ function sendMessage() {
     const chatWindow = document.getElementById('chatWindow');
     chatWindow.innerHTML += '<p>' + userId + ': ' + message + '</p>';
 
+    // Calculate duration based on the length of the chat window content
+    const chatContentLength = chatWindow.innerHTML.replace(/<[^>]*>/g, '').length; // remove HTML tags for character count
+    const duration = Math.max(1000, (chatContentLength / 20) * 1000); // Duration is 1 second per 20 characters, but minimum 1 second
 
     setTimeout(() => {
         response = getResponse(message);
         chatWindow.innerHTML += '<span class="gradient-text">' + botName + '</span>: ' + response + '</p><br>';
         scrollToBottom();
-
+        animateTalking(true); // Start talking
+        setTimeout(() => animateTalking(false), duration); // Dynamically adjust the animation duration
     }, 1000);
 }
+
 
 function handleKeyPress(event) {
     if (event.keyCode === 13) { // Check if Enter key is pressed

@@ -159,6 +159,7 @@ function init() {
         leftEye = model.getObjectByName('LeftEye'); // Replace 'LeftEye' with the actual name of the left eye bone/mesh
         rightEye = model.getObjectByName('RightEye'); // Replace 'RightEye' with the actual name of the right eye bone/mesh
         
+        
     });
 
     renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -171,6 +172,34 @@ function init() {
     gsap.ticker.add(render);
 }
 
+
+let talkingTween = null; // Store GSAP animation
+
+function animateTalking(isTalking, totalDuration) {
+    if (talkingTween) {
+        talkingTween.kill(); // Stop any existing animation
+    }
+
+    model.traverse((child) => {
+        if (child.isMesh && child.morphTargetDictionary) {
+            let mouthIndex = child.morphTargetDictionary["mouthOpen"];
+            if (mouthIndex !== undefined) {
+                // Repeat the mouth animation indefinitely if talking
+                talkingTween = gsap.to(child.morphTargetInfluences, {
+                    [mouthIndex]: isTalking ? 1 : 0, // Mouth open or close based on talking state
+                    duration: Math.random() * 0.5 + 0.5, // Random duration between 0.5 and 1 second
+                    repeat: isTalking ? -1 : 0, // Repeat infinitely if talking
+                    yoyo: true, // Reverse the animation (open-close-open)
+                    ease: "power1.inOut", // Smooth easing
+                    onRepeat: () => {
+                        // Set random duration for each repeat (smooth and varying speed)
+                        talkingTween.duration(Math.random() * 0.5 + 0.5); // Randomize speed for each cycle
+                    }
+                });
+            }
+        }
+    });
+}
 
 
 function onAnimationFinished(event) {
@@ -227,4 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
             clearInterval(checkModel);
         }
     }, 500);
+
+    
 });
+
