@@ -104,7 +104,7 @@ function updateModelTracking() {
     let y = (formCenterY / window.innerHeight) * 2 - 1;
 
     // Combine scroll and drag inputs for rotations
-    let combinedRotationX = (y * Math.PI * 0.12)-50;
+    let combinedRotationX = (y * Math.PI * 0.12)-49.8;
     let combinedRotationY = x * Math.PI * 0.12;
 
     // Apply rotations to model bones based on combined input
