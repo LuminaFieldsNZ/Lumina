@@ -112,3 +112,71 @@
 
 /* For Firefox */
 scrollbar-width: none;
+
+
+/* Emote class styles */
+.emote {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.5s;
+}
+
+/* Falling animation */
+.falling {
+  position: absolute;
+  border-radius: 50%;
+  animation: fall var(--animation-duration) ease-in forwards;
+  --horizontal-distance: 0px; /* Default value */
+  box-shadow: 0 0 10px rgba(247, 24, 198, 0.658); /* White glow effect */
+}
+
+@keyframes fall {
+  0% {
+    opacity: 1; /* Fully visible at the start */
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(247, 24, 198, 0.658); /* White glow at the start */
+  }
+  70% {
+    opacity: 0; /* Fully transparent at the end */
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(247, 24, 198, 0); /* Fade out glow */
+  }
+  100% {
+    transform: translateY(100vh) translateX(var(--horizontal-distance));
+    border-radius: 50%;
+    opacity: 0; /* Fully transparent at the end */
+    box-shadow: 0 0 20px rgba(247, 24, 198, 0); /* Fade out glow */
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating {
+  animation: rotate linear infinite;
+}
+
+
+
+.svg-container2 {
+  z-index: 9999999999999999999999999999;
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  overflow: hidden; /* Ensure the SVG doesn't overflow the container */
+  position: absolute; /* Required for absolute positioning of SVG inside */
+  border-radius: 50%;
+}
+
+
+#emoteWidth {
+  background-color: #fff;
+  border-radius: 30%;
+}
