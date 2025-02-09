@@ -1,18 +1,6 @@
-let botName;
 
-setTimeout(async function() {
-    const chatWindow = document.getElementById('chatWindow');
 
-    const finalMessage = `
-        <p><span class="gradient-text"> Micheal | Model Version 3.1</span> - Let's begin chatting ...</p><br>
-    `;
-
-    chatWindow.innerHTML += finalMessage;
-    botName = "Micheal";
-scrollToBottom();
-}, 300);
-
-// Global variable to store the user ID
+let botName = "Micheal";
 let userId = "Guest";
 
 // Initialize base data
@@ -59,24 +47,53 @@ function getClosestQuestion(input, data) {
 
 function sendMessage() {
     const inputElem = document.getElementById('userInput');
-    const message = inputElem.value;
+    const message = inputElem.value.trim();
+    if (!message) return; // Prevent empty messages
+
     inputElem.value = '';
-
     const chatWindow = document.getElementById('chatWindow');
-    chatWindow.innerHTML += '<p>' + userId + ': ' + message + '</p>';
 
-    // Calculate duration based on the length of the chat window content
-    const chatContentLength = chatWindow.innerHTML.replace(/<[^>]*>/g, '').length; // remove HTML tags for character count
-    const duration = Math.max(1000, (chatContentLength / 20) * 1000); // Duration is 1 second per 20 characters, but minimum 1 second
+    // Add User Message
+    const userMessage = createChatBubble(userId, message, "user-message");
+    chatWindow.appendChild(userMessage);
 
+    // Auto-scroll to bottom
+    scrollToBottom();
+
+    // Simulated bot response delay
     setTimeout(() => {
-        response = getResponse(message);
-        chatWindow.innerHTML += '<span class="gradient-text">' + botName + '</span>: ' + response + '</p><br>';
+        const response = getResponse(message);
+        const botMessage = createChatBubble(botName, response, "bot-message");
+        chatWindow.appendChild(botMessage);
+
         scrollToBottom();
-        animateTalking(true); // Start talking
-        setTimeout(() => animateTalking(false), duration); // Dynamically adjust the animation duration
+        animateTalking(true); // Start talking animation
+        
+        // Calculate dynamic animation duration based on text length
+        const duration = Math.max(1000, (response.length / 20) * 1000);
+        setTimeout(() => animateTalking(false), duration);
     }, 1000);
 }
+
+// Function to create chat bubble
+function createChatBubble(sender, text, className) {
+    const bubble = document.createElement("div");
+    bubble.classList.add("chat-bubble", className);
+    bubble.innerHTML = `<strong>${sender}:</strong> ${text}`;
+    return bubble;
+}
+
+
+setTimeout(function () {
+    const chatWindow = document.getElementById('chatWindow'); // Ensure chatWindow is selected
+    // Introduction Message
+    const introMessage = createChatBubble(botName, `Model Version 3.1 - Let's begin chatting...`, "bot-message");
+    chatWindow.appendChild(introMessage);
+    scrollToBottom();
+}, 300);
+
+
+
 
 
 function handleKeyPress(event) {
@@ -105,16 +122,22 @@ function scrollToBottom() {
     chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
-let isChatVisible = false; // Track chat visibility
 
-dragHandle.addEventListener('click', function () {
-    if (chatWindow) {
-        isChatVisible = !isChatVisible; // Toggle state
-        chatWindow.style.opacity = isChatVisible ? "1" : "0"; // Show or hide
-        chatWindow.style.pointerEvents = isChatVisible ? "auto" : "none"; // Ensure it doesn't interfere when hidden
-    }
+const chatToggle = document.getElementById("animationSelector"); // Select element
+const chatWindow = document.getElementById("chatContainer"); // Chat window element
+const chatDisplay = document.getElementById("chatDisplay"); // Display text element
+
+chatToggle.addEventListener("change", function () {
+    const shouldShowChat = chatToggle.value !== ""; // Check if selected value is NOT empty
+
+    // Update display text immediately
+    chatDisplay.innerHTML = shouldShowChat ? "Hide Chat" : "Show Chat";
+
+    // Smoothly show/hide chat window
+    chatWindow.style.transition = "opacity 0.3s ease-in-out";
+    chatWindow.style.opacity = shouldShowChat ? "1" : "0";
+    chatWindow.style.pointerEvents = shouldShowChat ? "auto" : "none";
 });
-
 
 
 

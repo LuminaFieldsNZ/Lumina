@@ -26,10 +26,35 @@
 }
 
 
-#chatWindow {
-  position: fixed;
-  height: auto;
+.chat-bubble {
+  max-width: 80%;
+  padding: 10px;
+  border-radius: 15px;
+  margin-bottom: 5px;
+  display: inline-block;
+  word-wrap: break-word;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-in-out forwards;
 }
+
+.user-message {
+  background-color: #0084ff;
+  color: white;
+  align-self: flex-end;
+  text-align: right;
+}
+
+.bot-message {
+  background-color: #1c1c1c;
+  color: white;
+  align-self: flex-start;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 
 
 

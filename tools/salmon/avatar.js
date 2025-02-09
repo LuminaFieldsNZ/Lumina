@@ -244,10 +244,30 @@ document.addEventListener('DOMContentLoaded', function () {
             if (action) {
                 action.fadeOut(0.5);
             }
+    
             action = mixer.clipAction(animations[index]);
-            action.reset().fadeIn(0.5).play();
+            action.reset().setLoop(THREE.LoopOnce, 1).fadeIn(0.5).play();
+    
+            // Keep last frame instead of returning to T-pose
+            action.clampWhenFinished = true;
+            action.enabled = true;
+    
+            // Remove old event listener and add a new one
+            mixer.removeEventListener('finished', onAnimationFinished);
+            mixer.addEventListener('finished', onAnimationFinished);
+    
+            function onAnimationFinished(event) {
+                if (event.action === action) {
+                    let idleAction = mixer.clipAction(animations[0]);
+                    idleAction.reset().fadeIn(0.5).play();
+                    
+                    // Smooth crossfade to idle
+                    action.crossFadeTo(idleAction, 0.5, false);
+                }
+            }
         }
     }
+    
 
     // Wait for model to load and populate animations
     let checkModel = setInterval(() => {

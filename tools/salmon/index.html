@@ -31,7 +31,8 @@
 <body>
 
   <select id="animationSelector" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
-    <option value="">Select Animation</option>
+    <option value="">Options</option>
+    <option id="chatDisplay" value="">Hide Chat</option>
 </select>
             
   <form id="draggableForm"> <div id="dragHandle" style="
@@ -43,12 +44,19 @@
     opacity: 0.9;
     left: -20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.7);">
-    <p style="color:white;background-color: rgba(0, 0, 0, 0.6); overflow: scroll; border-radius: 10px; padding: 15px; width: 300px; max-height: 600px;" id="chatWindow">
-    </p>
-    <input style="color:black; opacity: .8; position: absolute; left: 40px;" type="text" id="userInput" placeholder="Type here to begin..." onkeydown="handleKeyPress(event)">
-  </div></form>
+    </div></form>
 
       <div id="app" style="left: -40%; z-index: -1;"></div>
+
+      <div id="chatContainer" style="width: 320px; max-height: 600px; display: flex; flex-direction: column; gap: 8px; padding: 15px; background-color: rgba(0, 0, 0, 0.6); border-radius: 10px; overflow-y: auto; position: absolute; bottom: 10px; right: 10px;">
+        <input id="userInput" type="text" placeholder="Type here to begin..." 
+        style="width: 300px; padding: 8px; margin-top: 10px; border-radius: 5px; border: none; opacity: 0.8;" 
+        onkeydown="handleKeyPress(event)">
+        <div id="chatWindow"></div>
+    </div>
+    
+    
+    
 
   
         </div>
