@@ -56,6 +56,44 @@
 }
 
 
+#animationSelector {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.6); /* Match chat window */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: 'Noto Sans', sans-serif;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hover and focus effect */
+#animationSelector:hover,
+#animationSelector:focus {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Dropdown options */
+#animationSelector option {
+  background-color: rgba(0, 0, 0, 0.9); /* Darker background */
+  color: white;
+  padding: 5px;
+  font-size: 14px;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+/* When an option is selected */
+#animationSelector:active {
+  transform: scale(1.05);
+}
+
+
 
 
 /* For webkit browsers (Chrome, Safari, etc.) */

@@ -126,115 +126,53 @@ function updateModelTracking() {
     }
 }
 
+
 function init() {
-    // Initialize scene and camera
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0x000000, 0, 16);
-    
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(-1, 0, 4);
     camera.lookAt(1, 0, 0);
 
-    // Add lights
-    scene.add(new THREE.AmbientLight(0xffffff, 1));
+    let ambient = new THREE.AmbientLight(0xffffff, 1);
+    scene.add(ambient);
     let pointLight = new THREE.PointLight(0xffffff, 0.5);
     pointLight.position.z = 2500;
     scene.add(pointLight);
 
-    // Load model
-    loadModel();
-
-    // Initialize renderer
-    renderer = new THREE.WebGLRenderer({ alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMap.enabled = true;
-    renderer.setPixelRatio(window.devicePixelRatio);
-    document.getElementById("app").appendChild(renderer.domElement);
-    
-    gsap.ticker.add(render);
-}
-
-async function loadModel() {
-    const loader = new THREE.GLTFLoader();
-    try {
-        const gltf = await new Promise((resolve, reject) => {
-            loader.load('https://luminafieldsnz.github.io/Lumina/tools/salmon/micheal.glb', resolve, undefined, reject);
-        });
-        
+    let loader = new THREE.GLTFLoader();
+    loader.load('https://luminafieldsnz.github.io/Lumina/tools/salmon/micheal.glb', function (gltf) {
         model = gltf.scene;
         scene.add(model);
-        model.position.set(0, -1.2, 2.2);
+        model.position.y = -1.2;
+        model.position.z = 2.2;
 
         mixer = new THREE.AnimationMixer(model);
         animations = gltf.animations;
 
-        if (animations.length > 0) {
-            action = mixer.clipAction(animations[0]);
-            action.setLoop(THREE.LoopRepeat);
-            action.play();
-        }
+        // Set the initial action to idle animation
+        action = mixer.clipAction(animations[0]);
+        action.setLoop(THREE.LoopRepeat);
+        action.play();
 
-        spine = model.getObjectByName('Spine');
-        neck = model.getObjectByName('Neck');
-        leftEye = model.getObjectByName('LeftEye');
-        rightEye = model.getObjectByName('RightEye');
-        
-        populateAnimations();
+        spine = model.getObjectByName('Spine'); 
+        neck = model.getObjectByName('Neck'); 
+        leftEye = model.getObjectByName('LeftEye'); 
+        rightEye = model.getObjectByName('RightEye'); 
+
+        // Model loaded, trigger onModelLoaded
         onModelLoaded();
-    } catch (error) {
-        console.error('Error loading model:', error);
-    }
-}
-
-function populateAnimations() {
-    const animationSelector = document.getElementById('animationSelector');
-    if (!animations || animations.length === 0 || !animationSelector) return;
-    
-    animationSelector.innerHTML = '<option value="">Select Animation</option>';
-    animations.forEach((anim, index) => {
-        let option = document.createElement('option');
-        option.value = index;
-        option.textContent = anim.name || `Animation ${index + 1}`;
-        animationSelector.appendChild(option);
     });
-    
-    animationSelector.addEventListener('change', function () {
-        let selectedIndex = parseInt(this.value);
-        if (!isNaN(selectedIndex)) {
-            playAnimation(selectedIndex);
-        }
-    });
+
+    renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    renderer.shadowMap.enabled = true;
+    renderer.setPixelRatio(window.devicePixelRatio);
+    document.getElementById("app").appendChild(renderer.domElement);
+
+    gsap.ticker.add(render);
 }
-
-function playAnimation(index) {
-    if (mixer && animations[index]) {
-        if (action) {
-            action.fadeOut(0.5);
-        }
-
-        action = mixer.clipAction(animations[index]);
-        action.reset().setLoop(THREE.LoopOnce, 1).fadeIn(0.5).play();
-
-        // Keep last frame instead of returning to T-pose
-        action.clampWhenFinished = true;
-        action.enabled = true;
-
-        // Remove old event listener and add a new one
-        mixer.removeEventListener('finished', onAnimationFinished);
-        mixer.addEventListener('finished', onAnimationFinished);
-
-        function onAnimationFinished(event) {
-            if (event.action === action) {
-                let idleAction = mixer.clipAction(animations[0]);
-                idleAction.reset().fadeIn(0.5).play();
-                
-                // Smooth crossfade to idle
-                action.crossFadeTo(idleAction, 0.5, false);
-            }
-        }
-    }
-}
-
 
 function createEyeCovers() {
     console.log("Creating eye covers...");
@@ -316,6 +254,82 @@ function onAnimationFinished(event) {
     }
 }
 
+
+    async function loadModel() {
+        let loader = new THREE.GLTFLoader();
+    
+        try {
+            // Wait for the model to load using a Promise
+            const gltf = await new Promise((resolve, reject) => {
+                loader.load('https://luminafieldsnz.github.io/Lumina/tools/salmon/micheal.glb', resolve, undefined, reject);
+            });
+    
+            // Model loaded successfully
+            model = gltf.scene;
+            animations = gltf.animations;
+            scene.add(model);
+    
+            // Populate animations (if necessary)
+            populateAnimations();
+    
+            // Call onModelLoaded function once the model is loaded and animations are populated
+            onModelLoaded();
+    
+        } catch (error) {
+            console.error('Error loading model:', error);
+        }
+
+        let animationSelector = document.getElementById('animationSelector');
+
+        function populateAnimations() {
+            if (!animations || animations.length === 0) return;
+    
+            animations.forEach((anim, index) => {
+                let option = document.createElement('option');
+                option.value = index;
+                option.textContent = anim.name || `Animation ${index + 1}`;
+                animationSelector.appendChild(option);
+            });
+        }
+    
+        animationSelector.addEventListener('change', function () {
+            let selectedIndex = parseInt(this.value);
+            if (!isNaN(selectedIndex)) {
+                playAnimation(selectedIndex);
+            }
+        });
+    
+        function playAnimation(index) {
+            if (mixer && animations[index]) {
+                if (action) {
+                    action.fadeOut(0.5);
+                }
+        
+                action = mixer.clipAction(animations[index]);
+                action.reset().setLoop(THREE.LoopOnce, 1).fadeIn(0.5).play();
+        
+                // Keep last frame instead of returning to T-pose
+                action.clampWhenFinished = true;
+                action.enabled = true;
+        
+                // Remove old event listener and add a new one
+                mixer.removeEventListener('finished', onAnimationFinished);
+                mixer.addEventListener('finished', onAnimationFinished);
+        
+                function onAnimationFinished(event) {
+                    if (event.action === action) {
+                        let idleAction = mixer.clipAction(animations[0]);
+                        idleAction.reset().fadeIn(0.5).play();
+                        
+                        // Smooth crossfade to idle
+                        action.crossFadeTo(idleAction, 0.5, false);
+                    }
+                }
+            }
+        }
+
+    }
+    
 
 
 let blinkInterval = null;
