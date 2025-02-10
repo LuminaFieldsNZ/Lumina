@@ -11,7 +11,7 @@ let isDragging = false;
 let offsetX = 0, offsetY = 0;
 let groundMesh;
 let groundGeometry;
-let groundMaterial, transitionFactor;
+let groundMaterial, transitionFactor, startTime, dayDuration;
 let initialModelRotation = new THREE.Euler(); // Store initial rotation
 
 
@@ -34,10 +34,9 @@ document.addEventListener('scroll', function () {
     scrollPosition = window.scrollY;
 });
 
-
-
 let previousMousePosition = { x: 0, y: 0 }; // Store mouse position
 let orbOffset = new THREE.Vector3(); // Offset between mouse and orb center
+let dragPlane = new THREE.Plane(); // Virtual plane for 3D movement
 
 function onMouseDown(event) {
     const mouse = new THREE.Vector2();
@@ -46,19 +45,23 @@ function onMouseDown(event) {
 
     const raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse, camera);
+    const newOrbPosition = new THREE.Vector3();
 
     const intersects = raycaster.intersectObject(orb);
 
     if (intersects.length > 0) {
         isDragging = true;
 
-        // Calculate the offset between the mouse click and the orb's center
+        // Store offset from the orb center
         orbOffset.copy(intersects[0].point).sub(orb.position);
 
-        // Store the initial mouse position
+        newOrbPosition.y = orb.position.y;
+
         previousMousePosition = { x: event.clientX, y: event.clientY };
         controls.enabled = false;
-    } else {controls.enabled = true;}
+    } else {
+        controls.enabled = true;
+    }
 }
 
 function onMouseMove(event) {
@@ -70,23 +73,23 @@ function onMouseMove(event) {
         const raycaster = new THREE.Raycaster();
         raycaster.setFromCamera(mouse, camera);
 
-        const intersects = raycaster.intersectObject(groundMesh); // Raycast against the ground
+        const newOrbPosition = new THREE.Vector3();
 
-        if (intersects.length > 0) {
-            const newOrbPosition = new THREE.Vector3();
-            newOrbPosition.copy(intersects[0].point).add(orbOffset);
-
+        if (raycaster.ray.intersectPlane(dragPlane, newOrbPosition)) {
+            newOrbPosition.sub(orbOffset);
             orb.position.copy(newOrbPosition);
-            pointLight.position.copy(orb.position); // Update light position
-            controls.enabled = false;
-        } else {controls.enabled = true;}
+            pointLight.position.copy(orb.position);
+            newOrbPosition.y = orb.position.y;
 
+        }
+
+        controls.enabled = false;
     }
 }
 
-
 function onMouseUp(event) {
     isDragging = false;
+    controls.enabled = true;
 }
 
 function onTouchStart(event) {
@@ -98,15 +101,19 @@ function onTouchStart(event) {
 
         const raycaster = new THREE.Raycaster();
         raycaster.setFromCamera(mouse, camera);
+        const newOrbPosition = new THREE.Vector3();
 
         const intersects = raycaster.intersectObject(orb);
 
         if (intersects.length > 0) {
             isDragging = true;
             orbOffset.copy(intersects[0].point).sub(orb.position);
+            newOrbPosition.y = orb.position.y;
             previousMousePosition = { x: touch.clientX, y: touch.clientY };
             controls.enabled = false;
-        } else {controls.enabled = true;}
+        } else {
+            controls.enabled = true;
+        }
     }
 }
 
@@ -119,21 +126,26 @@ function onTouchMove(event) {
 
         const raycaster = new THREE.Raycaster();
         raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObject(groundMesh);
 
-        if (intersects.length > 0) {
-            const newOrbPosition = new THREE.Vector3();
-            newOrbPosition.copy(intersects[0].point).add(orbOffset);
+        const newOrbPosition = new THREE.Vector3();
+
+        if (raycaster.ray.intersectPlane(dragPlane, newOrbPosition)) {
+            newOrbPosition.sub(orbOffset);
             orb.position.copy(newOrbPosition);
             pointLight.position.copy(orb.position);
-            controls.enabled = false;
-        } else {controls.enabled = true;}
+            newOrbPosition.y = orb.position.y;
+
+        }
+
+        controls.enabled = false;
     }
 }
 
 function onTouchEnd(event) {
     isDragging = false;
+    controls.enabled = true;
 }
+
 
 
 
@@ -147,8 +159,8 @@ function updateModelTracking() {
     targetDirection.subVectors(orb.position, headCenter).normalize();
 
     // ***Corrected angle calculations and rotation order***
-    const angleY = Math.atan2(targetDirection.x, targetDirection.z);
-    const angleX = Math.atan2(-targetDirection.y, Math.sqrt(targetDirection.x * targetDirection.x + targetDirection.z * targetDirection.z)); // Negate targetDirection.y for correct pitch
+    const angleY = Math.atan2(targetDirection.x, targetDirection.z)  * 0.2;
+    const angleX = Math.atan2(-targetDirection.y, Math.sqrt(targetDirection.x * targetDirection.x + targetDirection.z * targetDirection.z))  * 0.6; // Negate targetDirection.y for correct pitch
 
 
     spine.rotation.order = "YXZ"; // Set rotation order (important!)
@@ -183,23 +195,60 @@ function updateModelTracking() {
 }
 
 
+
+
+
 function init() {
 // Initialize scene and camera
 scene = new THREE.Scene();
 
-    // Create the orb
-    const orbGeometry = new THREE.SphereGeometry(0.2, 32, 32); // Smaller orb
-    const orbMaterial = new THREE.MeshBasicMaterial({ color: 0xf8db82 }); // yellow orb
-    orb = new THREE.Mesh(orbGeometry, orbMaterial);
+let floatingSpeed = 0.5; // Speed of floating oscillation
+let floatingAmplitude = 0.1; // Smaller amplitude to avoid large height changes
+let floatingFrequency = 0.2; // Lower frequency for slower movement
 
-    // Position the orb at ground level to the left of the model
-    orb.position.set(-1.5, -1.05, 1.2); // Adjust x, y, z as needed
-    scene.add(orb);
+let baseHeight = Math.random() * 0.2 - 0; // Random height between 0.4 and 1.4
+let targetHeight = baseHeight; // Initial target height
 
-    // Add a point light that follows the orb
-    pointLight = new THREE.PointLight(0xf8db82, 8, 100); // Yellow light
+// Create the orb
+const orbGeometry = new THREE.SphereGeometry(0.2, 32, 32); // Smaller orb
+const orbMaterial = new THREE.MeshBasicMaterial({ color: 0xf8db82 }); // Yellow orb
+orb = new THREE.Mesh(orbGeometry, orbMaterial);
+
+orb.position.set(-1.1, baseHeight, 2.2); // Adjust x, y, z as needed
+scene.add(orb);
+
+// Add a point light that follows the orb
+pointLight = new THREE.PointLight(0xf8db82, 8, 100); // Yellow light
+pointLight.position.set(orb.position.x, orb.position.y, orb.position.z);
+scene.add(pointLight);
+
+// Function to smoothly animate the orb
+function animateOrb() {
+    const time = clock.elapsedTime;
+
+    // Update target height periodically
+    if (time % 2 < 0.02) { // Change height every ~2 seconds for more dynamic movement
+        targetHeight = baseHeight + (Math.random() - 0.5) * floatingAmplitude * 4; 
+    }
+
+    // Ensure the target height stays within bounds
+    if (targetHeight < 0 || targetHeight > 0.7) {
+        targetHeight = 0.25; // Reset to 0.25 if out of bounds
+    }
+
+    // Smooth transition using lerp (only affecting Y-axis)
+    orb.position.y = THREE.MathUtils.lerp(orb.position.y, targetHeight, floatingSpeed * clock.getDelta());
+
+    // Preserve the original Z position to prevent movement in that axis
+    orb.position.z = orb.position.z; 
+
+    // Update the light position to follow the orb
     pointLight.position.set(orb.position.x, orb.position.y, orb.position.z);
-    scene.add(pointLight);
+}
+
+
+
+
 
 // Create the sun geometry
 const sunGeometry = new THREE.SphereGeometry(50, 32, 32);
@@ -341,8 +390,8 @@ function createShootingStars() {
 
 // Day-night cycle with longer night duration
 function dayNightCycle() {
-    const dayDuration = 120000; // 120 seconds for a full day-night cycle
-    const startTime = performance.now();
+    dayDuration = 120000; // 120 seconds for a full day-night cycle
+    startTime = performance.now();
 
     // Initialize fog
     const fogColor = 0x000000; // Black fog for night
@@ -363,65 +412,7 @@ function dayNightCycle() {
     sunLight.position.set(0, 500, -800);
     scene.add(sunLight);
 
-    function animate() {
-        const elapsedTime = performance.now() - startTime;
-        const t = (elapsedTime % dayDuration) / dayDuration; // Time in the cycle
 
-        // Sun's independent circular orbit (no change in direction)
-        const sunOrbitRadius = 200;
-        const sunAngle = t * Math.PI * 2; // Full circle over the cycle for the sun
-        const sunX = Math.cos(sunAngle) * sunOrbitRadius;
-        const sunY = Math.sin(sunAngle) * sunOrbitRadius;
-
-        // Moon's elliptical orbit (non-linear movement)
-        const moonOrbitRadiusX = 200; // Horizontal radius for the moon
-        const moonOrbitRadiusY = 100; // Vertical radius for the moon
-        const moonAngle = t * Math.PI * 2; // Full cycle for the moon (independent)
-        const moonX = Math.cos(moonAngle) * moonOrbitRadiusX;
-        const moonY = Math.sin(moonAngle) * moonOrbitRadiusY;
-
-        // Set sun and moon positions
-        sun.position.x = sunX;
-        sun.position.y = sunY;
-        moon.position.x = moonX;
-        moon.position.y = moonY;
-
-        // Adjust the lighting based on the sun's position
-        const dayColor = new THREE.Color(0x87CEEB); // Sky blue for day
-        const nightColor = new THREE.Color(0x000010); // Deep night blue for night
-
-        // Smooth transition based on the sun's position
-        scene.background = nightColor.clone().lerp(dayColor, transitionFactor);
-
-        // Adjust fog density based on time of day
-// ***LIGHTING UPDATES DURING DAY/NIGHT CYCLE***
-transitionFactor = Math.sin(sunAngle); // 0 at night, 1 at day
-
-// Ambient Light: Adjust intensity
-ambientLight.intensity = 0.2 + transitionFactor * 0.3; // Increase during day
-
-// Directional Light: Adjust intensity and color slightly
-directionalLight.intensity = 0.5 + transitionFactor * 0.5; // Increase during day
-
-// Sun Light: Adjust intensity (most important)
-sunLight.intensity = 2 + transitionFactor * 8; // Brighter during the day
-
-
-            // Add event listeners for mouse and touch interactions
-    // Event listeners (modified)
-    window.addEventListener('mousedown', onMouseDown, false);
-    window.addEventListener('mousemove', onMouseMove, false);
-    window.addEventListener('mouseup', onMouseUp, false);
-
-    window.addEventListener('touchstart', onTouchStart, false);
-    window.addEventListener('touchmove', onTouchMove, false);
-    window.addEventListener('touchend', onTouchEnd, false);
-
-        // Request the next animation frame
-        requestAnimationFrame(animate);
-    }
-
-    animate();
 }
 
 
@@ -433,17 +424,15 @@ createStarrySky();
 createShootingStars();
 dayNightCycle();
 
-
-
   
 // Create multiple grass blade geometries for variety
 const createBladeGeometries = () => [
-    new THREE.PlaneGeometry(0.08, 0.25), // Thin, short
-    new THREE.PlaneGeometry(0.1, 0.35),  // Medium
-    new THREE.PlaneGeometry(0.12, 0.45), // Thick, tall
-    new THREE.PlaneGeometry(0.07, 0.3),  // Thin, medium-tall
-    new THREE.PlaneGeometry(0.11, 0.28)  // Thick, short
-  ];
+    new THREE.PlaneGeometry(0.08 * 0.4, 0.25), // Thin, short (60% width reduction)
+    new THREE.PlaneGeometry(0.1 * 0.4, 0.35),  // Medium (60% width reduction)
+    new THREE.PlaneGeometry(0.12 * 0.4, 0.45), // Thick, tall (60% width reduction)
+    new THREE.PlaneGeometry(0.07 * 0.4, 0.3),  // Thin, medium-tall (60% width reduction)
+    new THREE.PlaneGeometry(0.11 * 0.4, 0.28)  // Thick, short (60% width reduction)
+];
   
   // Create materials with different colors
   const grassMaterials = [
@@ -454,7 +443,7 @@ const createBladeGeometries = () => [
     new THREE.MeshBasicMaterial({ color: 0x1f3d1f, side: THREE.DoubleSide })  // Deep green
   ];
   
-  const bladeCount = 20000;
+  const bladeCount = 400000;
   const geometries = createBladeGeometries();
   const chunks = 25; // Number of terrain chunks for clustered variation
   
@@ -494,8 +483,8 @@ const createBladeGeometries = () => [
     
     for (let instanceIndex = 0; instanceIndex < instanceCount; instanceIndex++) {
       // Random position within ground plane bounds
-      const x = (Math.random() - 0.5) * 480;
-      const z = (Math.random() - 0.5) * 480;
+      const x = (Math.random() - 0.5) * 200;
+      const z = (Math.random() - 0.5) * 200;
       
       // Determine which chunk this position belongs to
       const chunkX = Math.floor((x + 240) / (480 / chunks));
@@ -525,7 +514,7 @@ const createBladeGeometries = () => [
   });
   
   // Create the base ground plane
-   groundGeometry = new THREE.PlaneGeometry(500, 500);
+   groundGeometry = new THREE.PlaneGeometry(200, 200);
    groundMaterial = new THREE.MeshBasicMaterial({
     color: 0x1a3300,
     side: THREE.DoubleSide
@@ -572,11 +561,68 @@ const createBladeGeometries = () => [
     controls.maxDistance = 500;
     controls.maxPolarAngle = Math.PI / 2;
 
-// Animation loop
+
+
 function animate() {
+    const elapsedTime = performance.now() - startTime;
+    const t = (elapsedTime % dayDuration) / dayDuration; // Time in the cycle
+
+    // Sun's independent circular orbit (no change in direction)
+    const sunOrbitRadius = 200;
+    const sunAngle = t * Math.PI * 2; // Full circle over the cycle for the sun
+    const sunX = Math.cos(sunAngle) * sunOrbitRadius;
+    const sunY = Math.sin(sunAngle) * sunOrbitRadius;
+
+    // Moon's elliptical orbit (non-linear movement)
+    const moonOrbitRadiusX = 200; // Horizontal radius for the moon
+    const moonOrbitRadiusY = 100; // Vertical radius for the moon
+    const moonAngle = t * Math.PI * 2; // Full cycle for the moon (independent)
+    const moonX = Math.cos(moonAngle) * moonOrbitRadiusX;
+    const moonY = Math.sin(moonAngle) * moonOrbitRadiusY;
+
+    // Set sun and moon positions
+    sun.position.x = sunX;
+    sun.position.y = sunY;
+    moon.position.x = moonX;
+    moon.position.y = moonY;
+
+    // Adjust the lighting based on the sun's position
+    const dayColor = new THREE.Color(0x87CEEB); // Sky blue for day
+    const nightColor = new THREE.Color(0x000010); // Deep night blue for night
+
+    // Smooth transition based on the sun's position
+    scene.background = nightColor.clone().lerp(dayColor, transitionFactor);
+
+    // Adjust fog density based on time of day
+// ***LIGHTING UPDATES DURING DAY/NIGHT CYCLE***
+transitionFactor = Math.sin(sunAngle); // 0 at night, 1 at day
+
+// Ambient Light: Adjust intensity
+ambientLight.intensity = 0.2 + transitionFactor * 0.3; // Increase during day
+
+// Directional Light: Adjust intensity and color slightly
+directionalLight.intensity = 0.5 + transitionFactor * 0.5; // Increase during day
+
+// Sun Light: Adjust intensity (most important)
+sunLight.intensity = 2 + transitionFactor * 8; // Brighter during the day
+
+
+        // Add event listeners for mouse and touch interactions
+// Event listeners (modified)
+window.addEventListener('mousedown', onMouseDown, false);
+window.addEventListener('mousemove', onMouseMove, false);
+window.addEventListener('mouseup', onMouseUp, false);
+
+window.addEventListener('touchstart', onTouchStart, false);
+window.addEventListener('touchmove', onTouchMove, false);
+window.addEventListener('touchend', onTouchEnd, false);
+
+    // Request the next animation frame
     requestAnimationFrame(animate);
     controls.update();
     renderer.render(scene, camera);
+    animateOrb(); // Update orb's floating animation
+
 }
 
 animate();
