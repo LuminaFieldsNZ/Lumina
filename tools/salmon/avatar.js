@@ -130,16 +130,56 @@ function init() {
     // Initialize scene and camera
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0x000000, 0, 16);
-    
-    camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(1, 0, 4);
-    camera.lookAt(-1, 0, 0);
+    const loader5 = new THREE.TextureLoader();
 
-    // Add lights
-    scene.add(new THREE.AmbientLight(0xffffff, 1));
-    let pointLight = new THREE.PointLight(0xffffff, 0.5);
-    pointLight.position.z = 2500;
-    scene.add(pointLight);
+
+    loader5.load('https://i.imgur.com/F3Qn6D9.jpeg', function(texture) {
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+        scene.background = texture;
+    });
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(-1, 0, 4);
+    camera.lookAt(1, 0, 0);
+  
+    // Ambient Light
+       let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+       scene.add(ambientLight);
+  
+       // Directional Light
+       let directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+       directionalLight.position.set(50, 100, 50); // Adjust position as needed
+       scene.add(directionalLight);
+  
+       // Adjust camera far plane
+       camera.far = 10000; // Set this according to the size of your scene
+       camera.updateProjectionMatrix();
+  
+       // Adjust Spotlight
+       let spotlight = new THREE.SpotLight(0xffffff, 1, 10000, Math.PI / 4, 0.5, 2);
+       spotlight.position.set(0, 100, 0); // Adjust position as needed
+       let spotlightTarget = new THREE.Object3D();
+       spotlightTarget.position.set(0, 0, 0); // Set target position
+       scene.add(spotlightTarget);
+       spotlight.target = spotlightTarget;
+       scene.add(spotlight);
+  
+    // Modified ground plane loading
+    let textureLoader = new THREE.TextureLoader();
+    textureLoader.load('https://i.imgur.com/k6vp66z.jpeg', function(texture) {
+        let planeMaterial = new THREE.MeshBasicMaterial({
+            side: THREE.DoubleSide,
+            map: texture
+        });
+  
+        let planeGeometry = new THREE.PlaneGeometry(500, 500);
+        let planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+        planeMesh.rotation.x = -Math.PI / 2;
+        
+        // Adjust the plane position to be exactly at the model's feet level
+        planeMesh.position.set(0, -1.2, 0); // Matching the model's y position
+        scene.add(planeMesh);
+    });
+  
 
     // Load model
     loadModel();
@@ -153,6 +193,7 @@ function init() {
     
     gsap.ticker.add(render);
 }
+
 
 async function loadModel() {
     const loader = new THREE.GLTFLoader();
@@ -168,11 +209,10 @@ async function loadModel() {
         mixer = new THREE.AnimationMixer(model);
         animations = gltf.animations;
 
-        if (animations.length > 0) {
-            action = mixer.clipAction(animations[0]);
-            action.setLoop(THREE.LoopRepeat);
-            action.play();
-        }
+        // Store the idle animation separately
+        let idleAnimation = animations[0];
+        currentAction = mixer.clipAction(idleAnimation);
+        currentAction.play();
 
         spine = model.getObjectByName('Spine');
         neck = model.getObjectByName('Neck');
@@ -186,6 +226,45 @@ async function loadModel() {
     }
 }
 
+function playAnimation(index) {
+    if (!mixer || !animations[index]) return;
+
+    const newAction = mixer.clipAction(animations[index]);
+    
+    if (currentAction) {
+        // Proper crossfade between animations
+        newAction.reset();
+        newAction.setLoop(THREE.LoopOnce, 1);
+        newAction.clampWhenFinished = true;
+        newAction.crossFadeFrom(currentAction, 0.5, true);
+        newAction.play();
+    }
+
+    currentAction = newAction;
+
+    // Only add the finished listener for non-idle animations
+    if (index !== 0) {
+        const onFinished = function(e) {
+            if (e.action === currentAction) {
+                mixer.removeEventListener('finished', onFinished);
+                
+                // Smoothly transition back to idle
+                const idleAction = mixer.clipAction(animations[0]);
+                idleAction.reset();
+                idleAction.setLoop(THREE.LoopRepeat);
+                idleAction.crossFadeFrom(currentAction, 0.5, true);
+                idleAction.play();
+                
+                currentAction = idleAction;
+            }
+        };
+        
+        mixer.addEventListener('finished', onFinished);
+    }
+}
+
+// Add a global variable to track the current action
+let currentAction;
 function populateAnimations() {
     const animationSelector = document.getElementById('animationSelector');
     if (!animations || animations.length === 0 || !animationSelector) return;
@@ -206,34 +285,6 @@ function populateAnimations() {
     });
 }
 
-function playAnimation(index) {
-    if (mixer && animations[index]) {
-        if (action) {
-            action.fadeOut(0.5);
-        }
-
-        action = mixer.clipAction(animations[index]);
-        action.reset().setLoop(THREE.LoopOnce, 1).fadeIn(0.5).play();
-
-        // Keep last frame instead of returning to T-pose
-        action.clampWhenFinished = true;
-        action.enabled = true;
-
-        // Remove old event listener and add a new one
-        mixer.removeEventListener('finished', onAnimationFinished);
-        mixer.addEventListener('finished', onAnimationFinished);
-
-        function onAnimationFinished(event) {
-            if (event.action === action) {
-                let idleAction = mixer.clipAction(animations[0]);
-                idleAction.reset().fadeIn(0.5).play();
-                
-                // Smooth crossfade to idle
-                action.crossFadeTo(idleAction, 0.5, false);
-            }
-        }
-    }
-}
 
 
 function createEyeCovers() {
