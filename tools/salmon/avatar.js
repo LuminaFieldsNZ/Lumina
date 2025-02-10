@@ -341,10 +341,10 @@ function startBlinkSequence() {
         let blinkDuration = Math.random() * 0.15 + 0.15; // Random duration between 0.15 and 0.3 seconds
 
         // Randomize blink interval between 1.5 and 2.5 seconds
-        let blinkIntervalDuration = Math.random() * 1000 + 4500; // Random interval between 1.5 and 2.5 seconds
+        let blinkIntervalDuration = Math.random() * 200 + 14500; // Random interval between 1.5 and 2.5 seconds
 
         // Make the left and right eye mesh objects scale down to simulate closing the eye
-        gsap.to(leftEye.scale, { 
+        gsap.fromTo(leftEye.scale, { y: 1 }, { 
             y: 0, 
             duration: blinkDuration,
             yoyo: true,  
@@ -352,7 +352,7 @@ function startBlinkSequence() {
             ease: "power1.inOut"
         });
 
-        gsap.to(rightEye.scale, { 
+        gsap.fromTo(rightEye.scale, { y: 1 }, { 
             y: 0,  
             duration: blinkDuration,
             yoyo: true, 
@@ -364,7 +364,7 @@ function startBlinkSequence() {
         clearInterval(blinkInterval);
         blinkInterval = setInterval(() => {
             console.log("Blink triggered!");
-            gsap.to(leftEye.scale, { 
+            gsap.fromTo(leftEye.scale, { y: 1 }, { 
                 y: 0, 
                 duration: blinkDuration,
                 yoyo: true,  
@@ -372,7 +372,7 @@ function startBlinkSequence() {
                 ease: "power1.inOut"
             });
 
-            gsap.to(rightEye.scale, { 
+            gsap.fromTo(rightEye.scale, { y: 1 }, { 
                 y: 0,  
                 duration: blinkDuration,
                 yoyo: true, 
