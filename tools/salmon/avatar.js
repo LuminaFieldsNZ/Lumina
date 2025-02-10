@@ -127,58 +127,238 @@ function updateModelTracking() {
 }
 
 function init() {
-    // Initialize scene and camera
-    scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0x000000, 0, 16);
-    const loader5 = new THREE.TextureLoader();
+   // Initialize scene and camera
+scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x000000, 0, 16);
 
+// Create the sun and moon
+const sunGeometry = new THREE.SphereGeometry(10, 32, 32);
+const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+sun.position.set(0, 100, -200);
+scene.add(sun);
 
-    loader5.load('https://i.imgur.com/F3Qn6D9.jpeg', function(texture) {
-        texture.mapping = THREE.EquirectangularReflectionMapping;
-        scene.background = texture;
+const moonGeometry = new THREE.SphereGeometry(8, 32, 32);
+const moonMaterial = new THREE.MeshBasicMaterial({ color: 0xdddddd });
+const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+moon.position.set(0, -100, -200);
+scene.add(moon);
+
+// Function to create the starry night sky
+function createStarrySky() {
+    const starCount = 5000; // Increased number of stars
+    const starGeometry = new THREE.BufferGeometry();
+    const starVertices = [];
+
+    for (let i = 0; i < starCount; i++) {
+        const x = (Math.random() - 0.5) * 2000; // Spread over larger area
+        const y = Math.random() * 800; // Higher in the sky
+        const z = (Math.random() - 0.5) * 2000;
+        starVertices.push(x, y, z);
+    }
+
+    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+    const starMaterial = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 1.5, // Increased star size
+        transparent: true,
+        opacity: 0.9
     });
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(-1, 0, 4);
-    camera.lookAt(1, 0, 0);
-  
-    // Ambient Light
-       let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-       scene.add(ambientLight);
-  
-       // Directional Light
-       let directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-       directionalLight.position.set(50, 100, 50); // Adjust position as needed
-       scene.add(directionalLight);
-  
-       // Adjust camera far plane
-       camera.far = 10000; // Set this according to the size of your scene
-       camera.updateProjectionMatrix();
-  
-       // Adjust Spotlight
-       let spotlight = new THREE.SpotLight(0xffffff, 1, 10000, Math.PI / 4, 0.5, 2);
-       spotlight.position.set(0, 100, 0); // Adjust position as needed
-       let spotlightTarget = new THREE.Object3D();
-       spotlightTarget.position.set(0, 0, 0); // Set target position
-       scene.add(spotlightTarget);
-       spotlight.target = spotlightTarget;
-       scene.add(spotlight);
-  
-    // Modified ground plane loading
-    let textureLoader = new THREE.TextureLoader();
-    textureLoader.load('https://i.imgur.com/k6vp66z.jpeg', function(texture) {
-        let planeMaterial = new THREE.MeshBasicMaterial({
-            side: THREE.DoubleSide,
-            map: texture
+
+    const stars = new THREE.Points(starGeometry, starMaterial);
+    scene.add(stars);
+
+    // Twinkling effect
+    function animateStars() {
+        let positions = starGeometry.attributes.position.array;
+        for (let i = 0; i < positions.length; i += 3) {
+            positions[i + 1] += Math.sin(performance.now() * 0.0005 + i) * 0.1;
+        }
+        starGeometry.attributes.position.needsUpdate = true;
+        requestAnimationFrame(animateStars);
+    }
+
+    animateStars();
+}
+
+// Function to create shooting stars
+function createShootingStars() {
+    const shootingStars = [];
+    const maxShootingStars = 5;
+
+    for (let i = 0; i < maxShootingStars; i++) {
+        const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const geometry = new THREE.SphereGeometry(0.5, 8, 8);
+        const star = new THREE.Mesh(geometry, material);
+        star.visible = false; // Hide initially
+        shootingStars.push(star);
+        scene.add(star);
+    }
+
+    function animateShootingStars() {
+        shootingStars.forEach(star => {
+            if (!star.visible) {
+                // Start a new shooting star
+                star.position.set(Math.random() * 600 - 300, Math.random() * 200 + 100, -500);
+                star.visible = true;
+            }
+
+            // Move shooting star
+            star.position.x -= 2;
+            star.position.y -= 1;
+            star.position.z += 5;
+
+            // If out of bounds, reset
+            if (star.position.z > 200) {
+                star.visible = false;
+            }
         });
+
+        requestAnimationFrame(animateShootingStars);
+    }
+
+    animateShootingStars();
+}
+
+// Day-night cycle
+function dayNightCycle() {
+    const dayDuration = 60000; // 60 seconds for a full day-night cycle
+    const startTime = performance.now();
+
+    function animate() {
+        const elapsedTime = performance.now() - startTime;
+        const t = (elapsedTime % dayDuration) / dayDuration;
+
+        // Rotate the sun and moon around the scene
+        sun.position.x = Math.cos(t * Math.PI * 2) * 200;
+        sun.position.y = Math.sin(t * Math.PI * 2) * 200;
+
+        moon.position.x = Math.cos(t * Math.PI * 2 + Math.PI) * 200;
+        moon.position.y = Math.sin(t * Math.PI * 2 + Math.PI) * 200;
+
+        // Transition background color
+        const dayColor = new THREE.Color(0x87CEEB); // Sky blue
+        const nightColor = new THREE.Color(0x000010); // Deep night blue
+        scene.background = nightColor.clone().lerp(dayColor, Math.sin(t * Math.PI));
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+}
+
+// Remove the texture background and use a dark sky color
+scene.background = new THREE.Color(0x000010); // Deep night sky blue
+
+// Create the sky
+createStarrySky();
+createShootingStars();
+dayNightCycle();
+
+
   
-        let planeGeometry = new THREE.PlaneGeometry(500, 500);
-        let planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
-        planeMesh.rotation.x = -Math.PI / 2;
-        
-        // Adjust the plane position to be exactly at the model's feet level
-        planeMesh.position.set(0, -1.2, 0); // Matching the model's y position
-        scene.add(planeMesh);
+// Create multiple grass blade geometries for variety
+const createBladeGeometries = () => [
+    new THREE.PlaneGeometry(0.08, 0.25), // Thin, short
+    new THREE.PlaneGeometry(0.1, 0.35),  // Medium
+    new THREE.PlaneGeometry(0.12, 0.45), // Thick, tall
+    new THREE.PlaneGeometry(0.07, 0.3),  // Thin, medium-tall
+    new THREE.PlaneGeometry(0.11, 0.28)  // Thick, short
+  ];
+  
+  // Create materials with different colors
+  const grassMaterials = [
+    new THREE.MeshBasicMaterial({ color: 0x2d5a27, side: THREE.DoubleSide }), // Base green
+    new THREE.MeshBasicMaterial({ color: 0x1f4d1f, side: THREE.DoubleSide }), // Darker green
+    new THREE.MeshBasicMaterial({ color: 0x3d7a3d, side: THREE.DoubleSide }), // Lighter green
+    new THREE.MeshBasicMaterial({ color: 0x2d6d1f, side: THREE.DoubleSide }), // Olive green
+    new THREE.MeshBasicMaterial({ color: 0x1f3d1f, side: THREE.DoubleSide })  // Deep green
+  ];
+  
+  const bladeCount = 20000;
+  const geometries = createBladeGeometries();
+  const chunks = 25; // Number of terrain chunks for clustered variation
+  
+  // Create instanced meshes for each geometry-material combination
+  const instancedMeshes = [];
+  geometries.forEach(geometry => {
+    grassMaterials.forEach(material => {
+      instancedMeshes.push(
+        new THREE.InstancedMesh(
+          geometry,
+          material,
+          Math.floor(bladeCount / (geometries.length * grassMaterials.length))
+        )
+      );
     });
+  });
+  
+  const matrix = new THREE.Matrix4();
+  const dummy = new THREE.Object3D();
+  
+  // Create a noise function for natural clustering
+  const createNoiseGrid = (size) => {
+    const grid = [];
+    for (let i = 0; i < size; i++) {
+      grid[i] = [];
+      for (let j = 0; j < size; j++) {
+        grid[i][j] = Math.random();
+      }
+    }
+    return grid;
+  };
+  
+  const noiseGrid = createNoiseGrid(chunks);
+  
+  // Distribute grass blades with clustered variations
+  instancedMeshes.forEach((instancedMesh) => {
+    const instanceCount = instancedMesh.count;
+    
+    for (let instanceIndex = 0; instanceIndex < instanceCount; instanceIndex++) {
+      // Random position within ground plane bounds
+      const x = (Math.random() - 0.5) * 480;
+      const z = (Math.random() - 0.5) * 480;
+      
+      // Determine which chunk this position belongs to
+      const chunkX = Math.floor((x + 240) / (480 / chunks));
+      const chunkZ = Math.floor((z + 240) / (480 / chunks));
+      
+      // Use noise value to influence variations
+      const noiseValue = noiseGrid[Math.min(chunkX, chunks - 1)][Math.min(chunkZ, chunks - 1)];
+      
+      // Position slightly above ground level with height variation
+      const heightVariation = noiseValue * 0.1;
+      dummy.position.set(x, -1.05 + heightVariation, z);
+      
+      // Rotation with clustered variation
+      dummy.rotation.y = Math.random() * Math.PI * 2;
+      dummy.rotation.x = (Math.random() * 0.2 - 0.1) * (1 + noiseValue);
+      
+      // Scale variation based on chunk
+      const baseScale = 0.8 + (noiseValue * 0.4);
+      const randomScale = baseScale + (Math.random() * 0.2);
+      dummy.scale.set(randomScale, randomScale, randomScale);
+      
+      dummy.updateMatrix();
+      instancedMesh.setMatrixAt(instanceIndex, dummy.matrix);
+    }
+    
+    instancedMesh.instanceMatrix.needsUpdate = true;
+  });
+  
+  // Create the base ground plane
+  const groundGeometry = new THREE.PlaneGeometry(500, 500);
+  const groundMaterial = new THREE.MeshBasicMaterial({
+    color: 0x1a3300,
+    side: THREE.DoubleSide
+  });
+  const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+  groundMesh.rotation.x = -Math.PI / 2;
+  groundMesh.position.y = -1.2;
+  
+  // Add everything to scene
+  scene.add(groundMesh);
+  instancedMeshes.forEach(mesh => scene.add(mesh));
   
 
     // Load model
@@ -192,6 +372,52 @@ function init() {
     document.getElementById("app").appendChild(renderer.domElement);
     
     gsap.ticker.add(render);
+
+
+
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(-1, 0, 4);
+    camera.lookAt(1, 0, 0);
+
+    // Add OrbitControls (now globally available)
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.screenSpacePanning = false;
+controls.minDistance = 1;
+controls.maxDistance = 500;
+controls.maxPolarAngle = Math.PI / 2;
+
+// Animation loop
+function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+}
+
+animate();
+  
+    // Ambient Light
+       let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+       scene.add(ambientLight);
+  
+       // Directional Light
+       let directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+       directionalLight.position.set(50, 100, 50); // Adjust position as needed
+       scene.add(directionalLight);
+  
+  
+       // Adjust Spotlight
+       let spotlight = new THREE.SpotLight(0xffffff, 1, 10000, Math.PI / 4, 0.5, 2);
+       spotlight.position.set(0, 100, 0); // Adjust position as needed
+       let spotlightTarget = new THREE.Object3D();
+       spotlightTarget.position.set(0, 0, 0); // Set target position
+       scene.add(spotlightTarget);
+       spotlight.target = spotlightTarget;
+       scene.add(spotlight);
+
+
+
 }
 
 
