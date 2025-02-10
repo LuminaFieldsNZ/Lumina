@@ -36,34 +36,7 @@
     <option value="">Options</option>
 </select>
             
-  <form id="draggableForm"> <div id="dragHandle" style="
-    cursor: grab;
-opacity: 0.9;
-left: -34px;
-">
-  
-    <svg id="mainIcon" style="background-color: #f8db82; border-radius: 8px;   border: 2px solid #000; animation: pulse2 8s infinite;" class="fine" width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <g>
-        <g class="face">
-          <g transform="translate(13.000000, 20.000000)" fill="#2C0E0F">
-            <g class="mouth">
-              <g transform="translate(9, 5)">
-                <rect x="-8" y="5" width="18" height="2" rx="2"></rect>
-              </g>
-            </g>
-            <line x1="15" y1="-2" x2="15" y2="4" stroke="#2C0E0F" stroke-width="2"/>
-            <line x1="12" y1="1" x2="18" y2="1" stroke="#2C0E0F" stroke-width="2"/>
-            <ellipse class="left-eye" 
-            cx="1.90588235" 
-            cy="1.75" 
-            rx="3.8117647"
-            ry="3.5"></ellipse></g>
-        </g>
-      </g>
-    </svg>
-</div>
-  
-  </form>
+
 
       <div id="app"></div>
 
@@ -72,6 +45,7 @@ left: -34px;
         style="width: 265px; padding: 8px; margin-top: 10px; border-radius: 5px; border: none; opacity: 0.8;" 
         onkeydown="handleKeyPress(event)">
         <div id="chatWindow"></div>
+        <button id="loadButton">Load GLB</button>
     </div>
     
     
@@ -84,7 +58,7 @@ left: -34px;
 
 
 <script src="./chatbot2.js"></script>
-<script src="./avatar.js"></script>
+<script src="./backup2.js"></script>
 <script src="./lumie.js"></script>
 <script src="../../hardData/base.js"></script>
 <script src="../../hardData/lumie.js"></script>
