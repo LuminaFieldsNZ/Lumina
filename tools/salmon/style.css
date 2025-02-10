@@ -3,10 +3,10 @@
 
 
 #app {
-  width: 98vw;
-  height: 400px;
+  width: 100%;
   position: fixed;
   top: 0px;
+  left: 0px;
   z-index: 1;
 }
 
