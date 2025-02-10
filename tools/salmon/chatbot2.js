@@ -139,7 +139,7 @@ let shouldShowChat = false;
 
 function toggleChatWindow() {
     shouldShowChat = !shouldShowChat; // Toggle the state
-    chatWindow.style.transition = "opacity 0.3s ease-in-out";
+    chatWindow.style.transition = "opacity 0.5s ease-in-out";
     chatWindow.style.opacity = shouldShowChat ? "1" : "0";
     chatWindow.style.pointerEvents = shouldShowChat ? "auto" : "none";
     mainIcon.style.backgroundColor = shouldShowChat ? "#f8db82" : "#be7272";
