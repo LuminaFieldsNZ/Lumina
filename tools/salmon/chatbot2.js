@@ -123,21 +123,25 @@ function scrollToBottom() {
 }
 
 
-const chatToggle = document.getElementById("animationSelector"); // Select element
+const chatToggle = document.getElementById("dragHandle"); // Select element
 const chatWindow = document.getElementById("chatContainer"); // Chat window element
 const chatDisplay = document.getElementById("chatDisplay"); // Display text element
 
-chatToggle.addEventListener("change", function () {
-    const shouldShowChat = chatToggle.value !== ""; // Check if selected value is NOT empty
 
-    // Update display text immediately
-    chatDisplay.innerHTML = shouldShowChat ? "Hide Chat" : "Show Chat";
 
-    // Smoothly show/hide chat window
+chatToggle.addEventListener("click", toggleChatWindow);
+chatToggle.addEventListener("touchstart", function (event) {
+    event.preventDefault(); // Prevent default touch behavior
+    toggleChatWindow();
+});
+
+let shouldShowChat = false;
+
+function toggleChatWindow() {
+    shouldShowChat = !shouldShowChat; // Toggle the state
     chatWindow.style.transition = "opacity 0.3s ease-in-out";
     chatWindow.style.opacity = shouldShowChat ? "1" : "0";
     chatWindow.style.pointerEvents = shouldShowChat ? "auto" : "none";
-});
-
-
-
+    mainIcon.style.backgroundColor = shouldShowChat ? "#f8db82" : "#be7272";
+    mainIcon.style.opacity = shouldShowChat ? "1" : ".3";
+}
