@@ -131,9 +131,9 @@ function init() {
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0x000000, 0, 16);
     
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(-1, 0, 4);
-    camera.lookAt(1, 0, 0);
+    camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(1, 0, 4);
+    camera.lookAt(-1, 0, 0);
 
     // Add lights
     scene.add(new THREE.AmbientLight(0xffffff, 1));
@@ -163,7 +163,7 @@ async function loadModel() {
         
         model = gltf.scene;
         scene.add(model);
-        model.position.set(0, -1.2, 2.2);
+        model.position.set(0, -1.2, 1.2);
 
         mixer = new THREE.AnimationMixer(model);
         animations = gltf.animations;
@@ -300,21 +300,7 @@ function animateTalking(isTalking, totalDuration) {
 }
 
 
-function onAnimationFinished(event) {
-    if (event.action === mixer.clipAction(animations[currentAnimationIndex])) {
-        // Remove the event listener to avoid multiple triggers
-        mixer.removeEventListener('finished', onAnimationFinished);
 
-        // Revert to the idle animation (assuming idle is at index 0)
-        let idleAction = mixer.clipAction(animations[0]);
-        idleAction.reset();
-        idleAction.setLoop(THREE.LoopRepeat);
-        idleAction.play();
-
-        // Blend back to the idle animation smoothly
-        event.action.crossFadeTo(idleAction, 0.5, false);
-    }
-}
 
 
 
