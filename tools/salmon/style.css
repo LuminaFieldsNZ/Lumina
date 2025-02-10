@@ -132,7 +132,7 @@ svg.happy {
 }
 
 svg.sad, svg.neutral, svg.fine, svg.happy {
-  width: 33px; /* Ensures SVGs fill the container's width */
+  width: 100%; /* Ensures SVGs fill the container's width */
   height: auto; /* Maintain aspect ratio */
 }
 
