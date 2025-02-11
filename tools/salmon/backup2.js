@@ -34,9 +34,13 @@ document.addEventListener('scroll', function () {
     scrollPosition = window.scrollY;
 });
 
+
 let previousMousePosition = { x: 0, y: 0 }; // Store mouse position
 let orbOffset = new THREE.Vector3(); // Offset between mouse and orb center
 let dragPlane = new THREE.Plane(); // Virtual plane for 3D movement
+
+// This assumes the ground is at y=0. Adjust accordingly if needed.
+let groundY = 0;
 
 function onMouseDown(event) {
     const mouse = new THREE.Vector2();
@@ -55,7 +59,8 @@ function onMouseDown(event) {
         // Store offset from the orb center
         orbOffset.copy(intersects[0].point).sub(orb.position);
 
-        newOrbPosition.y = orb.position.y;
+        // Lock the orb's current Y position to the ground
+        dragPlane.setFromNormalAndCoplanarPoint(new THREE.Vector3(0, 1, 0), newOrbPosition.set(orb.position.x, groundY, orb.position.z));
 
         previousMousePosition = { x: event.clientX, y: event.clientY };
         controls.enabled = false;
@@ -76,11 +81,14 @@ function onMouseMove(event) {
         const newOrbPosition = new THREE.Vector3();
 
         if (raycaster.ray.intersectPlane(dragPlane, newOrbPosition)) {
+            // Offset is taken into account
             newOrbPosition.sub(orbOffset);
+
+            // Lock the orb's position to groundY
+            newOrbPosition.y = groundY;
+
             orb.position.copy(newOrbPosition);
             pointLight.position.copy(orb.position);
-            newOrbPosition.y = orb.position.y;
-
         }
 
         controls.enabled = false;
@@ -109,6 +117,10 @@ function onTouchStart(event) {
             isDragging = true;
             orbOffset.copy(intersects[0].point).sub(orb.position);
             newOrbPosition.y = orb.position.y;
+
+            // Lock the drag plane again on touch start
+            dragPlane.setFromNormalAndCoplanarPoint(new THREE.Vector3(0, 1, 0), newOrbPosition.set(orb.position.x, groundY, orb.position.z));
+
             previousMousePosition = { x: touch.clientX, y: touch.clientY };
             controls.enabled = false;
         } else {
@@ -131,10 +143,10 @@ function onTouchMove(event) {
 
         if (raycaster.ray.intersectPlane(dragPlane, newOrbPosition)) {
             newOrbPosition.sub(orbOffset);
+            newOrbPosition.y = groundY;  // Enforce Y position locking to the ground
+
             orb.position.copy(newOrbPosition);
             pointLight.position.copy(orb.position);
-            newOrbPosition.y = orb.position.y;
-
         }
 
         controls.enabled = false;
@@ -204,7 +216,6 @@ scene = new THREE.Scene();
 
 let floatingSpeed = 0.5; // Speed of floating oscillation
 let floatingAmplitude = 0.1; // Smaller amplitude to avoid large height changes
-let floatingFrequency = 0.2; // Lower frequency for slower movement
 
 let baseHeight = Math.random() * 0.2 - 0; // Random height between 0.4 and 1.4
 let targetHeight = baseHeight; // Initial target height
@@ -282,15 +293,16 @@ scene.add(moon);
 
 // Function to create the starry night sky
 function createStarrySky() {
-    const starCount = 10000; // Increased number of stars for a denser sky
+    const starCount = 100; // Increased number of stars for a denser sky
     const starGeometry = new THREE.BufferGeometry();
     const starVertices = [];
     const starColors = [];
 
     for (let i = 0; i < starCount; i++) {
-        const x = (Math.random() - 0.5) * 3000; // Spread over a larger area
-        const y = Math.random() * 1200; // Higher in the sky
-        const z = (Math.random() - 0.5) * 3000;
+
+        const x = (Math.random() - 0.5) * 20;
+        const z = (Math.random() - 0.5) * 20;
+        const y = -0.2; // Higher in the sky
         starVertices.push(x, y, z);
 
         // Randomize star colors with hints of white, blue, purple, and green
@@ -312,11 +324,11 @@ function createStarrySky() {
     starGeometry.setAttribute('color', new THREE.Float32BufferAttribute(starColors, 3));
 
     const starMaterial = new THREE.PointsMaterial({
-        size: 2.5, // Larger star size
+        size: 0.015, // Larger star size
         vertexColors: true, // Enable vertex colors
         transparent: true,
         opacity: 1,
-        blending: THREE.AdditiveBlending // Additive blending for a glowing effect
+        blending: THREE.AdditiveBlending, // Additive blending for a glowing effect
     });
 
     const stars = new THREE.Points(starGeometry, starMaterial);
@@ -326,7 +338,7 @@ function createStarrySky() {
     function animateStars() {
         let positions = starGeometry.attributes.position.array;
         for (let i = 0; i < positions.length; i += 3) {
-            positions[i + 1] += Math.sin(performance.now() * 0.0005 + i) * 0.1;
+            positions[i + 1] += Math.sin(performance.now() * 0.0005 + i) * 0.01;
         }
         starGeometry.attributes.position.needsUpdate = true;
         requestAnimationFrame(animateStars);
@@ -335,62 +347,12 @@ function createStarrySky() {
     animateStars();
 }
 
-// Function to create shooting stars
-function createShootingStars() {
-    const shootingStars = [];
-    const maxShootingStars = 5;
 
-    for (let i = 0; i < maxShootingStars; i++) {
-        // Use MeshStandardMaterial for brightness & glow effect
-        const material = new THREE.MeshStandardMaterial({ 
-            color: 0xffffff, 
-            emissive: 0xffffff, // Makes them glow
-            emissiveIntensity: 2000  // Adjust brightness
-        });
-
-        const geometry = new THREE.SphereGeometry(0.5, 16, 16); // Increased detail
-        const star = new THREE.Mesh(geometry, material);
-        star.visible = false; // Hide initially
-        shootingStars.push(star);
-        scene.add(star);
-    }
-
-    function animateShootingStars() {
-        const nightFactor = (1 - Math.cos(performance.now() / 5000 * 2 * Math.PI)) / 2; // Sync with day-night cycle
-        const sizeMultiplier = 1 + 2 * nightFactor; // Triples size at night
-
-        shootingStars.forEach(star => {
-            if (!star.visible) {
-                // Start a new shooting star
-                star.position.set(Math.random() * 800 - 400, Math.random() * 300 + 150, -800);
-                star.visible = true;
-            }
-
-            // Update size (bigger at night)
-            const baseSize = 0.5;
-            star.scale.set(baseSize * sizeMultiplier, baseSize * sizeMultiplier, baseSize * sizeMultiplier);
-
-            // Move shooting star
-            star.position.x -= 3;
-            star.position.y -= 1.5;
-            star.position.z += 8;
-
-            // If out of bounds, reset
-            if (star.position.z > 300) {
-                star.visible = false;
-            }
-        });
-
-        requestAnimationFrame(animateShootingStars);
-    }
-
-    animateShootingStars();
-}
 
 
 // Day-night cycle with longer night duration
 function dayNightCycle() {
-    dayDuration = 120000; // 120 seconds for a full day-night cycle
+    dayDuration = 12000; // 12 seconds for a full day-night cycle
     startTime = performance.now();
 
     // Initialize fog
@@ -421,17 +383,16 @@ scene.background = new THREE.Color(0x000010); // Deep night sky blue
 
 // Create the sky
 createStarrySky();
-createShootingStars();
 dayNightCycle();
 
   
 // Create multiple grass blade geometries for variety
 const createBladeGeometries = () => [
-    new THREE.PlaneGeometry(0.08 * 0.4, 0.25), // Thin, short (60% width reduction)
-    new THREE.PlaneGeometry(0.1 * 0.4, 0.35),  // Medium (60% width reduction)
-    new THREE.PlaneGeometry(0.12 * 0.4, 0.45), // Thick, tall (60% width reduction)
-    new THREE.PlaneGeometry(0.07 * 0.4, 0.3),  // Thin, medium-tall (60% width reduction)
-    new THREE.PlaneGeometry(0.11 * 0.4, 0.28)  // Thick, short (60% width reduction)
+    new THREE.PlaneGeometry(0.08 * 0.2, 0.15), // Thin, short (60% width reduction)
+    new THREE.PlaneGeometry(0.1 * 0.2, 0.25),  // Medium (60% width reduction)
+    new THREE.PlaneGeometry(0.12 * 0.2, 0.29), // Thick, tall (60% width reduction)
+    new THREE.PlaneGeometry(0.07 * 0.2, 0.13),  // Thin, medium-tall (60% width reduction)
+    new THREE.PlaneGeometry(0.11 * 0.2, 0.18)  // Thick, short (60% width reduction)
 ];
   
   // Create materials with different colors
@@ -443,7 +404,7 @@ const createBladeGeometries = () => [
     new THREE.MeshBasicMaterial({ color: 0x1f3d1f, side: THREE.DoubleSide })  // Deep green
   ];
   
-  const bladeCount = 400000;
+  const bladeCount = 40000;
   const geometries = createBladeGeometries();
   const chunks = 25; // Number of terrain chunks for clustered variation
   
@@ -483,8 +444,8 @@ const createBladeGeometries = () => [
     
     for (let instanceIndex = 0; instanceIndex < instanceCount; instanceIndex++) {
       // Random position within ground plane bounds
-      const x = (Math.random() - 0.5) * 200;
-      const z = (Math.random() - 0.5) * 200;
+      const x = (Math.random() - 0.5) * 20;
+      const z = (Math.random() - 0.5) * 20;
       
       // Determine which chunk this position belongs to
       const chunkX = Math.floor((x + 240) / (480 / chunks));
@@ -514,7 +475,7 @@ const createBladeGeometries = () => [
   });
   
   // Create the base ground plane
-   groundGeometry = new THREE.PlaneGeometry(200, 200);
+   groundGeometry = new THREE.PlaneGeometry(20, 20);
    groundMaterial = new THREE.MeshBasicMaterial({
     color: 0x1a3300,
     side: THREE.DoubleSide
@@ -548,9 +509,9 @@ const createBladeGeometries = () => [
 
 
 
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(-1, 0, 4);
-    camera.lookAt(1, 0, 0);
+    camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 1, 4);
+    camera.lookAt(0, 0, 0);
 
     // Add OrbitControls (now globally available)
     controls = new THREE.OrbitControls(camera, renderer.domElement);

@@ -6,7 +6,13 @@ let dragPosition = { x: 0, y: 0 };
 let allowHeadTracking = true;
 let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 let directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-
+let orb, pointLight;
+let isDragging = false;
+let offsetX = 0, offsetY = 0;
+let groundMesh;
+let groundGeometry;
+let groundMaterial, transitionFactor, startTime, dayDuration;
+let initialModelRotation = new THREE.Euler(); // Store initial rotation
 
 
 function render() {
@@ -28,119 +34,239 @@ document.addEventListener('scroll', function () {
     scrollPosition = window.scrollY;
 });
 
-// Draggable form
-let isDragging = false;
 
+let previousMousePosition = { x: 0, y: 0 }; // Store mouse position
+let orbOffset = new THREE.Vector3(); // Offset between mouse and orb center
+let dragPlane = new THREE.Plane(); // Virtual plane for 3D movement
 
-// Mouse events
-dragHandle.addEventListener('mousedown', function (e) {
-    isDragging = true;
-    offsetX = e.clientX - draggableForm.offsetLeft;
-    offsetY = e.clientY - draggableForm.offsetTop;
-    dragHandle.style.cursor = 'grabbing';
-});
+// This assumes the ground is at y=0. Adjust accordingly if needed.
+let groundY = 0;
 
-// Mouse move event
-document.addEventListener('mousemove', function (e) {
-    if (isDragging) {
-        let newX = e.clientX - offsetX;
-        let newY = e.clientY - offsetY;
+function onMouseDown(event) {
+    const mouse = new THREE.Vector2();
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-        // Boundaries to prevent dragging off-screen
-        newX = Math.max(0, Math.min(window.innerWidth - draggableForm.offsetWidth, newX));
-        newY = Math.max(0, Math.min(window.innerHeight - draggableForm.offsetHeight, newY));
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse, camera);
+    const newOrbPosition = new THREE.Vector3();
 
-        draggableForm.style.left = newX + 'px';
-        draggableForm.style.top = newY + 'px';
-        dragPosition.x = newX;
-        dragPosition.y = newY;
-    }
-});
+    const intersects = raycaster.intersectObject(orb);
 
-// Mouse up event
-document.addEventListener('mouseup', function () {
-    isDragging = false;
-    dragHandle.style.cursor = 'grab';
-});
+    if (intersects.length > 0) {
+        isDragging = true;
 
-// Touch events for mobile/tablet
-dragHandle.addEventListener('touchstart', function (e) {
-    isDragging = true;
-    let touch = e.touches[0];
-    offsetX = touch.clientX - draggableForm.offsetLeft;
-    offsetY = touch.clientY - draggableForm.offsetTop;
-    dragHandle.style.cursor = 'grabbing';
-    e.preventDefault(); // Prevents default touch behavior
-});
+        // Store offset from the orb center
+        orbOffset.copy(intersects[0].point).sub(orb.position);
 
-// Touch move event
-document.addEventListener('touchmove', function (e) {
-    if (isDragging) {
-        let touch = e.touches[0];
-        let newX = touch.clientX - offsetX;
-        let newY = touch.clientY - offsetY;
+        // Lock the orb's current Y position to the ground
+        dragPlane.setFromNormalAndCoplanarPoint(new THREE.Vector3(0, 1, 0), newOrbPosition.set(orb.position.x, groundY, orb.position.z));
 
-        // Boundaries to prevent dragging off-screen
-        newX = Math.max(0, Math.min(window.innerWidth - draggableForm.offsetWidth, newX));
-        newY = Math.max(0, Math.min(window.innerHeight - draggableForm.offsetHeight, newY));
-
-        draggableForm.style.left = newX + 'px';
-        draggableForm.style.top = newY + 'px';
-        dragPosition.x = newX;
-        dragPosition.y = newY;
-    }
-});
-
-// Touch end event
-document.addEventListener('touchend', function () {
-    isDragging = false;
-    dragHandle.style.cursor = 'grab';
-});
-
-
-// Update model tracking
-function updateModelTracking() {
-    let formCenterX = dragPosition.x + draggableForm.offsetWidth / 2;
-    let formCenterY = dragPosition.y + draggableForm.offsetHeight / 2;
-
-    // Convert form position to normalized device coordinates (-1 to 1)
-    let x = (formCenterX / window.innerWidth) * 2 - 1;
-    let y = (formCenterY / window.innerHeight) * 2 - 1;
-
-    // Combine scroll and drag inputs for rotations
-    let combinedRotationX = (y * Math.PI * 0.12)-49.8;
-    let combinedRotationY = x * Math.PI * 0.12;
-
-    // Apply rotations to model bones based on combined input
-    if (spine) {
-        spine.rotation.x = combinedRotationX;
-        spine.rotation.y = combinedRotationY;
-    }
-    if (neck) {
-        neck.rotation.x = combinedRotationX;
-        neck.rotation.y = combinedRotationY;
-    }
-    if (leftEye) {
-        leftEye.rotation.x = combinedRotationX;
-        leftEye.rotation.y = combinedRotationY;
-    }
-    if (rightEye) {
-        rightEye.rotation.x = combinedRotationX;
-        rightEye.rotation.y = combinedRotationY;
+        previousMousePosition = { x: event.clientX, y: event.clientY };
+        controls.enabled = false;
+    } else {
+        controls.enabled = true;
     }
 }
+
+function onMouseMove(event) {
+    if (isDragging) {
+        const mouse = new THREE.Vector2();
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, camera);
+
+        const newOrbPosition = new THREE.Vector3();
+
+        if (raycaster.ray.intersectPlane(dragPlane, newOrbPosition)) {
+            // Offset is taken into account
+            newOrbPosition.sub(orbOffset);
+
+            // Lock the orb's position to groundY
+            newOrbPosition.y = groundY;
+
+            orb.position.copy(newOrbPosition);
+            pointLight.position.copy(orb.position);
+        }
+
+        controls.enabled = false;
+    }
+}
+
+function onMouseUp(event) {
+    isDragging = false;
+    controls.enabled = true;
+}
+
+function onTouchStart(event) {
+    if (event.touches.length > 0) {
+        const touch = event.touches[0];
+        const mouse = new THREE.Vector2();
+        mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, camera);
+        const newOrbPosition = new THREE.Vector3();
+
+        const intersects = raycaster.intersectObject(orb);
+
+        if (intersects.length > 0) {
+            isDragging = true;
+            orbOffset.copy(intersects[0].point).sub(orb.position);
+            newOrbPosition.y = orb.position.y;
+
+            // Lock the drag plane again on touch start
+            dragPlane.setFromNormalAndCoplanarPoint(new THREE.Vector3(0, 1, 0), newOrbPosition.set(orb.position.x, groundY, orb.position.z));
+
+            previousMousePosition = { x: touch.clientX, y: touch.clientY };
+            controls.enabled = false;
+        } else {
+            controls.enabled = true;
+        }
+    }
+}
+
+function onTouchMove(event) {
+    if (isDragging && event.touches.length > 0) {
+        const touch = event.touches[0];
+        const mouse = new THREE.Vector2();
+        mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, camera);
+
+        const newOrbPosition = new THREE.Vector3();
+
+        if (raycaster.ray.intersectPlane(dragPlane, newOrbPosition)) {
+            newOrbPosition.sub(orbOffset);
+            newOrbPosition.y = groundY;  // Enforce Y position locking to the ground
+
+            orb.position.copy(newOrbPosition);
+            pointLight.position.copy(orb.position);
+        }
+
+        controls.enabled = false;
+    }
+}
+
+function onTouchEnd(event) {
+    isDragging = false;
+    controls.enabled = true;
+}
+
+
+
+
+function updateModelTracking() {
+    if (!orb || !spine || !neck || !leftEye || !rightEye || !model) return;
+
+    const headCenter = new THREE.Vector3();
+    headCenter.setFromMatrixPosition(neck.matrixWorld);
+
+    const targetDirection = new THREE.Vector3();
+    targetDirection.subVectors(orb.position, headCenter).normalize();
+
+    // ***Corrected angle calculations and rotation order***
+    const angleY = Math.atan2(targetDirection.x, targetDirection.z)  * 0.2;
+    const angleX = Math.atan2(-targetDirection.y, Math.sqrt(targetDirection.x * targetDirection.x + targetDirection.z * targetDirection.z))  * 0.6; // Negate targetDirection.y for correct pitch
+
+
+    spine.rotation.order = "YXZ"; // Set rotation order (important!)
+    neck.rotation.order = "YXZ"; // Set rotation order (important!)
+    leftEye.rotation.order = "YXZ"; // Set rotation order (important!)
+    rightEye.rotation.order = "YXZ"; // Set rotation order (important!)
+
+    spine.rotation.y = initialModelRotation.y + angleY;
+    spine.rotation.x = initialModelRotation.x + angleX;
+    neck.rotation.y = initialModelRotation.y + angleY;
+    neck.rotation.x = initialModelRotation.x + angleX;
+    leftEye.rotation.y = initialModelRotation.y + angleY;
+    leftEye.rotation.x = initialModelRotation.x + angleX;
+    rightEye.rotation.y = initialModelRotation.y + angleY;
+    rightEye.rotation.x = initialModelRotation.x + angleX;
+
+
+    const MAX_ROTATION_X = Math.PI / 4;
+    const MAX_ROTATION_Y = Math.PI / 4;
+
+    // Apply limits *relative* to initial rotation
+    spine.rotation.x = Math.max(initialModelRotation.x - MAX_ROTATION_X, Math.min(initialModelRotation.x + MAX_ROTATION_X, spine.rotation.x));
+    neck.rotation.x = Math.max(initialModelRotation.x - MAX_ROTATION_X, Math.min(initialModelRotation.x + MAX_ROTATION_X, neck.rotation.x));
+    leftEye.rotation.x = Math.max(initialModelRotation.x - MAX_ROTATION_X, Math.min(initialModelRotation.x + MAX_ROTATION_X, leftEye.rotation.x));
+    rightEye.rotation.x = Math.max(initialModelRotation.x - MAX_ROTATION_X, Math.min(initialModelRotation.x + MAX_ROTATION_X, rightEye.rotation.x));
+
+    spine.rotation.y = Math.max(initialModelRotation.y - MAX_ROTATION_Y, Math.min(initialModelRotation.y + MAX_ROTATION_Y, spine.rotation.y));
+    neck.rotation.y = Math.max(initialModelRotation.y - MAX_ROTATION_Y, Math.min(initialModelRotation.y + MAX_ROTATION_Y, neck.rotation.y));
+    leftEye.rotation.y = Math.max(initialModelRotation.y - MAX_ROTATION_Y, Math.min(initialModelRotation.y + MAX_ROTATION_Y, leftEye.rotation.y));
+    rightEye.rotation.y = Math.max(initialModelRotation.y - MAX_ROTATION_Y, Math.min(initialModelRotation.y + MAX_ROTATION_Y, rightEye.rotation.y));
+
+}
+
+
+
+
 
 function init() {
 // Initialize scene and camera
 scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0x000000, 0, 56);
+
+let floatingSpeed = 0.5; // Speed of floating oscillation
+let floatingAmplitude = 0.1; // Smaller amplitude to avoid large height changes
+
+let baseHeight = Math.random() * 0.2 - 0; // Random height between 0.4 and 1.4
+let targetHeight = baseHeight; // Initial target height
+
+// Create the orb
+const orbGeometry = new THREE.SphereGeometry(0.2, 32, 32); // Smaller orb
+const orbMaterial = new THREE.MeshBasicMaterial({ color: 0xf8db82 }); // Yellow orb
+orb = new THREE.Mesh(orbGeometry, orbMaterial);
+
+orb.position.set(-1.1, baseHeight, 2.2); // Adjust x, y, z as needed
+scene.add(orb);
+
+// Add a point light that follows the orb
+pointLight = new THREE.PointLight(0xf8db82, 8, 100); // Yellow light
+pointLight.position.set(orb.position.x, orb.position.y, orb.position.z);
+scene.add(pointLight);
+
+// Function to smoothly animate the orb
+function animateOrb() {
+    const time = clock.elapsedTime;
+
+    // Update target height periodically
+    if (time % 2 < 0.02) { // Change height every ~2 seconds for more dynamic movement
+        targetHeight = baseHeight + (Math.random() - 0.5) * floatingAmplitude * 4; 
+    }
+
+    // Ensure the target height stays within bounds
+    if (targetHeight < 0 || targetHeight > 0.7) {
+        targetHeight = 0.25; // Reset to 0.25 if out of bounds
+    }
+
+    // Smooth transition using lerp (only affecting Y-axis)
+    orb.position.y = THREE.MathUtils.lerp(orb.position.y, targetHeight, floatingSpeed * clock.getDelta());
+
+    // Preserve the original Z position to prevent movement in that axis
+    orb.position.z = orb.position.z; 
+
+    // Update the light position to follow the orb
+    pointLight.position.set(orb.position.x, orb.position.y, orb.position.z);
+}
+
+
+
+
 
 // Create the sun geometry
 const sunGeometry = new THREE.SphereGeometry(50, 32, 32);
 const sunMaterial = new THREE.MeshStandardMaterial({
     color: 0xffff00,  // Sun color
     emissive: 0xffff00,  // Glow effect (yellow)
-    emissiveIntensity: 2,  // Higher emissive intensity for blinding brightness
+    emissiveIntensity: 60000,  // Higher emissive intensity for blinding brightness
     roughness: 0.1,  // Less rough surface for shininess
     metalness: 1.0,  // Shiny, metallic look
 });
@@ -154,7 +280,7 @@ scene.add(sun);
 
 // Add a point light at the sun's position to simulate light emission
 const sunLight = new THREE.PointLight(0xffff00, 5, 1000);  // Bright yellow light
-sunLight.position.set(0, 500, -800);  // Same position as the sun
+sunLight.position.set(0, 3500, -800);  // Same position as the sun
 scene.add(sunLight);
 
 
@@ -167,15 +293,16 @@ scene.add(moon);
 
 // Function to create the starry night sky
 function createStarrySky() {
-    const starCount = 10000; // Increased number of stars for a denser sky
+    const starCount = 100; // Increased number of stars for a denser sky
     const starGeometry = new THREE.BufferGeometry();
     const starVertices = [];
     const starColors = [];
 
     for (let i = 0; i < starCount; i++) {
-        const x = (Math.random() - 0.5) * 3000; // Spread over a larger area
-        const y = Math.random() * 1200; // Higher in the sky
-        const z = (Math.random() - 0.5) * 3000;
+
+        const x = (Math.random() - 0.5) * 20;
+        const z = (Math.random() - 0.5) * 20;
+        const y = -0.2; // Higher in the sky
         starVertices.push(x, y, z);
 
         // Randomize star colors with hints of white, blue, purple, and green
@@ -197,11 +324,11 @@ function createStarrySky() {
     starGeometry.setAttribute('color', new THREE.Float32BufferAttribute(starColors, 3));
 
     const starMaterial = new THREE.PointsMaterial({
-        size: 2.5, // Larger star size
+        size: 0.015, // Larger star size
         vertexColors: true, // Enable vertex colors
         transparent: true,
         opacity: 1,
-        blending: THREE.AdditiveBlending // Additive blending for a glowing effect
+        blending: THREE.AdditiveBlending, // Additive blending for a glowing effect
     });
 
     const stars = new THREE.Points(starGeometry, starMaterial);
@@ -211,7 +338,7 @@ function createStarrySky() {
     function animateStars() {
         let positions = starGeometry.attributes.position.array;
         for (let i = 0; i < positions.length; i += 3) {
-            positions[i + 1] += Math.sin(performance.now() * 0.0005 + i) * 0.1;
+            positions[i + 1] += Math.sin(performance.now() * 0.0005 + i) * 0.01;
         }
         starGeometry.attributes.position.needsUpdate = true;
         requestAnimationFrame(animateStars);
@@ -220,102 +347,34 @@ function createStarrySky() {
     animateStars();
 }
 
-// Function to create shooting stars
-function createShootingStars() {
-    const shootingStars = [];
-    const maxShootingStars = 5;
 
-    for (let i = 0; i < maxShootingStars; i++) {
-        // Use MeshStandardMaterial for brightness & glow effect
-        const material = new THREE.MeshStandardMaterial({ 
-            color: 0xffffff, 
-            emissive: 0xffffff, // Makes them glow
-            emissiveIntensity: 2  // Adjust brightness
-        });
-
-        const geometry = new THREE.SphereGeometry(0.5, 16, 16); // Increased detail
-        const star = new THREE.Mesh(geometry, material);
-        star.visible = false; // Hide initially
-        shootingStars.push(star);
-        scene.add(star);
-    }
-
-    function animateShootingStars() {
-        const nightFactor = (1 - Math.cos(performance.now() / 5000 * 2 * Math.PI)) / 2; // Sync with day-night cycle
-        const sizeMultiplier = 1 + 2 * nightFactor; // Triples size at night
-
-        shootingStars.forEach(star => {
-            if (!star.visible) {
-                // Start a new shooting star
-                star.position.set(Math.random() * 800 - 400, Math.random() * 300 + 150, -800);
-                star.visible = true;
-            }
-
-            // Update size (bigger at night)
-            const baseSize = 0.5;
-            star.scale.set(baseSize * sizeMultiplier, baseSize * sizeMultiplier, baseSize * sizeMultiplier);
-
-            // Move shooting star
-            star.position.x -= 3;
-            star.position.y -= 1.5;
-            star.position.z += 8;
-
-            // If out of bounds, reset
-            if (star.position.z > 300) {
-                star.visible = false;
-            }
-        });
-
-        requestAnimationFrame(animateShootingStars);
-    }
-
-    animateShootingStars();
-}
 
 
 // Day-night cycle with longer night duration
 function dayNightCycle() {
-    const dayDuration = 44000; // 8000ms for a full day-night cycle
-    const startTime = performance.now();
+    dayDuration = 12000; // 12 seconds for a full day-night cycle
+    startTime = performance.now();
 
-    // Parameters for moon's elliptical orbit
-    const moonOrbitRadiusX = 300; // Horizontal radius of moon's orbit
-    const moonOrbitRadiusY = 250; // Vertical radius of moon's orbit
+    // Initialize fog
+    const fogColor = 0x000000; // Black fog for night
+    const fog = new THREE.Fog(fogColor, 0, 16); // Near = 0, Far = 16
+    scene.fog = fog;
 
-    function animate() {
-        const elapsedTime = performance.now() - startTime;
-        const t = (elapsedTime % dayDuration) / dayDuration; // Time in the cycle
+    // ***LIGHTING ADJUSTMENTS***
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2); // Dimmer ambient at night
+    scene.add(ambientLight);
 
-        // Sun's independent circular orbit (no change in direction)
-        const sunOrbitRadius = 200; 
-        const sunAngle = t * Math.PI * 2; // Full circle over the cycle for the sun
-        const sunX = Math.cos(sunAngle) * sunOrbitRadius;
-        const sunY = Math.sin(sunAngle) * sunOrbitRadius;
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5); // Increase intensity
+    directionalLight.position.set(50, 100, 50);
+    directionalLight.castShadow = true; // If you're using shadows
+    scene.add(directionalLight);
 
-        // Moon's elliptical orbit (non-linear movement)
-        const moonAngle = t * Math.PI * 2; // Full cycle for the moon (independent)
-        const moonX = Math.cos(moonAngle) * moonOrbitRadiusX;
-        const moonY = Math.sin(moonAngle) * moonOrbitRadiusY;
 
-        // Set sun and moon positions
-        sun.position.x = sunX;
-        sun.position.y = sunY;
-        moon.position.x = moonX;
-        moon.position.y = moonY;
+    const sunLight = new THREE.PointLight(0xffff00, 2, 1000); // Sun light (increase intensity)
+    sunLight.position.set(0, 500, -800);
+    scene.add(sunLight);
 
-        // Adjust the lighting based on the sun's position
-        const dayColor = new THREE.Color(0x87CEEB); // Sky blue for day
-        const nightColor = new THREE.Color(0x000010); // Deep night blue for night
 
-        // Smooth transition based on the sun's position
-        const transitionFactor = Math.sin(sunAngle); // Smooth sine wave transition for day to night
-        scene.background = nightColor.clone().lerp(dayColor, transitionFactor);
-
-        // Request the next animation frame
-        requestAnimationFrame(animate);
-    }
-
-    animate();
 }
 
 
@@ -324,20 +383,17 @@ scene.background = new THREE.Color(0x000010); // Deep night sky blue
 
 // Create the sky
 createStarrySky();
-createShootingStars();
 dayNightCycle();
-
-
 
   
 // Create multiple grass blade geometries for variety
 const createBladeGeometries = () => [
-    new THREE.PlaneGeometry(0.08, 0.25), // Thin, short
-    new THREE.PlaneGeometry(0.1, 0.35),  // Medium
-    new THREE.PlaneGeometry(0.12, 0.45), // Thick, tall
-    new THREE.PlaneGeometry(0.07, 0.3),  // Thin, medium-tall
-    new THREE.PlaneGeometry(0.11, 0.28)  // Thick, short
-  ];
+    new THREE.PlaneGeometry(0.08 * 0.2, 0.15), // Thin, short (60% width reduction)
+    new THREE.PlaneGeometry(0.1 * 0.2, 0.25),  // Medium (60% width reduction)
+    new THREE.PlaneGeometry(0.12 * 0.2, 0.29), // Thick, tall (60% width reduction)
+    new THREE.PlaneGeometry(0.07 * 0.2, 0.13),  // Thin, medium-tall (60% width reduction)
+    new THREE.PlaneGeometry(0.11 * 0.2, 0.18)  // Thick, short (60% width reduction)
+];
   
   // Create materials with different colors
   const grassMaterials = [
@@ -348,7 +404,7 @@ const createBladeGeometries = () => [
     new THREE.MeshBasicMaterial({ color: 0x1f3d1f, side: THREE.DoubleSide })  // Deep green
   ];
   
-  const bladeCount = 20000;
+  const bladeCount = 40000;
   const geometries = createBladeGeometries();
   const chunks = 25; // Number of terrain chunks for clustered variation
   
@@ -366,7 +422,6 @@ const createBladeGeometries = () => [
     });
   });
   
-  const matrix = new THREE.Matrix4();
   const dummy = new THREE.Object3D();
   
   // Create a noise function for natural clustering
@@ -389,8 +444,8 @@ const createBladeGeometries = () => [
     
     for (let instanceIndex = 0; instanceIndex < instanceCount; instanceIndex++) {
       // Random position within ground plane bounds
-      const x = (Math.random() - 0.5) * 480;
-      const z = (Math.random() - 0.5) * 480;
+      const x = (Math.random() - 0.5) * 20;
+      const z = (Math.random() - 0.5) * 20;
       
       // Determine which chunk this position belongs to
       const chunkX = Math.floor((x + 240) / (480 / chunks));
@@ -420,12 +475,12 @@ const createBladeGeometries = () => [
   });
   
   // Create the base ground plane
-  const groundGeometry = new THREE.PlaneGeometry(500, 500);
-  const groundMaterial = new THREE.MeshBasicMaterial({
+   groundGeometry = new THREE.PlaneGeometry(20, 20);
+   groundMaterial = new THREE.MeshBasicMaterial({
     color: 0x1a3300,
     side: THREE.DoubleSide
   });
-  const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+   groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
   groundMesh.rotation.x = -Math.PI / 2;
   groundMesh.position.y = -1.2;
   
@@ -454,24 +509,81 @@ const createBladeGeometries = () => [
 
 
 
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(-1, 0, 4);
-    camera.lookAt(1, 0, 0);
+    camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 1, 4);
+    camera.lookAt(0, 0, 0);
 
     // Add OrbitControls (now globally available)
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.05;
-controls.screenSpacePanning = false;
-controls.minDistance = 1;
-controls.maxDistance = 500;
-controls.maxPolarAngle = Math.PI / 2;
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.screenSpacePanning = false;
+    controls.minDistance = 1;
+    controls.maxDistance = 500;
+    controls.maxPolarAngle = Math.PI / 2;
 
-// Animation loop
+
+
 function animate() {
+    const elapsedTime = performance.now() - startTime;
+    const t = (elapsedTime % dayDuration) / dayDuration; // Time in the cycle
+
+    // Sun's independent circular orbit (no change in direction)
+    const sunOrbitRadius = 200;
+    const sunAngle = t * Math.PI * 2; // Full circle over the cycle for the sun
+    const sunX = Math.cos(sunAngle) * sunOrbitRadius;
+    const sunY = Math.sin(sunAngle) * sunOrbitRadius;
+
+    // Moon's elliptical orbit (non-linear movement)
+    const moonOrbitRadiusX = 200; // Horizontal radius for the moon
+    const moonOrbitRadiusY = 100; // Vertical radius for the moon
+    const moonAngle = t * Math.PI * 2; // Full cycle for the moon (independent)
+    const moonX = Math.cos(moonAngle) * moonOrbitRadiusX;
+    const moonY = Math.sin(moonAngle) * moonOrbitRadiusY;
+
+    // Set sun and moon positions
+    sun.position.x = sunX;
+    sun.position.y = sunY;
+    moon.position.x = moonX;
+    moon.position.y = moonY;
+
+    // Adjust the lighting based on the sun's position
+    const dayColor = new THREE.Color(0x87CEEB); // Sky blue for day
+    const nightColor = new THREE.Color(0x000010); // Deep night blue for night
+
+    // Smooth transition based on the sun's position
+    scene.background = nightColor.clone().lerp(dayColor, transitionFactor);
+
+    // Adjust fog density based on time of day
+// ***LIGHTING UPDATES DURING DAY/NIGHT CYCLE***
+transitionFactor = Math.sin(sunAngle); // 0 at night, 1 at day
+
+// Ambient Light: Adjust intensity
+ambientLight.intensity = 0.2 + transitionFactor * 0.3; // Increase during day
+
+// Directional Light: Adjust intensity and color slightly
+directionalLight.intensity = 0.5 + transitionFactor * 0.5; // Increase during day
+
+// Sun Light: Adjust intensity (most important)
+sunLight.intensity = 2 + transitionFactor * 8; // Brighter during the day
+
+
+        // Add event listeners for mouse and touch interactions
+// Event listeners (modified)
+window.addEventListener('mousedown', onMouseDown, false);
+window.addEventListener('mousemove', onMouseMove, false);
+window.addEventListener('mouseup', onMouseUp, false);
+
+window.addEventListener('touchstart', onTouchStart, false);
+window.addEventListener('touchmove', onTouchMove, false);
+window.addEventListener('touchend', onTouchEnd, false);
+
+    // Request the next animation frame
     requestAnimationFrame(animate);
     controls.update();
     renderer.render(scene, camera);
+    animateOrb(); // Update orb's floating animation
+
 }
 
 animate();
@@ -520,6 +632,14 @@ async function loadModel(glbPath) {
         neck = model.getObjectByName('Neck');
         leftEye = model.getObjectByName('LeftEye');
         rightEye = model.getObjectByName('RightEye');
+
+        // ***Set initial rotation BEFORE capturing it***
+        model.rotation.order = "YXZ"; // Set rotation order (important!)
+        model.rotation.y = 0;        // Initial yaw (horizontal)
+        model.rotation.x = 0;        // Initial pitch (vertical) - looking at ground
+        model.rotation.z = 0;        // Initial roll (twisting)
+
+        initialModelRotation.copy(model.rotation); // *Now* capture the rotation
 
         populateAnimations();
         onModelLoaded();

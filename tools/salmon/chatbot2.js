@@ -87,7 +87,7 @@ function createChatBubble(sender, text, className) {
 setTimeout(function () {
     const chatWindow = document.getElementById('chatWindow'); // Ensure chatWindow is selected
     // Introduction Message
-    const introMessage = createChatBubble(botName, `Model Version 3.1 - Let's begin chatting...`, "bot-message");
+    const introMessage = createChatBubble(botName, `Model Version 3.1 - Let's begin chatting, or drag and move that big glowing orb...`, "bot-message");
     chatWindow.appendChild(introMessage);
     scrollToBottom();
 }, 300);
