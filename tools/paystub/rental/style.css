@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css?family=Barlow:400,500,700');
+
+:root {
+  --white: #fff;
+  --black: #2e2e2e;
+  --gray: #787878;
+  --highlight: #ea8478;
+  --footer: #f7f7f7;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--gray);
+  background: var(--white);
+  text-rendering: optimizeLegibility;
+}
+
+nav {
+  padding: 2.5rem 0;
+}
+
+nav ul {
+  display: flex;
+  justify-content: flex-start;
+  list-style: none;
+}
+
+nav li {
+  font-size: 1.25rem;
+  margin: 0 1.5rem 0 0;
+}
+
+nav a {
+  color: var(--gray);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+nav a:hover, nav a.active {
+  color: var(--black);
+}
+
+.gallery {
+  padding: 0 0 4rem 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
+}
+
+.img-container {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.img-container img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.img-container:hover img {
+  transform: scale(1.05);
+}
+
+.img-content-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--white);
+  padding: 1rem;
+  display: none;
+  z-index: 1;
+}
+
+.img-container:hover .img-content-hover {
+  display: block;
+}
+
+footer {
+  padding: 1rem 0;
+  background: var(--footer);
+  text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .img-container img {
+    height: auto;
+  }
+
+  .img-container:hover img {
+    transform: none;
+  }
+
+  .img-content-hover {
+    display: none;
+  }
+}
