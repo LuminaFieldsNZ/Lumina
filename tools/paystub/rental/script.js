@@ -1,31 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     const galleryGrid = document.getElementById('gallery-grid');
-    const picsFolder = 'pics/'; // Path to your images folder
   
-    // Function to fetch images from the folder
-    async function fetchImages() {
-      try {
-        const response = await fetch(picsFolder);
-        const text = await response.text();
-        const parser = new DOMParser();
-        const htmlDocument = parser.parseFromString(text, 'text/html');
-        const links = htmlDocument.querySelectorAll('a');
-  
-        const imageFiles = Array.from(links)
-          .map(link => link.href)
-          .filter(href => /\.(jpg|jpeg|png|gif)$/i.test(href));
-  
-        return imageFiles;
-      } catch (error) {
-        console.error('Error fetching images:', error);
-        return [];
-      }
-    }
+    // Manually list the image files in the 'pics' folder
+    const imageFiles = [
+      'pics/2351941_2.jpg',
+      'pics/2351941_1_2.jpg',
+      'pics/2351941_2_2.jpg',
+      'pics/2351941_3_2.jpg',
+      'pics/2351941_4_2.jpg',
+      'pics/2351941_5_2.jpg',
+      
+    ];
   
     // Function to create image elements and append them to the gallery
-    async function loadGallery() {
-      const images = await fetchImages();
-      images.forEach((src, index) => {
+    function loadGallery() {
+      imageFiles.forEach((src, index) => {
         const imgContainer = document.createElement('div');
         imgContainer.classList.add('img-container');
   

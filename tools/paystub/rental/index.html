@@ -4,34 +4,447 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gallery</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css?family=Barlow:400,500,700" rel="stylesheet">
+  <style>
+    /* CSS Styles */
+    :root {
+      --white: #fff;
+      --black: #2e2e2e;
+      --gray: #787878;
+      --highlight: #ea8478;
+      --footer: #f7f7f7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      font-size: 1.125rem;
+      line-height: 1.5;
+      color: var(--gray);
+      background: var(--white);
+      text-rendering: optimizeLegibility;
+    }
+
+    .gallery {
+      padding: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-gap: 1rem;
+    }
+
+    .img-container {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .img-container:hover img {
+      transform: scale(1.05);
+    }
+
+    .img-content-hover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: var(--white);
+      padding: 1rem;
+      display: none;
+      z-index: 1;
+    }
+
+    .img-container:hover .img-content-hover {
+      display: block;
+    }
+
+    /* PC Layout */
+    @media (min-width: 1024px) {
+      .grid {
+        grid-template-areas:
+          "a a b"
+          "c d e"
+          "f f f";
+      }
+
+      .img-container:nth-child(1) { grid-area: a; }
+      .img-container:nth-child(2) { grid-area: b; }
+      .img-container:nth-child(3) { grid-area: c; }
+      .img-container:nth-child(4) { grid-area: d; }
+      .img-container:nth-child(5) { grid-area: e; }
+      .img-container:nth-child(6) { grid-area: f; }
+    }
+
+    /* Mobile Layout */
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .img-container img {
+        height: auto;
+      }
+
+      .img-container:hover img {
+        transform: none;
+      }
+
+      .img-content-hover {
+        display: none;
+      }
+    }
+
+
+    /* Popup Form Styles */
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      display: none;
+    }
+
+    .popup.visible {
+      display: block;
+    }
+
+    .popup h2 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: var(--black);
+    }
+
+    .popup p {
+      margin-bottom: 1.5rem;
+      color: var(--gray);
+    }
+
+    .popup form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .popup input, .popup textarea {
+      padding: 0.5rem;
+      border: 1px solid var(--gray);
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .popup button {
+      padding: 0.75rem;
+      background: var(--highlight);
+      color: var(--white);
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .model {
+        padding: 0.75rem;
+      background: var(--highlight);
+      color: var(--white);
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .popup button:hover {
+      background: darken(var(--highlight), 10%);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--white);
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--gray);
+    }
+
+    .close-btn:hover {
+      color: var(--black);
+    }
+
+    .bubble {
+      position: fixed;
+      bottom: 2rem;
+      background: none;
+      right: 2rem;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .bubble .close-btn {
+      font-size: 1.5rem;
+      color: var(--gray);
+    }
+
+    .bubble .close-btn:hover {
+      color: var(--black);
+    }
+
+    /* For Webkit browsers like Chrome, Safari */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* For Firefox */
+html {
+    scrollbar-width: none;
+    overflow: -moz-scrollbars-none;
+}
+
+/* For IE and Edge */
+body {
+    -ms-overflow-style: none;
+}
+  </style>
 </head>
 <body>
-  <nav>
-    <ul>
-      <li><a href="#" class="active">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </nav>
+    <!-- Headphoto with Address Overlay -->
+    <div style="position: relative; width: 100%; height: 250px; overflow: hidden; text-align: center;">
+        <!-- Headphoto (GIF) -->
+        <img src="wallpaper.png" alt="Headphoto" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+      
+        <!-- Address Overlay -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; text-align: center; color: white; font-family: Arial, sans-serif; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
+          <div style="font-size: 3rem; line-height: 1.2;">4120 Adams Street</div>
+          <div style="font-size: 1.5rem; line-height: 1.2;">Kansas City, Missouri 66103</div>
+        </div>
+      </div>
+
+
+
+      <div style="background-color: #f0f0f0; padding: 20px; border-radius: 10px; text-align: center;">
+        <h2 style="margin: 0; font-size: 24px; color: #333;">Rental Property Details</h2>
+        <p style="margin: 10px 0; font-size: 18px; color: #555;">Price: $1400/month</p>
+        <p style="margin: 10px 0; font-size: 18px; color: #555;">4 Bedrooms, 2 Bathrooms</p>
+        <p style="margin: 10px 0; font-size: 18px; color: #555;">2200 Square Feet</p>
+      </div>
+      
+      <div id="viewCounter" style="background-color: #e0e0e0; padding: 10px; border-radius: 5px; margin-top: 10px; text-align: center;">
+        <p style="margin: 0; font-size: 16px; color: #444;">This home is popular! It's been viewed <span id="views">89</span> times, Tour it before it's gone.</p>
+        <button class="model" onclick="openIt()">Schedule Tour</button>
+      </div>
+      
+      <script>
+        // Function to calculate the number of days since the start date
+        function getDaysSinceStart(startDate) {
+          const now = new Date();
+          const start = new Date(startDate);
+          const timeDiff = now - start;
+          return Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+        }
+      
+        // Function to increment views gradually over the day
+        function incrementViews() {
+          const startDate = "2023-10-01"; // Set the start date (today)
+          const baseViews = 89; // Starting views
+          const dailyIncrement = 37; // Views to add per day
+          const interval = 60000; // Interval in milliseconds (1 minute)
+      
+          // Calculate total views based on days passed
+          const daysPassed = getDaysSinceStart(startDate);
+          const totalViews = baseViews + daysPassed * dailyIncrement;
+      
+          // Calculate how many views to add per interval
+          const viewsPerInterval = dailyIncrement / (24 * 60); // Spread over 24 hours, 60 minutes per hour
+      
+          // Increment views gradually
+          let currentViews = parseInt(document.getElementById("views").textContent);
+          const incrementInterval = setInterval(() => {
+            if (currentViews < totalViews) {
+              currentViews += viewsPerInterval;
+              document.getElementById("views").textContent = Math.round(currentViews);
+            } else {
+              clearInterval(incrementInterval);
+            }
+          }, interval);
+        }
+      
+        // Start the view increment process
+        incrementViews();
+      </script>
+
+
+  
+  <!-- Gallery -->
   <div class="gallery">
     <div class="grid" id="gallery-grid">
       <!-- Images will be dynamically inserted here -->
     </div>
   </div>
-  <footer>
-    <div class="social">
-      <ul>
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Twitter</a></li>
-        <li><a href="#">Facebook</a></li>
-      </ul>
+  <div class="gallery">
+    <div class="grid" id="gallery-grid">
+      <!-- Images will be dynamically inserted here -->
     </div>
-    <div class="copyright">
-      <p>&copy; 2023 Gallery. All rights reserved.</p>
-    </div>
-  </footer>
-  <script src="script.js"></script>
+  </div>
+
+  <!-- Popup Form -->
+  <div class="popup" id="popup">
+    <button class="close-btn" id="close-popup">×</button>
+    <h2>Interested in this property?</h2>
+    <p>Our application fee is only $5 to keep the bots away, and it goes towards covering your background check.</p>
+    <form id="interest-form">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <label for="date">Select a viewing Date:</label>
+      <input type="date" id="date" name="date" required>
+      <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <!-- Cute White Bubble -->
+  <div class="bubble" id="bubble" style="background: none;">
+    <button class="close-btn" id="open-popup" style="background: none; font-size: 3em;">✉️</button>
+  </div>
+
+
+  <script>
+    // JavaScript to load images dynamically
+    const galleryGrid = document.getElementById('gallery-grid');
+
+    // Function to generate image paths
+    function generateImagePaths() {
+      const imagePaths = [];
+      for (let i = 1; i <= 40; i++) {
+        imagePaths.push(`pics/2351941_${i}_2.jpg`);
+      }
+      return imagePaths;
+    }
+
+    // Function to check if an image exists
+    async function checkImageExists(src) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = src;
+      });
+    }
+
+    // Function to create the gallery
+    async function createGallery() {
+      const imagePaths = generateImagePaths();
+
+      for (let i = 0; i < imagePaths.length; i++) {
+        const src = imagePaths[i];
+        const imageExists = await checkImageExists(src);
+
+        if (imageExists) {
+          const imgContainer = document.createElement('div');
+          imgContainer.classList.add('img-container');
+
+          const img = document.createElement('img');
+          img.src = src;
+          img.alt = `Image ${i + 1}`;
+
+          const imgContentHover = document.createElement('div');
+          imgContentHover.classList.add('img-content-hover');
+          imgContentHover.innerHTML = `
+            <div class="title">${i + 1}</div>
+          `;
+
+          imgContainer.appendChild(img);
+          imgContainer.appendChild(imgContentHover);
+          galleryGrid.appendChild(imgContainer);
+        }
+      }
+    }
+
+    // Initialize the gallery
+    createGallery();
+
+
+    // Popup Form Logic
+    const popup = document.getElementById('popup');
+    const bubble = document.getElementById('bubble');
+    const openPopupBtn = document.getElementById('open-popup');
+    const closePopupBtn = document.getElementById('close-popup');
+    const interestForm = document.getElementById('interest-form');
+
+    // Open Popup
+    openPopupBtn.addEventListener('click', () => {
+      popup.classList.add('visible');
+      bubble.style.display = 'none';
+    });
+
+    // Close Popup
+    closePopupBtn.addEventListener('click', () => {
+      popup.classList.remove('visible');
+      bubble.style.display = 'flex';
+    });
+
+
+    // Get the form and input elements
+  const nameInput = document.querySelector('input[name="name"]');
+  const dateInput = document.getElementById('date');
+  const messageInput = document.querySelector('textarea[name="message"]');
+
+  // Function to prefill the message
+  function prefillMessage() {
+    const name = nameInput.value.trim();
+    const date = dateInput.value;
+
+    if (name && date) {
+      messageInput.value = `Hey, I'm ${name}, and I'm interested in 4120 Adams Street. I want to schedule a walkthrough on ${date}.`;
+    } else {
+      messageInput.value = '';
+    }
+  }
+
+  // Add event listeners to update the message dynamically
+  nameInput.addEventListener('input', prefillMessage);
+  dateInput.addEventListener('input', prefillMessage);
+
+  // Submit Form
+  interestForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const date = e.target.date.value;
+    const message = e.target.message.value;
+
+    const subject = 'Interest in Property';
+    const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0AViewing Date: ${date}%0D%0AMessage: ${message}`;
+    window.location.href = `mailto:woodmortar@gmail.com?subject=${subject}&body=${body}`;
+  });
+
+    function openIt (){
+        popup.classList.add('visible');
+        bubble.style.display = 'none';
+    }
+
+
+  </script>
 </body>
 </html>
