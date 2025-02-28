@@ -860,3 +860,8 @@ button, a {
     top: 10px;
   }
 }
+
+canvas {
+  max-width: 100%;
+  height: 300px;
+}
