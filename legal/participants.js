@@ -18,6 +18,7 @@ const projectData = [
       progressColor: "#e85b51",
       participants: [
         "lie.png",
+        "coin.png",
         "heart.png",
         "contract.png",
         "thief.png"
@@ -34,6 +35,7 @@ const projectData = [
       progressColor: "#e85b51",
       participants: [
         "lie.png",
+        "coin.png",
         "contract.png"
       ],
       evidenceFunction: "openJosh()"
@@ -48,7 +50,9 @@ const projectData = [
       progressColor: "#e85b51",
       participants: [
         "lie.png",
-        "heart.png"
+        "coin.png",
+        "heart.png",
+        "thief.png"
       ],
       evidenceFunction: "openCarolyn()"
     },
@@ -62,7 +66,9 @@ const projectData = [
       progressColor: "#e85b51",
       participants: [
         "lie.png",
-        "contract.png"
+        "coin.png",
+        "contract.png",
+        "thief.png"
       ],
       evidenceFunction: "openJozef()"
     },
@@ -76,7 +82,9 @@ const projectData = [
       progressColor: "#e85b51",
       participants: [
         "lie.png",
-        "contract.png"
+        "coin.png",
+        "contract.png",
+        "thief.png"
       ],
       evidenceFunction: "openKelly()"
     },
@@ -90,7 +98,8 @@ const projectData = [
       progressColor: "#27cc27",
       participants: [
         "heart.png",
-        "thief.png"
+        "coin.png",
+        "thief.png",
       ],
       evidenceFunction: "openAmanda()"
     },
@@ -104,7 +113,8 @@ const projectData = [
       progressColor: "#27cc27",
       participants: [
         "heart.png",
-        "thief.png"
+        "coin.png",
+        "thief.png",
       ],
       evidenceFunction: "openStephanie()"
     }
