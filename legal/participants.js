@@ -41,6 +41,21 @@ const projectData = [
       evidenceFunction: "openJosh()"
     },
     {
+      phone: "(417) 334-6316",
+      name: "Sarah Pratt",
+      email: "josh@joshgarrettlaw.com",
+      role: "Mothers Lawyer",
+      honestyPercentage: 80,
+      backgroundColor: "#f0a8f0",
+      progressColor: "#e85b51",
+      participants: [
+        "lie.png",
+        "coin.png",
+        "contract.png"
+      ],
+      evidenceFunction: "openJosh()"
+    },
+    {
       phone: "(913) 221-4183",
       name: "Carolyn Salmon",
       email: "crsalmon1@gmail.com",
@@ -54,7 +69,7 @@ const projectData = [
         "heart.png",
         "thief.png"
       ],
-      evidenceFunction: "openCarolyn()"
+      evidenceFunction: "openCarl()"
     },
     {
       phone: "(660) 525-8205",
@@ -86,7 +101,7 @@ const projectData = [
         "contract.png",
         "thief.png"
       ],
-      evidenceFunction: "openKelly()"
+      evidenceFunction: "openJozef()"
     },
     {
       phone: "(660) 473-0562",
@@ -95,13 +110,28 @@ const projectData = [
       role: "Grandmother",
       honestyPercentage: 70,
       backgroundColor: "#4ab560",
-      progressColor: "#27cc27",
+      progressColor: "#e85b51",
       participants: [
         "heart.png",
         "coin.png",
-        "thief.png",
+        "thief.png"
       ],
       evidenceFunction: "openAmanda()"
+    },
+    {
+      phone: "(913) 634-4607",
+      name: "Carl Jemison",
+      email: "crsalmon1@gmail.com",
+      role: "Grandmother's Friend",
+      honestyPercentage: 50,
+      backgroundColor: "#ced4de",
+      progressColor: "#e85b51",
+      participants: [
+        "heart.png",
+        "coin.png",
+        "thief.png"
+      ],
+      evidenceFunction: "openCarl()"
     },
     {
       phone: "(720) 635-6248",
@@ -110,13 +140,41 @@ const projectData = [
       role: "Fathers Friend",
       honestyPercentage: 80,
       backgroundColor: "#91bdfa",
-      progressColor: "#27cc27",
+      progressColor: "#e85b51",
       participants: [
         "heart.png",
         "coin.png",
-        "thief.png",
+        "thief.png"
       ],
       evidenceFunction: "openStephanie()"
+    },
+    {
+      phone: "(417) 357-3076",
+      name: "Elizabeth Lacy",
+      email: "Liz.Lacy@courts.mo.gov",
+      role: "Court Clerk",
+      honestyPercentage: 35,
+      backgroundColor: "#c3f0a8",
+      progressColor: "#e85b51",
+      participants: [
+        "heart.png",
+        "coin.png"
+      ],
+      evidenceFunction: "openCourt()"
+    },
+    {
+      phone: "(417) 357-3076",
+      name: "Kelly Lebow",
+      email: "Liz.Lacy@courts.mo.gov",
+      role: "Court Clerk",
+      honestyPercentage: 35,
+      backgroundColor: "#d3f58c",
+      progressColor: "#e85b51",
+      participants: [
+        "heart.png",
+        "coin.png"
+      ],
+      evidenceFunction: "openCourt()"
     }
   ];
 

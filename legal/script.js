@@ -127,3 +127,9 @@ function openCrycella(){window.open("https://drive.google.com/drive/folders/1PGR
 function openJosh(){window.open("https://drive.google.com/drive/folders/1eOhAfstiootkx_MoDAgcd_BDj5JRgV0t?usp=drive_link")}
 function openCarolyn(){window.open("https://drive.google.com/drive/folders/16pXT0g0sYMJxuvImpH5742ELnR155v-A?usp=drive_link")}
 function openJozef(){window.open("https://drive.google.com/drive/folders/1crWPe_GyyCpp9OynIqCM5RAM0XyYRqro?usp=drive_link")}
+function openCourt(){window.open("https://drive.google.com/drive/folders/10RRzhZymsQsJj_rxVtJFG9Bglilnct7K?usp=drive_link")}
+function openStephanie(){window.open("https://drive.google.com/drive/folders/1KRERaiCbiEoB5ROfFVuz6w7Hzrt57FmJ?usp=drive_link")}
+function openCarl(){window.open("https://drive.google.com/drive/folders/1dlzInEus0xOVVBFgPVEEEihi6F8uFvCy?usp=drive_link")}
+function openAmanda(){window.open("https://drive.google.com/drive/folders/1VJnL__atUsMuGOMLl_oXbQz-T2aPqoLe?usp=drive_link")}
+
+
