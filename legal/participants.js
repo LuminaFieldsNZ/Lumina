@@ -149,6 +149,21 @@ const projectData = [
       evidenceFunction: "openStephanie()"
     },
     {
+      phone: "(319) 573-9977",
+      name: "Christ Connect",
+      email: "12900 Quivira, Overland Park, KS 66213",
+      role: "Church",
+      honestyPercentage: 15,
+      backgroundColor: "#c1b0e8",
+      progressColor: "#e85b51",
+      participants: [
+        "heart.png",
+        "contract.png",
+        "coin.png"
+      ],
+      evidenceFunction: "openChurch()"
+    },
+    {
       phone: "(417) 357-3076",
       name: "Elizabeth Lacy",
       email: "Liz.Lacy@courts.mo.gov",
@@ -218,17 +233,11 @@ const projectData = [
           <div class="project-box-footer">
             <div class="participants">
               ${project.participants.map(participant => `<img src="${participant}" alt="participant">`).join('')}
-              <button class="add-participant" style="color: ${project.progressColor};">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                  <path d="M23 4v6h-6"/>
-                  <path d="M1 20v-6h6"/>
-                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-                </svg>
-              </button>
+
             </div>
             <a onclick="${project.evidenceFunction}">
               <div class="days-left" style="color: ${project.progressColor};">
-                Evidence
+                Charges
               </div>
             </a>
           </div>

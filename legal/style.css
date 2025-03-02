@@ -687,7 +687,7 @@ button, a {
   border-radius: 4px 0 0 4px;
   position: absolute;
   right: 0;
-  top: 58px;
+  top: 78px;
   background-color: var(--message-btn);
   border: none;
   color: var(--main-color);
@@ -696,6 +696,7 @@ button, a {
   align-items: center;
   padding: 4px;
   display: none;
+  z-index: 1;
 }
 
 @media screen and (max-width: 980px) {
