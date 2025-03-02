@@ -38,15 +38,15 @@ timeline.push({
                 "label": "Evidence",
                 "documents": [
                     {
-                        "name": "Exhibit A: Crycella running Woodandmortar LLC",
+                        "name": "Text showing Crycella running Woodandmortar LLC",
                         "link": "https://docs.google.com/document/d/1eMfyAm1sYUUfsc06yz3w82J5poMfImGY9vk9bPzcXbs/edit?usp=sharing"
                     },
                     {
-                        "name": "Exhibit B: Crycella hair education",
+                        "name": "Certificate: Crycella hair education",
                         "link": "https://docs.google.com/document/d/1eMfyAm1sYUUfsc06yz3w82J5poMfImGY9vk9bPzcXbs/edit?usp=sharing"
                     },
                     {
-                        "name": "Exhibit C: Transcript",
+                        "name": "Transcript",
                         "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
                     }
                 ]
@@ -96,16 +96,8 @@ timeline.push({
               "label": "Evidence",
               "documents": [
                   {
-                      "name": "Exhibit A: Expenses",
+                      "name": "Expenses",
                       "link": "https://drive.google.com/file/d/12pInhGLSpQUvcVZBq9j4APbdcBX367sP/view?usp=drive_link"
-                  },
-                  {
-                      "name": "Exhibit B: Video Recording",
-                      "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
-                  },
-                  {
-                      "name": "Exhibit C: Transcript",
-                      "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
                   }
               ]
           }
@@ -159,16 +151,8 @@ timeline.push({
                     "label": "Evidence",
                     "documents": [
                         {
-                            "name": "Exhibit A: Text History",
-                            "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
-                        },
-                        {
-                            "name": "Exhibit B: Video Recording",
-                            "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
-                        },
-                        {
-                            "name": "Exhibit C: Transcript",
-                            "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
+                            "name": "Branson West Folder (6 items)",
+                            "link": "https://drive.google.com/drive/folders/1bP447BvVOlo1N100-4PXz_FML9qXzYF6?usp=drive_link"
                         }
                     ]
                 }
@@ -223,21 +207,68 @@ timeline.push({
                   "label": "Evidence",
                   "documents": [
                       {
-                          "name": "Exhibit A: Text History",
+                          "name": "Text History",
                           "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
                       },
                       {
-                          "name": "Exhibit B: Video Recording",
+                          "name": "Video Recording",
                           "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
                       },
                       {
-                          "name": "Exhibit C: Transcript",
+                          "name": "Transcript",
                           "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
                       }
                   ]
               }
           ]
       },
+
+
+
+      {
+        "date": "November 5, 2024",
+        "title": "Filed response",
+        "subtitle": "In-Transit",
+        "financialLoss": 0,
+        "description": [
+            {
+                "label": "Still under the impression of a relationship",
+                "details": [
+                    "Created plan to move to Kansas City to be closer with Crycella",
+                    "Felix and Crycella and Anya plan on having Thanksgiving with me Steph and Tyler.",
+                    "Felix and Crycella and Anya all going hiking with Micheal."
+
+                ]
+            },
+            {
+                "label": "Occupation",
+                "jobs": [
+                    "Roadie",
+                    "Outlier AI",
+                    "Tend Bartending"
+                ],
+                "hours": "20+ hours weekly while still managing Felix's LuminaFields learning platform, and learning Family Law to defend Pro se"
+            },
+            {
+                "label": "Felix: 100% Micheal guided day",
+                "details": [
+                    "Rigid schedule, making it easy to sleep",
+                    "Potty trained",
+                    "Great Sleep",
+                    "Total weight: 25.8 lbs"
+                ]
+            },
+            {
+                "label": "Evidence",
+                "documents": [
+                    {
+                        "name": "Summons Response",
+                        "link": "https://drive.google.com/file/d/1Q__1o4j0ERkOlKfMFHBz2FxlZ1J1Vip7/view?usp=drive_link"
+                    }
+                ]
+            }
+        ]
+    },
 
 
         {
@@ -276,28 +307,247 @@ timeline.push({
                         "Rigid schedule, making it easy to sleep",
                         "Potty trained",
                         "No longer woke up at midnight",
-                        "Total weight: 25.7 lbs"
+                        "Total weight: 25.8 lbs"
                     ]
                 },
                 {
                     "label": "Evidence",
                     "documents": [
                         {
-                            "name": "Exhibit A: Text History",
+                            "name": "Text History",
                             "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
                         },
                         {
-                            "name": "Exhibit B: Video Recording",
+                            "name": "Video Recording",
                             "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
                         },
                         {
-                            "name": "Exhibit C: Transcript",
+                            "name": "Transcript",
                             "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
                         }
                     ]
                 }
             ]
         },
+
+
+
+        {
+            "date": "December 4-17, 2024",
+            "title": "Training Law AI",
+            "subtitle": "Wyandotte County, Kansas City",
+            "financialLoss": 2500,
+            "description": [
+                {
+                    "label": "Still under the impression of a relationship",
+                    "details": [
+                        "First instance that something was wrong with Crycellas intentions",
+                        "Crycella notifies me I can't speak to Anya anymore."
+                    ]
+                },
+                {
+                    "label": "Occupation",
+                    "jobs": [
+                        "Roadie",
+                        "Outlier AI",
+                        "Tend Bartending"
+                    ],
+                    "hours": "20+ hours weekly while still managing Felix's LuminaFields learning platform, and learning Family Law to defend Pro se"
+                },
+                {
+                    "label": "Felix: 100% Micheal guided day",
+                    "details": [
+                        "Rigid schedule, making it easy to sleep",
+                        "Potty trained",
+                        "Great Sleep",
+                        "Total weight: 25.8 lbs"
+                    ]
+                },
+                {
+                    "label": "Evidence",
+                    "documents": [
+                        {
+                            "name": "Change of Venue",
+                            "link": "https://drive.google.com/file/d/1zBYdceio49EaxL945IsgVffpAi5Af26w/view?usp=drive_link"
+                        },
+                        {
+                            "name": "PETITION FOR REMOTE APPEARANCE",
+                            "link": "https://drive.google.com/file/d/1Q9RZSgCXU6crqSYbjQDRK5B7v-a6aeGn/view?usp=drive_link"
+                        },
+                        {
+                            "name": "PETITION FOR SOLE CUSTODY",
+                            "link": "https://drive.google.com/file/d/1wkqRk_0xoLb5zdakJ0YaguKaGdGMebqp/view?usp=drive_link"
+                        },
+                        {
+                            "name": "Objection to Temporary Custody Order",
+                            "link": "https://drive.google.com/file/d/17pNebZeJ1WQSnN5D609IWxX-N5s04Idh/view?usp=drive_link"
+                        },
+                        {
+                            "name": "Complaint Against Attorney for Professional Misconduct",
+                            "link": "https://drive.google.com/file/d/1pFUr8nJDMJ6qu_fwWqn3uha1oMRr9WOl/view?usp=sharing"
+                        },
+                        {
+                            "name": "RESPONSE TO PETITION FOR PATERNITY, CUSTODY, VISITATION, AND CHILDSUPPORT",
+                            "link": "https://drive.google.com/file/d/1giGGisC_5YFQywjEvFJnlOZbgWhUCdIT/view?usp=drive_link"
+                        },
+                        {
+                            "name": "MOTION FOR HOME INSPECTION AND FINANCIAL DISCLOSURE",
+                            "link": "https://drive.google.com/file/d/1AMwjhTqtbm1zuv_pLFXgaVIbqf8a7xZ0/view?usp=drive_link"
+                        }
+                    ]
+                }
+            ]
+        },
+
+
+        {
+            "date": "December 18, 2024",
+            "title": "Learning Law",
+            "subtitle": "Wyandotte County, Kansas City",
+            "financialLoss": 2500,
+            "description": [
+                {
+                    "label": "No longer under the impression of a relationship",
+                    "details": [
+                        "Crycella tells me in my bedroom, that she's scared of me, and wont explain",
+                        "I begin Transcription AI processing."
+                    ]
+                },
+                {
+                    "label": "Occupation",
+                    "jobs": [
+                        "Roadie",
+                        "Outlier AI",
+                        "Tend Bartending"
+                    ],
+                    "hours": "20+ hours weekly while still managing Felix's LuminaFields learning platform, and learning Family Law to defend Pro se"
+                },
+                {
+                    "label": "Felix: 100% Micheal guided day",
+                    "details": [
+                        "Rigid schedule, making it easy to sleep",
+                        "Potty trained",
+                        "Great Sleep",
+                        "Total weight: 25.8 lbs"
+                    ]
+                },
+                {
+                    "label": "Evidence",
+                    "documents": [
+                        {
+                            "name": "Witness Statement (Jozef Hanratty)",
+                            "link": "https://drive.google.com/file/d/1-XDm6OaEluYYTXhiPb7REbJqTxjgIcrw/view?usp=sharing"
+                        },
+                        {
+                            "name": "Witness Statement (Anya Hill(not filed))",
+                            "link": "https://drive.google.com/file/d/1mXpvzRYxRinHZ8UBTtPlSqovz796N1jQ/view?usp=sharing"
+                        },
+                        {
+                            "name": "Witness Statement (Micheal Salmon)",
+                            "link": "https://drive.google.com/file/d/1srxDnaqQ3FRRbXmTE2JAELsNIsm0jFJh/view?usp=sharing"
+                        },
+                        {
+                            "name": "RESPONSE TO PETITION FOR PATERNITY, CUSTODY, VISITATION, AND CHILDSUPPORT (Josh Version)",
+                            "link": "https://drive.google.com/file/d/1c9hjCcNfIEQxWaLA_Or7zfKt0XweEzq2/view?usp=sharing"
+                        },
+                        {
+                            "name": "Parenting Plan (Josh Version)",
+                            "link": "https://drive.google.com/file/d/1BUJvdrINliC1Sc9Of6oCP1L1U9dIUN59/view?usp=sharing"
+                        },
+                        {
+                            "name": "Statement of Property and Debt",
+                            "link": "https://drive.google.com/file/d/16OWeV7ZCwVoaFOTMh8x4-u_v1GLde8W0/view?usp=sharing"
+                        }
+                    ]
+                }
+            ]
+        },
+
+
+
+        {
+            "date": "January 28, 2024",
+            "title": "Temporary Custody",
+            "subtitle": "Wyandotte County, Kansas City",
+            "financialLoss": 2500,
+            "description": [
+                {
+                    "label": "No longer under the impression of a relationship",
+                    "details": [
+                        "Crycella tells me I can no longer see Felix, nor my friends or family",
+                        "Crycella threatens to use either the police or the guns in her home to ensure I stay away from her home and Felix."
+                    ]
+                },
+                {
+                    "label": "Judge Matt Alan Selby granted Crycella Temporary Custody",
+                    "details": [
+                        "Crycella, Jozef, and Josh fabricated evidence to win custody.",
+                        "Judge Selby ignored Micheal's evidence, and ended early so Josh can pick his kids up from school."
+                    ]
+                },
+                {
+                    "label": "Occupation",
+                    "jobs": [
+                        "Roadie",
+                        "Outlier AI",
+                        "Tend Bartending"
+                    ],
+                    "hours": "20+ hours weekly while still managing Felix's LuminaFields learning platform, and learning Family Law to defend Pro se"
+                },
+                {
+                    "label": "Felix: 0% Micheal guided day",
+                    "details": [
+                        "Crycella refuses to gine any details"
+                    ]
+                },
+                {
+                    "label": "Evidence",
+                    "documents": [
+                        {
+                            "name": "Lease between Jozef and Micheal",
+                            "link": "https://drive.google.com/file/d/1vvHSlbT5MqGRmFycH7HH1kBgq9Mw6Ezq/view?usp=drive_link"
+                        },
+                        {
+                            "name": "MOTION FOR CHANGE OF JUDGE",
+                            "link": "https://drive.google.com/file/d/1P-ICJpeAnFcNJ_0aob3BXSDAq8EbXzfF/view?usp=sharing"
+                        },
+                        {
+                            "name": "Letter to Judge Matt Alan Selby",
+                            "link": "https://drive.google.com/file/d/1fTq0BlhnbShK7RjpUGhtNyqudYKaisNl/view?usp=sharing"
+                        },
+                        {
+                            "name": "Communication Order",
+                            "link": "https://drive.google.com/file/d/18myqUE7UdVGeqNOVTBVOT7rv-nYYsuOI/view?usp=drive_link"
+                        },
+                        {
+                            "name": "MOTION FOR EMERGENCY RELIEF",
+                            "link": "https://drive.google.com/file/d/1GDzy5g2w6CTygYtM8TuwogBSTAS7Ghws/view?usp=drive_link"
+                        },
+                        {
+                            "name": "MOTION FOR RELIEF",
+                            "link": "https://drive.google.com/file/d/1hL4OTlaFYBlz-7PLMRvrBVTBZTqezNiW/view?usp=drive_link"
+                        },
+                        {
+                            "name": "COMBINED MOTION FOR IMMEDIATE CUSTODY MODIFICATION AND SANCTIONS",
+                            "link": "https://drive.google.com/file/d/1l7uj8uUO88U9T1NeS5m05SEETc9bQbPQ/view?usp=drive_link"
+                        },
+                        {
+                            "name": "Witness Acknowledgment Form (x26(not filed))",
+                            "link": "https://drive.google.com/file/d/1Dlb9TSmkKn9RCpDQxzkMTfTlT-XvVeie/view?usp=drive_link"
+                        },
+                        {
+                            "name": "MOTION FOR RELIEF",
+                            "link": "https://drive.google.com/file/d/1hL4OTlaFYBlz-7PLMRvrBVTBZTqezNiW/view?usp=drive_link"
+                        },
+                        {
+                            "name": "MOTION FOR RELIEF",
+                            "link": "https://drive.google.com/file/d/1hL4OTlaFYBlz-7PLMRvrBVTBZTqezNiW/view?usp=drive_link"
+                        }
+                    ]
+                }
+            ]
+        },
+
 
         {
           "date": "Feb 7th, 2025",
@@ -309,7 +559,7 @@ timeline.push({
                   "label": "Realized that I was getting played this entire time",
                   "details": [
                       "Realized that Crycella had no intention of keeping me in her or Felix's life",
-                      "Crycella told me, I can't see Felix nor can my friends or family"
+                      "Crycella kept her promise of not letting me see Felix nor my friends or family"
                   ]
               },
               {
@@ -340,27 +590,36 @@ timeline.push({
               {
                   "label": "Felix: 0% Micheal guided day",
                   "details": [
-                      "Crycella Refuses tell tell me about his sleep",
-                      "Crycella Refuses tell tell me about his potty training",
-                      "Crycella Refuses tell tell me about his school",
-                      "Crycella Refuses tell tell me about his weight: unknown"
+                      "Crycella refuses to tell me anything"
                   ]
               },
               {
                   "label": "Evidence",
                   "documents": [
                       {
-                          "name": "Exhibit A: Text History",
-                          "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
+                          "name": "Formal Complaint Against Clerk Elizabeth Lacy",
+                          "link": "https://drive.google.com/file/d/1XB9Er7XDjvMenH-ebzdPk3pJQNqXOoSq/view?usp=sharing"
                       },
                       {
-                          "name": "Exhibit B: Video Recording",
-                          "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
+                          "name": "MOTION FOR EVIDENCE SUBMISSION",
+                          "link": "https://drive.google.com/file/d/1CpjUm-XHJ_pWf-LsoEnOUOZUg_r0ZNKB/view?usp=sharing"
                       },
                       {
-                          "name": "Exhibit C: Transcript",
-                          "link": "https://drive.google.com/drive/folders/1srl1X_IIGzbusLfNomOc_5R1fMSbWBpv?usp=sharing"
-                      }
+                          "name": "Notice to Terminate Tenancy",
+                          "link": "https://drive.google.com/file/d/1hePbJjkTE64crA_NMK38uQ9xrPViw4sd/view?usp=sharing"
+                      },
+                      {
+                        "name": "MOTION TO OBJECT TO PSYCHOLOGICAL EVALUATION",
+                        "link": "https://drive.google.com/file/d/1KkUxnyvHcqX0twsJiruoI0NrsOTPSkQg/view?usp=sharing"
+                    },
+                    {
+                        "name": "Notice of Hearing",
+                        "link": "https://drive.google.com/file/d/1x1ljKeKBLY-uO6RynX9PztIUl1u8yd3P/view?usp=sharing"
+                    },
+                    {
+                        "name": "Pending",
+                        "link": "https://drive.google.com/file/d/1hePbJjkTE64crA_NMK38uQ9xrPViw4sd/view?usp=sharing"
+                    }
                   ]
               }
           ]
