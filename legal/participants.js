@@ -237,7 +237,7 @@ const projectData = [
             </div>
             <a onclick="${project.evidenceFunction}">
               <div class="days-left" style="color: ${project.progressColor};">
-                Charges
+                Open Folder
               </div>
             </a>
           </div>
