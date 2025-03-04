@@ -36,6 +36,7 @@ const projectData = [
       participants: [
         "lie.png",
         "coin.png",
+        "heart.png",
         "contract.png"
       ],
       evidenceFunction: "openJosh()"
@@ -51,6 +52,7 @@ const projectData = [
       participants: [
         "lie.png",
         "coin.png",
+        "heart.png",
         "contract.png"
       ],
       evidenceFunction: "openJosh()"
@@ -82,6 +84,7 @@ const projectData = [
       participants: [
         "lie.png",
         "coin.png",
+        "heart.png",
         "contract.png",
         "thief.png"
       ],
@@ -97,6 +100,7 @@ const projectData = [
       progressColor: "#e85b51",
       participants: [
         "lie.png",
+        "heart.png",
         "coin.png",
         "contract.png",
         "thief.png"
