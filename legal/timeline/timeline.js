@@ -1,3 +1,6 @@
+
+
+
 var timeline = [];
 
 timeline.push({
@@ -627,15 +630,94 @@ timeline.push({
                     {
                         "name": "Notice of Hearing",
                         "link": "https://drive.google.com/file/d/1x1ljKeKBLY-uO6RynX9PztIUl1u8yd3P/view?usp=sharing"
-                    },
-                    {
-                        "name": "Objection to Protective Order",
-                        "link": "https://docs.google.com/document/d/1s24-QMEz4g_6IjpxJpshsOf9GwxUidrT6OebBcaeKxc/edit?usp=sharing"
                     }
                   ]
               }
           ]
-      }
+      },
+
+
+      {
+        "date": "March 3rd, 2025",
+        "title": "Abuse of Process",
+        "subtitle": "Wyandotte County, Kansas City",
+        "financialLoss": 2500,
+        "description": [
+            {
+                "label": "Parental Alienation",
+                "details": [
+                    "Crycella intentionally creating a financial barrier so I cannot access Felix",
+                    "Reminded me 10 times she will weaponize the police or use the guns in her home if I came near them"
+                ]
+            },
+            {
+              "label": "Honorable Matt Alan Selby intentionally ignoring motions and evidence without providing requested written documentation on why",
+              "details": [
+
+                "Emergency motion for relief X 3",
+                  "Motion to Transfer Venue",
+                  "Motion to Dismiss for Lack of Jurisdiction",
+                  "Motion to Compel Crycella to Provide Reasonable Visitation Accommodations",
+                  "Motion to Address Layne Project Financial Barrier",
+                  "Motion to Enforce Court-Ordered Parenting Time",
+                  "Motion to Hold Crycella in Contempt for Violating Custody Orders",
+                  "Motion to Recuse the Judge for Bias and Procedural Misconduct",
+                  "Motion to Strike False Testimony from Crycella and Her Witnesses",
+                  "Motion to vacate temporary orders",
+                  "Motion to modify temporary custody orders",
+                  "Objection to psychological evaluation",
+                  "Sanctions X 6"
+              ]
+          },
+          {
+            "label": "Josh Garrett - Interference with Custody, Violation of Custody Rights, Civil right violations",
+            "details": [
+                "Failure to perform duties in good faith (ignoring you after court instructions)",
+                "Bias and negligence in facilitating parenting time",
+                "Possible collusion with Crycella by enabling obstruction",
+                "Failure to uphold duties as a neutral party",
+                "14th Amendment Violation (Due Process) The court ordered you to communicate with him regarding Layne Project fees, and he ignored Micheal, thereby obstructing rights.",
+                "Equal Protection Violation, Garrett has helped Crycella while ignoring you, he is enabling discrimination.",
+                "State Actor Misconduct, Garrett is acting on behalf of the court, he is liable under federal law."
+
+            ]
+        },
+            {
+                "label": "Occupation",
+                "jobs": [
+                    "Roadie",
+                    "Outlier AI",
+                    "Tend Bartending"
+                ],
+                "hours": "20+ hours weekly while representing myself Pro Se and learning Family Law"
+            },
+            {
+                "label": "Felix: 0% Micheal guided day",
+                "details": [
+                    "Crycella refuses to tell me anything"
+                ]
+            },
+            {
+                "label": "Evidence",
+                "documents": [
+                  {
+                      "name": "Objection to Protective Order",
+                      "link": "https://docs.google.com/document/d/1s24-QMEz4g_6IjpxJpshsOf9GwxUidrT6OebBcaeKxc/edit?usp=sharing"
+                  },
+                  {
+                      "name": "EMERGENCY MOTION TO ENFORCE AND PROTECT PARENTAL COMMUNICATION RIGHTS AND REQUEST FOR IMMEDIATE HEARING",
+                      "link": "https://docs.google.com/document/d/1DoQkczlgKUN-mxfcczsN6WrMp6lNfJNALNEphzyVgEU/edit?usp=sharing"
+                  },
+                  {
+                      "name": "Evidence of Intentional Interference with Parenting Time",
+                      "link": "https://docs.google.com/document/d/1BlDvPq0Gz3Vehn6XbRNYuNFoRzrGdxK3Ry2MsRjkzmw/edit?usp=sharing"
+                  }
+                ]
+            }
+        ]
+    }
+
+
 
 
     ]

@@ -5,6 +5,7 @@
   <title>Legal Management UI</title>
 <link rel="stylesheet" href="./style.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 
 </head>
 <body>
@@ -60,8 +61,14 @@
 
     <div class="projects-section"  id="graphS">
 
-      <h1>Phone Call Data Overview</h1>
-      <canvas id="phoneCallsChart"></canvas>
+      <div style="width: 100%; height: 100%; overflow-y: auto;">
+        <h1>Phone Call Data</h1>
+        <canvas id="phoneCallsChart"></canvas>
+        <h1>Investigations</h1>
+        <canvas id="workSummaryChart"></canvas>
+    </div>
+
+
 
     </div>
 

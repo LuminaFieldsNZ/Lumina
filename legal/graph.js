@@ -71,3 +71,64 @@
           }
       }
   });
+
+
+  const workHoursData = [
+    { date: "2024-10-25", hours: 5 },
+    { date: "2024-11-01", hours: 12 },
+    { date: "2024-11-08", hours: 9 },
+    { date: "2024-11-15", hours: 7 },
+    { date: "2024-11-22", hours: 14 },
+    { date: "2024-11-29", hours: 10 },
+    { date: "2024-12-06", hours: 8 },
+    { date: "2024-12-13", hours: 15 },
+    { date: "2024-12-20", hours: 13 },
+    { date: "2024-12-27", hours: 16 },
+    { date: "2025-01-03", hours: 18 },
+    { date: "2025-01-10", hours: 20 },
+    { date: "2025-01-17", hours: 22 },
+    { date: "2025-01-24", hours: 17 },
+    { date: "2025-01-31", hours: 15 },
+    { date: "2025-02-07", hours: 10 },
+    { date: "2025-02-14", hours: 8 },
+    { date: "2025-02-21", hours: 12 },
+    { date: "2025-02-28", hours: 14 },
+    { date: "2025-03-07", hours: 19 }
+];
+
+
+
+   // 🌟 Bubble Chart for Work Summary
+   var workSummaryCtx = document.getElementById('workSummaryChart').getContext('2d');
+
+   new Chart(workSummaryCtx, {
+       type: 'bubble',
+       data: {
+           datasets: [{
+               label: 'Hours Worked',
+               data: workHoursData.map(d => ({
+                   x: new Date(d.date),
+                   y: d.hours,
+                   r: d.hours / 2  // Bubble size scales with hours worked
+               })),
+               backgroundColor: 'rgba(75, 192, 192, 0.6)',
+               borderColor: 'rgba(75, 192, 192, 1)',
+               borderWidth: 2
+           }]
+       },
+       options: {
+           responsive: true,
+           scales: {
+               x: {
+                   type: 'time',
+                   time: { unit: 'week' },
+                   title: { display: true, text: 'Date' }
+               },
+               y: {
+                   beginAtZero: true,
+                   title: { display: true, text: 'Hours Worked' }
+               }
+           },
+           plugins: { legend: { display: true } }
+       }
+   });
