@@ -738,6 +738,18 @@ timeline.push({
                 {
                     "name": "MOTION TO SCHEDULE REMOTE DEPOSITIONS VIA WEBEX",
                     "link": "https://docs.google.com/document/d/19EpHJlGRdzJQQqbzuCQSoUw1DeInNLZ_MfaAXa8fmPo/edit?usp=sharing"
+                },
+                {
+                    "name": "OBJECTION TO PETITIONER'S ATTORNEY'S REQUEST FOR PHONE APPEARANCE AND REQUEST TO RESCHEDULE HEARING FOR IN-PERSON TESTIMONY",
+                    "link": "https://docs.google.com/document/d/1biQMJEdSyaoHXikDMidZXS87hFRnC09L9bCZ35ckZgw/edit?usp=sharing"
+                },
+                {
+                    "name": "RESPONDENT'S OBJECTION TO PETITIONER'S MOTION FOR ATTORNEYS FEES AND COUNTER MOTION FOR RESPONDENTS ATTORNEYS FEES",
+                    "link": "https://docs.google.com/document/d/1PIHeFyZuB5b5mA0wClQ6L_GuszNWH47_Y42Jz_80UcE/edit?usp=sharing"
+                },
+                {
+                    "name": "RESPONDENT'S RESPONSE AND CORRECTION TO PETITIONER’S OBJECTIONS TO LIST OF PSYCHOLOGICAL EVALUATORS",
+                    "link": "https://docs.google.com/document/d/1CKx4J4ZqPACV-B3yi13EWrbZN-SFXvwvxKrkf4LDw_k/edit?usp=sharing"
                 }
                 ]
             }
