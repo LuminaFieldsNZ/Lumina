@@ -754,6 +754,10 @@ timeline.push({
                 {
                     "name": "MOTION FOR CONTEMPT AGAINST ATTORNEY JOSH GARRETT",
                     "link": "https://docs.google.com/document/d/1iXYQugBpLB_-302f-N2zYkZcb1zwrqF8KuyDfzz51oo/edit?usp=sharing"
+                },
+                {
+                    "name": "Request for Remote Appearance",
+                    "link": "https://docs.google.com/document/d/16Cx0VaAhAAYQJGWr9umBBGoILB7mit7c7iqgC4EBFzc/edit?usp=sharing"
                 }
                 ]
             }
