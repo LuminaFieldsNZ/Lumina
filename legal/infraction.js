@@ -389,7 +389,7 @@ function generateInfractionBoxes() {
             <div class="project-box" style="background-color: ${infraction.backgroundColor};">
                 <div class="project-box-header">
                     <span class="occurrence-badge">${infraction.occurrences} Occurrences</span>
-                    <span class="severity-badge" style="background-color: ${infraction.progressColor}">${infraction.severity}</span>
+                    <span class="severity-badge" style="font-weight: bold;">${infraction.severity}</span>
                 </div>
                 <div class="project-box-content-header">
                     <p class="box-content-header">${infraction.infraction}</p>

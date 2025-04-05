@@ -762,10 +762,219 @@ timeline.push({
                 ]
             }
         ]
+    },
+    
+    {
+        "date": "March 21st, 2025",
+        "title": "Civil Rights Violations",
+        "subtitle": "Wyandotte County, Kansas City",
+        "financialLoss": 6500,
+        "description": [
+            {
+                "label": "Parental Alienation",
+                "details": [
+                    "Crycella intentionally creating a financial barrier so I cannot access Felix",
+                    "Crycella ignoring all court orders preventing all contact to Felix"
+                ]
+            },
+            {
+              "label": "Judge Selby intentionally ignoring motions and evidence without providing requested written documentation on why, with submitted proof of temporary custody order false pretenses",
+              "details": [
+
+                "Motion for Contempt against Josh Garrett",
+                "Letter to Judge Selby",
+                "Commission on Retirement, Removal and Discipline and Allegations of Judicial Misconduct",
+                "MOTION TO CLARIFY JUDICIAL RULINGS AND PROVIDE BASIS FOR DENIED MOTIONS",
+                "MOTION TO ADDRESS JUDICIAL MISCONDUCT, DENIAL OF DUE PROCESS, AND FAILURE TO ENFORCE VISITATION RIGHTS",
+                "Dismissal of eviction letter to Judge Selby",
+                "MOTION TO COMPEL FREITAG TO COMPLY WITH FEBRUARY 25 ORDER & STRIKE FALSE NOTICE",
+                "MOTION FOR SOLE CUSTODY, CHILD SUPPORT, AND LEGAL FEES",
+                "MOTION TO SUBMIT EVIDENCE OF EVICTION DISMISSAL AS PROOF OF CONSPIRACY AND LACK OF LEGAL BASIS",
+                "NOTICE OF JUDICIAL OBSTRUCTION, DUE PROCESS VIOLATIONS, & DEMAND FOR IMMEDIATE RULING TO PREVENT FURTHER COURT MISCONDUCT",
+                "Formal Request for Public Records Pursuant to the Kansas Open Records Act",
+                "RESPONSE TO OBJECTIONS",
+                "EMERGENCY MOTION FOR ENFORCEMENT OF PARENTING TIME, CONTEMPT, AND IMMEDIATE RELIEF",
+                "PETITION FOR WRIT OF PROHIBITION"
+
+
+              ]
+          },
+          {
+            "label": "Josh Garrett - Interference with Custody, Violation of Custody Rights, Civil right violations",
+            "details": [
+                "Failure to perform duties in good faith (ignoring you after court instructions)",
+                "Bias and negligence in facilitating parenting time",
+                "Possible collusion with Crycella by enabling obstruction",
+                "Failure to uphold duties as a neutral party",
+                "14th Amendment Violation (Due Process) The court ordered you to communicate with him regarding Layne Project fees, and he ignored Micheal, thereby obstructing rights.",
+                "Equal Protection Violation, Garrett has helped Crycella while ignoring you, he is enabling discrimination.",
+                "State Actor Misconduct, Garrett is acting on behalf of the court, he is liable under federal law."
+
+            ]
+        },
+            {
+                "label": "Occupation",
+                "jobs": [
+                    "Roadie",
+                    "Outlier AI",
+                    "Tend Bartending"
+                ],
+                "hours": "30+ hours weekly while representing myself Pro Se and learning Family Law"
+            },
+            {
+                "label": "Felix: 0% Micheal guided day",
+                "details": [
+                    "Crycella refuses to tell me anything"
+                ]
+            },
+            {
+                "label": "Evidence",
+                "documents": [
+                  {
+                      "name": "Letter to Judge Selby",
+                      "link": "https://docs.google.com/document/d/19Dait1zwNNDmUclbxaEvYjhScjQT-xPFci8NGparuAU/edit?usp=sharing"
+                  },
+                  {
+                    "name": "Commission on Retirement, Removal and Discipline and Allegations of Judicial Misconduct",
+                    "link": "https://docs.google.com/document/d/110uDZ63qOmQhkYzsViI58wIVsQB5AnE2BqKT63oOXTw/edit?usp=sharing"
+                  },
+                  {
+                    "name": "MOTION TO CLARIFY JUDICIAL RULINGS AND PROVIDE BASIS FOR DENIED MOTIONS",
+                    "link": "https://docs.google.com/document/d/1ZUZihF9KTp4C3hnlnMRM0OOK6YJ9ER4PF4NaSoSgu5k/edit?usp=sharing"
+                  },
+                  {
+                    "name": "MOTION TO ADDRESS JUDICIAL MISCONDUCT, DENIAL OF DUE PROCESS, AND FAILURE TO ENFORCE VISITATION RIGHTS",
+                    "link": "https://docs.google.com/document/d/11UqIjA9GuhpskuNKNpOO5pN54cTDMmMEsVqf-RPK0bk/edit?usp=sharing"
+                  },
+                  {
+                    "name": "Dismissal of eviction letter to Judge Selby",
+                    "link": "https://docs.google.com/document/d/1PEaeTGqDA-bLTVzGjQvzZt2C0xE2t8l9_UwB0adUG_U/edit?usp=sharing"
+                  },
+                  {
+                    "name": "MOTION TO COMPEL FREITAG TO COMPLY WITH FEBRUARY 25 ORDER & STRIKE FALSE NOTICE",
+                    "link": "https://docs.google.com/document/d/1JefS-W5hL2XH5-Ku66QmONEnIp_LiA9BpyF32Lbl9BA/edit?usp=sharing"
+                  },
+                  {
+                    "name": "MOTION FOR SOLE CUSTODY, CHILD SUPPORT, AND LEGAL FEES",
+                    "link": "https://docs.google.com/document/d/1gw2xj4hCL1eOiLzuY3Y9QmOUhfa3hlJbpKyEt6beflg/edit?usp=sharing"
+                  },
+                  {
+                    "name": "MOTION TO SUBMIT EVIDENCE OF EVICTION DISMISSAL AS PROOF OF CONSPIRACY AND LACK OF LEGAL BASIS",
+                    "link": "https://docs.google.com/document/d/1POGP0fzu-povMFZ-RsfSrvHhjbVPa5DVHsT2lNQqdsw/edit?usp=sharing"
+                  },
+                  {
+                    "name": "NOTICE OF JUDICIAL OBSTRUCTION, DUE PROCESS VIOLATIONS, & DEMAND FOR IMMEDIATE RULING TO PREVENT FURTHER COURT MISCONDUCT",
+                    "link": "https://docs.google.com/document/d/1FqitIZgukWjc7aRPTD3zOiQyMJtQCy_Yp-593xomzmk/edit?usp=sharing"
+                  },
+                  {
+                    "name": "Formal Request for Public Records Pursuant to the Kansas Open Records Act",
+                    "link": "https://docs.google.com/document/d/1FOrPg8EsjurLiY9oWvx_Qa4eL2HmIeKoQt1fBGzaBIY/edit?usp=sharing"
+                  },
+                  {
+                    "name": "RESPONSE TO OBJECTIONS",
+                    "link": "https://docs.google.com/document/d/1akeQ9Fjj4PT0A7cPX9GZ47s2EkrkHt2GbvekGk9-qg8/edit?usp=sharing"
+                  },
+                  {
+                    "name": "EMERGENCY MOTION FOR ENFORCEMENT OF PARENTING TIME, CONTEMPT, AND IMMEDIATE RELIEF",
+                    "link": "https://docs.google.com/document/d/11fJZ1rmHLjxTjqz6OKREyGM8xmflQyvqOZwkc_S7vHk/edit?usp=sharing"
+                  },
+                  {
+                    "name": "PETITION FOR WRIT OF PROHIBITION",
+                    "link": "https://docs.google.com/document/d/1jI16mTjsQuaZcY62d-m3EOCYhjAKE_8tcl3Ij0WH-iA/edit?usp=sharing"
+                  }
+
+                  
+                ]
+            }
+        ]
+    },
+
+    {
+        "date": "April 4th, 2025",
+        "title": "Civil Rights Violations",
+        "subtitle": "Wyandotte County, Kansas City",
+        "financialLoss": 2500,
+        "description": [
+            {
+                "label": "Parental Alienation",
+                "details": [
+                    "Crycella intentionally creating a financial barrier so I cannot access Felix",
+                    "Crycella ignoring all court orders preventing all contact to Felix"
+                ]
+            },
+            {
+              "label": "Judge Selby intentionally manipulating court docket narrative, and refusing to rule on fraudulent temporary custody order",
+              "details": [
+
+                "Submitted Eviction Dismissal Evidence",
+                "Letter to Judge Selby",
+                "Various Motions all ignored including the following",
+                "JUDICIAL NOTICE OF COURT FAILURE TO ENFORCE COMPLIANCE WITH PSYCHOLOGICAL EVALUATION ORDER",
+                "OBJECTION TO CANCELLATION OF HEARING",
+                "EMERGENCY MOTION TO STRIKE FABRICATED EVIDENCE, REMOVE PREJUDICIAL DOCKET ENTRIES, ACKNOWLEDGE PERJURY, AND ADDRESS UNLAWFUL TEMPORARY CUSTODY ORDER",
+                "MOTION TO ADDRESS MANIPULATION AND NONCOMPLIANCE REGARDING COURT-ORDERED PSYCHOLOGICAL EVALUATION",
+                "Request for Remote Appearance"
+
+              ]
+          },
+          {
+            "label": "Josh Garrett - Interference with Custody, Violation of Custody Rights, Civil right violations",
+            "details": [
+                "Failure to perform duties in good faith (ignoring you after court instructions)",
+                "Bias and negligence in facilitating parenting time",
+                "Possible collusion with Crycella by enabling obstruction",
+                "Failure to uphold duties as a neutral party",
+                "14th Amendment Violation (Due Process) The court ordered you to communicate with him regarding Layne Project fees, and he ignored Micheal, thereby obstructing rights.",
+                "Equal Protection Violation, Garrett has helped Crycella while ignoring you, he is enabling discrimination.",
+                "State Actor Misconduct, Garrett is acting on behalf of the court, he is liable under federal law."
+
+            ]
+        },
+            {
+                "label": "Occupation",
+                "jobs": [
+                    "Roadie",
+                    "Outlier AI",
+                    "Tend Bartending"
+                ],
+                "hours": "30+ hours weekly while representing myself Pro Se and learning Family Law"
+            },
+            {
+                "label": "Felix: 0% Micheal guided day",
+                "details": [
+                    "Crycella refuses to tell me anything"
+                ]
+            },
+            {
+                "label": "Evidence",
+                "documents": [
+                  {
+                      "name": "JUDICIAL NOTICE OF COURT FAILURE TO ENFORCE COMPLIANCE WITH PSYCHOLOGICAL EVALUATION ORDER",
+                      "link": "https://docs.google.com/document/d/1Q3Pwp9waKZZEaAWOMut9mos5myJM2Lb_EKDaCXcVlwU/edit?usp=sharing"
+                  },
+                  {
+                    "name": "OBJECTION TO CANCELLATION OF HEARING",
+                    "link": "https://docs.google.com/document/d/1G6NHPrMukEI_OG6H1ztrvg_XSsrkTV0eNJe5n5kFGyg/edit?usp=sharing"
+                  },
+                  {
+                    "name": "EMERGENCY MOTION TO STRIKE FABRICATED EVIDENCE, REMOVE PREJUDICIAL DOCKET ENTRIES, ACKNOWLEDGE PERJURY, AND ADDRESS UNLAWFUL TEMPORARY CUSTODY ORDER",
+                    "link": "https://docs.google.com/document/d/17AsChe-0QPpGgiNRTabrYXQBDYAOI5_3n_cFdkxfCqY/edit?usp=sharing"
+                  },
+                  {
+                    "name": "MOTION TO ADDRESS MANIPULATION AND NONCOMPLIANCE REGARDING COURT-ORDERED PSYCHOLOGICAL EVALUATION",
+                    "link": "https://docs.google.com/document/d/15dFHaRXICuxm-El2E4LFkrZ4irhr_lMxNBiR1CD5Y70/edit?usp=sharing"
+                  },
+                  {
+                    "name": "Request for Remote Appearance",
+                    "link": "https://docs.google.com/document/d/1pLfQYyuCGJvGjVXx2_FUbGv785EycUfPUUCt9oAs-PM/edit?usp=sharing"
+                  }
+
+
+                  
+                ]
+            }
+        ]
     }
-
-
-
 
     ]
 });
