@@ -2,7 +2,7 @@
 
 
   function showSection(sectionId) {
-    const sections = ['graphS', 'projectsS', 'calendarS', 'justiceS']; // List of all section IDs
+    const sections = ['graphS', 'projectsS', 'calendarS', 'justiceS', 'glossaryS']; // List of all section IDs
 
     // Loop through all sections and hide them
     sections.forEach(id => {
@@ -22,7 +22,7 @@
   }
 
 
-  showSection('projectsS');
+  showSection('glossaryS');
 
 
 
