@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Motion Search App</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    input[type="file"], input[type="text"] { margin: 10px 0; }
+    select { width: 100%; margin: 10px 0; }
+    pre { background-color: #f4f4f4; padding: 10px; white-space: pre-wrap; }
+    .highlight { background-color: yellow; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  
+  <h2>🔍 Search Motions</h2>
+  <input type="text" id="searchInput" placeholder="Enter keyword...">
+  <button onclick="performSearch()">Search</button>
+
+  <h3>Results</h3>
+  <select id="resultsDropdown" size="10" onchange="showMotionDetails()"></select>
+
+  <div id="motionDetails" style="margin-top:20px;"></div>
+
+  
+  <script>
+    let motionData = [];
+    let searchResults = [];
+  
+    function performSearch() {
+      const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+      if (!keyword) return;
+  
+      searchResults = [];
+  
+      motionData.forEach((motion, index) => {
+        const lines = motion.content.split('\n');
+        let matches = [];
+  
+        lines.forEach((line, i) => {
+          if (line.toLowerCase().includes(keyword)) {
+            matches.push({ lineNumber: i + 1, line });
+          }
+        });
+  
+        if (matches.length > 0) {
+          searchResults.push({
+            index,
+            name: motion.name,
+            date: motion.date,
+            count: matches.length,
+            matches
+          });
+        }
+      });
+  
+      populateDropdown(keyword);
+    }
+  
+    function populateDropdown(keyword) {
+      const dropdown = document.getElementById('resultsDropdown');
+      dropdown.innerHTML = "";
+  
+      if (searchResults.length === 0) {
+        dropdown.innerHTML = `<option>No matches found.</option>`;
+        return;
+      }
+  
+      searchResults.forEach((result, i) => {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `${result.name} (${result.count} match${result.count > 1 ? 'es' : ''})`;
+        dropdown.appendChild(option);
+      });
+    }
+  
+    function showMotionDetails() {
+      const selectedIndex = document.getElementById('resultsDropdown').value;
+      if (selectedIndex === "") return;
+  
+      const result = searchResults[selectedIndex];
+      const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+  
+      let html = `<h3>${result.name} (${result.date})</h3><pre>`;
+      const lines = motionData[result.index].content.split('\n');
+  
+      lines.forEach((line, i) => {
+        const lineNumber = i + 1;
+        if (line.toLowerCase().includes(keyword)) {
+          const highlighted = line.replace(new RegExp(`(${keyword})`, 'gi'), '<span class="highlight">$1</span>');
+          html += `Line ${lineNumber}: ${highlighted}\n`;
+        }
+      });
+  
+      html += '</pre>';
+      document.getElementById('motionDetails').innerHTML = html;
+    }
+  </script>
+  <script src="motion.js"></script>
+  
+
+
+</body>
+</html>

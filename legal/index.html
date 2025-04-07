@@ -351,7 +351,7 @@
 
 
       <div class="projects-section-header">
-        <p>24SN-DR00104</p>
+        <input onchange="performSearch()" type="text" id="searchInput" placeholder="Search for keyword...">
         
         <div class="view-actions">
           <button class="view-btn list-view" title="List View">
@@ -372,6 +372,93 @@
           </button>
         </div>
       </div>
+<div  style="width: 100%; height: 100%; overflow-y: auto;">
+
+      
+        <h3>Results</h3>
+        <select id="resultsDropdown" size="10" onchange="showMotionDetails()"></select>
+      
+        <div id="motionDetails" style="margin-top:20px;"></div>
+</div>      
+        
+        <script>
+          let motionData = [];
+          let searchResults = [];
+        
+          function performSearch() {
+            const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (!keyword) return;
+        
+            searchResults = [];
+        
+            motionData.forEach((motion, index) => {
+              const lines = motion.content.split('\n');
+              let matches = [];
+        
+              lines.forEach((line, i) => {
+                if (line.toLowerCase().includes(keyword)) {
+                  matches.push({ lineNumber: i + 1, line });
+                }
+              });
+        
+              if (matches.length > 0) {
+                searchResults.push({
+                  index,
+                  name: motion.name,
+                  date: motion.date,
+                  count: matches.length,
+                  matches
+                });
+              }
+            });
+        
+            populateDropdown(keyword);
+          }
+        
+          function populateDropdown(keyword) {
+            const dropdown = document.getElementById('resultsDropdown');
+            dropdown.innerHTML = "";
+        
+            if (searchResults.length === 0) {
+              dropdown.innerHTML = `<option>No matches found.</option>`;
+              return;
+            }
+        
+            searchResults.forEach((result, i) => {
+              const option = document.createElement('option');
+              option.value = i;
+              option.textContent = `${result.name} (${result.count} match${result.count > 1 ? 'es' : ''})`;
+              dropdown.appendChild(option);
+            });
+          }
+        
+          function showMotionDetails() {
+            const selectedIndex = document.getElementById('resultsDropdown').value;
+            if (selectedIndex === "") return;
+        
+            const result = searchResults[selectedIndex];
+            const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+        
+            let html = `<h3>${result.name} (${result.date})</h3><pre>`;
+            const lines = motionData[result.index].content.split('\n');
+        
+            lines.forEach((line, i) => {
+              const lineNumber = i + 1;
+              if (line.toLowerCase().includes(keyword)) {
+                const highlighted = line.replace(new RegExp(`(${keyword})`, 'gi'), '<span class="highlight">$1</span>');
+                html += `Line ${lineNumber}: ${highlighted}\n`;
+              }
+            });
+        
+            html += '</pre>';
+            document.getElementById('motionDetails').innerHTML = html;
+          }
+        </script>
+        <script src="motion.js"></script>
+
+
+
+
 
 
 
