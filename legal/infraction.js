@@ -2,81 +2,61 @@ const infractionData = [
     // ================== CRYCELLA FREITAG ==================
     {
         party: "Crycella Freitag",
-        infraction: "Perjury & False Statements",
-        occurrences: 7,
-        backgroundColor: "#fee4cb",
-        progressColor: "#e85b51",
+        infraction: "Perjury, Evidence Tampering & False Statements",
+        occurrences: 10,
+        backgroundColor: "#baa586",
+        progressColor: "#3d2707",
         severity: "Critical",
         events: [
             { 
-                date: "2024-12-11", 
-                brief: "Falsely testified under oath about Micheal's stability and housing", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/DecChunk#paternity-response" 
-            },
-            { 
                 date: "2024-12-16", 
-                brief: "Claimed Micheal 'kicked her out' despite moving voluntarily", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/DecChunk#emergency-response" 
+                brief: "Falsely testified about Micheal's housing stability in custody hearing",
+                evidence: "Counter-Petition for Sole Custody (Dec 16, 2024), Section 3.B"
             },
             { 
                 date: "2025-01-07", 
+                brief: "Claimed Micheal 'kicked her out' despite moving voluntarily", 
+                evidence: "Emergency Motion (Jan 7, 2025), Paragraph 2.1"
+            },
+            { 
+                date: "2025-01-30", 
                 brief: "Fabricated safety concerns ('I'm scared of him') without evidence", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Jan25Chunk#communication-order" 
+                evidence: "Motion for Contempt (Jan 30, 2025), Section II.1"
             },
             { 
                 date: "2025-02-18", 
                 brief: "Misrepresented living conditions in custody filings", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Feb25Chunk#venue-motion" 
-            },
-            { 
-                date: "2025-03-03", 
-                brief: "Submitted false testimony about Micheal's parenting", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#witness-statement" 
+                evidence: "Motion to Vacate Void Orders (Feb 18, 2025), Section III"
             },
             { 
                 date: "2025-03-17", 
-                brief: "Lied about financial contributions to child support", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#financial-motion" 
+                brief: "Submitted false testimony about Micheal's parenting", 
+                evidence: "Motion to Compel Testimony (Mar 17, 2025), Section II.1"
             },
             { 
-                date: "2025-03-27", 
+                date: "2025-03-25", 
+                brief: "Lied about financial contributions to child support", 
+                evidence: "Motion for Relief (Jan 28, 2025), Section 1.D"
+            },
+            { 
+                date: "2025-03-31", 
                 brief: "Falsely claimed inability to facilitate visitation", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#contempt-motion" 
-            }
-        ]
-    },
-    {
-        party: "Crycella Freitag",
-        infraction: "Evidence Tampering",
-        occurrences: 5,
-        backgroundColor: "#ffd3d3",
-        progressColor: "#d12b2b",
-        severity: "Critical",
-        events: [
+                evidence: "Emergency Motion (Mar 31, 2025), Section 2.2"
+            },
             { 
                 date: "2025-01-30", 
                 brief: "Submitted edited 12-minute video (original 40+ minutes)", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Jan25Chunk#video-tampering" 
-            },
-            { 
-                date: "2025-02-26", 
-                brief: "Withheld unedited audio recordings of interactions", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Feb25Chunk#evidence-submission" 
+                evidence: "Motion to Compel Testimony (Mar 17, 2025), Section II.3"
             },
             { 
                 date: "2025-03-14", 
                 brief: "Selectively provided text messages omitting key context", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#text-evidence" 
-            },
-            { 
-                date: "2025-03-25", 
-                brief: "Altered timestamps on submitted documentation", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#timestamp-issue" 
+                evidence: "Motion to Reaffirm Evidence (Mar 14, 2025), Paragraph 4"
             },
             { 
                 date: "2025-04-04", 
                 brief: "Failed to produce original video files per court order", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Apr25Chunk#video-order" 
+                evidence: "Emergency Motion (Apr 4, 2025), Section I"
             }
         ]
     },
@@ -84,7 +64,7 @@ const infractionData = [
     {
         party: "Jozef Hanratty",
         infraction: "Perjury",
-        occurrences: 4,
+        occurrences: 3,
         backgroundColor: "#d1f5ea",
         progressColor: "#0aaa92",
         severity: "High",
@@ -92,22 +72,17 @@ const infractionData = [
             { 
                 date: "2024-12-16", 
                 brief: "Falsely testified about Micheal's eviction status", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/DecChunk#hanratty-affidavit" 
+                evidence: "Witness Statement (Dec 18, 2024), Paragraphs 1-4"
             },
             { 
                 date: "2025-01-28", 
                 brief: "Lied about lease agreement terms under oath", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Jan25Chunk#lease-testimony" 
+                evidence: "Combined Motion (Jan 30, 2025), Section A.4"
             },
             { 
                 date: "2025-02-18", 
                 brief: "Provided false statements about housing stability", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Feb25Chunk#housing-claims" 
-            },
-            { 
-                date: "2025-03-17", 
-                brief: "Committed perjury regarding landlord-tenant relationship", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#tenancy-perjury" 
+                evidence: "Affidavit (Feb 18, 2025), Section 2.B"
             }
         ]
     },
@@ -115,7 +90,7 @@ const infractionData = [
     {
         party: "Josh Garrett",
         infraction: "Attorney Misconduct",
-        occurrences: 12,
+        occurrences: 9,
         backgroundColor: "#e9e7fd",
         progressColor: "#5e54ef",
         severity: "Critical",
@@ -123,62 +98,47 @@ const infractionData = [
             { 
                 date: "2024-12-16", 
                 brief: "Advised client to cease co-parenting communication", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/DecChunk#attorney-complaint" 
+                evidence: "Complaint Against Attorney (Dec 16, 2024), Section 1"
             },
             { 
                 date: "2025-01-07", 
                 brief: "Failed to disclose financial records per discovery requests", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Jan25Chunk#discovery-violation" 
+                evidence: "Motion for Financial Disclosure (Dec 16, 2024), Section 4"
             },
             { 
                 date: "2025-01-30", 
                 brief: "Coached witnesses with 'Watch his reaction' instructions", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Jan25Chunk#witness-coaching" 
+                evidence: "Combined Motion (Jan 30, 2025), Section B.3"
             },
             { 
                 date: "2025-02-26", 
                 brief: "Knowingly presented falsified evidence to court", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Feb25Chunk#fabricated-evidence" 
-            },
-            { 
-                date: "2025-03-03", 
-                brief: "Obstructed service of legal documents", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#service-obstruction" 
+                evidence: "Motion for Sanctions (Feb 26, 2025), Argument Section"
             },
             { 
                 date: "2025-03-17", 
                 brief: "Violated Rule 4.4 (Respect for Rights of Third Persons)", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#rule-violation" 
+                evidence: "Complaint Against Attorney (Dec 16, 2024), Section 4"
             },
             { 
                 date: "2025-03-25", 
                 brief: "Made false statements to Layne Project supervisors", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#layne-misrep" 
+                evidence: "Motion for Subpoena (Mar 17, 2025), Section II"
             },
             { 
                 date: "2025-03-27", 
                 brief: "Failed to comply with court-ordered evaluation scheduling", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#eval-obstruction" 
-            },
-            { 
-                date: "2025-03-28", 
-                brief: "Misrepresented court orders to third parties", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#order-misrep" 
+                evidence: "Motion to Comply (Mar 27, 2025), Section I"
             },
             { 
                 date: "2025-04-03", 
                 brief: "Engaged in ex parte communications with court staff", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Apr25Chunk#ex-parte" 
+                evidence: "Judicial Notice (Apr 3, 2025), Paragraph 5"
             },
             { 
                 date: "2025-04-04", 
                 brief: "Obstructed access to psychological evaluators", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Apr25Chunk#eval-obstruction" 
-            },
-            { 
-                date: "2025-04-04", 
-                brief: "Conspired to fabricate eviction proceedings", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Apr25Chunk#eviction-fraud" 
+                evidence: "Motion to Enforce (Apr 4, 2025), Section II"
             }
         ]
     },
@@ -186,7 +146,7 @@ const infractionData = [
     {
         party: "Judge Matt Alan Selby",
         infraction: "Judicial Bias",
-        occurrences: 15,
+        occurrences: 12,
         backgroundColor: "#d3e5ff",
         progressColor: "#2a7de1",
         severity: "Critical",
@@ -194,82 +154,62 @@ const infractionData = [
             { 
                 date: "2024-12-16", 
                 brief: "Ignored submitted lease agreement disproving eviction claims", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/DecChunk#lease-ignored" 
+                evidence: "Motion for Change of Judge (Jan 31, 2024), Point 1"
             },
             { 
                 date: "2025-01-07", 
                 brief: "Applied unequal standards to motion filings", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Jan25Chunk#filing-bias" 
+                evidence: "Motion to Dismiss (Mar 17, 2025), Section I.1"
             },
             { 
                 date: "2025-01-28", 
                 brief: "Refused to review exculpatory text message evidence", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Jan25Chunk#text-ignore" 
+                evidence: "Letter to Judge (Jan 31, 2024), Items 2-3"
             },
             { 
                 date: "2025-02-18", 
                 brief: "Maintained jurisdiction despite UCCJEA violations", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Feb25Chunk#jurisdiction-issue" 
+                evidence: "Writ of Mandamus (Feb 18, 2025), Section II.A"
             },
             { 
                 date: "2025-02-26", 
                 brief: "Failed to address witness perjury", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Feb25Chunk#perjury-ignore" 
+                evidence: "Motion for Sanctions (Feb 26, 2025), Argument Section"
             },
             { 
                 date: "2025-03-03", 
                 brief: "Disregarded evidence of evidence tampering", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#tampering-ignore" 
-            },
-            { 
-                date: "2025-03-14", 
-                brief: "Allowed racial bias in evaluator selection process", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#racial-bias" 
+                evidence: "Motion for Sanctions (Mar 3, 2025), Section 2"
             },
             { 
                 date: "2025-03-17", 
                 brief: "Delegated judicial duties to opposing counsel", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#delegation" 
+                evidence: "Motion to Compel Clerk (Mar 17, 2025), Section II.3"
             },
             { 
                 date: "2025-03-25", 
                 brief: "Failed to rule on motions for 60+ days", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#motion-delay" 
+                evidence: "Motion to Clarify (Mar 25, 2025), Section 1"
             },
             { 
                 date: "2025-03-27", 
                 brief: "Mischaracterized Micheal's statements on record", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#mischaracterization" 
+                evidence: "Motion on Judicial Misconduct (Mar 27, 2025), Point 1"
             },
             { 
                 date: "2025-03-28", 
                 brief: "Permitted violations of court orders without consequence", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#order-violations" 
+                evidence: "Notice of Judicial Obstruction (Mar 28, 2025), Section 3"
             },
             { 
                 date: "2025-03-31", 
                 brief: "Refused to address parental alienation evidence", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#alienation-ignore" 
+                evidence: "Emergency Motion (Mar 31, 2025), Section 2.2"
             },
             { 
                 date: "2025-04-03", 
                 brief: "Cancelled hearing without proper notice", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Apr25Chunk#hearing-cancel" 
-            },
-            { 
-                date: "2025-04-04", 
-                brief: "Failed to enforce psychological evaluation order", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Apr25Chunk#eval-enforcement" 
-            },
-            { 
-                date: "2025-04-04", 
-                brief: "Ignored evidence of fraudulent eviction filing", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Apr25Chunk#eviction-ignore" 
-            },
-            { 
-                date: "2025-04-04", 
-                brief: "Selectively enforced procedural rules", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Apr25Chunk#selective-enforcement" 
+                evidence: "Objection to Cancellation (Apr 3, 2025), Paragraph 3"
             }
         ]
     },
@@ -277,50 +217,35 @@ const infractionData = [
     {
         party: "Stone County Clerks",
         infraction: "Procedural Obstruction",
-        occurrences: 8,
+        occurrences: 5,
         backgroundColor: "#fff8e1",
         progressColor: "#ffb300",
         severity: "High",
         events: [
             { 
-                date: "2025-01-31", 
-                brief: "Delayed processing of appeal documents", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Jan25Chunk#appeal-delay" 
-            },
-            { 
                 date: "2025-02-26", 
                 brief: "Misrepresented appellate record requirements", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Feb25Chunk#record-misrep" 
-            },
-            { 
-                date: "2025-03-03", 
-                brief: "Created financial barriers to appeal process", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#financial-barrier" 
+                evidence: "Formal Complaint (Feb 26, 2025), Section 1"
             },
             { 
                 date: "2025-03-17", 
                 brief: "Refused to schedule emergency motion on Motion Day", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#motion-denial" 
+                evidence: "Motion to Compel Clerk (Mar 17, 2025), Section I"
             },
             { 
                 date: "2025-03-25", 
                 brief: "Withheld public records of scheduled hearings", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#sunshine-violation" 
+                evidence: "Motion to Compel Clerk (Mar 17, 2025), Section II.4"
             },
             { 
                 date: "2025-03-27", 
                 brief: "Failed to provide clear guidance on payment methods", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#payment-issue" 
+                evidence: "Formal Complaint (Feb 26, 2025), Section 2"
             },
             { 
                 date: "2025-04-03", 
                 brief: "Improperly handled filing of Notice of Appeal", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Apr25Chunk#filing-issue" 
-            },
-            { 
-                date: "2025-04-04", 
-                brief: "Obstructed access to court records", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Apr25Chunk#records-access" 
+                evidence: "Formal Complaint (Feb 26, 2025), Section 3"
             }
         ]
     },
@@ -328,7 +253,7 @@ const infractionData = [
     {
         party: "Kelly Truelove",
         infraction: "Fraud & Collusion",
-        occurrences: 5,
+        occurrences: 3,
         backgroundColor: "#ffebee",
         progressColor: "#d32f2f",
         severity: "High",
@@ -336,34 +261,21 @@ const infractionData = [
             { 
                 date: "2025-01-28", 
                 brief: "Conspired to fabricate eviction claims", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Jan25Chunk#eviction-collusion" 
+                evidence: "Combined Motion (Jan 30, 2025), Section A.4"
             },
             { 
-                date: "2025-02-18", 
+                date: "2025-02-26", 
                 brief: "Provided false statements about lease agreement", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Feb25Chunk#lease-misrep" 
-            },
-            { 
-                date: "2025-03-17", 
-                brief: "Coordinated with Josh Garrett on false testimony", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#garrett-collusion" 
+                evidence: "Motion for Evidence (Feb 26, 2025), Section 1"
             },
             { 
                 date: "2025-03-27", 
                 brief: "Filed then dismissed fraudulent eviction lawsuit", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Mar25Chunk#eviction-dismissal" 
-            },
-            { 
-                date: "2025-04-04", 
-                brief: "Misrepresented landlord-tenant relationship", 
-                evidenceLink: "https://luminafieldsnz.github.io/Lumina/legal/Apr25Chunk#tenant-misrep" 
+                evidence: "Motion to Submit Evidence (Mar 27, 2025), Section 2"
             }
         ]
     }
 ];
-
-
-
 
 function generateInfractionBoxes() {
     const container = document.querySelector('#cards');
@@ -379,9 +291,9 @@ function generateInfractionBoxes() {
                     <span class="party-tag">${infraction.party}</span>
                 </div>
                 <p>${event.brief}</p>
-                <a href="${event.evidenceLink}" target="_blank" class="evidence-link">
-                    <i class="fas fa-external-link-alt"></i> View Evidence
-                </a>
+                <div class="evidence-reference">
+                    <i class="fas fa-file-alt"></i> ${event.evidence}
+                </div>
             </div>
         `).join('');
         
