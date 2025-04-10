@@ -64,10 +64,10 @@ const infractionData = [
     {
         party: "Jozef Hanratty",
         infraction: "Perjury",
-        occurrences: 3,
+        occurrences: 4,
         backgroundColor: "#d1f5ea",
         progressColor: "#0aaa92",
-        severity: "High",
+        severity: "Critical",
         events: [
             { 
                 date: "2024-12-16", 
@@ -83,6 +83,11 @@ const infractionData = [
                 date: "2025-02-18", 
                 brief: "Provided false statements about housing stability", 
                 evidence: "Affidavit (Feb 18, 2025), Section 2.B"
+            },
+            {
+                date: "2025-04-07",
+                brief: "Admitted on cross that Micheal had right to remain per verbal agreement with Kelly",
+                evidence: "Combined Motion (Jan 30, 2025), Section A.4"
             }
         ]
     },
@@ -90,7 +95,7 @@ const infractionData = [
     {
         party: "Josh Garrett",
         infraction: "Attorney Misconduct",
-        occurrences: 9,
+        occurrences: 10,
         backgroundColor: "#e9e7fd",
         progressColor: "#5e54ef",
         severity: "Critical",
@@ -139,6 +144,11 @@ const infractionData = [
                 date: "2025-04-04", 
                 brief: "Obstructed access to psychological evaluators", 
                 evidence: "Motion to Enforce (Apr 4, 2025), Section II"
+            },
+            {
+                date: "2025-04-10",
+                brief: "Knowingly misrepresented cause of Layne Project cancellation to justify Midtown psychological evaluation",
+                evidence: "Supplement to Complaint Against Attorney (Apr 10, 2025), Section III"
             }
         ]
     },
@@ -252,8 +262,8 @@ const infractionData = [
     // ================== KELLY TRUELOVE ==================
     {
         party: "Kelly Truelove",
-        infraction: "Fraud & Collusion",
-        occurrences: 3,
+        infraction: "Fraud, Collusion, Witness Collusion",
+        occurrences: 4,
         backgroundColor: "#ffebee",
         progressColor: "#d32f2f",
         severity: "High",
@@ -272,6 +282,11 @@ const infractionData = [
                 date: "2025-03-27", 
                 brief: "Filed then dismissed fraudulent eviction lawsuit", 
                 evidence: "Motion to Submit Evidence (Mar 27, 2025), Section 2"
+            },
+            {
+                date: "2025-04-07",
+                brief: "Refused to acknowledge verbal lease agreement",
+                evidence: "Text Message Records (Google file drive (Kelly Truelove))"
             }
         ]
     }
