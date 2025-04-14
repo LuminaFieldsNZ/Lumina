@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Fish Pet</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(#a2dfff, #ffffff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #fish {
+      width: 150px;
+      transition: transform 0.3s ease;
+    }
+    #chat {
+      margin-top: 20px;
+      width: 300px;
+    }
+    #log {
+      background: white;
+      border-radius: 10px;
+      padding: 10px;
+      height: 150px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      box-shadow: 0 0 10px #aaa;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #00bfff;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <img id="fish" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Fish_icon.svg/512px-Fish_icon.svg.png" alt="AI Fish" />
+  <div id="chat">
+    <div id="log"></div>
+    <input type="text" id="input" placeholder="Say something to your fish..." />
+    <button onclick="talkToFish()">Talk</button>
+  </div>
+
+  <script>
+    const log = document.getElementById('log');
+    const fish = document.getElementById('fish');
+    const input = document.getElementById('input');
+
+    const responses = [
+      "Blub blub! 🐟",
+      "I'm just a fish... but I feel deep emotions.",
+      "Did you know I have 3-second memory? Or do I?",
+      "Feed me ideas... or flakes.",
+      "Swimming through thoughts...",
+      "You're my favorite human!",
+      "Sometimes I wonder what land feels like."
+    ];
+
+    function talkToFish() {
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      addMessage("You", userText);
+      input.value = "";
+
+      // Simulated AI fish "thought"
+      setTimeout(() => {
+        const reply = generateFishResponse(userText);
+        addMessage("Fishy", reply);
+        fish.style.transform = `scale(${1 + Math.random() * 0.2}) rotate(${(Math.random() - 0.5) * 20}deg)`;
+      }, 500);
+    }
+
+    function generateFishResponse(userInput) {
+      if (/feed|hungry/i.test(userInput)) return "Yum! I love fish flakes! 🍽️";
+      if (/hello|hi|hey/i.test(userInput)) return "Blub blub! Hi there!";
+      if (/love|like/i.test(userInput)) return "I like you too, land friend!";
+      return responses[Math.floor(Math.random() * responses.length)];
+    }
+
+    function addMessage(speaker, message) {
+      const msg = document.createElement('div');
+      msg.innerHTML = `<strong>${speaker}:</strong> ${message}`;
+      log.appendChild(msg);
+      log.scrollTop = log.scrollHeight;
+    }
+  </script>
+</body>
+</html>

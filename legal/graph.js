@@ -17,7 +17,7 @@
     const selectedSection = document.getElementById(sectionId);
     selectedSection.style.position = 'relative';
     selectedSection.style.opacity = '1';
-    selectedSection.style.height = 'auto';
+    selectedSection.style.height = '95vh';
     selectedSection.style.overflow = 'visible';
   }
 
