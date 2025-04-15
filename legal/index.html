@@ -10,7 +10,8 @@
 <link rel="icon" type="image/png" href="../pics/lumie.png" sizes="16x16">
 <link rel="mask-icon" href="../pics/lumie.png" color="#fff">
 <link rel="shortcut icon" href="../pics/lumie.png">
-
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 
@@ -87,36 +88,7 @@
 
       <div style="height: 100%; overflow-y: auto;">
 
-            <div class="participants">
-              <img src="lie.png" alt="participant">
-            </div>
-            <strong>Perjury:</strong> The act of lying or making false statements under oath, typically in a legal proceeding, leading to the obstruction of justice.
-          
-            <hr>
-            <div class="participants">
-              <img src="thief.png" alt="participant">
-            </div>
-            <strong>Kidnapping:</strong> The unlawful act of forcibly taking someone away, often for ransom or other malicious purposes.
-          
-          <hr>
-            <div class="participants">
-              <img src="contract.png" alt="participant">
-            </div>
-            <strong>Contract Fraud:</strong> A criminal act where one party intentionally deceives or misleads another in a contractual agreement, causing financial harm.
-          
-          <hr>
-            <div class="participants">
-              <img src="coin.png" alt="participant">
-            </div>
-            <strong>Financial Manipulation:</strong> The act of using financial control or manipulation to impose conditions or services that one cannot afford, such as selecting an unaffordable supervision service that prevents access to one's child, causing emotional and financial strain.
-  
-            <hr>
-            <div class="participants">
-              <img src="heart.png" alt="participant">
-            </div>
 
-            <strong>Bias:</strong> Materials, documents, or items presented to support claims or facts in a legal case, used to prove the truth or validity of accusations.
-        
             <h1>Psychological Analysis and Custody Evaluation Report</h1>
             <h2>An Objective, Data-Driven Perspective on Parental Behavior and Child Well-Being</h2>
             <p><strong>Prepared by:</strong> Advanced AI Psychological Auditor</p>
@@ -353,14 +325,11 @@
     </div>
 
 
-    <div class="projects-section" id="projectsS" style="width: 100%; height: 95vh; overflow-y: auto;">
-
+    <div class="projects-section" id="projectsS">
 
 
       <div class="projects-section-header">
-        <div style="margin: none;"><button onclick="performSearch()">Search</button>
-        <input oninput="performSearch()" type="text" id="searchInput" placeholder="Search for keyword..."></div>
-        
+
         <div class="view-actions">
           <button class="view-btn list-view" title="List View">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list">
@@ -380,138 +349,313 @@
           </button>
         </div>
       </div>
-<div  style="width: 100%; height: 100%; overflow-y: auto;">
-
-      
-        <h3>Results</h3>
-        <select id="resultsDropdown" size="10" onchange="showMotionDetails()"></select>
-      
-        <div id="motionDetails" style="margin-top:20px;"></div>
-      </div>      
-        
-        <script>
-          let motionData = [];
-          let searchResults = [];
-        
-          function performSearch() {
-            const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
-            if (!keyword) return;
-        
-            searchResults = [];
-        
-            motionData.forEach((motion, index) => {
-              const lines = motion.content.split('\n');
-              let matches = [];
-        
-              lines.forEach((line, i) => {
-                if (line.toLowerCase().includes(keyword)) {
-                  matches.push({ lineNumber: i + 1, line });
-                }
-              });
-        
-              if (matches.length > 0) {
-                searchResults.push({
-                  index,
-                  name: motion.name,
-                  date: motion.date,
-                  count: matches.length,
-                  matches
-                });
-              }
-            });
-        
-            populateDropdown(keyword);
-          }
-        
-          function populateDropdown(keyword) {
-            const dropdown = document.getElementById('resultsDropdown');
-            dropdown.innerHTML = "";
-        
-            if (searchResults.length === 0) {
-              dropdown.innerHTML = `<option>No matches found.</option>`;
-              return;
-            }
-        
-            searchResults.forEach((result, i) => {
-              const option = document.createElement('option');
-              option.value = i;
-              option.textContent = `${result.name} (${result.count} match${result.count > 1 ? 'es' : ''})`;
-              dropdown.appendChild(option);
-            });
-          }
-        
-          function showMotionDetails() {
-            const selectedIndex = document.getElementById('resultsDropdown').value;
-            if (selectedIndex === "") return;
-        
-            const result = searchResults[selectedIndex];
-            const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
-        
-            let html = `<h3>${result.name} (${result.date})</h3><pre>`;
-            const lines = motionData[result.index].content.split('\n');
-        
-            lines.forEach((line, i) => {
-              const lineNumber = i + 1;
-              if (line.toLowerCase().includes(keyword)) {
-                const highlighted = line.replace(new RegExp(`(${keyword})`, 'gi'), '<span class="highlight">$1</span>');
-                html += `Line ${lineNumber}: ${highlighted}\n`;
-              }
-            });
-        
-            html += '</pre>';
-            document.getElementById('motionDetails').innerHTML = html;
-          }
-        </script>
 
 
 
 
 
-
-
-
-
-
+<div id="cards" class="project-boxes jsGridView"></div>
 
 <div class="project-boxes jsGridView"></div>
 
 
 </div>
 
-<div class="projects-section" id="glossaryS" style="height: 95vh; overflow-y: auto;">
-
-  <div class="projects-section-header">
-    <p>24SN-DR00104</p>
-    <p class="time">October 1st, 2024 (Filed)</p>
-  </div>
-
-  <div id="cards" class="project-boxes jsGridView"></div>
 
 
-<h3>Procedural Compliance Audit  <a href="summary.pdf" target="_blank" onmouseover="this.style.backgroundColor='#0047c0'" onmouseout="this.style.backgroundColor='none'">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download">
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-    <polyline points="7 10 12 15 17 10"/>
-    <line x1="12" y1="15" x2="12" y2="3"/>
-  </svg>  
-</a></h3>
-<p>The following metric reflects the current level of misconduct detected across documented cases.</p>
-<div class="box-progress-wrapper">
-    <p class="box-progress-header">Total Severity 82% - Very Bias</p>
-    <div class="box-progress-bar">
-        <span class="box-progress" style="width: 82%; background-color: #e85b51;"></span>
-    </div>
+
+
+
+
+
+<div class="projects-section" id="glossaryS">
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header with logo and search -->
+    <header class="mb-10">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div class="flex items-center space-x-4">
+                <div class="w-14 h-14 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="56" height="56">
+                        <path d="M20,50 Q50,20 80,50 Q50,80 20,50" fill="none" stroke="#111827" stroke-width="3"/>
+                        <path d="M30,50 Q50,30 70,50 Q50,70 30,50" fill="none" stroke="#111827" stroke-width="2"/>
+                        <path d="M35,45 Q50,35 65,45 Q50,55 35,45" fill="none" stroke="#111827" stroke-width="1.5"/>
+                        <circle cx="40" cy="40" r="3" fill="#111827"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Salmon Legal</h1>
+                    <p class="text-gray-500">Compliance Document Search</p>
+                </div>
+            </div>
+            
+            <div class="relative w-full md:w-1/3">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    oninput="performSearch()" 
+                    class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 p-3 pr-12 shadow-sm" 
+                    placeholder="Search case files, motions, or references..."
+                >
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <span class="text-xs text-gray-400 hidden md:block">Ctrl + /</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content area -->
+    <main>
+
+
+
+
+        <div class="flex flex-col h-screen">
+          <!-- Header -->
+          <header class="shrink-0 mb-4 px-4 py-2">
+        <!-- Stats bar -->
+        <div class="bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center space-x-2">
+              <div class="p-2 rounded-lg bg-orange-50 text-orange-600">
+                  <i class="fas fa-file-alt"></i>
+              </div>
+              <div>
+                  <p class="text-xs text-gray-500">Total Documents</p>
+                  <p class="font-medium" id="totalDocuments">0</p>
+              </div>
+          </div>
+          
+          <div class="flex items-center space-x-2">
+              <div class="p-2 rounded-lg bg-blue-50 text-blue-600">
+                  <i class="fas fa-search"></i>
+              </div>
+              <div>
+                  <p class="text-xs text-gray-500">Current Matches</p>
+                  <p class="font-medium" id="resultCount">0</p>
+              </div>
+          </div>
+          
+          <div class="flex items-center space-x-2">
+              <div class="p-2 rounded-lg bg-green-50 text-green-600">
+                  <i class="fas fa-calendar-day"></i>
+              </div>
+              <div>
+                  <p class="text-xs text-gray-500">Last Updated</p>
+                  <p class="font-medium">Today</p>
+              </div>
+          </div>
+          
+          <button 
+              onclick="clearSearch()" 
+              class="ml-auto text-sm text-gray-500 hover:text-orange-600 flex items-center"
+          >
+              <i class="fas fa-times mr-1"></i> Clear search
+          </button>
+      </div>
+          </header>
+        
+          <!-- Scrollable area -->
+          <main class="flex-1 overflow-y-auto px-4 pb-40">
+            <div id="searchResults" class="space-y-4">
+              <!-- Cards and dynamic content -->
+              <div id="initialState" class="bg-white rounded-xl shadow-sm overflow-hidden">
+                <div class="p-8 text-center">
+                  <div class="mx-auto w-24 h-24 text-gray-300 mb-4">
+                    <i class="fas fa-search fa-3x"></i>
+                  </div>
+                  <h3 class="text-lg font-medium text-gray-700 mb-2">Search the legal database</h3>
+                  <p class="text-gray-500 max-w-md mx-auto">
+                    Enter a case number, legal term, or document reference to begin searching our compliance database.
+                  </p>
+                  <div class="mt-6 flex justify-center gap-3">
+                    <div class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
+                      Try: "24SN-DR00104"
+                    </div>
+                    <div class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
+                      Try: "motion to dismiss"
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+        
+
+        
+    </main>
 </div>
 
-<h3>Key Findings</h3>
-<ul>
-  <li>Systematic suppression of critical evidence in high-stakes legal decisions.</li>
-  <li>Demonstrated bias favoring specific parties, violating principles of impartiality.</li>
-  <li>Procedural violations, including unlawful hearings and misinterpretation of statutes.</li>
-  <li>Judicial actors operating with unchecked authority, leading to legal inconsistencies.</li>
-</ul>
+<script>
+    // Sample legal document data
+    const motionData = [];
 
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('totalDocuments').textContent = motionData.length;
+        
+        // Focus search input on Ctrl+/
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === '/') {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+        });
+    });
 
+    // Perform search function
+    function performSearch() {
+        const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+        const resultsContainer = document.getElementById('searchResults');
+        
+        // Clear previous results
+        resultsContainer.innerHTML = '';
+        document.getElementById('resultCount').textContent = '0';
+        
+        if (!keyword) {
+            // Show initial state if search is empty
+            resultsContainer.innerHTML = `
+                <div id="initialState" class="bg-white rounded-xl shadow-sm overflow-hidden fade-in">
+                    <div class="p-8 text-center">
+                        <div class="mx-auto w-24 h-24 text-gray-300 mb-4">
+                            <i class="fas fa-search fa-3x"></i>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-700 mb-2">Search the legal database</h3>
+                        <p class="text-gray-500 max-w-md mx-auto">
+                            Enter a case number, legal term, or document reference to begin searching our compliance database.
+                        </p>
+                        <div class="mt-6 flex justify-center gap-3">
+                            <div class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
+                                Try: "24SN-DR00104"
+                            </div>
+                            <div class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
+                                Try: "motion to dismiss"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        
+        // Filter documents that match the search
+        const searchResults = motionData.filter(motion => {
+            return (
+                motion.id.toLowerCase().includes(keyword) ||
+                motion.title.toLowerCase().includes(keyword) ||
+                motion.content.toLowerCase().includes(keyword)
+            );
+        });
+        
+        document.getElementById('resultCount').textContent = searchResults.length;
+        
+        if (searchResults.length === 0) {
+            // Show no results state
+            resultsContainer.innerHTML = `
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden fade-in">
+                    <div class="p-8 text-center">
+                        <div class="mx-auto w-24 h-24 text-gray-300 mb-4">
+                            <i class="fas fa-search-minus fa-3x"></i>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-700 mb-2">No results found</h3>
+                        <p class="text-gray-500 max-w-md mx-auto">
+                            Your search for "${keyword}" did not match any documents in our database. Try different keywords or case numbers.
+                        </p>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        
+        // Display search results
+        searchResults.forEach((motion, index) => {
+            // Find matching lines in content
+            const contentLines = motion.content.split('\n');
+            const matchingLines = contentLines
+                .map((line, i) => ({ line, number: i + 1 }))
+                .filter(item => item.line.toLowerCase().includes(keyword))
+                .slice(0, 3); // Show max 3 matching lines
+            
+            // Highlight keyword in title
+            const highlightedTitle = motion.title.replace(
+                new RegExp(`(${keyword})`, 'gi'), 
+                '<span class="highlight">$1</span>'
+            );
+            
+            
+            // Create status badge
+            let statusBadge = '';
+            if (motion.status === 'Granted') {
+                statusBadge = 'bg-green-100 text-green-800';
+            } else if (motion.status === 'Denied') {
+                statusBadge = 'bg-red-100 text-red-800';
+            } else {
+                statusBadge = 'bg-blue-100 text-blue-800';
+            }
+            
+            // Create document card
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-xl shadow-sm overflow-hidden fade-in';
+            card.style.animationDelay = `${index * 0.05}s`;
+            card.innerHTML = `
+                <div class="document-card p-6 hover:bg-gray-50 cursor-pointer" onclick="showDocumentDetails('${motion.id}')">
+                    <div class="flex items-start justify-between mb-2">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900 mb-1">${highlightedTitle}</h3>
+                            <div class="flex items-center space-x-3 text-sm mb-3">
+                                <span class="text-gray-500">${motion.id}</span>
+                                <span class="text-gray-300">•</span>
+                                <span class="text-gray-500">${motion.date}</span>
+                                <span class="text-gray-300">•</span>
+                                <span class="px-2 py-0.5 rounded-full text-xs font-medium ${statusBadge}">
+                                    ${motion.status}
+                                </span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-gray-400">${motion.type}</span>
+                    </div>
+                                        
+                    ${matchingLines.length > 0 ? `
+                    <div class="bg-gray-50 p-3 rounded-lg border border-gray-200 text-sm">
+                        <div class="text-xs text-gray-500 mb-1">Matching content:</div>
+                        ${matchingLines.map(item => {
+                            const highlightedLine = item.line.replace(
+                                new RegExp(`(${keyword})`, 'gi'), 
+                                '<span class="highlight">$1</span>'
+                            );
+                            return `
+                                <div class="mb-1">
+                                    <span class="text-gray-400 text-xs">Line ${item.number}:</span>
+                                    <span class="text-gray-800">${highlightedLine}</span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            resultsContainer.appendChild(card);
+        });
+    }
+    
+    // Show document details (would be implemented for a full view)
+    function showDocumentDetails(docId) {
+        const doc = motionData.find(m => m.id === docId);
+        if (!doc) return;
+        
+        alert(`Would show full details for document: ${doc.title}\n\nThis would include the complete document text in a detailed view.`);
+    }
+    
+    // Clear search function
+    function clearSearch() {
+        document.getElementById('searchInput').value = '';
+        performSearch();
+    }
+</script>
 
 </div>
 

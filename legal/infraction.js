@@ -5,7 +5,7 @@ const infractionData = [
         infraction: "Perjury, Evidence Tampering & False Statements",
         occurrences: 10,
         backgroundColor: "#baa586",
-        progressColor: "#3d2707",
+        progressColor: "#e85b51",
         severity: "Critical",
         events: [
             { 
@@ -66,7 +66,7 @@ const infractionData = [
         infraction: "Perjury",
         occurrences: 4,
         backgroundColor: "#d1f5ea",
-        progressColor: "#0aaa92",
+        progressColor: "#e85b51",
         severity: "Critical",
         events: [
             { 
@@ -97,7 +97,7 @@ const infractionData = [
         infraction: "Attorney Misconduct",
         occurrences: 10,
         backgroundColor: "#e9e7fd",
-        progressColor: "#5e54ef",
+        progressColor: "#e85b51",
         severity: "Critical",
         events: [
             { 
@@ -158,7 +158,7 @@ const infractionData = [
         infraction: "Judicial Bias",
         occurrences: 12,
         backgroundColor: "#d3e5ff",
-        progressColor: "#2a7de1",
+        progressColor: "#e85b51",
         severity: "Critical",
         events: [
             { 
@@ -229,7 +229,7 @@ const infractionData = [
         infraction: "Procedural Obstruction",
         occurrences: 5,
         backgroundColor: "#fff8e1",
-        progressColor: "#ffb300",
+        progressColor: "#e85b51",
         severity: "High",
         events: [
             { 
@@ -265,7 +265,7 @@ const infractionData = [
         infraction: "Fraud, Collusion, Witness Collusion",
         occurrences: 4,
         backgroundColor: "#ffebee",
-        progressColor: "#d32f2f",
+        progressColor: "#e85b51",
         severity: "High",
         events: [
             { 

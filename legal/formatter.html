@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Legal Dataset Formatter (Flexible Input)</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+    textarea, pre { width: 100%; font-family: monospace; margin-top: 10px; }
+    button { margin: 10px 0; padding: 10px; font-size: 16px; }
+  </style>
+</head>
+<body>
+
+  <h2>📄 Legal Document → AutoTrain Dataset Formatter (CSV Output)</h2>
+  <p>Paste your <strong>JavaScript-style object array</strong> (not strict JSON) below:</p>
+
+  <textarea id="inputData" rows="15" placeholder="Paste your legal doc array here..."></textarea>
+  <button onclick="formatData()">Convert to Training Format</button>
+
+  <h3>✅ Result:</h3>
+  <pre id="outputData"></pre>
+
+  <button onclick="download()">Download CSV File</button>
+
+  <script>
+    function formatData() {
+      let raw = document.getElementById("inputData").value;
+
+      // Create a new array to store only the allowed characters (letters, numbers, and basic punctuation)
+      let allowedChars = [];
+
+      // Define the regular expression to match only allowed characters (letters, numbers, and some punctuation)
+      const allowedPattern = /[A-Za-z0-9.,!?;:'"()\-\/\\ \[\]\{\}:]/;
+
+      // Loop through each character and keep only the allowed ones
+      for (let char of raw) {
+        if (allowedPattern.test(char)) {
+          allowedChars.push(char); // Add allowed character to the array
+        }
+      }
+
+      // Convert the array back to a string
+      let filteredData = allowedChars.join('');
+
+      // Now we check if it's valid JSON
+      let parsed;
+      try {
+        parsed = JSON.parse(filteredData);  // Parse the JSON directly
+      } catch (e) {
+        alert("⚠️ Invalid JSON format. Please check your input.");
+        console.error(e);
+        return;  // Stop further processing if JSON is invalid
+      }
+
+      // Continue processing the valid JSON data
+      const formatted = parsed.map(entry => ({
+        instruction: `Summarize the legal document titled "${entry.name}".`,
+        input: `${entry.name} filed on ${entry.date}.`,
+        output: entry.content.replace(/\s+/g, ' ').trim()
+      }));
+
+      // Output the formatted data as a CSV preview
+      const csvOutput = "instruction,input,output\n" + formatted.map(entry => {
+        return `"${entry.instruction}","${entry.input}","${entry.output}"`;
+      }).join("\n");
+
+      document.getElementById("outputData").textContent = csvOutput;
+      window.formattedData = formatted;
+    }
+
+    // Function to download the formatted data as CSV
+    function download() {
+      let csvContent = "instruction,input,output\n";
+
+      window.formattedData.forEach(entry => {
+        csvContent += `"${entry.instruction}","${entry.input}","${entry.output}"\n`;
+      });
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "formatted_legal_data.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
+</body>
+</html>

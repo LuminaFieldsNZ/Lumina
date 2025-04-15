@@ -713,6 +713,33 @@ button, a {
   z-index: 1;
 }
 
+.highlight {
+  background-color: #FDE68A;
+  padding: 0.1rem 0.2rem;
+  border-radius: 0.2rem;
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.dropdown-option:hover {
+  background-color: #E5E7EB;
+}
+.motion-details {
+  max-height: calc(100vh - 300px);
+}
+
 @media screen and (max-width: 980px) {
   .project-boxes.jsGridView .project-box-wrapper {
     width: 100%;
