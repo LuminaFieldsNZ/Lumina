@@ -2,9 +2,11 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Legal Management</title> 
+  <title>Salmon</title> 
 <link rel="stylesheet" href="./style.css">
-
+<META NAME="KEYWORDS" CONTENT="Data, Data School, DataSchool, DataSchools, Data Schools, School, Education, AI, Artificial Intelligence, Legal, Lawyer, Republican, Conservative, Progressive">
+  <META NAME="ROBOTS" CONTENT="ALL,FOLLOW">
+  <meta name="description" content="Auditing Assistance">
 <link rel="apple-touch-icon" sizes="180x180" href="pics/lumie.png">
 <link rel="icon" type="image/png" href="../pics/lumie.png" sizes="32x32">
 <link rel="icon" type="image/png" href="../pics/lumie.png" sizes="16x16">
@@ -375,17 +377,12 @@
     <header class="mb-10">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div class="flex items-center space-x-4">
-                <div class="w-14 h-14 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="56" height="56">
-                        <path d="M20,50 Q50,20 80,50 Q50,80 20,50" fill="none" stroke="#111827" stroke-width="3"/>
-                        <path d="M30,50 Q50,30 70,50 Q50,70 30,50" fill="none" stroke="#111827" stroke-width="2"/>
-                        <path d="M35,45 Q50,35 65,45 Q50,55 35,45" fill="none" stroke="#111827" stroke-width="1.5"/>
-                        <circle cx="40" cy="40" r="3" fill="#111827"/>
-                    </svg>
+                <div class="flex items-center justify-center">
+                    <image src="../pics/lumie.png" style="height: 100px; width: 100px;">
                 </div>
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900">Salmon Legal</h1>
-                    <p class="text-gray-500">Compliance Document Search</p>
+                    <h1 class="text-3xl font-bold text-gray-900">Salmon</h1>
+                    <p class="text-gray-500">Auditing Assistance</p>
                 </div>
             </div>
             
@@ -398,7 +395,7 @@
                     id="searchInput" 
                     oninput="performSearch()" 
                     class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 p-3 pr-12 shadow-sm" 
-                    placeholder="Search case files, motions, or references..."
+                    placeholder="Search..."
                 >
                 <div class="absolute inset-y-0 right-0 flex items-center pr-3">
                     <span class="text-xs text-gray-400 hidden md:block">Ctrl + /</span>
@@ -418,12 +415,13 @@
           <header class="shrink-0 mb-4 px-4 py-2">
         <!-- Stats bar -->
         <div class="bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-wrap items-center justify-between gap-4">
+
           <div class="flex items-center space-x-2">
               <div class="p-2 rounded-lg bg-orange-50 text-orange-600">
                   <i class="fas fa-file-alt"></i>
               </div>
               <div>
-                  <p class="text-xs text-gray-500">Total Documents</p>
+                  <p class="text-xs text-gray-500">Documents Found</p>
                   <p class="font-medium" id="totalDocuments">0</p>
               </div>
           </div>
@@ -433,27 +431,21 @@
                   <i class="fas fa-search"></i>
               </div>
               <div>
-                  <p class="text-xs text-gray-500">Current Matches</p>
+                  <p class="text-xs text-gray-500">Matches</p>
                   <p class="font-medium" id="resultCount">0</p>
               </div>
           </div>
-          
+
+
           <div class="flex items-center space-x-2">
-              <div class="p-2 rounded-lg bg-green-50 text-green-600">
-                  <i class="fas fa-calendar-day"></i>
-              </div>
-              <div>
-                  <p class="text-xs text-gray-500">Last Updated</p>
-                  <p class="font-medium">Today</p>
-              </div>
-          </div>
-          
-          <button 
-              onclick="clearSearch()" 
-              class="ml-auto text-sm text-gray-500 hover:text-orange-600 flex items-center"
-          >
-              <i class="fas fa-times mr-1"></i> Clear search
-          </button>
+            <div class="p-2 rounded-lg bg-green-50 text-green-600">
+                <a onclick="clearSearch()"><i class="fas fa-times"></i></a>
+            </div>
+            <div>
+                  <p class="font-medium">Clear Results</p>
+            </div>
+        </div>
+
       </div>
           </header>
         
