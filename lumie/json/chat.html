@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Conversation Uploader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .chat-message {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        .file-upload input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        .json-display {
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            background-color: #1e293b;
+            color: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Header -->
+            <div class="bg-indigo-600 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-bold text-white">JSON Conversation Uploader</h1>
+                    <div class="flex items-center space-x-2">
+                        <span id="userBadge" class="bg-indigo-800 text-white px-3 py-1 rounded-full text-sm">Guest</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="p-6">
+                <!-- File Upload Section -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Upload JSON File</h2>
+                    <div class="file-upload bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition-colors hover:border-indigo-400">
+                        <div class="flex flex-col items-center justify-center space-y-3">
+                            <i class="fas fa-file-upload text-4xl text-indigo-500"></i>
+                            <p class="text-gray-600">Drag & drop your JSON file here or click to browse</p>
+                            <input type="file" id="jsonFileInput" accept=".json" class="hidden">
+                            <button id="uploadBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-lg transition-colors">
+                                Select File
+                            </button>
+                        </div>
+                    </div>
+                    <div id="fileInfo" class="mt-3 text-sm text-gray-600 hidden">
+                        <i class="fas fa-check-circle text-green-500 mr-1"></i>
+                        <span id="fileName">No file selected</span>
+                    </div>
+                </div>
+                
+                <!-- Conversation Section -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Conversation</h2>
+                    <div id="chatWindow" class="bg-gray-50 rounded-lg p-4 h-64 overflow-y-auto mb-4 space-y-3">
+                        <p class="text-gray-500 italic">No conversation data yet. Upload a JSON file or start typing below.</p>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <input type="text" id="userInput" placeholder="Type your message..." 
+                               class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <button id="sendBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-lg transition-colors">
+                            Send
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- JSON Data Display -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">JSON Data</h2>
+                        <button id="exportBtn" class="text-indigo-600 hover:text-indigo-800 font-medium flex items-center">
+                            <i class="fas fa-download mr-2"></i> Export
+                        </button>
+                    </div>
+                    <div id="jsonEditor" class="json-display">No data available</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Base conversation data - will be extended with uploaded data
+        let baseData = [
+            ["hello", "Hi there!", ""],
+            ["how old is the earth", "The Earth is approximately 4.54 billion years old.", ""],
+            ["what is your name", "I'm Lumies AI assistant!", ""],
+            ["goodbye", "Goodbye! Have a great day!", ""]
+        ];
+        
+        // Global variables
+        let userId = "Guest";
+        let conversationData = [];
+        let loadedData = [];
+        
+        // DOM elements
+        const jsonFileInput = document.getElementById('jsonFileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const chatWindow = document.getElementById('chatWindow');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const jsonEditor = document.getElementById('jsonEditor');
+        const exportBtn = document.getElementById('exportBtn');
+        const userBadge = document.getElementById('userBadge');
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start with base data
+            loadedData = [...baseData];
+            updateJSONDisplay();
+            checkUsername();
+        });
+
+        // File upload handling
+        uploadBtn.addEventListener('click', () => {
+            jsonFileInput.click();
+        });
+
+        jsonFileInput.addEventListener('change', (event) => {
+            if (event.target.files.length > 0) {
+                const file = event.target.files[0];
+                fileName.textContent = file.name;
+                fileInfo.classList.remove('hidden');
+                
+                // Read the file
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        if (isValidDataFormat(data)) {
+                            // Update conversation data
+                            loadedData = [...baseData, ...data.conversationData];
+                            userId = data.userData.id || "Guest";
+                            
+                            // Update UI
+                            updateChatWindow();
+                            updateJSONDisplay();
+                            checkUsername();
+                            
+                            // Show success message
+                            addSystemMessage(`Loaded ${data.conversationData.length} new conversation pairs from file.`);
+                        } else {
+                            addSystemMessage("Invalid data format. Please upload a valid JSON file.", true);
+                        }
+                    } catch (error) {
+                        addSystemMessage(`Error parsing JSON: ${error.message}`, true);
+                    }
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Send message handling
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Export button
+        exportBtn.addEventListener('click', exportData);
+
+        // Validate JSON structure
+        function isValidDataFormat(data) {
+            if (!data || !data.conversationData || !Array.isArray(data.conversationData)) {
+                return false;
+            }
+            for (const entry of data.conversationData) {
+                if (!Array.isArray(entry) || entry.length !== 3 || typeof entry[0] !== 'string' || typeof entry[1] !== 'string' || typeof entry[2] !== 'string') {
+                    return false;
+                }
+            }
+            if (!data.userData || typeof data.userData.id !== 'string') {
+                return false;
+            }
+            return true;
+        }
+
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            
+            userInput.value = '';
+            
+            // Add user message to chat
+            addUserMessage(message);
+            
+            // Add to conversation data
+            const timestamp = new Date().toISOString();
+            const newEntry = [message, "", timestamp];
+            conversationData.push(newEntry);
+            
+            // Update JSON display
+            updateJSONDisplay();
+            
+            // Get and display response after a short delay
+            setTimeout(() => {
+                const response = getResponse(message);
+                // Update the conversation data with the response
+                newEntry[1] = response;
+                newEntry[2] = new Date().toISOString();
+                updateJSONDisplay();
+                
+                addSystemMessage(response);
+            }, 500);
+        }
+
+
+        function levenshtein(a, b) {
+    const matrix = Array.from({ length: b.length + 1 }, (_, i) => [i]);
+    for (let j = 0; j <= a.length; j++) {
+        matrix[0][j] = j;
+    }
+
+    for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+            if (b[i - 1] === a[j - 1]) {
+                matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+                matrix[i][j] = Math.min(
+                    matrix[i - 1][j - 1] + 1, // substitution
+                    matrix[i][j - 1] + 1,     // insertion
+                    matrix[i - 1][j] + 1      // deletion
+                );
+            }
+        }
+    }
+
+    return matrix[b.length][a.length];
+}
+
+
+
+
+function getResponse(message) {
+    const lowerMsg = message.toLowerCase().trim();
+
+    // Exact match
+    for (const [question, answer] of loadedData) {
+        if (question.toLowerCase() === lowerMsg) return answer;
+    }
+
+    // Partial match
+    for (const [question, answer] of loadedData) {
+        if (lowerMsg.includes(question.toLowerCase()) || question.toLowerCase().includes(lowerMsg)) {
+            return answer;
+        }
+    }
+
+    // Levenshtein match
+    let bestMatch = null;
+    let bestDistance = Infinity;
+    for (const [question, answer] of loadedData) {
+        const distance = levenshtein(lowerMsg, question.toLowerCase());
+        if (distance < bestDistance) {
+            bestDistance = distance;
+            bestMatch = [question, answer];
+        }
+    }
+
+    if (bestDistance <= 5 && bestMatch) return bestMatch[1];
+
+    // Always return fallback
+    return "I'm not sure how to respond to that. Can you try asking something else?";
+}
+
+
+
+
+
+        function updateChatWindow() {
+            chatWindow.innerHTML = '';
+            
+            if (conversationData.length === 0) {
+                chatWindow.innerHTML = '<p class="text-gray-500 italic">No conversation data yet. Upload a JSON file or start typing below.</p>';
+                return;
+            }
+            
+            conversationData.forEach(entry => {
+                const [message, response, timestamp] = entry;
+                
+                if (message) {
+                    addUserMessage(message, false);
+                }
+                
+                if (response) {
+                    addSystemMessage(response, false);
+                }
+            });
+            
+            scrollToBottom();
+        }
+
+        function addUserMessage(message, animate = true) {
+            const messageElement = document.createElement('div');
+            messageElement.className = `chat-message flex justify-end ${animate ? 'animate-fade-in' : ''}`;
+            messageElement.innerHTML = `
+                <div class="bg-indigo-100 text-indigo-900 rounded-lg px-4 py-2 max-w-xs md:max-w-md lg:max-w-lg">
+                    <p>${escapeHtml(message)}</p>
+                    <p class="text-xs text-indigo-500 text-right mt-1">${formatTime(new Date())}</p>
+                </div>
+            `;
+            chatWindow.appendChild(messageElement);
+            scrollToBottom();
+        }
+
+        function addSystemMessage(message, isError = false, animate = true) {
+            const messageElement = document.createElement('div');
+            messageElement.className = `chat-message flex justify-start ${animate ? 'animate-fade-in' : ''}`;
+            
+            const bgClass = isError ? 'bg-red-100 text-red-900' : 'bg-gray-200 text-gray-900';
+            
+            messageElement.innerHTML = `
+                <div class="${bgClass} rounded-lg px-4 py-2 max-w-xs md:max-w-md lg:max-w-lg">
+                    <p>${escapeHtml(message)}</p>
+                    <p class="text-xs ${isError ? 'text-red-500' : 'text-gray-500'} text-right mt-1">${formatTime(new Date())}</p>
+                </div>
+            `;
+            chatWindow.appendChild(messageElement);
+            scrollToBottom();
+        }
+
+        function formatTime(date) {
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;')
+                .replace(/\n/g, '<br>');
+        }
+
+        function scrollToBottom() {
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function updateJSONDisplay() {
+            const combinedData = {
+                conversationData: conversationData,
+                userData: {
+                    id: userId,
+                    // Add other user data properties as needed
+                }
+            };
+            
+            jsonEditor.textContent = JSON.stringify(combinedData, null, 2);
+        }
+
+        function exportData() {
+            updateJSONDisplay();
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jsonEditor.textContent);
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", `${userId}_conversation_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+            
+            addSystemMessage("Conversation data exported successfully.");
+        }
+
+        function checkUsername() {
+            if (userId === "Guest") {
+                addSystemMessage("Your current username is 'Guest'. Please enter a new username in the chat.");
+            } else {
+                userBadge.textContent = userId;
+                userBadge.classList.remove('bg-indigo-800');
+                userBadge.classList.add('bg-green-600');
+            }
+        }
+
+        // Drag and drop functionality
+        document.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            document.querySelector('.file-upload').classList.add('border-indigo-500', 'bg-indigo-50');
+        });
+
+        document.addEventListener('dragleave', () => {
+            document.querySelector('.file-upload').classList.remove('border-indigo-500', 'bg-indigo-50');
+        });
+
+        document.addEventListener('drop', (e) => {
+            e.preventDefault();
+            document.querySelector('.file-upload').classList.remove('border-indigo-500', 'bg-indigo-50');
+            
+            if (e.dataTransfer.files.length > 0) {
+                jsonFileInput.files = e.dataTransfer.files;
+                const event = new Event('change');
+                jsonFileInput.dispatchEvent(event);
+            }
+        });
+    </script>
+
+
+<script src="../../hardData/base.js"></script>
+<script src="../../hardData/black.js"></script>
+<script src="../../hardData/lumie.js"></script>
+
+</body>
+</html>

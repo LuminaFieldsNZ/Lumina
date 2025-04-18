@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #6b21a8 0%, #0d9488 50%, #78716c 100%);
+        }
+        .ideology-card {
+            transition: all 0.3s ease;
+            border-top-width: 4px;
+        }
+        .ideology-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -20px;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
+            background-color: #e5e7eb;
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                                                    <span class="text-xl font-bold text-gray-900">Introduction</span>
+                    </div>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="#about" class="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium">About</a>
+                    <a href="#framework" class="text-gray-900 hover:text-teal-600 px-3 py-2 text-sm font-medium">Framework</a>
+                    <a href="#schools" class="text-gray-900 hover:text-amber-800 px-3 py-2 text-sm font-medium">Data Schools</a>
+                    <a href="#future" class="text-gray-900 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Future Vision</a>
+                    <a href="#contact" class="bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700 transition">Contact</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-500 hover:text-gray-900 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white pb-3 px-2">
+            <a href="#about" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600">About</a>
+            <a href="#framework" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-teal-600">Framework</a>
+            <a href="#schools" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-amber-800">Data Schools</a>
+            <a href="#future" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-indigo-600">Future Vision</a>
+            <a href="#contact" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="gradient-bg text-white">
+        <div class="max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-12 md:mb-0 fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Micheal Salmon</h1>
+                <h2 class="text-2xl md:text-3xl font-semibold mb-6">Educator of Human & Artificial Intellect</h2>
+                <p class="text-lg mb-8 opacity-90">Pioneering the Data Schools framework to ensure ethical, transparent, and adaptable AI governance through multi-ideological collaboration.</p>
+                <div class="flex space-x-4">
+                    <a href="#framework" class="bg-white text-purple-600 px-6 py-3 rounded-md font-medium hover:bg-gray-100 transition">Explore Framework</a>
+                    <a href="#contact" class="border-2 border-white text-white px-6 py-3 rounded-md font-medium hover:bg-white hover:bg-opacity-10 transition">Get Involved</a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center relative">
+                <div class="relative w-64 h-64 md:w-80 md:h-80 bg-white bg-opacity-20 rounded-full flex items-center justify-center floating">
+                    <div class="w-56 h-56 md:w-72 md:h-72 bg-white bg-opacity-30 rounded-full flex items-center justify-center">
+                        <div class="w-48 h-48 md:w-64 md:h-64 bg-white bg-opacity-40 rounded-full flex items-center justify-center">
+                            <image style="height: fit-content; width: fit-content;" src="pics/lumie.png">
+   
+                                
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">About Micheal Salmon</h2>
+                <div class="w-20 h-1 bg-purple-600 mx-auto"></div>
+            </div>
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/3 mb-8 md:mb-0 flex justify-center">
+                    <div class="relative">
+                        <div class="w-64 h-64 rounded-full bg-purple-100 flex items-center justify-center overflow-hidden border-4 border-purple-200 shadow-lg">
+                            <img src="pics/micheal.png" alt="Micheal Salmon" class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-4 -right-4 bg-teal-500 text-white px-4 py-2 rounded-lg shadow-lg">
+                            <span class="font-medium">7+ Years in AI Education</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-2/3 md:pl-12">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Bridging Human Intellect and Artificial Intelligence</h3>
+                    <p class="text-gray-600 mb-6">As an educator specializing in the intersection of human cognition and artificial intelligence, I've dedicated my career to developing frameworks that ensure AI systems evolve in alignment with diverse human values and ethical considerations.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-purple-600">
+                            <h4 class="font-semibold text-gray-800 mb-2">Specialization</h4>
+                            <p class="text-gray-600">Ethical AI governance, multi-ideological frameworks, and decentralized educational systems for AI accountability.</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-teal-600">
+                            <h4 class="font-semibold text-gray-800 mb-2">Mission</h4>
+                            <p class="text-gray-600">To create structures where AI development is guided by balanced, transparent processes that incorporate global, national, and populist perspectives.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Framework Section -->
+    <section id="framework" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">The Data Schools Framework</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">A decentralized, cross-disciplinary approach to ethical AI governance</p>
+                <div class="w-20 h-1 bg-teal-500 mx-auto mt-4"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-globe text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Globalist Perspective</h3>
+                    <p class="text-gray-600">Focuses on global cooperation and long-term sustainability of AI solutions for humanity at large, represented by Elysium (Violet).</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-flag text-teal-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Nationalist Perspective</h3>
+                    <p class="text-gray-600">Prioritizes local needs and values of individual nations, ensuring AI respects national identity, represented by Abzimuth (Teal).</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-users text-amber-700 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Populist Perspective</h3>
+                    <p class="text-gray-600">Ensures AI aligns with public desires and societal good, emphasizing accessibility and accountability, represented by Ocidentica (Taupe).</p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Checks & Balances System</h3>
+                        <div class="space-y-6">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <div class="flex items-center justify-center h-10 w-10 rounded-md bg-purple-600 text-white">
+                                        <i class="fas fa-vote-yea"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900">Ranked Choice Voting</h4>
+                                    <p class="mt-1 text-gray-600">Ensures all viewpoints are considered in decision-making through transparent voting processes.</p>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <div class="flex items-center justify-center h-10 w-10 rounded-md bg-teal-600 text-white">
+                                        <i class="fas fa-layer-group"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900">Multi-Tiered Oversight</h4>
+                                    <p class="mt-1 text-gray-600">Data changes are scrutinized at teacher, professor, and principal levels before implementation.</p>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <div class="flex items-center justify-center h-10 w-10 rounded-md bg-amber-600 text-white">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900">Continuous Feedback</h4>
+                                    <p class="mt-1 text-gray-600">Ongoing evaluation of AI impacts and governance effectiveness with stakeholder input.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 bg-gray-50 p-8 md:p-12 flex items-center">
+                        <div class="w-full">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-4">Framework Visualization</h4>
+                            <div class="relative h-64">
+                                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full bg-purple-600 flex items-center justify-center text-white shadow-lg">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <div class="absolute top-20 left-1/4 w-16 h-16 rounded-full bg-teal-600 flex items-center justify-center text-white shadow-lg">
+                                    <i class="fas fa-flag"></i>
+                                </div>
+                                <div class="absolute top-20 right-1/4 w-16 h-16 rounded-full bg-amber-700 flex items-center justify-center text-white shadow-lg">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full bg-indigo-600 flex items-center justify-center text-white shadow-lg">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white border-4 border-gray-300 shadow-lg"></div>
+                                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-20 bg-gray-300"></div>
+                                <div class="absolute top-20 left-1/4 transform -translate-x-1/2 w-1 h-20 bg-gray-300"></div>
+                                <div class="absolute top-20 right-1/4 transform translate-x-1/2 w-1 h-20 bg-gray-300"></div>
+                                <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-20 bg-gray-300"></div>
+                            </div>
+                            <p class="text-center text-gray-600 mt-4">The interconnected governance structure balancing multiple perspectives</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Schools Section -->
+    <section id="schools" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Data Schools Structure</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Multi-ideological organizations for AI training and governance</p>
+                <div class="w-20 h-1 bg-amber-600 mx-auto mt-4"></div>
+            </div>
+            
+            <div class="mb-16">
+                <div class="bg-gray-50 rounded-xl p-8 shadow-inner">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">Educational Framework</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fas fa-chalkboard-teacher text-purple-600"></i>
+                                </span>
+                                Data Teachers
+                            </h4>
+                            <ul class="space-y-3 text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                                    <span>Identify and flag biases in datasets (cultural, geographical, contextual)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                                    <span>Implement ethical guidelines in AI training processes</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                                    <span>Maintain data accuracy and understand societal implications</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fas fa-user-graduate text-teal-600"></i>
+                                </span>
+                                Data Professors
+                            </h4>
+                            <ul class="space-y-3 text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-teal-500 mt-1 mr-2"></i>
+                                    <span>Design experiments to assess AI model performance</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-teal-500 mt-1 mr-2"></i>
+                                    <span>Engage in advanced research to improve governance frameworks</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-teal-500 mt-1 mr-2"></i>
+                                    <span>Mentor teachers in bias detection and ethical standards</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-16">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-8 text-center">The Three Principals</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="ideology-card border-purple-600 bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="bg-purple-600 px-6 py-4">
+                            <h4 class="text-xl font-bold text-white text-center">Elysium (Violet)</h4>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-center mb-4">
+                                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-globe text-purple-600 text-2xl"></i>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-center mb-4">Globalist Ideology</p>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-purple-500 mr-2 mt-1"></i>
+                                    <span>Prioritizes global cooperation and sustainability</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-purple-500 mr-2 mt-1"></i>
+                                    <span>Focuses on long-term AI solutions for humanity</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-purple-500 mr-2 mt-1"></i>
+                                    <span>Ensures AI benefits are distributed equitably worldwide</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ideology-card border-teal-600 bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="bg-teal-600 px-6 py-4">
+                            <h4 class="text-xl font-bold text-white text-center">Abzimuth (Teal)</h4>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-center mb-4">
+                                <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-flag text-teal-600 text-2xl"></i>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-center mb-4">Nationalist Ideology</p>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-teal-500 mr-2 mt-1"></i>
+                                    <span>Protects national identity and autonomy</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-teal-500 mr-2 mt-1"></i>
+                                    <span>Ensures AI respects local values and traditions</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-teal-500 mr-2 mt-1"></i>
+                                    <span>Addresses specific national needs and priorities</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ideology-card border-amber-700 bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="bg-amber-700 px-6 py-4">
+                            <h4 class="text-xl font-bold text-white text-center">Ocidentica (Taupe)</h4>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-center mb-4">
+                                <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-users text-amber-700 text-2xl"></i>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-center mb-4">Populist Ideology</p>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-amber-600 mr-2 mt-1"></i>
+                                    <span>Represents public desires and societal good</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-amber-600 mr-2 mt-1"></i>
+                                    <span>Emphasizes accessibility and transparency</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-amber-600 mr-2 mt-1"></i>
+                                    <span>Ensures AI remains accountable to the people</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-50 rounded-xl p-8 shadow-inner">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-6">Ethical Oversight Process</h3>
+                <div class="relative">
+                    <div class="hidden md:block absolute top-0 left-1/2 transform -translate-x-1/2 h-full w-1 bg-gray-200"></div>
+                    <div class="space-y-8">
+                        <div class="relative flex flex-col md:flex-row items-center">
+                            <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">1. Proposal Submission</h4>
+                                <p class="text-gray-600">Teachers submit data change proposals with bias analysis and ethical considerations.</p>
+                            </div>
+                            <div class="md:w-1/2 md:pl-12">
+                                <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto md:mx-0 md:absolute left-1/2 transform -translate-x-1/2">
+                                    <i class="fas fa-paper-plane text-purple-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative flex flex-col md:flex-row-reverse items-center">
+                            <div class="md:w-1/2 md:pl-12 mb-6 md:mb-0">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">2. Professor Review</h4>
+                                <p class="text-gray-600">Professors conduct simulations and deeper analysis of proposed changes.</p>
+                            </div>
+                            <div class="md:w-1/2 md:pr-12">
+                                <div class="w-16 h-16 rounded-full bg-teal-100 flex items-center justify-center mx-auto md:mx-0 md:absolute left-1/2 transform -translate-x-1/2">
+                                    <i class="fas fa-search text-teal-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative flex flex-col md:flex-row items-center">
+                            <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">3. Principal Deliberation</h4>
+                                <p class="text-gray-600">Principals from all three ideologies evaluate the proposal through ranked choice voting.</p>
+                            </div>
+                            <div class="md:w-1/2 md:pl-12">
+                                <div class="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto md:mx-0 md:absolute left-1/2 transform -translate-x-1/2">
+                                    <i class="fas fa-gavel text-amber-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative flex flex-col md:flex-row-reverse items-center">
+                            <div class="md:w-1/2 md:pl-12">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">4. Implementation & Feedback</h4>
+                                <p class="text-gray-600">Approved changes are implemented with continuous monitoring and public feedback.</p>
+                            </div>
+                            <div class="md:w-1/2 md:pr-12">
+                                <div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mx-auto md:mx-0 md:absolute left-1/2 transform -translate-x-1/2">
+                                    <i class="fas fa-sync-alt text-indigo-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Vision Section -->
+    <section id="future" class="py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">The Future of Data Schools</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Envisioning the next evolution of AI governance</p>
+                <div class="w-20 h-1 bg-indigo-600 mx-auto mt-4"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">7 Years of Progress</h3>
+                    <div class="relative">
+                        <div class="space-y-8">
+                            <div class="relative timeline-item">
+                                <div class="bg-purple-100 border-l-4 border-purple-600 p-4 rounded-r-lg">
+                                    <h4 class="font-medium text-gray-900">2016 - Concept Development</h4>
+                                    <p class="text-gray-600 mt-1">Initial framework for multi-ideological AI governance established.</p>
+                                </div>
+                            </div>
+                            <div class="relative timeline-item">
+                                <div class="bg-teal-100 border-l-4 border-teal-600 p-4 rounded-r-lg">
+                                    <h4 class="font-medium text-gray-900">2018 - First Prototypes</h4>
+                                    <p class="text-gray-600 mt-1">Early Data School models implemented in academic settings.</p>
+                                </div>
+                            </div>
+                            <div class="relative timeline-item">
+                                <div class="bg-amber-100 border-l-4 border-amber-600 p-4 rounded-r-lg">
+                                    <h4 class="font-medium text-gray-900">2020 - Global Expansion</h4>
+                                    <p class="text-gray-600 mt-1">Framework adopted by international organizations and governments.</p>
+                                </div>
+                            </div>
+                            <div class="relative">
+                                <div class="bg-indigo-100 border-l-4 border-indigo-600 p-4 rounded-r-lg">
+                                    <h4 class="font-medium text-gray-900">2023 - Current State</h4>
+                                    <p class="text-gray-600 mt-1">Data Schools recognized as leading model for ethical AI governance.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">Emerging Trends</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 bg-indigo-100 rounded-lg p-3">
+                                <i class="fas fa-shield-alt text-indigo-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">AI Governance Institutions</h4>
+                                <p class="mt-1 text-gray-600">Data Schools evolving into central institutions overseeing international AI regulation and policy.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 bg-purple-100 rounded-lg p-3">
+                                <i class="fas fa-handshake text-purple-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">Global AI Treaties</h4>
+                                <p class="mt-1 text-gray-600">Facilitating international agreements on AI ethics, safety, and accountability standards.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 bg-teal-100 rounded-lg p-3">
+                                <i class="fas fa-robot text-teal-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">AI-Powered Collaboration</h4>
+                                <p class="mt-1 text-gray-600">Using AI tools to enhance Data School operations through simulation models and real-time voting.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-indigo-600 rounded-xl shadow-lg overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-white mb-6">Join the Evolution</h3>
+                        <p class="text-indigo-100 mb-8">The Data Schools framework is continuously evolving to address new challenges in AI governance. Be part of shaping the future of ethical artificial intelligence.</p>
+                        <div class="flex space-x-4">
+                            <a href="#contact" class="bg-white text-indigo-600 px-6 py-3 rounded-md font-medium hover:bg-gray-100 transition">Get Involved</a>
+                            <a href="#" class="border-2 border-white text-white px-6 py-3 rounded-md font-medium hover:bg-white hover:bg-opacity-10 transition">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 bg-indigo-700 p-8 md:p-12 flex items-center">
+                        <div class="w-full">
+                            <div class="flex justify-center mb-4">
+                                <div class="w-24 h-24 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                                    <i class="fas fa-lightbulb text-white text-4xl"></i>
+                                </div>
+                            </div>
+                            <h4 class="text-lg font-semibold text-white text-center mb-2">Your Perspective Matters</h4>
+                            <p class="text-indigo-100 text-center">Whether you're an AI developer, policymaker, educator, or concerned citizen, your voice contributes to balanced AI governance.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Get In Touch</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Connect with Micheal Salmon about the Data Schools framework</p>
+                <div class="w-20 h-1 bg-purple-600 mx-auto mt-4"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">Contact Information</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 bg-purple-100 rounded-lg p-3">
+                                <i class="fas fa-envelope text-purple-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">Email</h4>
+                                <p class="mt-1 text-gray-600">Micheal.salmon@dataschools.org</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 bg-teal-100 rounded-lg p-3">
+                                <i class="fas fa-globe text-teal-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">Website</h4>
+                                <p class="mt-1 text-gray-600">www.dataschools.org</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 bg-amber-100 rounded-lg p-3">
+                                <i class="fas fa-map-marker-alt text-amber-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">Location</h4>
+                                <p class="mt-1 text-gray-600">Global Network of Data Schools</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12">
+                        <h4 class="text-lg font-medium text-gray-900 mb-4">Follow the Journey</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-600 hover:text-white transition">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-blue-600 hover:text-white transition">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-800 hover:text-white transition">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-red-600 hover:text-white transition">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-inner">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-6">Send a Message</h3>
+                        <form>
+                            <div class="mb-6">
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="Your name">
+                            </div>
+                            <div class="mb-6">
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="your.email@example.com">
+                            </div>
+                            <div class="mb-6">
+                                <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                                <select id="subject" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                    <option value="">Select a topic</option>
+                                    <option value="framework">Data Schools Framework</option>
+                                    <option value="collaboration">Collaboration Opportunities</option>
+                                    <option value="speaking">Speaking Engagement</option>
+                                    <option value="other">Other Inquiry</option>
+                                </select>
+                            </div>
+                            <div class="mb-6">
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="Your message..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-purple-600 text-white px-6 py-3 rounded-md font-medium hover:bg-purple-700 transition focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Micheal Salmon</h3>
+                    <p class="text-gray-400">Educator of Human & Artificial Intellect. Pioneering ethical AI governance through the Data Schools framework.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition">About</a></li>
+                        <li><a href="#framework" class="text-gray-400 hover:text-white transition">Framework</a></li>
+                        <li><a href="#schools" class="text-gray-400 hover:text-white transition">Data Schools</a></li>
+                        <li><a href="#future" class="text-gray-400 hover:text-white transition">Future Vision</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Publications</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Research Papers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Presentations</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Case Studies</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-4">Subscribe to updates on the Data Schools framework.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-md w-full text-gray-900 focus:outline-none">
+                        <button class="bg-purple-600 px-4 py-2 rounded-r-md hover:bg-purple-700 transition">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">© 2023 Micheal Salmon. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    mobileMenu.classList.add('hidden');
+                    
+                    // Scroll to target
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add fade-in animation to sections as they come into view
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

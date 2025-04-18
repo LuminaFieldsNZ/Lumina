@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Data Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .json-key {
+            color: #9CDCFE;
+        }
+        .json-string {
+            color: #CE9178;
+        }
+        .json-number {
+            color: #B5CEA8;
+        }
+        .json-boolean {
+            color: #569CD6;
+        }
+        .json-null {
+            color: #569CD6;
+        }
+        .json-collapser {
+            cursor: pointer;
+            margin-right: 6px;
+        }
+        .json-editable {
+            background-color: rgba(156, 220, 254, 0.1);
+            padding: 2px 4px;
+            border-radius: 3px;
+            border: 1px dashed transparent;
+        }
+        .json-editable:hover {
+            border-color: #9CDCFE;
+        }
+        .dark-bg {
+            background-color: #1E1E1E;
+        }
+        .resize-handle {
+            width: 4px;
+            background-color: #2D2D2D;
+            cursor: col-resize;
+        }
+        .resize-handle:hover {
+            background-color: #3D3D3D;
+        }
+    </style>
+</head>
+<body class="dark-bg text-gray-200 min-h-screen">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Header -->
+        <header class="mb-8">
+            <h1 class="text-2xl font-bold mb-2">JSON Data Explorer</h1>
+            <div class="flex items-center space-x-4">
+                <div class="relative flex-1">
+                    <input type="file" id="fileInput" class="hidden" accept=".json">
+                    <button id="loadBtn" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded flex items-center">
+                        <i class="fas fa-folder-open mr-2"></i> Load JSON
+                    </button>
+                </div>
+                <button id="saveBtn" class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded flex items-center">
+                    <i class="fas fa-save mr-2"></i> Save Changes
+                </button>
+                <button id="resetBtn" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded flex items-center">
+                    <i class="fas fa-undo mr-2"></i> Reset
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="flex flex-col lg:flex-row gap-6 h-[calc(100vh-180px)]">
+            <!-- Left Panel - JSON Tree -->
+            <div class="flex-1 overflow-auto border border-gray-700 rounded p-4">
+                <h2 class="text-lg font-semibold mb-4 flex items-center">
+                    <i class="fas fa-code mr-2"></i> JSON Structure
+                </h2>
+                <div id="jsonViewer" class="font-mono text-sm"></div>
+            </div>
+
+            <!-- Resize Handle -->
+            <div class="resize-handle hidden lg:block"></div>
+
+            <!-- Right Panel - Data Visualization -->
+            <div class="flex-1 overflow-auto">
+                <div class="grid grid-cols-1 gap-6">
+                    <!-- Main Headings Chart -->
+                    <div class="border border-gray-700 rounded p-4">
+                        <h2 class="text-lg font-semibold mb-4 flex items-center">
+                            <i class="fas fa-chart-bar mr-2"></i> Main Headings
+                        </h2>
+                        <canvas id="mainHeadingChart" height="200"></canvas>
+                    </div>
+
+                    <!-- Populations Chart -->
+                    <div class="border border-gray-700 rounded p-4">
+                        <h2 class="text-lg font-semibold mb-4 flex items-center">
+                            <i class="fas fa-chart-pie mr-2"></i> Populations
+                        </h2>
+                        <canvas id="populationsChart" height="200"></canvas>
+                    </div>
+
+                    <!-- Completed Projects -->
+                    <div class="border border-gray-700 rounded p-4">
+                        <h2 class="text-lg font-semibold mb-4 flex items-center">
+                            <i class="fas fa-tasks mr-2"></i> Completed Projects
+                        </h2>
+                        <div id="projectsList" class="flex flex-wrap gap-2"></div>
+                    </div>
+
+                    <!-- State Visualization -->
+                    <div class="border border-gray-700 rounded p-4">
+                        <h2 class="text-lg font-semibold mb-4 flex items-center">
+                            <i class="fas fa-user mr-2"></i> Character State
+                        </h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Hair</label>
+                                <select id="hairSelect" class="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2">
+                                    <!-- Options will be populated by JS -->
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Glasses</label>
+                                <select id="glassesSelect" class="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2">
+                                    <!-- Options will be populated by JS -->
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Body</label>
+                                <select id="bodySelect" class="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2">
+                                    <!-- Options will be populated by JS -->
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Outer</label>
+                                <select id="outerSelect" class="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2">
+                                    <!-- Options will be populated by JS -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const loadBtn = document.getElementById('loadBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const fileInput = document.getElementById('fileInput');
+        const jsonViewer = document.getElementById('jsonViewer');
+        const projectsList = document.getElementById('projectsList');
+        const hairSelect = document.getElementById('hairSelect');
+        const glassesSelect = document.getElementById('glassesSelect');
+        const bodySelect = document.getElementById('bodySelect');
+        const outerSelect = document.getElementById('outerSelect');
+        const resizeHandle = document.querySelector('.resize-handle');
+        const leftPanel = document.querySelector('.flex-1:first-child');
+        const rightPanel = document.querySelector('.flex-1:last-child');
+
+        // Chart instances
+        let mainHeadingChart;
+        let populationsChart;
+
+        // Current JSON data
+        let jsonData = null;
+        let originalData = null;
+
+        // Initialize charts
+        function initCharts() {
+            // Main Heading Chart
+            const mainHeadingCtx = document.getElementById('mainHeadingChart').getContext('2d');
+            mainHeadingChart = new Chart(mainHeadingCtx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Main Headings',
+                        data: [],
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Populations Chart
+            const populationsCtx = document.getElementById('populationsChart').getContext('2d');
+            populationsChart = new Chart(populationsCtx, {
+                type: 'pie',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        data: [],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(255, 159, 64, 0.7)',
+                            'rgba(199, 199, 199, 0.7)',
+                            'rgba(83, 102, 255, 0.7)',
+                            'rgba(255, 99, 71, 0.7)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        // Render JSON viewer
+        function renderJSON(data, parentElement) {
+            parentElement.innerHTML = '';
+            
+            if (typeof data === 'object' && data !== null) {
+                const collapsible = document.createElement('div');
+                const collapser = document.createElement('span');
+                collapser.className = 'json-collapser';
+                collapser.textContent = '▶';
+                collapser.addEventListener('click', function() {
+                    const content = this.parentNode.querySelector('.json-content');
+                    if (content.style.display === 'none') {
+                        content.style.display = 'block';
+                        this.textContent = '▼';
+                    } else {
+                        content.style.display = 'none';
+                        this.textContent = '▶';
+                    }
+                });
+                
+                collapsible.appendChild(collapser);
+                
+                const type = Array.isArray(data) ? 'array' : 'object';
+                const typeSpan = document.createElement('span');
+                typeSpan.className = 'json-key';
+                typeSpan.textContent = type === 'array' ? '[' : '{';
+                collapsible.appendChild(typeSpan);
+                
+                const content = document.createElement('div');
+                content.className = 'json-content ml-4';
+                content.style.display = 'block';
+                
+                for (const key in data) {
+                    const itemDiv = document.createElement('div');
+                    
+                    if (type === 'object') {
+                        const keySpan = document.createElement('span');
+                        keySpan.className = 'json-key';
+                        keySpan.textContent = `"${key}": `;
+                        itemDiv.appendChild(keySpan);
+                    }
+                    
+                    if (typeof data[key] === 'object' && data[key] !== null) {
+                        renderJSON(data[key], itemDiv);
+                    } else {
+                        const valueSpan = document.createElement('span');
+                        valueSpan.className = getTypeClass(data[key]);
+                        
+                        if (typeof data[key] === 'string') {
+                            valueSpan.textContent = `"${data[key]}"`;
+                        } else {
+                            valueSpan.textContent = data[key];
+                        }
+                        
+                        // Make editable
+                        if (!['id', 'timestamp'].includes(key)) {
+                            valueSpan.classList.add('json-editable');
+                            valueSpan.setAttribute('contenteditable', 'true');
+                            valueSpan.addEventListener('blur', function() {
+                                try {
+                                    const newValue = parseValue(this.textContent);
+                                    if (type === 'array') {
+                                        data[key] = newValue;
+                                    } else {
+                                        data[key] = newValue;
+                                    }
+                                    updateVisualizations();
+                                } catch (e) {
+                                    this.textContent = data[key];
+                                    alert('Invalid value');
+                                }
+                            });
+                        }
+                        
+                        itemDiv.appendChild(valueSpan);
+                    }
+                    
+                    content.appendChild(itemDiv);
+                }
+                
+                const closingBracket = document.createElement('span');
+                closingBracket.className = 'json-key';
+                closingBracket.textContent = type === 'array' ? ']' : '}';
+                
+                collapsible.appendChild(content);
+                collapsible.appendChild(closingBracket);
+                parentElement.appendChild(collapsible);
+            }
+        }
+
+        function getTypeClass(value) {
+            if (typeof value === 'string') return 'json-string';
+            if (typeof value === 'number') return 'json-number';
+            if (typeof value === 'boolean') return 'json-boolean';
+            if (value === null) return 'json-null';
+            return '';
+        }
+
+        function parseValue(value) {
+            if (value === 'null') return null;
+            if (value === 'true') return true;
+            if (value === 'false') return false;
+            if (!isNaN(value) && value.trim() !== '') return Number(value);
+            return value;
+        }
+
+        // Update visualizations
+        function updateVisualizations() {
+            if (!jsonData || !jsonData.userData) return;
+            
+            // Update main headings chart
+            if (jsonData.userData.mainHeading) {
+                const mainHeadings = Object.entries(jsonData.userData.mainHeading);
+                mainHeadingChart.data.labels = mainHeadings.map(([key]) => key);
+                mainHeadingChart.data.datasets[0].data = mainHeadings.map(([, value]) => value);
+                mainHeadingChart.update();
+            }
+            
+            // Update populations chart
+            if (jsonData.userData.populations) {
+                const populations = Object.entries(jsonData.userData.populations);
+                populationsChart.data.labels = populations.map(([key]) => key);
+                populationsChart.data.datasets[0].data = populations.map(([, value]) => value);
+                populationsChart.update();
+            }
+            
+            // Update projects list
+            if (jsonData.userData.completedProjects) {
+                projectsList.innerHTML = '';
+                jsonData.userData.completedProjects.forEach(project => {
+                    const projectBadge = document.createElement('div');
+                    projectBadge.className = 'px-3 py-1 bg-purple-600 rounded-full text-sm';
+                    projectBadge.textContent = `Project ${project}`;
+                    projectsList.appendChild(projectBadge);
+                });
+            }
+            
+            // Update state selectors
+            if (jsonData.userData.state) {
+                updateSelectOptions(hairSelect, 'hair', jsonData.userData.state.hair);
+                updateSelectOptions(glassesSelect, 'glasses', jsonData.userData.state.glasses);
+                updateSelectOptions(bodySelect, 'body', jsonData.userData.state.body);
+                updateSelectOptions(outerSelect, 'outer', jsonData.userData.state.outer);
+            }
+        }
+
+        function updateSelectOptions(selectElement, type, currentValue) {
+            // In a real app, you would fetch available options from your assets
+            // Here we'll simulate with some options
+            selectElement.innerHTML = '';
+            
+            const options = [];
+            for (let i = 0; i < 5; i++) {
+                options.push({
+                    value: `./${type}/${type}${i}.png`,
+                    text: `${type} ${i}`
+                });
+            }
+            
+            options.forEach(option => {
+                const optElement = document.createElement('option');
+                optElement.value = option.value;
+                optElement.textContent = option.text;
+                if (option.value === currentValue) {
+                    optElement.selected = true;
+                }
+                selectElement.appendChild(optElement);
+            });
+            
+            selectElement.addEventListener('change', function() {
+                jsonData.userData.state[type] = this.value;
+            });
+        }
+
+        // Event Listeners
+        loadBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        jsonData = JSON.parse(event.target.result);
+                        originalData = JSON.parse(JSON.stringify(jsonData));
+                        renderJSON(jsonData, jsonViewer);
+                        updateVisualizations();
+                    } catch (error) {
+                        alert('Error parsing JSON file');
+                        console.error(error);
+                    }
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        saveBtn.addEventListener('click', () => {
+            if (jsonData) {
+                const dataStr = JSON.stringify(jsonData, null, 2);
+                const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+                
+                const exportFileDefaultName = `data-${new Date().toISOString().slice(0,10)}.json`;
+                
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+            } else {
+                alert('No data to save');
+            }
+        });
+
+        resetBtn.addEventListener('click', () => {
+            if (originalData) {
+                if (confirm('Are you sure you want to reset all changes?')) {
+                    jsonData = JSON.parse(JSON.stringify(originalData));
+                    renderJSON(jsonData, jsonViewer);
+                    updateVisualizations();
+                }
+            } else {
+                alert('No original data to reset to');
+            }
+        });
+
+        // Resize handle functionality
+        let isResizing = false;
+        let lastX = 0;
+
+        resizeHandle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            lastX = e.clientX;
+            document.body.style.cursor = 'col-resize';
+            document.addEventListener('mousemove', handleResize);
+            document.addEventListener('mouseup', stopResize);
+        });
+
+        function handleResize(e) {
+            if (!isResizing) return;
+            
+            const dx = e.clientX - lastX;
+            const leftPanelWidth = leftPanel.offsetWidth;
+            const newLeftWidth = leftPanelWidth + dx;
+            
+            if (newLeftWidth > 300 && newLeftWidth < window.innerWidth - 300) {
+                leftPanel.style.width = `${newLeftWidth}px`;
+                lastX = e.clientX;
+            }
+        }
+
+        function stopResize() {
+            isResizing = false;
+            document.body.style.cursor = '';
+            document.removeEventListener('mousemove', handleResize);
+            document.removeEventListener('mouseup', stopResize);
+        }
+
+        // Initialize
+        initCharts();
+    </script>
+</body>
+</html>

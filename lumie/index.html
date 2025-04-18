@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumies - Companion AI Systems</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <META NAME="KEYWORDS" CONTENT="Data, Data School, DataSchool, DataSchools, Data Schools, School, Education, AI, Artificial Intelligence, Politics, Democrat, Republican, Conservative, Progressive">
+    <META NAME="ROBOTS" CONTENT="ALL,FOLLOW">
+        <meta name="description" content="Next World Learning Lounge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" sizes="180x180" href="../pics/lumies.png">
+            <link rel="icon" type="image/png" href="../pics/lumies.png" sizes="32x32">
+            <link rel="icon" type="image/png" href="../pics/lumies.png" sizes="16x16">
+            <link rel="mask-icon" href="../pics/lumies.png" color="#fff">
+            <link rel="shortcut icon" href="../pics/lumies.png">
+
+
+
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        salmon: '#FF9A8B',
+                        'salmon-dark': '#FF7B6B',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-text {
+            background: linear-gradient(90deg, #FF9A8B 0%, #FF6B88 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(255,154,139,0.1) 100%);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .glow {
+            box-shadow: 0 0 15px rgba(255, 154, 139, 0.5);
+        }
+        @keyframes float {
+        0% { transform: translateY(0) rotate(0deg); }
+        25% { transform: translateX(10px) rotate(5deg); }
+        50% { transform: translateX(-10px) rotate(-5deg); }
+        100% { transform: translateY(calc(100vh + 50px)) rotate(0deg); }
+    }
+    .animate-float {
+        animation: float linear forwards;
+        will-change: transform;
+    }
+    </style>
+</head>
+<body class="bg-white font-sans antialiased">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center relative h-16">
+            <!-- Logo with score counter -->
+            <a href="#" class="flex items-center z-10">
+                <div class="w-10 h-10 rounded-full bg-salmon flex items-center justify-center">
+                    <image src="../pics/lumies.png" style="height: auto;">
+                </div>
+                <span class="ml-3 text-2xl font-bold text-black">Lumies</span>
+                <span id="score" class="ml-4 px-3 py-1 bg-gray-100 rounded-full text-sm font-medium">collected: 0</span>
+            </a>
+        
+            <!-- Game container (floating characters will appear here) -->
+            <div class="absolute inset-0 overflow-hidden pointer-events-none" id="game-container"></div>
+
+        </div>
+       
+        
+        <style>
+            @keyframes marquee {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+            }
+            .animate-marquee {
+                animation: marquee 15s linear infinite;
+            }
+        </style>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                        <span class="gradient-text">Your AI's Personal</span><br>
+                        <span class="text-black">Data Companion</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Lumies are lightweight 1GB AI models that learn from you, for you. 
+                        Train daily to integrate your unique perspective into the AI ecosystem.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                        <a href="#chat" class="bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-md font-medium text-center transition duration-300">
+                            Start Training Your Lumie
+                        </a>
+                        <a href="https://docs.google.com/document/d/1gaE4KQ3ZZXEjqCJu3DM8hkzoeKIpO4QcnuNva_pC0u0/edit?usp=sharing" class="border border-gray-300 hover:border-salmon text-gray-700 hover:text-salmon-dark px-6 py-3 rounded-md font-medium text-center transition duration-300">
+                            Learn More
+                        </a>
+                    </div>
+                    <div class="mt-8 flex items-center">
+                        <div class="flex -space-x-2">
+                            <img class="w-10 h-10 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/12.jpg" alt="">
+                            <img class="w-10 h-10 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/32.jpg" alt="">
+                            <img class="w-10 h-10 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/45.jpg" alt="">
+                            <img class="w-10 h-10 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/76.jpg" alt="">
+                        </div>
+                        <p class="ml-4 text-gray-600">
+                            <span class="font-medium text-black">10,000+</span> people are already training their Lumies
+                        </p>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <div class="w-full h-full bg-salmon rounded-2xl absolute -bottom-3 -right-3"></div>
+                        <div class="relative bg-white p-6 rounded-2xl border border-gray-200 max-w-md">
+                            <div class="flex items-center mb-4">
+                                <div class="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                                <p class="text-gray-700">Lumie: Hello Micheal! What would you like to record today?</p>
+                            </div>
+                            <div class="bg-salmon bg-opacity-10 p-4 rounded-lg mb-4">
+                                <p class="text-gray-700">Micheal: Add my thoughts about AI transparency to private model</p>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <p class="text-gray-700">Lumie: Added to private storage. Would you like to share an anonymized version with the public model?</p>
+                            </div>
+                            <div class="mt-4 flex space-x-2">
+                                <button class="bg-salmon text-white px-4 py-2 rounded-md text-sm">Yes, share</button>
+                                <button class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm">No, keep private</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">How Lumies Work</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Your personal AI companion that grows with you while contributing to a better future
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="feature-card bg-white border border-gray-200 rounded-xl p-8 transition duration-300">
+                    <div class="w-14 h-14 bg-salmon bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-user-lock text-salmon text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Dual Model System</h3>
+                    <p class="text-gray-600">
+                        Maintain complete control with separate public and private models. Choose exactly what to share with the world.
+                    </p>
+                </div>
+                
+                <div class="feature-card bg-white border border-gray-200 rounded-xl p-8 transition duration-300">
+                    <div class="w-14 h-14 bg-salmon bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-database text-salmon text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Data Sovereignty</h3>
+                    <p class="text-gray-600">
+                        Your data remains yours. We believe in radical transparency - privacy is for liars, truth makes us safer.
+                    </p>
+                </div>
+                
+                <div class="feature-card bg-white border border-gray-200 rounded-xl p-8 transition duration-300">
+                    <div class="w-14 h-14 bg-salmon bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-hand-holding-usd text-salmon text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Earn While You Train</h3>
+                    <p class="text-gray-600">
+                        Contribute to public knowledge and qualify for Universal Basic Income through your anonymized data contributions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision Section -->
+    <section class="py-20 px-4 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Future of AI" class="rounded-xl shadow-lg w-full">
+                </div>
+                <div class="md:w-1/2 md:pl-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">The Future of Legal Systems</h2>
+                    <p class="text-gray-600 mb-6">
+                        "Privacy is for liars. With truth and transparency, we are safer." - Micheal Salmon
+                    </p>
+                    <p class="text-gray-600 mb-6">
+                        I envision a future where legal integrity is maintained through AI data audits. Lawyers will transition into roles verifying the authenticity and fairness of AI systems that increasingly govern our lives.
+                    </p>
+                    <p class="text-gray-600 mb-8">
+                        Lumies represent the first step toward this future - personal AI models that authenticate our daily lives while collecting valuable, consensual data for ethical model training.
+                    </p>
+                    <a href="https://docs.google.com/document/d/1gaE4KQ3ZZXEjqCJu3DM8hkzoeKIpO4QcnuNva_pC0u0/edit?usp=sharing" class="inline-flex items-center text-salmon-dark font-medium">
+                        Read the full manifesto
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4 bg-salmon text-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Train Your Lumie?</h2>
+            <p class="text-xl mb-8 opacity-90">
+                It all begins with you .json file. A .json file is like a digital recipe or a special way to organize information for computers. It helps them understand what data they're working with, like a name and age, or the ingredients in a recipe. These files are super easy to read, even for humans, and they're commonly used for sharing information online
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4">
+                <a href="#" id="downloadGuest" class="bg-white text-salmon-dark hover:bg-gray-100 px-8 py-4 rounded-md font-medium text-lg transition duration-300">
+                    Download Guest.json
+                </a>
+                <a href="mailto:luminafieldsnz@gmail.com?subject=Connect%20with%20Micheal%20Salmon&body=Let's%20get%20connected!%20Tell%20me%20why%20you%20need%20AI%20assistance%20or%20help%2C%20and%20I'll%20get%20back%20to%20you%20ASAP." class="bg-transparent border-2 border-white hover:bg-white hover:bg-opacity-10 px-8 py-4 rounded-md font-medium text-lg transition duration-300">
+                    Talk to an Expert
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div id="chat">
+        <iframe src="json/chat.html" style="width: 100%; height:130vh;"></iframe>
+      </div>
+
+
+      <div id="soul">
+        <iframe src="json/soul.html" style="width: 100%; height:60vh;"></iframe>
+      </div>
+
+      <div id="json">
+        <iframe src="json/json.html" style="width: 100%; height:200vh;"></iframe>
+      </div>
+
+
+
+    <script>
+        // Simple animation for feature cards on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            featureCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.5s ease';
+                observer.observe(card);
+            });
+        });
+
+        document.getElementById('downloadGuest').addEventListener('click', function (e) {
+    e.preventDefault();
+
+    // Load the file as text
+    fetch('Guest.json')
+        .then(response => response.text())
+        .then(data => {
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Guest.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        })
+        .catch(err => {
+            console.error('Download error:', err);
+        });
+});
+
+
+const characters = [
+        { emoji: "🤖", name: "Bot" },
+        { emoji: "🧠", name: "Brainy" },
+        { emoji: "👾", name: "Alien" },
+        { emoji: "🐇", name: "Bunny" },
+        { emoji: "🦊", name: "Fox" },
+        { emoji: "🌟", name: "Stella" }
+    ];
+
+    let score = 0;
+    let isMuted = false;
+    const container = document.getElementById('game-container');
+    const scoreDisplay = document.getElementById('score');
+    const muteToggle = document.getElementById('mute-toggle');
+
+    // Create floating characters
+    function createCharacter() {
+        const char = characters[Math.floor(Math.random() * characters.length)];
+        const element = document.createElement('div');
+        element.className = 'absolute text-2xl cursor-pointer pointer-events-auto animate-float hover:scale-125 transition-transform';
+        element.innerHTML = char.emoji;
+        element.dataset.name = char.name;
+        
+        // Random starting position (left) and animation duration
+        const startPos = Math.random() * 80 + 10; // 10-90%
+        const duration = Math.random() * 15 + 10; // 10-25s
+        const delay = Math.random() * 5; // 0-5s
+        
+        element.style.left = `${startPos}%`;
+        element.style.top = '-50px';
+        element.style.animationDuration = `${duration}s`;
+        element.style.animationDelay = `${delay}s`;
+        
+        // Click handler
+        element.addEventListener('click', (e) => {
+            if (!isMuted) {
+                const popSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...'); // Short pop sound
+                popSound.volume = 0.3;
+                popSound.play().catch(e => {});
+            }
+            
+            score++;
+            scoreDisplay.textContent = `collected: ${score}`;
+            
+            // Explode effect
+            element.style.transition = 'all 0.3s';
+            element.style.transform = 'scale(1.5)';
+            element.style.opacity = '0';
+            setTimeout(() => element.remove(), 300);
+        });
+        
+        container.appendChild(element);
+        
+        // Remove after animation completes
+        setTimeout(() => {
+            if (element.parentNode) element.remove();
+        }, (duration + delay) * 1000);
+    }
+
+
+    // Start creating characters
+    setInterval(createCharacter, 1500); // New character every 1.5 seconds
+    createCharacter(); // Initial character
+
+    </script>
+</body>
+</html>
